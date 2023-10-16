@@ -1,0 +1,870 @@
+module ieee802-ethernet-lldp {
+  yang-version 1.1;
+  namespace "urn:ieee:std:802.3:yang:ieee802-ethernet-lldp";
+  prefix ieee802-eth-lldp;
+
+  import ieee802-dot1ab-lldp {
+    prefix lldp;
+    reference
+      "IEEE Std 802.1ABcu-2021";
+  }
+
+  organization
+    "IEEE Std 802.3 Ethernet Working Group
+     Web URL: http://www.ieee802.org/3/";
+  contact
+    "Web URL: http://www.ieee802.org/3/";
+  description
+    "This module contains YANG definitions for configuring LLDP for
+     802.3 Ethernet Interfaces.
+     In this YANG module, 'Ethernet interface' can be interpreted
+     as referring to 'IEEE Std 802.3 compliant Ethernet
+     interfaces'.";
+
+  revision 2023-07-01 {
+    description
+      "Initial revision.";
+    reference
+      "IEEE Std 802.3.2a, unless dated explicitly";
+  }
+
+  typedef port-class-type {
+    type enumeration {
+      enum p-class-pse {
+        value 0;
+        description
+          "Power Sourcing Equipment";
+      }
+      enum p-class-pd {
+        value 1;
+        description
+          "Powered Device";
+      }
+    }
+    description
+      "Enumeration for the power port class";
+    reference
+      "30.12.2.1.5 of IEEE Std 802.3-2022";
+  }
+
+  typedef pse-pinout-type {
+    type enumeration {
+      enum signal {
+        value 0;
+        description
+          "PSE Pinout Alternative A";
+      }
+      enum spare {
+        value 1;
+        description
+          "PSE Pinout Alternative B";
+      }
+    }
+    description
+      "Enumeration for the pinout alternatives used for PD detection and power ";
+    reference
+      "30.9.1.1.4 of IEEE Std 802.3-2022";
+  }
+
+  typedef pse-power-class-type {
+    type enumeration {
+      enum class0 {
+        value 0;
+        description
+          "Class 0 PD";
+      }
+      enum class1 {
+        value 1;
+        description
+          "Class 1 PD";
+      }
+      enum class2 {
+        value 2;
+        description
+          "Class 2 PD";
+      }
+      enum class3 {
+        value 3;
+        description
+          "Class 3 PD";
+      }
+      enum class4 {
+        value 4;
+        description
+          "Class 4 PD";
+      }
+    }
+    description
+      "Enumeration for the PD class";
+    reference
+      "30.9.1.1.6 of IEEE Std 802.3-2022";
+  }
+
+  typedef power-priority-type {
+    type enumeration {
+      enum low {
+        value 0;
+        description
+          "low priority PD";
+      }
+      enum high {
+        value 1;
+        description
+          "high priority PD";
+      }
+      enum critical {
+        value 2;
+        description
+          "critical priority PD";
+      }
+      enum unknown {
+        value 3;
+        description
+          "priority unknown";
+      }
+    }
+    description
+      "Enumeration for possible priorities of a PD system";
+    reference
+      "30.12.2.1.16 of IEEE Std 802.3-2022";
+  }
+
+  typedef power-source-type {
+    type enumeration {
+      enum pse-primary {
+        value 0;
+        description
+          "PSE powered by a primary power source";
+      }
+      enum pse-backup {
+        value 1;
+        description
+          "PSE powered by a backup power source";
+      }
+      enum pse-unknwon {
+        value 2;
+        description
+          "PSE powered by an unkown power source";
+      }
+      enum pd-pse-and-local {
+        value 3;
+        description
+          "PD powered by a PSE and locally";
+      }
+      enum pd-local-only {
+        value 4;
+        description
+          "PD powered only locally";
+      }
+      enum pd-pse-only {
+        value 5;
+        description
+          "PD powered by PD only";
+      }
+      enum pd-unknown {
+        value 6;
+        description
+          "PD powered by an uknown source";
+      }
+    }
+    description
+      "Enumeration for the power sources of the
+            remote system. When the remote system is a PSE, it indicates
+            whether it is being powered by a primary power source; a backup
+            power source; or unknown. When the remote system is a PD, it
+            indicates whether it is being powered by a PSE and locally;
+            locally only; by a PSE only; or unknown.";
+    reference
+      "30.12.2.1.15 of IEEE Std 802.3-2022";
+  }
+
+  augment "/lldp:lldp/lldp:port" {
+    description
+      "Augments port with 802.3 port config tlvs";
+    leaf tlvs-port-config-enable {
+      type bits {
+        bit mac-phy-config-status {
+          position 0;
+          description
+            "30.12.1.1.1 of IEEE Std 802.3-2022";
+        }
+        bit power-via-mdi {
+          position 1;
+          description
+            "30.12.1.1.1 of IEEE Std 802.3-2022";
+        }
+        bit unused {
+          position 2;
+          description
+            "30.12.1.1.1 of IEEE Std 802.3-2022";
+        }
+        bit max-frame-size {
+          position 3;
+          description
+            "30.12.1.1.1 of IEEE Std 802.3-2022";
+        }
+        bit eee-tlv {
+          position 4;
+          description
+            "30.12.1.1.1 of IEEE Std 802.3-2022";
+        }
+        bit eee-fast-wake-tlv {
+          position 5;
+          description
+            "30.12.1.1.1 of IEEE Std 802.3-2022";
+        }
+        bit additional-ethernet-capabilities-tlv {
+          position 6;
+          description
+            "30.12.1.1.1 of IEEE Std 802.3-2022";
+        }
+      }
+      description
+        "Bitmap that corresponds to an IEEE 802.3 subtype associated
+         with a specific IEEE 802.3 port config TLV";
+      reference
+        "30.12.1.1.1 of IEEE Std 802.3-2022";
+    }
+    leaf auto-negotiation-supported {
+      type boolean;
+      config false;
+      description
+        "True if the port supports Auto-negotiation";
+      reference
+        "30.12.2.1.1 of IEEE Std 802.3-2022";
+    }
+    leaf auto-negotiation-enabled {
+      type boolean;
+      config false;
+      description
+        "True if Auto-negotiation is enabled";
+      reference
+        "30.12.2.1.2 of IEEE Std 802.3-2022";
+    }
+    leaf auto-negotiation-cap {
+      type binary {
+        length "2";
+      }
+      config false;
+      description
+        "A read-only 2-octet value that contains the value (bitmap) of the ifMauAutoNegCapAdvertisedBits object (defined in IETF RFC 4836)
+                 which is associated with the given port on the local system.";
+      reference
+        "30.12.2.1.3 of IEEE Std 802.3-2022";
+    }
+    leaf operational-mau-type {
+      type int32;
+      config false;
+      description
+        "32-bit integer value that indicates the operational MAU type of the given port";
+      reference
+        "30.12.2.1.4 of IEEE Std 802.3-2022";
+    }
+    leaf power-port-class {
+      type port-class-type;
+      config false;
+      description
+        "A read-only value that identifies the port Class of the given port";
+      reference
+        "30.12.2.1.5 of IEEE Std 802.3-2022";
+    }
+    leaf mdi-power-supported {
+      type boolean;
+      config false;
+      description
+        "True if MDI power is supported";
+      reference
+        "30.12.2.1.6 of IEEE Std 802.3-2022";
+    }
+    leaf mdi-power-enabled {
+      type boolean;
+      config false;
+      description
+        "True if MDI power is enabled";
+      reference
+        "30.12.2.1.7 of IEEE Std 802.3-2022";
+    }
+    leaf power-pair-controlable {
+      type boolean;
+      config false;
+      description
+        "True if the pair selection can be controlled";
+      reference
+        "30.12.2.1.8 of IEEE Std 802.3-2022";
+    }
+    leaf power-pairs {
+      type pse-pinout-type;
+      config false;
+      description
+        "Indicates which pinout alernative is used for PD detection and power";
+      reference
+        "30.12.2.1.9 of IEEE Std 802.3-2022";
+    }
+    leaf local-power-class {
+      type pse-power-class-type;
+      config false;
+      description
+        "PD Power Class";
+      reference
+        "30.12.2.1.10 of IEEE Std 802.3-2022";
+    }
+    leaf link-aggregation-status {
+      type bits {
+        bit aggregation-capability {
+          position 0;
+          description
+            "79.3.3.1 of IEEE Std 802.3-2022";
+        }
+        bit aggregation-status {
+          position 1;
+          description
+            "79.3.3.1 of IEEE Std 802.3-2022";
+        }
+      }
+      config false;
+      description
+        "The bitmap value which contains the link aggregation capabilities and the current aggregation
+                 status of the link";
+      reference
+        "30.12.2.1.11 of IEEE Std 802.3-2022";
+    }
+    leaf aggregation-port-id {
+      type int32;
+      config false;
+      description
+        "The unique identifier allocated to this Aggregation Port by the local System.";
+      reference
+        "30.12.2.1.12 of IEEE Std 802.3-2022";
+    }
+    leaf local-max-frame-size {
+      type int32;
+      config false;
+      description
+        "An integer value indicating the maximum supported frame size in octets on the given port of the local system.";
+      reference
+        "30.12.2.1.13 of IEEE Std 802.3-2022";
+    }
+    leaf power-type {
+      type bits {
+        bit type1-or-type2 {
+          position 0;
+          description
+            "0-type1, 1-type2";
+        }
+        bit pse-or-pd {
+          position 1;
+          description
+            "0-pse, 1-pd";
+        }
+      }
+      config false;
+      description
+        "A bit string indicating whether the local system is a PSE or a PD and whether it is Type 1 or Type 2. The first bit indicates Type 1 or Type 2.
+                The second bit indicates PSE or PD.";
+      reference
+        "30.12.2.1.14 of IEEE Std 802.3-2022";
+    }
+    leaf power-source {
+      type power-source-type;
+      config false;
+      description
+        "Indicates the power sources of the local system. A PSE indicates whether it is being powered by a primary power source; a backup power source; or unknown. A PD indicates whether it is being powered by a PSE and locally; by a PSE only; or
+                unknown.;";
+      reference
+        "30.12.2.1.15 of IEEE Std 802.3-2022";
+    }
+    leaf local-power-priority {
+      type power-priority-type;
+      description
+        "Priority of a PD system. For a PSE, this is the priority that the PSE assigns to the PD.
+                 For a PD, this is the priority that the PD requests from the PSE";
+      reference
+        "30.12.2.1.16 of IEEE Std 802.3-2022";
+    }
+    leaf pd-requested-power-value {
+      type int32;
+      config false;
+      description
+        "PD requested power value. For a PD, it is the power value that the PD has currently requested from the remote system.
+                 For a PSE, it is the power value that the PSE mirrors back to the remote system";
+      reference
+        "30.12.2.1.17 of IEEE Std 802.3-2022";
+    }
+    leaf pse-allocated-power-value {
+      type int32;
+      config false;
+      description
+        "PSE allocated power value. For a PSE, it is the power value that the PSE has currently allocated to the remote system.
+                 For a PD, it is the power value that the PD mirrors back to the remote syste";
+      reference
+        "30.12.2.1.18 of IEEE Std 802.3-2022";
+    }
+    leaf local-response-time {
+      type int32;
+      config false;
+      description
+        "The maximum time required to update pse-allocated-power-value";
+      reference
+        "30.12.2.1.19 of IEEE Std 802.3-2022";
+    }
+    leaf local-system-ready {
+      type boolean;
+      config false;
+      description
+        "Initialization status of the Data Link Layer classification engine on the local system";
+      reference
+        "30.12.2.1.20 of IEEE Std 802.3-2022";
+    }
+    leaf reduced-operation-power-value {
+      type int32;
+      config false;
+      description
+        "Reduced operation power value. For a PD, it is a power value that
+                is lower than the currently requested power value. This reduced operation power value represents
+                a power state in which the PD could continue to operate, but with less functionality than at the
+                current PD requested power value. The PSE could optionally use this information in the event that
+                the PSE subsequently requests a lower PD power value than the PD requested power value. For a
+                PSE, it is a power value that the PSE could ask the PD to move to if the PSE wants the PD to move
+                to a lower power state.";
+      reference
+        "30.12.2.1.21 of IEEE Std 802.3-2022";
+    }
+    leaf tx-system-value {
+      type int32;
+      config false;
+      description
+        "Returns the value of Tw_sys_tx that the local system can support in the transmit direction.";
+      reference
+        "30.12.2.1.22 of IEEE Std 802.3-2022";
+    }
+    leaf tx-system-value-echo {
+      type int32;
+      config false;
+      description
+        "Returns the value of Tw_sys_tx that the emote system is advertising that it can support in the transmit direction and is echoed by the local system under the control of the EEE DLL receiver state diagram.";
+      reference
+        "30.12.2.1.23 of IEEE Std 802.3-2022";
+    }
+    leaf rx-system-value {
+      type int32;
+      config false;
+      description
+        "Returns the value of Tw_sys_tx that the local system is requesting in the receive direction.";
+      reference
+        "30.12.2.1.24 of IEEE Std 802.3-2022";
+    }
+    leaf rx-system-value-echo {
+      type int32;
+      config false;
+      description
+        "Returns the value of Tw_sys_tx that the remote system is advertising that it is requesting in the receive direction and is echoed by the local system under the control of the EEE DLL transmitter state diagram.";
+      reference
+        "30.12.2.1.25 of IEEE Std 802.3-2022";
+    }
+    leaf fallback-system-value {
+      type int32;
+      config false;
+      description
+        "Returns the value of the fallback Tw_sys_tx that the local system is advertising to the remote system.";
+      reference
+        "30.12.2.1.26 of IEEE Std 802.3-2022";
+    }
+    leaf tx-dll-ready {
+      type boolean;
+      config false;
+      description
+        "Returns the initialization status of the EEE transmit Data Link Layer management function on the local system.";
+      reference
+        "30.12.2.1.27 of IEEE Std 802.3-2022";
+    }
+    leaf rx-dll-ready {
+      type boolean;
+      config false;
+      description
+        "Returns the initialization status of the EEE receive Data Link Layer management function on the local system.";
+      reference
+        "30.12.2.1.28 of IEEE Std 802.3-2022";
+    }
+    leaf dll-enabled {
+      type boolean;
+      config false;
+      description
+        "Returns the status of the EEE capability negotiation on the local system.";
+      reference
+        "30.12.2.1.29 of IEEE Std 802.3-2022";
+    }
+    leaf tx-system-fw {
+      type boolean;
+      config false;
+      description
+        "Returns the value of LPI_FW that the local system can support in the transmit direction.";
+      reference
+        "30.12.2.1.30 of IEEE Std 802.3-2022";
+    }
+    leaf tx-system-fw-echo {
+      type boolean;
+      config false;
+      description
+        "Returns the value of LPI_FW that the remote system is advertising that it can support in the transmit direction and is echoed by the local system under the control of the EEE DLL receiver state diagram.";
+      reference
+        "30.12.2.1.31 of IEEE Std 802.3-2022";
+    }
+    leaf rx-system-fw {
+      type boolean;
+      config false;
+      description
+        "Returns the value of LPI_FW that the local system is requesting in the receive direction.";
+      reference
+        "30.12.2.1.32 of IEEE Std 802.3-2022";
+    }
+    leaf rx-system-fw-echo {
+      type boolean;
+      config false;
+      description
+        "Returns the value of LPI_FW that the remote system is advertising that it is requesting in the receive direction and is echoed by the local system under the control of the EEE DLL transmitter state diagram.";
+      reference
+        "30.12.2.1.33 of IEEE Std 802.3-2022";
+    }
+    leaf preemption-supported {
+      type boolean;
+      config false;
+      description
+        "Indicates whether the given port (associated with the local System) supports the preemption capability.";
+      reference
+        "30.12.2.1.34 of IEEE Std 802.3-2022";
+    }
+    leaf preemption-enabled {
+      type boolean;
+      config false;
+      description
+        "Indicates whether the preemption capability is enabled on the given port associated with the local System.";
+      reference
+        "30.12.2.1.35 of IEEE Std 802.3-2022";
+    }
+    leaf preemption-active {
+      type boolean;
+      config false;
+      description
+        "Indicates whether the preemption capability is active on the given port associated with the local System.;";
+      reference
+        "30.12.2.1.36 of IEEE Std 802.3-2022";
+    }
+    leaf additional-fragement-size {
+      type int32;
+      config false;
+      description
+        "Indicate the minimum size of non-final fragments supported by the receiver on the given port associated with the local System. This value is expressed in units of 64 octets of additional fragment length.";
+      reference
+        "30.12.2.1.37 of IEEE Std 802.3-2022";
+    }
+  }
+
+  augment "/lldp:lldp/lldp:port/lldp:remote-systems-data" {
+    leaf auto-negotiation-supported {
+      type boolean;
+      config false;
+      description
+        "True if the port supports Auto-negotiation";
+      reference
+        "30.12.3.1.1 of IEEE Std 802.3-2022";
+    }
+    leaf auto-negotiation-enabled {
+      type boolean;
+      config false;
+      description
+        "True if Auto-negotiation is enabled";
+      reference
+        "30.12.3.1.2 of IEEE Std 802.3-2022";
+    }
+    leaf auto-negotiation-cap {
+      type binary {
+        length "2";
+      }
+      config false;
+      description
+        "A read-only 2-octet value that contains the value (bitmap) of the ifMauAutoNegCapAdvertisedBits object (defined in IETF RFC 4836)
+                 which is associated with the given port on the local system.";
+      reference
+        "30.12.3.1.3 of IEEE Std 802.3-2022";
+    }
+    leaf operational-mau-type {
+      type int32;
+      config false;
+      description
+        "32-bit integer value that indicates the operational MAU type of the given port";
+      reference
+        "30.12.3.1.4 of IEEE Std 802.3-2022";
+    }
+    leaf power-port-class {
+      type port-class-type;
+      config false;
+      description
+        "A read-only value that identifies the port Class of the given port";
+      reference
+        "30.12.3.1.5 of IEEE Std 802.3-2022";
+    }
+    leaf mdi-power-supported {
+      type boolean;
+      config false;
+      description
+        "True if MDI power is supported";
+      reference
+        "30.12.3.1.6 of IEEE Std 802.3-2022";
+    }
+    leaf mdi-power-enabled {
+      type boolean;
+      config false;
+      description
+        "True if MDI power is enabled";
+      reference
+        "30.12.3.1.7 of IEEE Std 802.3-2022";
+    }
+    leaf power-pair-controlable {
+      type boolean;
+      config false;
+      description
+        "True if the pair selection can be controlled";
+      reference
+        "30.12.3.1.8 of IEEE Std 802.3-2022";
+    }
+    leaf power-pairs {
+      type pse-pinout-type;
+      config false;
+      description
+        "Indicates which pinout alernative is used for PD detection and power";
+      reference
+        "30.12.3.1.9 of IEEE Std 802.3-2022";
+    }
+    leaf power-class {
+      type pse-power-class-type;
+      config false;
+      description
+        "PD Power Class";
+      reference
+        "30.12.3.1.10 of IEEE Std 802.3-2022";
+    }
+    leaf link-aggregation-status {
+      type bits {
+        bit aggregation-capability {
+          position 0;
+          description
+            "79.3.3.1 of IEEE Std 802.3-2022";
+        }
+        bit aggregation-status {
+          position 1;
+          description
+            "79.3.3.1 of IEEE Std 802.3-2022";
+        }
+        bit bit2-reserved {
+          position 2;
+          description
+            "79.3.3.1 of IEEE Std 802.3-2022";
+        }
+        bit bit3-reserved {
+          position 3;
+          description
+            "79.3.3.1 of IEEE Std 802.3-2022";
+        }
+        bit bit4-reserved {
+          position 4;
+          description
+            "79.3.3.1 of IEEE Std 802.3-2022";
+        }
+        bit bit5-reserved {
+          position 5;
+          description
+            "79.3.3.1 of IEEE Std 802.3-2022";
+        }
+        bit bit6-reserved {
+          position 6;
+          description
+            "79.3.3.1 of IEEE Std 802.3-2022";
+        }
+        bit bit7-reserved {
+          position 7;
+          description
+            "79.3.3.1 of IEEE Std 802.3-2022";
+        }
+      }
+      config false;
+      description
+        "The bitmap value which contains the link aggregation capabilities and the current aggregation
+                 status of the link";
+      reference
+        "30.12.3.1.11 of IEEE Std 802.3-2022";
+    }
+    leaf aggregation-port-id {
+      type int32;
+      config false;
+      description
+        "The unique identifier allocated to this Aggregation Port by the local System.";
+      reference
+        "30.12.3.1.12 of IEEE Std 802.3-2022";
+    }
+    leaf local-max-frame-size {
+      type int32;
+      config false;
+      description
+        "An integer value indicating the maximum supported frame size in octets on the given port of the local system.";
+      reference
+        "30.12.3.1.13 of IEEE Std 802.3-2022";
+    }
+    leaf power-type {
+      type bits {
+        bit type1-or-type2 {
+          position 0;
+          description
+            "0-type1, 1-type2";
+        }
+        bit pse-or-pd {
+          position 1;
+          description
+            "0-pse, 1-pd";
+        }
+      }
+      config false;
+      description
+        "A bit string indicating whether the local system is a PSE or a PD and whether it is Type 1 or Type 2. The first bit indicates Type 1 or Type 2.
+                The second bit indicates PSE or PD.";
+      reference
+        "30.12.3.1.14 of IEEE Std 802.3-2022";
+    }
+    leaf power-source {
+      type power-source-type;
+      config false;
+      description
+        "Indicates the power sources of the remote system. A PSE indicates whether it is being powered by a primary power source; a backup power source; or unknown. A PD indicates whether it is being powered by a PSE and locally; by a PSE only; or
+                unknown.;";
+      reference
+        "30.12.3.1.15 of IEEE Std 802.3-2022";
+    }
+    leaf power-priority {
+      type power-priority-type;
+      description
+        "the priority of the PD system received from the remote system";
+      reference
+        "30.12.3.1.16 of IEEE Std 802.3-2022";
+    }
+    leaf pd-requested-power-value {
+      type int32;
+      config false;
+      description
+        "PD requested power value that was used by the remote system to compute the power value that is has currently allocated to the PD.";
+      reference
+        "30.12.3.1.17 of IEEE Std 802.3-2022";
+    }
+    leaf pse-allocated-power-value {
+      type int32;
+      config false;
+      description
+        "PSE allocated power value. For a PSE, it is the power value that the PSE has currently allocated to the remote system.
+                 For a PD, it is the power value that the PD mirrors back to the remote syste";
+      reference
+        "30.12.3.1.18 of IEEE Std 802.3-2022";
+    }
+    leaf tx-system-value {
+      type int32;
+      config false;
+      description
+        "Returns the value of Tw_sys_tx that the remote system can support in the transmit direction.";
+      reference
+        "30.12.3.1.19 of IEEE Std 802.3-2022";
+    }
+    leaf tx-system-value-echo {
+      type int32;
+      config false;
+      description
+        "Returns the value of Tw_sys_tx that the local system is advertising that it can support in the transmit direction and is echoed by the local system under the control of the EEE DLL receiver state diagram.";
+      reference
+        "30.12.3.1.20 of IEEE Std 802.3-2022";
+    }
+    leaf rx-system-value {
+      type int32;
+      config false;
+      description
+        "Returns the value of Tw_sys_tx that the remote system is requesting in the receive direction.";
+      reference
+        "30.12.3.1.21 of IEEE Std 802.3-2022";
+    }
+    leaf rx-system-value-echo {
+      type int32;
+      config false;
+      description
+        "Returns the value of Tw_sys_tx that the local system is advertising that it is requesting in the receive direction and is echoed by the local system under the control of the EEE DLL transmitter state diagram.";
+      reference
+        "30.12.3.1.22 of IEEE Std 802.3-2022";
+    }
+    leaf fallback-system-value {
+      type int32;
+      config false;
+      description
+        "Returns the value of the fallback Tw_sys_tx that the remote system is advertising to the remote system.";
+      reference
+        "30.12.3.1.23 of IEEE Std 802.3-2022";
+    }
+    leaf tx-system-fw {
+      type boolean;
+      config false;
+      description
+        "Returns the value of LPI_FW that the remote system can support in the transmit direction.";
+      reference
+        "30.12.3.1.24 of IEEE Std 802.3-2022";
+    }
+    leaf tx-system-fw-echo {
+      type boolean;
+      config false;
+      description
+        "Returns the value of LPI_FW that the local system is advertising that it can support in the transmit direction and is echoed by the local system under the control of the EEE DLL receiver state diagram.";
+      reference
+        "30.12.3.1.25 of IEEE Std 802.3-2022";
+    }
+    leaf rx-system-fw {
+      type boolean;
+      config false;
+      description
+        "Returns the value of LPI_FW that the remote system is requesting in the receive direction.";
+      reference
+        "30.12.3.1.26 of IEEE Std 802.3-2022";
+    }
+    leaf rx-system-fw-echo {
+      type boolean;
+      config false;
+      description
+        "Returns the value of LPI_FW that the local system is advertising that it is requesting in the receive direction and is echoed by the local system under the control of the EEE DLL transmitter state diagram.";
+      reference
+        "30.12.3.1.27 of IEEE Std 802.3-2022";
+    }
+    leaf preemption-supported {
+      type boolean;
+      config false;
+      description
+        "Indicates whether the given port (associated with the remote System) supports the preemption capability.";
+      reference
+        "30.12.3.1.28 of IEEE Std 802.3-2022";
+    }
+    leaf preemption-enabled {
+      type boolean;
+      config false;
+      description
+        "Indicates whether the preemption capability is enabled on the given port associated with the remote System.";
+      reference
+        "30.12.3.1.29 of IEEE Std 802.3-2022";
+    }
+    leaf preemption-active {
+      type boolean;
+      config false;
+      description
+        "Indicates whether the preemption capability is active on the given port associated with the remote System.;";
+      reference
+        "30.12.3.1.30 of IEEE Std 802.3-2022";
+    }
+    leaf additional-fragement-size {
+      type int32;
+      config false;
+      description
+        "Indicate the minimum size of non-final fragments supported by the receiver on the given port associated with the remote System. This value is expressed in units of 64 octets of additional fragment length.";
+      reference
+        "30.12.3.1.31 of IEEE Std 802.3-2022";
+    }
+  }
+}

@@ -1,0 +1,533 @@
+1c1
+< module ieee1588-ptp-ms {
+---
+> module ieee1588-ptp-tt {
+3c3
+<   namespace urn:ieee:std:1588:yang:ieee1588-ptp-ms;
+---
+>   namespace urn:ieee:std:1588:yang:ieee1588-ptp-tt;
+75,76c75,76
+<     This module uses the original terminology specified by
+<     IEEE Std 1588 (master/slave).";
+---
+>     This module uses the alternative terminology specified in
+>     4.4 of IEEE Std 1588g-2022 (timeTransmitter/timeReceiver).";
+88c88
+<   // This is the ieee1588-ptp-ms module of the 6th balloted
+---
+>   // This is the ieee1588-ptp-tt module of the 6th balloted
+165c165
+<   feature slave-monitoring {
+---
+>   feature time-receiver-monitoring {
+168,170c168,170
+<       in the slave state. The slave-monitoring feature specifies
+<       TLVs that the Slave PTP Instance transmits with this
+<       information, typically in a Signaling message.";
+---
+>       in the timereceiver state. The time-receiver-monitoring feature
+>       specifies TLVs that the TimeReceiver PTP Instance transmits
+>       with this information, typically in a Signaling message.";
+200c200
+<   feature alternate-master {
+---
+>   feature alternate-time-transmitter {
+203,208c203,208
+<       are not currently the MASTER port of that PTP Communication
+<       Path to exchange PTP timing information with other PTP Ports
+<       on the same PTP Communication Path, and for each of the other
+<       PTP Ports to acquire knowledge of the characteristics
+<       of the transmission path between itself and each alternate
+<       master PTP Port.";
+---
+>       are not currently the time-transmitter port of that
+>       PTP Communicatio Path to exchange PTP timing information with
+>       other PTP Ports on the same PTP Communication Path, and for
+>       each of the other PTP Ports to acquire knowledge of the
+>       characteristics of the transmission path between itself and
+>       each alternate timeTransmitter PTP Port.";
+225c225
+<   feature acceptable-master {
+---
+>   feature acceptable-time-transmitter {
+227,229c227,229
+<       "Mechanism that allows PTP Ports in the SLAVE state to be
+<       configured to refuse to synchronize to PTP Instances not
+<       on the acceptable master list.";
+---
+>       "Mechanism that allows PTP Ports in the time-receiver state
+>       to be configured to refuse to synchronize to PTP Instances not
+>       on the acceptable timeTransmitter list.";
+239c239
+<       state, including the BMCA. Each port's state is
+---
+>       state, including the BTCA. Each port's state is
+405c405
+<     identity cc-slave-only {
+---
+>     identity cc-time-receiver-only {
+408c408
+<         "A PTP Instance that is slave-only.
+---
+>         "A PTP Instance that is timeReceiver only.
+829,830c829,830
+<           Master PTP Instance. The purpose of this state is to allow
+<           orderly addition of PTP Instances to a domain
+---
+>           TimeTransmitter PTP Instance. The purpose of this state
+>           is to allow orderly addition of PTP Instances to a domain
+834c834
+<       enum pre-master {
+---
+>       enum pre-time-transmitter {
+842,844c842,844
+<           the master state except that it does not place certain
+<           classes of PTP messages on the PTP Communication Path
+<           associated with the PTP Port.";
+---
+>           the time-transmitter state except that it does not place
+>           certain classes of PTP messages on the PTP Communication
+>           Path associated with the PTP Port.";
+846c846
+<       enum master {
+---
+>       enum time-transmitter {
+857,860c857,860
+<           Master Clock (receive time). The PTP Port can potentially
+<           change to slave when PTP Instances are added or deleted,
+<           PTP Instance characteristics change, or connection
+<           topology changes.";
+---
+>           TimeTransmitter Clock (receive time). The PTP Port can
+>           potentially change to time-receiver when PTP Instances are
+>           added or deleted, PTP Instance characteristics change, or
+>           connection topology changes.";
+865,866c865,866
+<           "The PTP Port is anticipating a change to the slave state,
+<           but it has not yet satisfied all requirements
+---
+>           "The PTP Port is anticipating a change to the time-receiver
+>           state, but it has not yet satisfied all requirements
+872c872
+<       enum slave {
+---
+>       enum time-receiver {
+876,877c876,877
+<           PTP Communication Path that is in the master state
+<           (i.e. receives time).";
+---
+>           PTP Communication Path that is in the time-transmitter
+>           state (i.e. receives time).";
+1226c1226
+<       slave state.";
+---
+>       time-receiver state.";
+1230c1230
+<     leaf average-master-slave-delay {
+---
+>     leaf average-time-transmitter-time-receiver-delay {
+1233c1233,1234
+<         "Average of the MasterSlaveDelay for this interval.";
+---
+>         "Average of the TimeTransmitterTimeReceiverDelay for this
+>         interval.";
+1235c1236
+<     leaf minimum-master-slave-delay {
+---
+>     leaf minimum-time-transmitter-time-receiver-delay {
+1238c1239,1240
+<         "Minimum of the MasterSlaveDelay for this interval.";
+---
+>         "Minimum of the TimeTransmitterTimeReceiverDelay for this
+>         interval.";
+1240c1242
+<     leaf maximum-master-slave-delay {
+---
+>     leaf maximum-time-transmitter-time-receiver-delay {
+1243c1245,1246
+<         "Maximum of the MasterSlaveDelay for this interval.";
+---
+>         "Maximum of the TimeTransmitterTimeReceiverDelay for this
+>         interval.";
+1245c1248
+<     leaf stddev-master-slave-delay {
+---
+>     leaf stddev-time-transmitter-time-receiver-delay {
+1248c1251,1252
+<         "StdDev of the MasterSlaveDelay for this interval.";
+---
+>         "StdDev of the TimeTransmitterTimeReceiverDelay for this
+>         interval.";
+1250c1254
+<     leaf average-slave-master-delay {
+---
+>     leaf average-time-receiver-time-transmitter-delay {
+1253c1257,1258
+<         "Average of the SlaveMasterDelay for this interval.";
+---
+>         "Average of the TimeReceiverTimeTransmitterDelay for this
+>         interval.";
+1255c1260
+<     leaf minimum-slave-master-delay {
+---
+>     leaf minimum-time-receiver-time-transmitter-delay {
+1258c1263,1264
+<         "Minimum of the SlaveMasterDelay for this interval.";
+---
+>         "Minimum of the TimeReceiverTimeTransmitterDelay for this
+>         interval.";
+1260c1266
+<     leaf maximum-slave-master-delay {
+---
+>     leaf maximum-time-receiver-time-transmitter-delay {
+1263c1269,1270
+<         "Maximum of the SlaveMasterDelay for this interval.";
+---
+>         "Maximum of the TimeReceiverTimeTransmitterDelay for this
+>         interval.";
+1265c1272
+<     leaf stddev-slave-master-delay {
+---
+>     leaf stddev-time-receiver-time-transmitter-delay {
+1268c1275,1276
+<         "StdDev of the SlaveMasterDelay for this interval.";
+---
+>         "StdDev of the TimeReceiverTimeTransmitterDelay for this
+>         interval.";
+1290c1298
+<     leaf average-offset-from-master {
+---
+>     leaf average-offset-from-time-transmitter {
+1293c1301,1302
+<         "Average of the <offsetFromMaster> for this interval.";
+---
+>         "Average of the <offsetFromTimeTransmitter> for this
+>         interval.";
+1295c1304
+<     leaf minimum-offset-from-master {
+---
+>     leaf minimum-offset-from-time-transmitter {
+1298c1307,1308
+<         "Minimum of the <offsetFromMaster> for this interval.";
+---
+>         "Minimum of the <offsetFromTimeTransmitter> for this
+>         interval.";
+1300c1310
+<     leaf maximum-offset-from-master {
+---
+>     leaf maximum-offset-from-time-transmitter {
+1303c1313,1314
+<         "Maximum of the <offsetFromMaster> for this interval.";
+---
+>         "Maximum of the <offsetFromTimeTransmitter> for this
+>         interval.";
+1305c1316
+<     leaf stddev-offset-from-master {
+---
+>     leaf stddev-offset-from-time-transmitter {
+1308c1319,1320
+<         "StdDev of the <offsetFromMaster> for this interval.";
+---
+>         "StdDev of the <offsetFromTimeTransmitter> for this
+>         interval.";
+1367c1379
+<         messages from the foreign Masters that have been
+---
+>         messages from the foreign TimeTransmitters that have been
+1694,1696c1706,1708
+<               performed by the Best Master Clock Algorithm (BMCA),
+<               this leaf's configuration can be used to explicitly
+<               select a Grandmaster PTP Instance.
+---
+>               performed by the Best TimeTransmitter Clock Algorithm
+>               (BTCA), this leaf's configuration can be used to
+>               explicitly select a Grandmaster PTP Instance.
+1710,1711c1722,1724
+<               The priority2 member is compared by the Best Master
+<               Clock Algorithm (BMCA) after priority1 and clockQuality.
+---
+>               The priority2 member is compared by the
+>               Best TimeTransmitter Clock Algorithm (BTCA) after
+>               priority1 and clockQuality.
+1745c1758
+<           leaf slave-only {
+---
+>           leaf time-receiver-only {
+1748,1755c1761,1768
+<               "The value of slave-only shall be true if the
+<               PTP Instance is a slave-only PTP Instance
+<               (false for non-slave-only).
+<               The slave-only member can be true for Ordinary Clocks
+<               only.
+<               When slave-only is true, the PTP Instance implements
+<               special behavior in the context of the state machines
+<               that determine port-state.";
+---
+>               "The value of time-receiver-only shall be true if the
+>               PTP Instance is a time-receiver-only PTP Instance
+>               (false for not time-receiver-only).
+>               The time-receiver-only member can be true for
+>               Ordinary Clocks only.
+>               When time-receiver-only is true, the PTP Instance
+>               implements special behavior in the context of the state
+>               machines that determine port-state.";
+1839c1852
+<               the Best Master Clock Algorithm (BMCA).
+---
+>               the Best TimeTransmitter Clock Algorithm (BTCA).
+1861c1874
+<               Best Master Clock Algorithm (BMCA).
+---
+>               Best TimeTransmitter Clock Algorithm (BTCA).
+1900c1913
+<           leaf offset-from-master {
+---
+>           leaf offset-from-time-transmitter {
+1905,1906c1918,1920
+<               a Master PTP Instance and a Slave PTP Instance as
+<               computed by the Slave PTP Instance.
+---
+>               a TimeTransmitter PTP Instance and a
+>               TimeReceiver PTP Instance as computed by the
+>               TimeReceiver PTP Instance.
+1909,1911c1923,1925
+<               from Slave PTP Port to Master PTP Port(s), this value
+<               effectively returns the offset from the Grandmaster
+<               PTP Instance.";
+---
+>               from TimeReceiver PTP Port to TimeTransmitter
+>               PTP Port(s), this value effectively returns the offset
+>               from the Grandmaster PTP Instance.";
+1921,1923c1935,1938
+<               a Master PTP Instance and a Slave PTP Instance as
+<               computed by the Slave PTP Instance.
+<               If the PTP Instance has no PTP Port in slave or
+---
+>               a TimeTransmitter PTP Instance and a
+>               TimeReceiver PTP Instance as computed by the
+>               TimeReceiver PTP Instance.
+>               If the PTP Instance has no PTP Port in time-receiver or
+1925c1940
+<               Otherwise, the Slave PTP Port returns this value
+---
+>               Otherwise, the TimeReceiver PTP Port returns this value
+1978,1979c1993,1994
+<             PTP Instance (i.e. master port on the other side
+<             of the path/link).";
+---
+>             PTP Instance (i.e. time-transmitter port on the other
+>             side of the path/link).";
+1987,1988c2002,2003
+<               Master PTP Instance that issues the Sync messages
+<               used in synchronizing this PTP Instance.";
+---
+>               TimeTransmitter PTP Instance that issues the Sync
+>               messages used in synchronizing this PTP Instance.";
+2013,2015c2028,2031
+<               with respect to the Local PTP Clock in the Slave PTP
+<               Instance. This measurement is optional, but if not made,
+<               the value of parent-ds/parent-stats shall be false.";
+---
+>               with respect to the Local PTP Clock in the
+>               TimeReceiver PTP Instance. This measurement is
+>               optional, but if not made, the value of
+>               parent-ds/parent-stats shall be false.";
+2028c2044,2045
+<               by the Slave PTP Instance using its Local PTP Clock.
+---
+>               by the TimeReceiver PTP Instance using its
+>               Local PTP Clock.
+2034,2035c2051,2052
+<               Slave PTP Instance. The measurement of this value is
+<               optional, but if not measured, the value of
+---
+>               TimeReceiver PTP Instance. The measurement of this
+>               value is optional, but if not measured, the value of
+2532,2533c2549,2550
+<         container acceptable-master-ds {
+<           if-feature acceptable-master;
+---
+>         container acceptable-time-transmitter-ds {
+>           if-feature acceptable-time-transmitter;
+2536c2553
+<             master table mechanism.";
+---
+>             timeTransmitter table mechanism.";
+2557,2559c2574,2577
+<               "List of acceptable masters in the PTP Instance.
+<               Elements in the list can be created or deleted, if
+<               those operations are supported by management.
+---
+>               "List of acceptable timeTransmitters in the
+>               PTP Instance. Elements in the list can be created or
+>               deleted, if those operations are supported by
+>               management.
+2582c2600
+<                 acceptable master.";
+---
+>                 acceptable timeTransmitter.";
+2590c2608
+<                 for the acceptable master.";
+---
+>                 for the acceptable timeTransmitter.";
+2641c2659,2660
+<               If a specific parameter (e.g. max-master-slave-delay)
+---
+>               If a specific parameter
+>               (e.g. max-time-transmitter-time-receiver-delay)
+2751c2770
+<                   messages sent by a Slave PTP Instance.";
+---
+>                   messages sent by a TimeReceiver PTP Instance.";
+2909c2928
+<               leaf master-only {
+---
+>               leaf time-transmitter-only {
+2912,2913c2931,2933
+<                   "If the value of master-only is true, the PTP Port
+<                   shall be in the IEEE Std 1588 masterOnly mode.
+---
+>                   "If the value of time-transmitter-only is true,
+>                   the PTP Port shall be in the IEEE Std 1588
+>                   timeTransmitterOnly mode.
+2915,2917c2935,2937
+<                   in the masterOnly mode.
+<                   When master-only is true, the PTP Port can never
+<                   enter the slave port-state.";
+---
+>                   in the timeTransmitterOnly mode.
+>                   When time-transmitter-only is true, the PTP Port
+>                   can never enter the time-receiver port-state.";
+3059,3060c3079,3080
+<             container alternate-master-port-ds {
+<               if-feature alternate-master;
+---
+>             container alternate-time-transmitter-port-ds {
+>               if-feature alternate-time-transmitter;
+3063c3083
+<                 master mechanism.";
+---
+>                 timeTransmitter mechanism.";
+3067c3087
+<               leaf number-of-alt-masters {
+---
+>               leaf number-of-alt-time-transmitters {
+3072c3092
+<                   alternate master flag set to TRUE.";
+---
+>                   alternate timeTransmitter flag set to TRUE.";
+3082c3102
+<                   Announce messages with alternateMasterFlag
+---
+>                   Announce messages with alternateTimeTransmitterFlag
+3096c3116
+<                   under the terms of this alternate masters
+---
+>                   under the terms of this alternate timeTransmitter
+3149,3150c3169,3170
+<             container acceptable-master-port-ds {
+<               if-feature acceptable-master;
+---
+>             container acceptable-time-transmitter-port-ds {
+>               if-feature acceptable-time-transmitter;
+3152,3153c3172,3173
+<                 "Provides management access to the optional acceptable
+<                 master mechanism.";
+---
+>                 "Provides management access to the optional
+>                 acceptable timeTransmitter mechanism.";
+3160,3164c3180,3185
+<                   "When enable is false, the acceptable master table
+<                   option is not used on this PTP Port, and the normal
+<                   operation of the protocol is in effect.
+<                   When enable is true, the acceptable master table
+<                   option is used on this PTP Port as specified
+---
+>                   "When enable is false, the acceptable
+>                   timeTransmitter table option is not used on this
+>                   PTP Port, and the normal operation of the protocol
+>                   is in effect.
+>                   When enable is true, the acceptable timeTransmitter
+>                   table option is used on this PTP Port as specified
+3636,3637c3657,3658
+<             container slave-monitoring-port-ds {
+<               if-feature slave-monitoring;
+---
+>             container time-receiver-monitoring-port-ds {
+>               if-feature time-receiver-monitoring;
+3640c3661,3662
+<                 Slave Event Monitor service, scoped to each PTP Port.";
+---
+>                 TimeReceiver Event Monitor service, scoped to each
+>                 PTP Port.";
+3646c3668
+<                   bit slave-rx-sync-timing-data {
+---
+>                   bit time-receiver-rx-sync-timing-data {
+3650c3672
+<                       SLAVE_RX_SYNC_TIMING_DATA TLV.";
+---
+>                       TIME_RECEIVER_RX_SYNC_TIMING_DATA TLV.";
+3652c3674
+<                   bit slave-rx-sync-computed-data {
+---
+>                   bit time-receiver-rx-sync-computed-data {
+3656c3678
+<                       SLAVE_RX_SYNC_COMPUTED_DATA TLV.";
+---
+>                       TIME_RECEIVER_RX_SYNC_COMPUTED_DATA TLV.";
+3658c3680
+<                   bit slave-tx-event-timestamps {
+---
+>                   bit time-receiver-tx-event-timestamps {
+3662c3684
+<                       SLAVE_TX_EVENT_TIMESTAMPS_DATA TLV.";
+---
+>                       TIME_RECEIVER_TX_EVENT_TIMESTAMPS_DATA TLV.";
+3667,3669c3689,3691
+<                   the data for a corresponding slave event monitoring
+<                   TLV is computed, and whether the data is transmitted
+<                   by the slave.";
+---
+>                   the data for a corresponding timeReceiver event
+>                   monitoring TLV is computed, and whether the data
+>                   is transmitted by the timeReceiver.";
+3678c3700
+<                   SLAVE_RX_SYNC_TIMING_DATA TLV.";
+---
+>                   TIME_RECEIVER_RX_SYNC_TIMING_DATA TLV.";
+3687c3709
+<                   SLAVE_RX_SYNC_COMPUTED_DATA TLV.";
+---
+>                   TIME_RECEIVER_RX_SYNC_COMPUTED_DATA TLV.";
+3696c3718
+<                   SLAVE_TX_EVENT_TIMESTAMPS_DATA TLV.";
+---
+>                   TIME_RECEIVER_TX_EVENT_TIMESTAMPS_DATA TLV.";
+3717,3719c3739,3742
+<                   SLAVE_RX_SYNC_TIMING_DATA TLV. For example, if
+<                   the value of M is 4, every fourth event message
+<                   is selected for monitoring in the TLV.";
+---
+>                   TIME_RECEIVER_RX_SYNC_TIMING_DATA TLV.
+>                   For example, if the value of M is 4, every fourth
+>                   event message is selected for monitoring in
+>                   the TLV.";
+3729,3731c3752,3755
+<                   SLAVE_RX_SYNC_COMPUTED_DATA TLV. For example, if
+<                   the value of M is 4, every fourth event message
+<                   is selected for monitoring in the TLV.";
+---
+>                   TIME_RECEIVER_RX_SYNC_COMPUTED_DATA TLV.
+>                   For example, if the value of M is 4, every fourth
+>                   event message is selected for monitoring in
+>                   the TLV.";
+3741,3743c3765,3768
+<                   SLAVE_TX_EVENT_TIMESTAMPS_DATA TLV. For example, if
+<                   the value of M is 4, every fourth event message
+<                   is selected for monitoring in the TLV.";
+---
+>                   TIME_RECEIVER_TX_EVENT_TIMESTAMPS_DATA TLV.
+>                   For example, if the value of M is 4, every fourth
+>                   event message is selected for monitoring in
+>                   the TLV.";

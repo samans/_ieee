@@ -1,0 +1,4 @@
+module: iecieee60802-factory-default
+
+  rpcs:
+    +---x ia-factory-reset

@@ -1,0 +1,64 @@
+module: ieee802-dot1ae-pry
+
+  augment /if:interfaces/if:interface:
+    +--rw pry {macsec-priv}?
+       +--ro secy-support?             boolean
+       +--ro pry-address?              ieee:mac-address
+       +--rw pry-mppdu-dest-address?   ieee:mac-address
+       +--rw max-peers?                uint8
+       +--ro num-peers?                uint8
+       +--ro peer-entry*               ieee:mac-address
+       +--rw reception
+       |  +--rw privacy-protection?             boolean
+       |  +--ro default-reassembly-algorithm?   boolean
+       |  +--rw rx-statistics
+       |     +--ro in-user-frames?                     yang:counter64
+       |     +--ro in-user-octets?                     yang:counter64
+       |     +--ro in-pad-octets?                      yang:counter64
+       |     +--ro in-mppdus?                          yang:counter64
+       |     +--ro in-encapsulated-frames?             yang:counter64
+       |     +--ro in-user-express-fragments?          yang:counter64
+       |     +--ro in-user-preemptable-fragments?      yang:counter64
+       |     +--ro in-express-discard-fragments?       yang:counter64
+       |     +--ro in-preemptable-discard-fragments?   yang:counter64
+       |     +--ro in-unknown-mppcis?                  yang:counter64
+       |     +--ro in-errored-mppdus?                  yang:counter64
+       |     +--ro in-user-unprotected-frames?         yang:counter64
+       |     +--ro in-user-unprotected-octets?         yang:counter64
+       +--rw transmission
+          +--rw privacy-protection?    boolean
+          +--rw privacy-selection* [user-priority]
+          |  +--rw user-priority            dot1q-types:priority-type
+          |  +--rw privacy-type             identityref
+          |  +--rw frame-access-priority?   dot1q-types:priority-type
+          |  +--rw frame-reveal-de?         enumeration
+          |  +--rw frame-padding?           enumeration
+          +--rw channel* [channel-id]
+          |  +--rw channel-id              identityref
+          |  +--rw enable?                 boolean
+          |  +--rw fragment-enable?        boolean
+          |  +--rw access-priority?        dot1q-types:priority-type
+          |  +--rw user-data-frame-size?   uint16
+          |  +--rw mppdu-generation?       enumeration
+          |  +--rw requested-kbit-rate     uint32
+          |  +--ro mppdu-bits-on-wire?     uint32
+          |  +--ro mppdu-interval?         uint32
+          |  +--rw user-burst-octets?      uint32
+          |  +--rw tx-statistics
+          |     +--ro out-ch-user-frames?        yang:counter64
+          |     +--ro out-ch-user-octets?        yang:counter64
+          |     +--ro out-ch-pad-octets?         yang:counter64
+          |     +--ro out-mppdus?                yang:counter64
+          |     +--ro out-encapsulated-frames?   yang:counter64
+          |     +--ro out-express-fragments?     yang:counter64
+          |     +--ro out-preempt-fragments?     yang:counter64
+          +--rw frame-tx-statistics
+             +--ro out-pf-user-frames?       yang:counter64
+             +--ro out-pf-user-octets?       yang:counter64
+             +--ro out-pf-pad-octets?        yang:counter64
+             +--ro out-unprotected-frames?   yang:counter64
+             +--ro out-unprotected-octets?   yang:counter64
+
+  notifications:
+    +---n pry-max-peers-exceeded
+       +--ro pry-interface?   -> /if:interfaces/interface/name

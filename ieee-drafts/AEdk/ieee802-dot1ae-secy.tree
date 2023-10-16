@@ -1,0 +1,108 @@
+module: ieee802-dot1ae-secy
+
+  augment /if:interfaces/if:interface/dot1x:pae:
+    +--rw secy
+       +--rw controlled-port
+       |  +--ro mac-enabled?                boolean
+       |  +--ro mac-operational?            boolean
+       |  +--ro oper-point-to-point-mac?    boolean
+       |  +--rw admin-point-to-point-mac?   enumeration
+       |  +--ro controlled-port-enabled?    boolean
+       +--rw uncontrolled-port
+       |  +--ro mac-enabled?                boolean
+       |  +--ro mac-operational?            boolean
+       |  +--ro oper-point-to-point-mac?    boolean
+       |  +--rw admin-point-to-point-mac?   enumeration
+       +--rw verification
+       |  +--ro max-receive-channels?   uint8
+       |  +--ro max-receive-keys?       uint8
+       |  +--rw validate-frames?        enumeration
+       |  +--rw replay-protect?         boolean
+       |  +--rw replay-window?          uint32
+       |  +--ro in-pkts-untagged?       yang:counter64
+       |  +--ro in-pkts-no-tag?         yang:counter64
+       |  +--ro in-pkts-bad-tag?        yang:counter64
+       |  +--ro in-pkts-no-sa?          yang:counter64
+       |  +--ro in-pkts-no-sa-error?    yang:counter64
+       |  +--ro in-pkts-overrun?        yang:counter64
+       |  +--ro in-octets-validated?    yang:counter64
+       |  +--ro in-octets-decrypted?    yang:counter64
+       |  +--ro receive-sc* [sci]
+       |     +--ro sci                  sec-sci-type
+       |     +--ro created-time?        yang:date-and-time
+       |     +--ro started-time?        yang:date-and-time
+       |     +--ro stopped-time?        yang:date-and-time
+       |     +--ro receiving?           boolean
+       |     +--ro in-pkts-ok?          yang:counter64
+       |     +--ro in-pkts-unchecked?   yang:counter64
+       |     +--ro in-pkts-delayed?     yang:counter64
+       |     +--ro in-pkts-late?        yang:counter64
+       |     +--ro in-pkts-invalid?     yang:counter64
+       |     +--ro in-pkts-not-valid?   yang:counter64
+       |     +--ro receive-sa* [rxa]
+       |        +--ro in-use?           boolean
+       |        +--ro ssci?             uint32
+       |        +--ro next-pn?          sec-pn-type
+       |        +--ro created-time?     yang:date-and-time
+       |        +--ro started-time?     yang:date-and-time
+       |        +--ro stopped-time?     yang:date-and-time
+       |        +--ro rxa               sec-an-type
+       |        +--ro lowest-pn?        sec-pn-type
+       |        +--ro key-identifier?   sec-key-identifier-type
+       +--rw generation
+       |  +--ro sci-base?                sec-sci-type
+       |  +--rw max-transmit-channels?   uint8
+       |  +--rw max-transmit-keys?       uint8
+       |  +--rw protect-frames?          boolean
+       |  +--rw always-include-sci?      boolean
+       |  +--rw use-es?                  boolean
+       |  +--rw use-scb?                 boolean
+       |  +--ro including-sci?           boolean
+       |  +--ro out-pkts-untagged?       yang:counter64
+       |  +--ro out-pkts-too-long?       yang:counter64
+       |  +--ro out-octets-protected?    yang:counter64
+       |  +--ro out-octets-encrypted?    yang:counter64
+       |  +--rw user-priority-tc* [user-priority]
+       |  |  +--rw user-priority       dot1q-types:priority-type
+       |  |  +--rw traffic-class?      dot1q-types:priority-type
+       |  |  +--rw access-class-de0?   uint8
+       |  |  +--rw access-class-de1?   uint8
+       |  +--ro transmit-sc* [sci]
+       |     +--ro sci                   sec-sci-type
+       |     +--ro created-time?         yang:date-and-time
+       |     +--ro started-time?         yang:date-and-time
+       |     +--ro stopped-time?         yang:date-and-time
+       |     +--ro transmitting?         boolean
+       |     +--ro encoding-sa?          sec-an-type
+       |     +--ro out-pkts-protected?   yang:counter64
+       |     +--ro out-pkts-encrypted?   yang:counter64
+       |     +--ro transmit-sa* [txa]
+       |        +--ro in-use?            boolean
+       |        +--ro ssci?              uint32
+       |        +--ro next-pn?           sec-pn-type
+       |        +--ro created-time?      yang:date-and-time
+       |        +--ro started-time?      yang:date-and-time
+       |        +--ro stopped-time?      yang:date-and-time
+       |        +--ro txa                sec-an-type
+       |        +--ro confidentiality?   boolean
+       |        +--ro key-identifier?    sec-key-identifier-type
+       +--rw current-cipher-suite
+       |  +--rw cipher-suite-identifier?   sec-eui64-type
+       |  +--rw data-key* [key-index]
+       |     +--rw key-index         uint32
+       |     +--ro key-identifier?   sec-key-identifier-type
+       |     +--ro transmits?        boolean
+       |     +--ro receives?         boolean
+       +--rw cipher-suite-control* [implemented-cipher-suite]
+          +--rw implemented-cipher-suite    sec-eui64-type
+          +--rw enable-use?                 boolean
+          +--rw require-confidentiality?    boolean
+  augment /sys:system/dot1x:pae-system:
+    +--rw secy-system
+       +--rw cipher-suites* [cipher-suite]
+          +--rw cipher-suite                  sec-eui64-type
+          +--ro name?                         string
+          +--ro integrity-protection?         boolean
+          +--ro confidentiality-protection?   boolean
+          +--ro changes-data-length?          boolean
+          +--ro icv-length?                   uint16

@@ -1,0 +1,210 @@
+8d7
+<   import ieee802-dot1ab-types { prefix "lldp-types"; }
+10d8
+<   import ieee802-dot1q-types { prefix dot1qtypes; }
+31,32c29,30
+<     "Managed objects to control the Link-local Registration Protocol,
+<      IEEE Std 802.1CS";
+---
+>     "This module provides management of systems that support the
+>     Link-local Registration Protocol (LRP).
+34,36c32
+<      Copyright (C) IEEE (2021).  This version of this YANG module
+<      is included in Clause 12 of IEEE Std 802.1CS-2020;
+<      see the standard itself for full legal notices. ";
+---
+>     Copyright (C) IEEE (2023).
+37a34,50
+>     This version of this YANG module is part of IEEE Std 802.1CS-2020/Cor1;
+>     see the standard itself for full legal notices.";
+> 
+>   revision 2023-05-16 {
+>     description
+>       "Published as part of IEEE Std 802.1CS-2020/Cor1.
+> 
+>       The following reference statement identifies each referenced
+>       IEEE Standard as updated by applicable amendments.";
+> 
+>     reference
+>       "IEEE Std 802.1CS:
+>       IEEE Std 802.1CS-2020 Link-local Registration Protocol,
+>       IEEE Std 802.1CS-2020 Corrigendum 1: Corrections to
+>       Management Modules and Protocol Encoding.";
+>   }
+> 
+84c97
+<             "IEEE 802.1CS Clause 11.3.1";
+---
+>             "11.3.1 of IEEE Std 802.1CS";
+93c106
+<             "IEEE 802.1CS Clause 11.3.2";
+---
+>             "11.3.2 of IEEE Std 802.1CS";
+104c117
+<             "IEEE 802.1CS Clause 10";
+---
+>             "Clause 10 of IEEE Std 802.1CS";
+113c126
+<             "IEEE 802.1CS Clause (8.2.2.1)";
+---
+>             "8.2.2.1 of IEEE Std 802.1CS";
+117c130
+<             path "/sys:system/dot1cs:lrp/dot1cs:lrp-dt-instance/dot1cs:instanceid";
+---
+>             path "/sys:system/dot1cs:lrp/dot1cs:lrp-dt-instance/dot1cs:instance-id";
+124c137
+<             "IEEE 802.1CS Clause (8.2.2.1)";
+---
+>             "8.2.2.1 of IEEE Std 802.1CS";
+133c146
+<             "IEEE 802.1CS Clause (8.2.2.1)";
+---
+>             "8.2.2.1 of IEEE Std 802.1CS";
+136c149
+<           type lldp-types:chassis-id-type ;
+---
+>           type ieee:chassis-id-type ;
+142c155
+<             "IEEE 802.1CS Clause (8.2.2.2)";
+---
+>             "8.2.2.2 of IEEE Std 802.1CS";
+145c158
+<           type lldp-types:port-id-type ;
+---
+>           type ieee:port-id-type ;
+151c164
+<             "IEEE 802.1CS Clause (8.2.2.3)";
+---
+>             "8.2.2.3 of IEEE Std 802.1CS";
+154c167
+<           type lldp-types:chassis-id-type ;
+---
+>           type ieee:chassis-id-type ;
+160c173
+<             "IEEE 802.1CS Clause (8.2.2.4)";
+---
+>             "8.2.2.4 of IEEE Std 802.1CS";
+163c176
+<           type lldp-types:port-id-type ;
+---
+>           type ieee:port-id-type ;
+169c182
+<             "IEEE 802.1CS Clause (8.2.2.5)";
+---
+>             "8.2.2.5 of IEEE Std 802.1CS";
+198c211
+<             "IEEE 802.1CS Clause (8.2.2.8)";
+---
+>             "8.2.2.8 of IEEE Std 802.1CS";
+209c222
+<             "IEEE 802.1CS Clause (8.2.2.10)";
+---
+>             "8.2.2.10 of IEEE Std 802.1CS";
+218c231
+<             "IEEE 802.1CS Clause (8.2.2.11)";
+---
+>             "8.2.2.11 of IEEE Std 802.1CS";
+228c241
+<             "IEEE 802.1CS Clause (8.2.2.12)";
+---
+>             "8.2.2.12 of IEEE Std 802.1CS";
+237c250
+<             "IEEE 802.1CS Clause (8.2.2.16)";
+---
+>             "8.2.2.16 of IEEE Std 802.1CS";
+247c260
+<             "IEEE 802.1CS Clause (8.2.2.22)";
+---
+>             "8.2.2.22 of IEEE Std 802.1CS";
+256c269
+<             "IEEE 802.1CS Clause (11.5.1)";
+---
+>             "11.5.1 of IEEE Std 802.1CS";
+265c278
+<             "IEEE 802.1CS Clause (11.5.2)";
+---
+>             "11.5.2 of IEEE Std 802.1CS";
+273c286
+<             "IEEE 802.1CS Clause (11.5.3)";
+---
+>             "11.5.3 of IEEE Std 802.1CS";
+282c295
+<             "IEEE 802.1CS Clause (11.5.4)";
+---
+>             "11.5.4 of IEEE Std 802.1CS";
+291c304
+<             "IEEE 802.1CS Clause (11.5.5)";
+---
+>             "11.5.5 of IEEE Std 802.1CS";
+300c313
+<             "IEEE 802.1CS Clause (11.5.6)";
+---
+>             "11.5.6 of IEEE Std 802.1CS";
+309c322
+<             "IEEE 802.1CS Clause (11.5.7)";
+---
+>             "11.5.7 of IEEE Std 802.1CS";
+318c331
+<             "IEEE 802.1CS Clause (11.5.8)";
+---
+>             "11.5.8 of IEEE Std 802.1CS";
+328c341
+<             "IEEE 802.1CS Clause (11.5.9)";
+---
+>             "11.5.9 of IEEE Std 802.1CS";
+337c350
+<             "IEEE 802.1CS Clause (11.5.10)";
+---
+>             "11.5.10 of IEEE Std 802.1CS";
+346c359
+<             "IEEE 802.1CS Clause (11.5.11)";
+---
+>             "11.5.11 of IEEE Std 802.1CS";
+355c368
+<             "IEEE 802.1CS Clause (11.5.12)";
+---
+>             "11.5.12 of IEEE Std 802.1CS";
+364c377
+<             "IEEE 802.1CS Clause (11.5.13)";
+---
+>             "11.5.13 of IEEE Std 802.1CS";
+373c386
+<             "IEEE 802.1CS Clause (11.5.14)";
+---
+>             "11.5.14 of IEEE Std 802.1CS";
+382c395
+<             "IEEE 802.1CS Clause (11.5.15)";
+---
+>             "11.5.15 of IEEE Std 802.1CS";
+391c404
+<             "IEEE 802.1CS Clause (11.5.16)";
+---
+>             "11.5.16 of IEEE Std 802.1CS";
+403c416
+<           "IEEE 802.1CS Clause 7";
+---
+>           "Clause 7 of IEEE Std 802.1CS";
+413c426
+<             "IEEE 802.1CS Clause (7.3.2.1)";
+---
+>             "7.3.2.1 of IEEE Std 802.1CS";
+424c437
+<             "IEEE 802.1CS Clause (7.3.2.2)";
+---
+>             "7.3.2.2 of IEEE Std 802.1CS";
+433c446
+<             "IEEE 802.1CS Clause (7.3.2.3)";
+---
+>             "7.3.2.3 of IEEE Std 802.1CS";
+443c456
+<             "IEEE 802.1CS Clause (7.3.2.4)";
+---
+>             "7.3.2.4 of IEEE Std 802.1CS";
+452c465
+<             "IEEE 802.1CS Clause (7.3.2.5)";
+---
+>             "7.3.2.5 of IEEE Std 802.1CS";
+461c474
+<             "IEEE 802.1CS Clause (11.4.1)";
+---
+>             "11.4.1 of IEEE Std 802.1CS";
