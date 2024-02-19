@@ -1,0 +1,25 @@
+spawn /usr/local/bin/yanglint
+> load ietf-hardware
+> load iana-hardware
+> load iana-if-type
+> load ieee802-dot1q-types
+> load ietf-datastores
+> load ietf-interfaces
+> load ietf-routing
+> load ieee802-dot1q-bridge
+> load ieee802-ethernet-interface
+> load ieee802-dot1ab-lldp
+> load ieee1588-ptp --features=ieee1588-ptp:external-port-config,cmlds
+> load ietf-system-capabilities
+> load ietf-yang-push --feature=ietf-yang-push:on-change
+> load ietf-yang-library
+> load ietf-notification-capabilities
+> load ietf-netconf-monitoring
+> load iecieee60802-ethernet-interface
+> load ietf-subscribed-notifications
+> load iecieee60802-subscribed-notifications
+> load iecieee60802-bridge
+> data -e -t data -f json --output=dds-example.json dds-example.xml
+libyang[0]: Mandatory node "module-set-id" instance does not exist. (path: Data location "/ietf-yang-library:modules-state".)
+YANGLINT[E]: Failed to parse input data file "dds-example.xml".
+> quit

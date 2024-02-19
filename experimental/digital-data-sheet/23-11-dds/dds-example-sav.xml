@@ -1,0 +1,304 @@
+<?xml version='1.0' encoding='UTF-8'?>
+  <lldp xmlns="urn:ieee:std:802.1AB:yang:ieee802-dot1ab-lldp">
+    <local-system-data>
+      <system-capabilities-supported>bridge</system-capabilities-supported>
+    </local-system-data>
+  </lldp>
+  <ptp xmlns="urn:ieee:std:1588:yang:ieee1588-ptp">
+    <common-services>
+      <cmlds>
+        <ports>
+          <port>
+            <port-index>0</port-index>
+            <link-port-ds>
+              <version-number>1</version-number>
+              <minor-version-number>0</minor-version-number>
+            </link-port-ds>
+          </port>
+        </ports>
+      </cmlds>
+    </common-services>
+  </ptp>
+  <system-capabilities xmlns="urn:ietf:params:xml:ns:yang:ietf-system-capabilities">
+    <datastore-capabilities>
+      <datastore xmlns:ds="urn:ietf:params:xml:ns:yang:ietf-datastores">ds:operational</datastore>
+      <per-node-capabilities>
+        <node-selector>/</node-selector>
+        <subscription-capabilities xmlns="urn:ietf:params:xml:ns:yang:ietf-notification-capabilities">
+          <max-nodes-per-update>5</max-nodes-per-update>
+          <periodic-notifications-supported xmlns:nc="urn:ietf:params:xml:ns:yang:ietf-notification-capabilities>nc:config-changes + nc:state-changes</periodic-notifications-supported>
+          <minimum-update-period>250</minimum-update-period>
+          <supported-update-period>
+            <!-- # entries: 0.. -->
+            1
+          </supported-update-period>
+          <supported-update-period>
+            2
+          </supported-update-period>
+          <on-change-supported></on-change-supported>
+          <minimum-dampening-period/>
+          <supported-excluded-change-type>
+            <!-- # entries: 0.. -->
+          </supported-excluded-change-type>
+        </subscription-capabilities>
+      </per-node-capabilities>
+    </datastore-capabilities>
+    <subscription-capabilities>
+      <on-change-supported/>
+    </subscription-capabilities>
+  </system-capabilities>
+  <yang-library xmlns="urn:ietf:params:xml:ns:yang:ietf-yang-library">
+    <module-set>
+      <name/>
+      <module>
+        <name/>
+        <revision/>
+        <namespace/>
+        <location>
+          <!-- # entries: 0.. -->
+        </location>
+        <submodule>
+          <name/>
+          <revision/>
+          <location>
+            <!-- # entries: 0.. -->
+          </location>
+        </submodule>
+        <feature>
+          <!-- # entries: 0.. -->
+        </feature>
+        <deviation>
+          <!-- # entries: 0.. -->
+        </deviation>
+      </module>
+      <import-only-module>
+        <name/>
+        <revision/>
+        <namespace/>
+        <location>
+          <!-- # entries: 0.. -->
+        </location>
+        <submodule>
+          <name/>
+          <revision/>
+          <location>
+            <!-- # entries: 0.. -->
+          </location>
+        </submodule>
+      </import-only-module>
+    </module-set>
+    <schema>
+      <name/>
+      <module-set>
+        <!-- # entries: 0.. -->
+      </module-set>
+    </schema>
+    <datastore>
+      <name/>
+      <schema/>
+    </datastore>
+    <content-id/>
+  </yang-library>
+  <netconf-state xmlns="urn:ietf:params:xml:ns:yang:ietf-netconf-monitoring">
+    <capabilities>
+      <capability>
+        <!-- # entries: 0.. -->
+      </capability>
+    </capabilities>
+    <datastores>
+      <datastore>
+        <name/>
+        <locks>
+          <global-lock>
+            <locked-by-session/>
+            <locked-time/>
+          </global-lock>
+          <partial-lock>
+            <lock-id/>
+            <locked-by-session/>
+            <locked-time/>
+            <select>
+              <!-- # entries: 1.. -->
+            </select>
+            <locked-node>
+              <!-- # entries: 0.. -->
+            </locked-node>
+          </partial-lock>
+        </locks>
+      </datastore>
+    </datastores>
+    <schemas>
+      <schema>
+        <identifier/>
+        <version/>
+        <format/>
+        <namespace/>
+        <location>
+          <!-- # entries: 0.. -->
+        </location>
+      </schema>
+    </schemas>
+  </netconf-state>
+  <hardware xmlns="urn:ietf:params:xml:ns:yang:ietf-hardware">
+    <component>
+      <name/>
+      <class/>
+      <description/>
+      <hardware-rev/>
+      <software-rev/>
+      <mfg-name/>
+      <model-name/>
+    </component>
+  </hardware>
+  <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+    <interface>
+      <name/>
+      <description/>
+      <type/>
+      <bridge-port xmlns="urn:ieee:std:802.1Q:yang:ieee802-dot1q-bridge">
+        <bridge-name/>
+        <component-name/>
+        <port-type/>
+        <traffic-class>
+          <traffic-class-map>
+            <priority/>
+            <available-traffic-class>
+              <num-traffic-class/>
+              <traffic-class/>
+            </available-traffic-class>
+          </traffic-class-map>
+          <traffic-class-table>
+            <number-of-traffic-classes/>
+            <priority0/>
+            <priority1/>
+            <priority2/>
+            <priority3/>
+            <priority4/>
+            <priority5/>
+            <priority6/>
+            <priority7/>
+          </traffic-class-table>
+        </traffic-class>
+        <min-interpacket-gap xmlns="urn:ieee:std:60802:yang:iecieee60802-bridge"/>
+        <max-burst-frames xmlns="urn:ieee:std:60802:yang:iecieee60802-bridge"/>
+        <max-burst-bytes xmlns="urn:ieee:std:60802:yang:iecieee60802-bridge"/>
+        <committed-data-rates xmlns="urn:ieee:std:60802:yang:iecieee60802-bridge">
+          <traffic-class/>
+          <speed/>
+          <committed-information-rate/>
+          <committed-burst-size/>
+        </committed-data-rates>
+        <transmission-selection-algorithm xmlns="urn:ieee:std:60802:yang:iecieee60802-bridge">
+          <traffic-class/>
+          <algorithms>
+            <algorithm/>
+          </algorithms>
+        </transmission-selection-algorithm>
+        <supported-resource-pools xmlns="urn:ieee:std:60802:yang:iecieee60802-bridge">
+          <resource-pool-name/>
+          <covered-time-interval>
+            <numerator/>
+            <denominator/>
+          </covered-time-interval>
+          <resource-pool-traffic-classes>
+            <traffic-class/>
+          </resource-pool-traffic-classes>
+        </supported-resource-pools>
+      </bridge-port>
+      <ethernet xmlns="urn:ieee:std:802.3:yang:ieee802-ethernet-interface">
+        <supported-mau-types xmlns="urn:ieee:std:60802:yang:iecieee60802-ethernet-interface">
+          <mau-type/>
+          <preemption-supported/>
+        </supported-mau-types>
+      </ethernet>
+    </interface>
+  </interfaces>
+
+  <bridges xmlns="urn:ieee:std:802.1Q:yang:ieee802-dot1q-bridge">
+    <bridge>
+      <name/>
+      <bridge-type/>
+      <ports/>
+      <components/>
+      <component>
+        <name/>
+        <type/>
+        <address/>
+        <ports/>
+        <capabilities>
+          <extended-filtering>false</extended-filtering>
+          <traffic-classes>false</traffic-classes>
+          <static-entry-individual-port>false</static-entry-individual-port>
+          <ivl-capable>true</ivl-capable>
+          <svl-capable>false</svl-capable>
+          <hybrid-capable>false</hybrid-capable>
+          <configurable-pvid-tagging>false</configurable-pvid-tagging>
+          <local-vlan-capable>false</local-vlan-capable>
+        </capabilities>
+        <filtering-database>
+          <size/>
+        </filtering-database>
+        <permanent-database>
+          <size/>
+        </permanent-database>
+        <bridge-vlan>
+          <version/>
+          <max-vids/>
+          <max-msti/>
+        </bridge-vlan>
+        <frer-supported xmlns="urn:ieee:std:60802:yang:iecieee60802-bridge"/>
+        <max-redundant-streams xmlns="urn:ieee:std:60802:yang:iecieee60802-bridge"/>
+        <max-fids xmlns="urn:ieee:std:60802:yang:iecieee60802-bridge"/>
+        <max-fdb-entries xmlns="urn:ieee:std:60802:yang:iecieee60802-bridge">
+          <fid/>
+          <max-static-fdb-entries/>
+          <max-dynamic-fdb-entries/>
+        </max-fdb-entries>
+        <independent-delays xmlns="urn:ieee:std:60802:yang:iecieee60802-bridge">
+          <in-port-mau-type/>
+          <out-port-mau-type/>
+          <traffic-class/>
+          <independent-delay-min/>
+          <independent-delay-max/>
+        </independent-delays>
+        <dependent-delays xmlns="urn:ieee:std:60802:yang:iecieee60802-bridge">
+          <in-port-line-speed/>
+          <dependent-delay-min/>
+          <dependent-delay-max/>
+        </dependent-delays>
+        <independent-delays-cascaded xmlns="urn:ieee:std:60802:yang:iecieee60802-bridge">
+          <in-port/>
+          <in-port-mau-type/>
+          <out-port/>
+          <out-port-mau-type/>
+          <traffic-class/>
+          <independent-delay-min/>
+          <independent-delay-max/>
+        </independent-delays-cascaded>
+        <dependent-delays-cascaded xmlns="urn:ieee:std:60802:yang:iecieee60802-bridge">
+          <in-port/>
+          <in-port-line-speed/>
+          <out-port/>
+          <dependent-delay-min/>
+          <dependent-delay-max/>
+        </dependent-delays-cascaded>
+        <max-ptp-instances xmlns="urn:ieee:std:60802:yang:iecieee60802-bridge"/>
+        <max-hot-standby-systems xmlns="urn:ieee:std:60802:yang:iecieee60802-bridge"/>
+        <clock xmlns="urn:ieee:std:60802:yang:iecieee60802-bridge">
+          <clock-identity/>
+          <clock-target/>
+          <attached-ptp-instance-index/>
+          <arb-supported/>
+          <ptp-supported/>
+          <hot-standby-supported/>
+          <is-synced/>
+        </clock>
+      </component>
+    </bridge>
+  </bridges>
+  <subscriptions xmlns="urn:ietf:params:xml:ns:yang:ietf-subscribed-notifications">
+    <max-subscriptions xmlns="urn:ieee:std:60802:yang:iecieee60802-subscribed-notifications"/>
+    <max-on-change-subscription-leaves xmlns="urn:ieee:std:60802:yang:iecieee60802-subscribed-notifications"/>
+    <max-periodic-subscription-leaves xmlns="urn:ieee:std:60802:yang:iecieee60802-subscribed-notifications"/>
+    <max-periodic-subscription-interval xmlns="urn:ieee:std:60802:yang:iecieee60802-subscribed-notifications"/>
+  </subscriptions>

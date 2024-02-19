@@ -1,0 +1,68 @@
+module: ieee802-dot1q-mstp
+
+  augment /dot1q:bridges/dot1q:bridge/dot1q:component/dot1q:bridge-mst:
+    +--rw mst-config-id!
+    |  +--rw format-selector?        int32
+    |  +--rw configuration-name?     string
+    |  +--rw revision-level?         uint32
+    |  +--ro configuration-digest?   binary
+    +--rw bridge-mstp!
+       +--rw max-hops?                      int32
+       +--ro ist-internal-root-path-cost?   uint32
+       +--rw mst* [mstid]
+          +--rw mstid                      uint16
+          +--rw port-id-priority?          dot1qtypes:priority-type
+          +--ro internal-root-path-cost?   uint32
+          +--ro root-port-number?          dot1qtypes:port-number-type
+  augment /if:interfaces/if:interface/dot1q:bridge-port:
+    +--rw port-mstp!
+       +--rw mst* [mstid]
+       |  +--rw mstid                           uint16
+       |  +--ro msti-port-state?                enumeration
+       |  +--ro msti-port-role?                 enumeration
+       |  +--rw msti-bridge-id-priority?        dot1qtypes:priority-type
+       |  +--rw msti-internal-port-path-cost?   uint32
+       |  +--ro msti-regional-root-id?          uint32
+       +--ro msti-internal-root-path-cost?   int32
+       +--ro msti-designated-bridge-id?      uint32
+       +--ro msti-designated-port-id?        binary
+
+module: ieee802-dot1q-rstp
+
+  augment /dot1q:bridges/dot1q:bridge/dot1q:component:
+    +--rw rstp! {rstp}?
+       +--rw force-protocol-version?       enumeration
+       +--ro cist-bridge-id?               uint64
+       +--rw cist-bridge-id-priority?      dot1qtypes:priority-type
+       +--ro cist-root-id?                 uint64
+       +--ro external-root-path-cost?      uint32
+       +--ro cist-root-port-number?        dot1qtypes:port-number-type
+       +--ro max-age?                      uint8
+       +--ro hello-time?                   rt-types:timer-value-seconds16
+       +--ro forward-delay?                uint8
+       +--rw bridge-max-age?               uint8
+       +--ro bridge-hello-time?            uint8
+       +--rw bridge-forward-delay?         uint8
+       +--rw tx-hold-count?                int32
+       +--ro migrate-time?                 int32
+       +--ro time-since-topology-change?   uint32
+       +--ro topology-change-count?        yang:counter64
+  augment /if:interfaces/if:interface/dot1q:bridge-port:
+    +--rw rstp! {rstp}?
+       +--ro cist-port-state?                 enumeration
+       +--ro cist-port-role?                  enumeration
+       +--ro restricted-role?                 boolean
+       +--ro restricted-tcn?                  boolean
+       +--ro cist-port-id?                    uint16
+       +--rw cist-port-priority?              dot1qtypes:priority-type
+       +--rw external-port-path-cost?         int32
+       +--ro cist-root-id?                    uint32
+       +--ro cist-external-path-cost?         int32
+       +--ro designated-bridge-id?            uint32
+       +--ro designated-port-id?              binary
+       +--rw port-protocol-migration-check?   boolean
+       +--rw admin-edge-port?                 boolean
+       +--ro oper-edge-port?                  boolean
+       +--rw auto-edge-port?                  boolean
+       +--rw auto-isolate-port?               boolean
+       +--ro isolate-port?                    boolean

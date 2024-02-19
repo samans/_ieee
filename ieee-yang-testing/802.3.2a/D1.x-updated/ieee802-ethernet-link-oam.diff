@@ -1,0 +1,300 @@
+9,11c9,11
+<   import ieee802-types {
+<     prefix ieee;
+<     reference "IEEE 802 types";
+---
+>   revision 2024-02-12 {
+>     description "Updates under IEEE Std 802.3.2-202x, Draft 1.1";
+>     reference "IEEE Std 802.3-2022, unless dated explicitly"; 
+42,45c42,43
+<   revision 2024-02-12 {
+<     description "Updates under IEEE Std 802.3.2-202x, Draft 1.1";
+<     reference "IEEE Std 802.3-2022, unless dated explicitly"; 
+<   }
+---
+>   reference 
+>     "IEEE Std 802.3-2022, unless dated explicitly";
+241d238
+< 
+822a820
+>     }
+940c938
+<  range "2..10";
+---
+>  range “2..10”;
+945,946c943,944
+<  "This is the maximum time to get the response/responses (in case of bonding group) from the CPE 
+< for the remote-mib retrieval request.";
+---
+>  “This is the maximum time to get the response/responses (in case of bonding group) from the CPE 
+> for the remote-mib retrieval request.”;
+966a965,966
+>  reference
+>  “;
+1179,1180c1179,1180
+<  leaf mac-enable-status {
+< //TODO : check if this leaf needs to be ro or rw because it is marked to be GET-SET in standard.
+---
+>  leaf mac-enable-status { //TODO : check if this leaf needs to be ro or rw because it is marked to be 
+> GET-SET in standard.
+1187,1188c1187,1188
+<  leaf transmit-enable-status {
+< //TODO : check if this leaf needs to be ro or rw because it is marked to be GET-SET in standard.
+---
+>  leaf transmit-enable-status { //TODO : check if this leaf needs to be ro or rw because it is marked 
+> to be GET-SET in standard.
+1195,1196c1195,1196
+<  leaf multicast-receive-status {
+< //TODO : check if this leaf needs to be ro or rw because it is marked to be GET-SET in standard.
+---
+>  leaf multicast-receive-status { //TODO : check if this leaf needs to be ro or rw because it is marked 
+> to be GET-SET in standard.
+1203,1204c1203,1204
+<  leaf read-mac-address {
+< //TODO : check if this leaf needs to be ro or rw because it is marked to be GET-SET in standard.
+---
+>  leaf read-mac-address { //TODO : check if this leaf needs to be ro or rw because it is marked to be 
+> GET-SET in standard.
+1239,1240c1239
+<  leaf duplex-status {
+< //TODO : check if this leaf needs to be ro or rw because it is marked to be GETSET in standard.
+---
+>  leaf duplex-status { //TODO : check if this leaf needs to be ro or rw because it is marked to be GETSET in standard.
+1265,1266c1264,1265
+<  leaf rate-control-status {
+< //TODO : check if this leaf needs to be ro or rw because it is marked to be GET-SET in standard.
+---
+>  leaf rate-control-status { //TODO : check if this leaf needs to be ro or rw because it is marked to be 
+> GET-SET in standard.
+1289,1290c1288,1289
+<  "The enumeration 'true' is returned when the interframe spacing is accomplished within the 
+< MAC sublayer, the enumeration 'false' is returned otherwise.";
+---
+>  "The enumeration “true” is returned when the interframe spacing is accomplished within the 
+> MAC sublayer, the enumeration “false” is returned otherwise.";
+1294,1295c1293,1294
+<  leaf defer-control-status {
+<  //TODO : check if this leaf needs to be ro or rw because it is marked to be GET-SET in standard.
+---
+>  leaf defer-control-status { //TODO : check if this leaf needs to be ro or rw because it is marked to 
+> be GET-SET in standard.
+1358c1357
+<  "Remote mib retrieval - PME Managed objects.";
+---
+>  “Remote mib retrieval - PME Managed objects.”;
+1360,1361c1359,1360
+<  "57.1.2 of IEEE Std 802.3-2022
+<  30.3.1.1 of IEEE Std 802.3-2022";
+---
+>  “57.1.2 of IEEE Std 802.3-2022
+>  30.3.1.1 of IEEE Std 802.3-2022”;
+1365c1364
+<  "Request PME managed object attributes from the peer DTE.";
+---
+>  “Request PME managed object attributes from the peer DTE.”;
+1367c1366
+<  "IEEE Std 802.3, 57.1.2:c(2)";
+---
+>  “IEEE Std 802.3, 57.1.2:c(2)”;
+1371c1370
+<  "Status of the PME mangaged objects retrieval.";
+---
+>  “Status of the PME mangaged objects retrieval.”;
+1377c1376
+<  "The state of the pme objects retrieval.";
+---
+>  “The state of the pme objects retrieval.”;
+1379c1378
+<  "";
+---
+>  ““;
+1384c1383
+<  "The time at which pme managed objects are retrieved.";
+---
+>  “The time at which pme managed objects are retrieved.”;
+1389,1390c1388,1389
+<  "PME Managed objects.PME objects displayed is based on the Peer DTE support. For the peer DTE 
+< unsupported objects no ouput shall be displayed";
+---
+>  “PME Managed objects.PME objects displayed is based on the Peer DTE support. For the peer DTE 
+> unsupported objects no ouput shall be displayed”;
+1392c1391
+<  key "pmeid";
+---
+>  key “pmeid”;
+1394c1393
+<  "The list of PME Responses received for the PME variable request.Incase of multi-link Bonding 
+---
+>  “The list of PME Responses received for the PME variable request.Incase of multi-link Bonding 
+1397c1396
+< response.";
+---
+> response.”;
+1401,1402c1400,1401
+<  " The value of aPMEID value. it is assigned so as to uniquely identify a PME among the 
+< subordinate managed objects of the containing object (oPAF).";
+---
+>  “ The value of aPMEID value. it is assigned so as to uniquely identify a PME among the 
+> subordinate managed objects of the containing object (oPAF).”;
+1404c1403
+<  "30.11.2.1.1 of IEEE Std 802.3-2018";
+---
+>  “30.11.2.1.1 of IEEE Std 802.3-2018”;
+1409,1410c1408,1409
+<  "This leaf indicates the state of the PME. The enumeration 'disabled' indicates that the PME is 
+< disabled, the enumeration 'enabled' indicates that the PME is enabled..";
+---
+>  “This leaf indicates the state of the PME. The enumeration “disabled” indicates that the PME is 
+> disabled, the enumeration “enabled” indicates that the PME is enabled..”;
+1412c1411
+<  "30.11.2.1.2 of IEEE Std 802.3-2018";
+---
+>  “30.11.2.1.2 of IEEE Std 802.3-2018”;
+1419,1422c1418,1421
+<  "This leaf indicates the PME status. Value 'not ready' indicates that the link is down and 
+< handshake tones are not being received from the peer device, the value 'ready' indicates that the link is 
+< down and that handshake tones are being received from a peer device, the value 'initializing' indicates 
+< that the link is initializing."; 
+---
+>  “This leaf indicates the PME status. Value “not ready” indicates that the link is down and 
+> handshake tones are not being received from the peer device, the value “ready” indicates that the link is 
+> down and that handshake tones are being received from a peer device, the value “initializing” indicates 
+> that the link is initializing.”; 
+1424c1423
+<  "30.11.2.1.3 of IEEE Std 802.3-2018";
+---
+>  “30.11.2.1.3 of IEEE Std 802.3-2018”;
+1429c1428
+<  "This leaf indicates the PME current signal to noise ratio (SNR) Margin.";
+---
+>  “This leaf indicates the PME current signal to noise ratio (SNR) Margin.”;
+1431c1430
+<  "30.11.2.1.4 of IEEE Std 802.3-2018";
+---
+>  “30.11.2.1.4 of IEEE Std 802.3-2018”;
+1436,1437c1435,1436
+<  "A count of 64/65-octet encapsulation error. Increment the counter by one for each 64/65-octet
+< encapsulation error detected by the 64/65-octet receive function.";
+---
+>  “A count of 64/65-octet encapsulation error. Increment the counter by one for each 64/65-octet
+> encapsulation error detected by the 64/65-octet receive function.”;
+1439c1438
+<  "30.11.2.1.5 of IEEE Std 802.3-2018";
+---
+>  “30.11.2.1.5 of IEEE Std 802.3-2018”;
+1445c1444
+<  "This leaf indicates the PME current signal to noise ratio (SNR) Margin.";
+---
+>  “This leaf indicates the PME current signal to noise ratio (SNR) Margin.”;
+1447c1446
+<  "30.11.2.1.6 of IEEE Std 802.3-2018";
+---
+>  “30.11.2.1.6 of IEEE Std 802.3-2018”;
+1454c1453
+<  "This leaf indicates the first instance of aOperatingProfile and it indicates the pme profile state 
+---
+>  “This leaf indicates the first instance of aOperatingProfile and it indicates the pme profile state 
+1459c1458
+<  activate failure which mean link activate failure.";
+---
+>  activate failure which mean link activate failure.”;
+1461c1460
+<  "30.11.2.1.7 of IEEE Std 802.3-2018";
+---
+>  “30.11.2.1.7 of IEEE Std 802.3-2018”;
+1466,1467c1465,1466
+<  "This leaf indicates the second instance of aOperatingProfile and it indicates the operating 
+< profile number.";
+---
+>  “This leaf indicates the second instance of aOperatingProfile and it indicates the operating 
+> profile number.”;
+1469c1468
+<  "30.11.2.1.7 of IEEE Std 802.3-2018";
+---
+>  “30.11.2.1.7 of IEEE Std 802.3-2018”;
+1474c1473
+<  "For a 10PASS-TS PME, a count of corrected FEC blocks. This counter will not increment for 
+---
+>  “For a 10PASS-TS PME, a count of corrected FEC blocks. This counter will not increment for 
+1476c1475
+< function in the PME.";
+---
+> function in the PME.”;
+1478c1477
+<  "30.11.2.1.8 of IEEE Std 802.3-2018";
+---
+>  “30.11.2.1.8 of IEEE Std 802.3-2018”;
+1483c1482
+<  "For a 10PASS-TS PME, a count of uncorrectable FEC blocks. This counter will not increment for
+---
+>  “For a 10PASS-TS PME, a count of uncorrectable FEC blocks. This counter will not increment for
+1485c1484
+< uncorrectable by the FEC function in the PME.";
+---
+> uncorrectable by the FEC function in the PME.”;
+1487c1486
+<  "30.11.2.1.9 of IEEE Std 802.3-2018";
+---
+>  “30.11.2.1.9 of IEEE Std 802.3-2018”;
+1492,1493c1491,1492
+<  "A count of TC-CRC errors. Increment the counter by one for each TC-CRC error detected by the
+< 64/65-octet receive function.";
+---
+>  “A count of TC-CRC errors. Increment the counter by one for each TC-CRC error detected by the
+> 64/65-octet receive function.”;
+1495c1494
+<  "30.11.2.1.10 of IEEE Std 802.3-2018";
+---
+>  “30.11.2.1.10 of IEEE Std 802.3-2018”;
+1497c1496
+<  } // pme-object.
+---
+>  } // pme-objects.
+1500,1502c1499
+<  } }
+< 
+< identity pme-status {
+---
+>  } } 2. Proposedchange - add new identity identity pme-status {
+1504c1501
+<  "Base identity to represent the state of a pme status.";
+---
+>  “Base identity to represent the state of a pme status.”;
+1509,1510c1506,1507
+<  "This value indicates that the link is down and handshake tones are not being received from the peer 
+< device.";
+---
+>  “This value indicates that the link is down and handshake tones are not being received from the peer 
+> device.”;
+1515,1516c1512,1513
+<  "This value indicates that the link is down and that handshake tones are being received from a peer 
+< device.";
+---
+>  “This value indicates that the link is down and that handshake tones are being received from a peer 
+> device.”;
+1521c1518
+<  "This value indicates that the link is initializing.";
+---
+>  “This value indicates that the link is initializing.”;
+1526c1523
+<  "Base identity to represent the state of a pme profile state.";
+---
+>  “Base identity to represent the state of a pme profile state.”;
+1531c1528
+<  "link is down.";
+---
+>  “link is down.”;
+1536c1533
+<  "link up using a profile.";
+---
+>  “link up using a profile.”;
+1541c1538
+<  "link up not using a profile.";
+---
+>  “link up not using a profile.”;
+1547,1548c1544,1545
+<  "link activate failure.";
+<  }
+---
+>  “link activate failure.”;
+>  } "

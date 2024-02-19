@@ -1,0 +1,96 @@
+module: ieee802-dot1q-psfp-bridge
+
+  augment /dot1q:bridges/dot1q:bridge/dot1q:component:
+    +--rw flow-meters
+    |  +--rw flow-meter-instance-table* [flow-meter-instance-id]
+    |  |  +--rw flow-meter-instance-id        uint32
+    |  |  +--rw committed-information-rate    uint64
+    |  |  +--rw committed-burst-size          uint32
+    |  |  +--rw excess-information-rate       uint64
+    |  |  +--rw excess-burst-size             uint32
+    |  |  +--rw coupling-flag                 enumeration
+    |  |  +--rw color-mode                    enumeration
+    |  |  +--rw drop-on-yellow                boolean
+    |  |  +--rw mark-all-frames-red-enable?   boolean
+    |  |  +--rw mark-all-frames-red?          boolean
+    |  +--rw max-flow-meter-instances?    uint32
+    +--rw stream-gates
+    |  +--rw stream-gate-instance-table* [stream-gate-instance-id]
+    |  |  +--rw stream-gate-instance-id                   uint32
+    |  |  +--rw gate-enable?                              boolean
+    |  |  +--rw admin-gate-states?                        gate-state-value-type
+    |  |  +--rw admin-ipv?                                ipv-spec-type
+    |  |  +--ro oper-gate-state?                          sfsg:gate-state-value-type
+    |  |  +--rw oper-ipv?                                 sfsg:ipv-spec-type
+    |  |  +--rw admin-control-list
+    |  |  |  +--rw gate-control-entry* [index]
+    |  |  |     +--rw index                  uint32
+    |  |  |     +--rw operation-name         identityref
+    |  |  |     +--rw time-interval-value?   uint32
+    |  |  |     +--rw gate-state-value       sfsg:gate-state-value-type
+    |  |  |     +--rw ipv-spec               sfsg:ipv-spec-type
+    |  |  |     +--rw interval-octet-max?    uint32
+    |  |  +--ro oper-control-list
+    |  |  |  +--ro gate-control-entry* [index]
+    |  |  |     +--ro index                  uint32
+    |  |  |     +--ro operation-name         identityref
+    |  |  |     +--ro time-interval-value?   uint32
+    |  |  |     +--ro gate-state-value       sfsg:gate-state-value-type
+    |  |  |     +--ro ipv-spec               sfsg:ipv-spec-type
+    |  |  |     +--ro interval-octet-max?    uint32
+    |  |  +--rw admin-cycle-time
+    |  |  |  +--rw numerator?     uint32
+    |  |  |  +--rw denominator?   uint32
+    |  |  +--ro oper-cycle-time
+    |  |  |  +--ro numerator?     uint32
+    |  |  |  +--ro denominator?   uint32
+    |  |  +--rw admin-cycle-time-extension?               uint32
+    |  |  +--ro oper-cycle-time-extension?                uint32
+    |  |  +--rw admin-base-time
+    |  |  |  +--rw seconds?       uint64
+    |  |  |  +--rw nanoseconds?   uint32
+    |  |  +--ro oper-base-time
+    |  |  |  +--ro seconds?       uint64
+    |  |  |  +--ro nanoseconds?   uint32
+    |  |  +--rw config-change?                            boolean
+    |  |  +--ro config-change-time
+    |  |  |  +--ro seconds?       uint64
+    |  |  |  +--ro nanoseconds?   uint32
+    |  |  +--ro tick-granularity?                         uint32
+    |  |  +--ro current-time
+    |  |  |  +--ro seconds?       uint64
+    |  |  |  +--ro nanoseconds?   uint32
+    |  |  +--ro config-pending?                           boolean
+    |  |  +--ro config-change-error?                      yang:counter64
+    |  |  +--rw gate-closed-due-to-invalid-rx-enable?     boolean
+    |  |  +--rw gate-closed-due-to-invalid-rx?            boolean
+    |  |  +--rw gate-closed-due-octets-exceeded-enable?   boolean
+    |  |  +--rw gate-closed-due-octets-exceeded?          boolean
+    |  +--ro max-stream-gate-instances?    uint32
+    |  +--rw supported-list-max?           uint32
+    |  +--rw supported-cycle-max
+    |  |  +--rw numerator?     uint32
+    |  |  +--rw denominator?   uint32
+    |  +--rw supported-interval-max?       uint32
+    +--rw stream-filters
+       +--rw stream-filter-instance-table* [stream-filter-instance-id]
+       |  +--rw stream-filter-instance-id                       uint32
+       |  +--rw (stream-handle-spec)?
+       |  |  +--:(wildcard)
+       |  |  |  +--rw wildcard?                                 empty
+       |  |  +--:(stream-handle)
+       |  |     +--rw stream-handle                             uint32
+       |  +--rw priority-spec                                   priority-spec-type
+       |  +--rw max-sdu-size                                    uint32
+       |  +--rw stream-blocked-due-to-oversize-frame-enabled?   boolean
+       |  +--rw stream-blocked-due-to-oversize-frame?           boolean
+       |  +--rw stream-gate-ref                                 -> ../../../stream-gates/stream-gate-instance-table/stream-gate-instance-id
+       |  +--ro matching-frames-count?                          yang:counter64
+       |  +--ro passing-frames-count?                           yang:counter64
+       |  +--ro not-passing-frames-count?                       yang:counter64
+       |  +--ro red-frames-count?                               yang:counter64
+       |  +--ro passing-sdu-count?                              yang:counter64
+       |  +--ro not-passing-sdu-count?                          yang:counter64
+       |  +--rw flow-meter-ref?                                 -> ../../../flow-meters/flow-meter-instance-table/flow-meter-instance-id
+       |  +--rw flow-meter-enable?                              boolean
+       +--ro max-stream-filter-instances?    uint32

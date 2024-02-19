@@ -1,0 +1,1751 @@
+module ieee802-ethernet-link-oam {
+
+  yang-version 1.1;
+
+  namespace "urn:ieee:std:802.3:yang:ieee802-ethernet-link-oam";
+
+  prefix "ieee802-link-oam";
+
+  revision 2024-02-12 {
+    description "Updates under IEEE Std 802.3.2-202x, Draft 1.1";
+    reference "IEEE Std 802.3-2022, unless dated explicitly"; 
+}
+
+  import ietf-yang-types { 
+    prefix yang; 
+    reference "IETF RFC 6991";
+  }
+
+  import iana-if-type {
+    prefix ianaift;
+    reference "http://www.iana.org/assignments/yang-parameters/
+      iana-if-type@2023-01-26.yang";
+  }
+
+  import ietf-interfaces { 
+    prefix if; 
+    reference "IETF RFC 8343";
+  }
+
+  organization
+    "IEEE 802.3 Ethernet Working Group
+     Web URL: http://www.ieee802.org/3/";
+  contact
+    "Web URL: http://www.ieee802.org/3/";
+
+  description
+    "This module contains a collection of YANG definitions
+     for managing the Ethernet Link OAM feature defined by IEEE
+     802.3. It provides functionality roughly equivalent to that of
+     the DOT3-OAM-MIB defined in IETF RFC 4878.";
+
+  reference 
+    "IEEE Std 802.3-2022, unless dated explicitly";
+	
+  feature uni-directional-link-fault {
+    description
+      "This feature means the device supports Uni Directional Link
+       Fault detection.";
+    reference
+      "IEEE Std 802.3, 57.1.2:a, 30.3.6.1.6 aOAMLocalConfiguration and
+       30.3.6.1.7 aOAMRemoteConfiguration";
+  }
+  feature remote-loopback-initiate {
+    description
+      "This feature means the device supports being the initiator 
+       of remote loopback.";
+    reference
+      "IEEE Std 802.3, 57.1.2:b, 30.3.6.1.6 aOAMLocalConfiguration";
+  }
+  feature remote-loopback-respond {
+    description
+      "This feature means the device supports responding to remote 
+       loopback control OAMPDUs received from the peer";
+    reference
+      "IEEE Std 802.3, 57.1.2:b, 30.3.6.1.7 aOAMRemoteConfiguration";
+  }
+  feature link-monitoring-local {
+    description
+      "This feature means the device monitors the link at the local 
+       side and can generate Link Event OAMPDUs to the peer device.";
+    reference
+      "IEEE Std 802.3, 57.1.2:c:1, 30.3.6.1.6 aOAMLocalConfiguration, 
+       and 30.3.6.1.7 aOAMRemoteConfiguration";
+  }
+  feature link-monitoring-remote {
+    description
+      "This feature means the device can process Link Event OAMPDUs 
+       received from the peer device and report itself about this 
+       event on its own management interface.";
+    reference
+      "IEEE Std 802.3, 57.1.2:c:1, 30.3.6.1.6 aOAMLocalConfiguration, 
+       and 30.3.6.1.7 aOAMRemoteConfiguration";
+  }
+  feature remote-mib-retrieval-initiate {
+    description
+      "This feature means the device supports data retrieval from 
+       the peer device. I.e. the device can send Variable Requests 
+       OAMPDUs to the peer side and process the received Variable 
+       Response OAMPDUs.";
+    reference
+      "IEEE Std 802.3, 57.1.2:c:2, 30.3.6.1.6 aOAMLocalConfiguration, 
+       and 30.3.6.1.7 aOAMRemoteConfiguration";
+  }
+  feature remote-mib-retrieval-respond {
+    description
+      "This feature means the device allows the peer device to 
+       retrieve data from the managed device. I.e. the device can 
+       process received Variable Requests OAMPDUs and respond with 
+       Variable Response OAMPDUs.";
+    reference
+      "IEEE Std 802.3, 57.1.2:c:2, 30.3.6.1.6 aOAMLocalConfiguration, 
+       and 30.3.6.1.7 aOAMRemoteConfiguration";
+  }  
+  typedef threshold-event-enum {
+    type enumeration {
+      enum symbol-period-event {
+        value 1;
+        description 
+          "Errored symbol period event.";
+      }
+      enum frame-period-event {
+        value 2;
+        description 
+          "Errored frame period event.";
+      }
+      enum frame-event {
+        value 3;
+        description 
+          "Errored frame event";
+      }
+      enum frame-seconds-event {
+        value 4;
+        description 
+          "Errored frame seconds event.";
+      }
+    }
+    description
+      "Enumeration of the valid threshold event types.";
+    reference
+      "IEEE Std 802.3, 57.5.3";
+  }
+
+  identity event-type {
+    description
+      "Base identity for all Link OAM event types.";
+  }
+  identity threshold-event-type {
+    base event-type;
+    description
+      "Event type for a Link Monitoring threshold event.";
+  }
+  identity link-fault-event {
+    base event-type;
+     if-feature "uni-directional-link-fault";
+    description
+      "Event type for a uni-directional link fault event.";
+    reference
+      "IEEE Std 802.3, 57.2.10.1";
+  }
+  identity dying-gasp-event {
+    base event-type;
+    description
+      "Event type for a dying gasp event.";
+    reference
+      "IEEE Std 802.3, 57.2.10.1";
+  }
+  identity critical-event {
+    base event-type;
+    description
+      "Event type for a critical event.";
+    reference
+      "IEEE Std 802.3, 57.2.10.1";
+  }
+
+  typedef mode {
+    type enumeration {
+      enum passive {
+        value 0;
+        description 
+          "Ethernet Link OAM Passive mode.";
+      }
+      enum active {
+        value 1;
+        description 
+          "Ethernet Link OAM Active mode.";
+      }
+    }
+    description
+      "Enumeration of the valid modes in which Link OAM may run.";
+    reference
+      "IEEE Std 802.3, 57.2.9 and 30.3.6.1.3.";
+  }
+
+  typedef event-location {
+    type enumeration {
+      enum event-location-local {
+        value 1;
+        description 
+          "A local event.";
+      }
+      enum event-location-remote {
+        value 2;
+        description 
+          "A remote event.";
+      }
+    }
+    description
+      "The location of the event that caused a log entry.";
+  }
+
+  typedef loopback-status{
+    type enumeration {
+      enum none {
+        value 1;
+        description 
+         "Loopback is not being performed.";
+      }
+      enum initiating {
+        value 2;
+        description 
+          "Initiating master loopback.";
+      }
+      enum master-loopback {
+        value 3;
+        description 
+          "In master loopback mode.";
+      }
+      enum terminating {
+        value 4;
+        description 
+          "Terminating master loopback mode.";
+      }
+      enum local-loopback {
+        value 5;
+        description 
+          "In slave loopback mode.";
+      }
+      enum unknown {
+        value 6;
+        description 
+          "Parser and multiplexer combination unexpected.";
+      }
+    }
+    description
+      "The loopback mode of an OAM interface.";
+    reference
+      "IEEE Std 802.3, 57.2.11";
+  }
+  typedef operational-state {
+    type enumeration {
+      enum disabled {
+        value 1;
+        description
+          "IEEE Std 802.3 OAM is disabled.";
+      }
+      enum link-fault {
+        value 2;
+        description
+          "IEEE Std 802.3 OAM has encountered a link fault.";
+      }
+      enum passive-wait {
+        value 3;
+        description
+          "Passive OAM entity waiting to see if peer is
+           OAM capable.";
+      }
+      enum active-send-local {
+        value 4;
+        description
+          "Active OAM entity trying to determine if peer
+           is OAM capable.";
+      }
+      enum send-local-and-remote {
+        value 5;
+        description
+          "OAM discovered peer but still to accept or
+           reject peer configuration.";
+      }
+      enum send-local-and-remote-ok {
+        value 6;
+        description
+          "OAM peering is allowed by local device.";
+      }
+      enum peering-locally-rejected {
+        value 7;
+        description
+          "OAM peering rejected by local device.";
+      }
+      enum peering-remotely-rejected {
+        value 8;
+        description
+          "OAM peering rejected by remote device.";
+      }
+      enum operational {
+        value 9;
+        description
+          "IEEE Std 802.3 OAM is operational.";
+      }
+      enum operational-half-duplex {
+        value 10;
+        description
+          "IEEE Std 802.3 OAM is operating in half-duplex mode.";
+      }
+    }
+    description
+      "Operational state of an interface.";
+    reference
+      "IEEE Std 802.3, 30.3.6.1.4,
+       30.3.6.1.10, and 30.3.6.1.11";
+  }
+
+  typedef vendor-oui {
+    type string {
+      length 6;
+    }
+    description 
+      "24-bit  MAC addresses – large(MA–L). Previously know as 
+       Organizationally Unique Identifier (OUI).";
+    reference
+      "IEEE Std 802-2014, Clause 8.2.2";
+  }
+
+  typedef admin-state {
+    type enumeration {
+      enum enabled {
+        value 1;
+        description
+          "IEEE Std 802.3, Clause 57 OAM is in the 
+           enabled admin state.";
+      }
+      enum disabled {
+        value 2;
+        description
+          "IEEE Std 802.3, Clause 57 OAM is in the 
+           disabled admin state.";
+      }
+    }
+    description 
+      "Admin state of the OAM function on an interface.";
+    reference
+      "IEEE Std 802.3, 30.3.6.1.2 and 30.3.6.2";
+  }
+
+  grouping event-details {
+    description
+      "Nodes describing an event, used in the event log and in
+       notifications.";
+    reference
+      "IETF RFC 4878, Dot3OamEventLogEntry";
+    leaf oui {
+      type vendor-oui;
+      mandatory true;
+      description
+        "Organizationally Unique Identifier for the device that
+         generated the event.";
+    }
+    leaf timestamp {
+      type uint64;
+      units "milliseconds";
+      mandatory true;
+      description
+        "Timestamp in milliseconds since Unix epoch for when the
+         event occurred.";
+    }
+    leaf location {
+      type event-location;
+      mandatory true;
+      description
+        "Where the event occurred (local or remote).";
+    }
+    leaf event-type {
+      type identityref {
+        base event-type;
+      }
+      mandatory true;
+      description
+        "Type of event that occurred.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.10 and 30.3.6.11";
+    }
+    leaf running-total {
+      type yang:counter64;
+      mandatory true;
+      description
+        "The running total number of errors seen since OAM was
+         enabled on the interface. For threshold events, this is the
+         total number of times that particular type of error (e.g.
+         symbol error) has occurred, which may be greater than the
+         number of threshold-crossing event notifications of that
+         type generated during that time (which is conveyed by the
+         event-total leaf).";
+    }
+    leaf event-total {
+      type yang:counter64;
+      mandatory true;
+      description
+        "Total number of times this event has occurred since OAM was
+         enabled on the interface. For threshold events this is the
+         number of events generated of this type (as opposed to the
+         total number of errors of that type, which may be greater,
+         and is conveyed by the running-total leaf.";
+    }
+  }
+
+  grouping threshold-event-details {
+    description
+      "Nodes describing a threshold event, used in the event 
+       log and in notifications";
+    reference
+      "IETF RFC 4878, Dot3OamEventLogEntry";
+
+    container threshold {
+      when "../event-type = 'threshold-event-type'" {
+        description
+          "These nodes only apply to threshold event types";
+      }
+      if-feature "link-monitoring-local or 
+        link-monitoring-remote";
+      description
+        "Nodes specific to threshold (link monitoring) events";
+
+      leaf threshold-event-type {
+        type threshold-event-enum;
+        mandatory true;
+        description
+          "The type of threshold event";
+        reference
+          "IEEE Std 802.3, 57.5.3";
+      }
+      leaf window {
+        type uint64;
+        mandatory true;
+        description
+          "Size of the window in which the event was generated. 
+           Units are dependent on the threshold event type.";
+      }
+      leaf threshold {
+        type uint64;
+        mandatory true;
+        description
+          "Size of the threshold that was breached during the 
+           window. Units are dependent on the threshold 
+           event type.";
+      }
+      leaf value {
+        type uint64;
+        mandatory true;
+        description
+          "Breaching value. Units are dependent on the 
+           threshold event type, and match that 
+           of the threshold.";
+      }
+    }
+  }
+
+  grouping statistics-common {
+    description
+      "Collection of Link OAM event/packet counters.";
+    reference
+      "IETF RFC 4878, Dot3OamStatsEntry";
+    
+    leaf out-information {
+      type yang:counter64;
+      mandatory true;
+      description
+        "Number of information OAMPDUs transmitted.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.20";
+    }
+    leaf in-information {
+      type yang:counter64;
+      mandatory true;
+      description
+        "Number of information OAMPDUs received.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.21";
+    }
+    leaf out-unique-event-notification {
+      if-feature "link-monitoring-local";
+      type yang:counter64;
+      mandatory true;
+      description
+        "Number of unique event notification OAMPDUs transmitted.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.22";
+    }
+    leaf in-unique-event-notification {
+      if-feature "link-monitoring-remote";
+      type yang:counter64;
+      mandatory true;
+      description
+        "Number of unique event notification OAMPDUs received.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.24";
+    }
+    leaf out-duplicate-event-notification {
+      if-feature "link-monitoring-local";
+      type yang:counter64;
+      mandatory true;
+      description
+        "Number of duplicate event notification OAMPDUs
+         transmitted.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.23";
+    }
+    leaf in-duplicate-event-notification {
+      if-feature "link-monitoring-remote";
+      type yang:counter64;
+      mandatory true;
+      description
+        "Number of duplicate event notification OAMPDUs
+         received.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.25";
+    }
+    leaf out-loopback-control {
+      if-feature "remote-loopback-initiate";
+      type yang:counter64;
+      mandatory true;
+      description
+        "Number of loopback control OAMPDUs transmitted.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.26";
+    }
+    leaf in-loopback-control {
+      if-feature "remote-loopback-respond";
+      type yang:counter64;
+      mandatory true;
+      description
+        "Number of loopback control OAMPDUs received.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.27";
+    }
+    leaf out-variable-request {
+      if-feature "remote-mib-retrieval-initiate";
+      type yang:counter64;
+      mandatory true;
+      description
+        "Number of variable request OAMPDUs transmitted.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.28";
+    }
+    leaf in-variable-request {
+      if-feature "remote-mib-retrieval-respond";
+      type yang:counter64;
+      mandatory true;
+      description
+        "Number of variable request OAMPDUs received.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.29";
+    }
+    leaf out-variable-response {
+      if-feature "remote-mib-retrieval-respond";
+      type yang:counter64;
+      mandatory true;
+      description
+        "Number of variable response OAMPDUs transmitted.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.30";
+    }
+    leaf in-variable-response {
+      if-feature "remote-mib-retrieval-initiate";
+      type yang:counter64;
+      mandatory true;
+      description
+        "Number of variable response OAMPDUs received.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.31";
+    }
+    leaf out-org-specific {
+      type yang:counter64;
+      mandatory true;
+      description
+        "Number of organization specific OAMPDUs transmitted.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.32";
+    }
+    leaf in-org-specific {
+      type yang:counter64;
+      mandatory true;
+      description
+        "Number of organization specific OAMPDUs received.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.33";
+    }
+    leaf out-unsupported-codes {
+      type yang:counter64;
+      mandatory true;
+      description
+        "Number of OAMPDUs with unsupported codes transmitted.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.18";
+    }
+    leaf in-unsupported-codes {
+      type yang:counter64;
+      mandatory true;
+      description
+        "Number of OAMPDUs with unsupported codes received.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.19";
+    }
+    leaf frames-lost-due-to-oam {
+      type yang:counter64;
+      mandatory true;
+      description
+        "A count of the number of frames that were dropped by the OAM
+         multiplexer. Since the OAM multiplexer has multiple inputs
+         and a single output, there may be cases where frames are
+         dropped due to transmit resource contention. This counter
+         is incremented whenever a frame is dropped by the OAM
+         layer.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.46";
+    }
+  }
+
+  grouping discovery-remote {
+    description
+      "Nodes describing the discovery process remote end of a link.";
+    leaf mode {
+      type mode;
+      description 
+        "Mode (passive/active).";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.3";
+    }
+    container functions-supported {
+      description
+        "The Link OAM functions supported by this interface.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.7";
+      leaf uni-directional-link-fault {
+        type boolean;
+        description 
+          "Unidirectional link fault support.";
+      }
+      leaf loopback {
+        type boolean;
+        description 
+          "Remote Loopback support.";
+      }
+      leaf link-monitoring {
+        type boolean;
+        description 
+          "Link monitoring support.";
+      }
+      leaf mib-retrieval {
+        type boolean;
+        description 
+          "MIB variable retrieval support.";
+      }
+    }
+    leaf revision {
+      type uint64;
+      config false;
+      description "Configuration revision.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.12 and 30.3.6.1.13";
+    }
+    leaf oammtu {
+      type uint16;
+      units octets;
+      config false;
+      description "The maximum OAMPDU size for the remote node. 
+      The peer OAM entities exchange the maximum size they can 
+      support and negotiate to use the smaller of the two maximum 
+      OAMPDU sizes.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.8 and 30.3.6.1.9";
+    }
+  }
+
+  grouping discovery-local {
+    description
+      "Nodes describing the local end discovery process of a link.";
+    leaf mode {
+      type mode;
+      description 
+        "This object configures the mode of OAM operation as active 
+        or passive. Active mode provides capabilities to initiate 
+        monitoring activities with the remote OAM peer eneity, 
+        while passive mode waits for the peer to initiate actions 
+        with it. Changing this value results in incrementing the 
+        revision field of locally generated OAMPDUs 
+       (see IEEE Std 802.3, 30.3.6.1.12) and triggers the 
+        OAM discovery process if the operational state was 
+        already 'operational'.  The default value is 
+        implementation-dependent.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.3";
+    }
+    container functions-supported {
+      description
+        "The Link OAM functions supported by this interface.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.7";
+      leaf uni-directional-link-fault {
+        if-feature "uni-directional-link-fault";
+        type boolean;
+        description 
+          "Unidirectional link fault support.
+           This affects the setting of the 'Unidirectional Support' 
+           bit in the OAM configuration field put in the 
+           Information OAMPDU.
+           This bit indicates to the peer device that it can send 
+           OAM PDUs on links that are operating in unidirectional
+           mode (traffic flowing in one direction only).";
+      }
+      leaf loopback {
+        if-feature "remote-loopback-initiate";
+        type boolean;
+        default true;
+        description 
+          "Remote Loopback support.";
+      }
+      container link-monitor {
+        if-feature "link-monitoring-remote or 
+          link-monitoring-local";
+        description
+          "Configure link monitor parameters.";
+        reference
+          "IEEE Std 802.3, 57.1.2:c";
+
+        leaf link-monitoring {
+          type boolean;
+          default true;
+          description 
+            "Enable or disable monitoring.
+             This affects the setting of the 'Link Events' bit in the 
+             OAM configuration field put in the Information OAMPDU.
+             This bit indicates to the peer device that the OAM 
+             entity can send and receive Event Notification OAMPDUs.";
+        }
+
+        list event-type {
+          if-feature "link-monitoring-local";
+          key threshold-type;
+          description
+            "A list containing at most one entry for each of the
+             threshold event types. If there is no entry for a
+             particular event type, the default values are used for
+             both window size and threshold.";
+          leaf threshold-type {
+            type threshold-event-enum;
+            description
+              "The type of threshold event for which this list entry 
+               is specifying the configuration.";
+            reference
+              "IEEE Std 802.3, 57.5.3";
+          }
+
+          leaf window {
+            type uint64;
+            description
+              "The size of the window to use when monitoring for 
+               this threshold event. The units, default and upper 
+               and lower bounds depend on the threshold type as
+               follows:
+
+               Symbol Period:
+                 Units:   number of symbols
+                 Default: number of symbols in one second for the
+                          underlying physical layer
+                 Min:     number of symbols in one second for the
+                          underlying physical layer
+                 Max:     number of symbols in one minute for the
+                          underlying physical layer
+
+               Frame:
+                 Units:   deciseconds
+                 Default: 1 second
+                 Min:     1 second
+                 Max:     1 minute
+
+               Frame Period:
+                 Units:   number of frames
+                 Default: number of minFrameSize frames in one 
+                          second for the underlying physical layer
+                 Min:     number of minFrameSize frames in one 
+                          second for the underlying physical layer
+                 Max:     number of minFrameSize frames in one 
+                          minute for the underlying physical layer
+
+               Frame Seconds:
+                 Units:   deciseconds
+                 Default: 60 seconds
+                 Min:     10 seconds
+                 Max:     900 seconds";
+            reference
+              "IEEE Std 802.3, 30.3.6.1.34, 30.3.6.1.36, 30.3.6.1.38, 
+               and 30.3.6.1.40";
+          }
+
+          leaf threshold {
+            type uint64 {
+              range "1..max";
+            }
+            default 1;
+            description
+              "The threshold value to use when determining whether to
+               generate an event given the number of errors that
+               occurred in a given window. The units depend on the
+               threshold type as follows:
+
+               Symbol Period: number of errored symbols
+               Frame:         number of errored frames
+               Frame Period:  number of errored frames
+               Frame Seconds: number of seconds containing at least
+               1 frame error";
+            reference
+              "IEEE Std 802.3, 30.3.6.1.34, 30.3.6.1.36, 30.3.6.1.38, 
+               and 30.3.6.1.40";
+          }
+        }
+      }
+
+      leaf mib-retrieval {
+        if-feature "remote-mib-retrieval-initiate or 
+          remote-mib-retrieval-respond";
+        type boolean;
+        status deprecated;
+        description 
+          "MIB variable retrieval support.
+           This affects the setting of the 'Variable Retrieval' bit 
+           in the OAM configuration field put in the Information 
+           OAMPDU. This bit indicates to the peer device that the OAM
+           entity can send and receive Variable Request and Response 
+           OAMPDUs.";
+      }
+    }
+
+      leaf data-retrieval {
+        if-feature "remote-mib-retrieval-initiate or 
+          remote-mib-retrieval-respond";
+        type boolean;
+        description 
+          "Variable retrieval support.
+           This affects the setting of the 'Variable Retrieval' bit 
+           in the OAM configuration field put in the Information 
+           OAMPDU. This bit indicates to the peer device that the OAM
+           entity can send and receive Variable Request and Response 
+           OAMPDUs.";
+      }
+    }
+
+    leaf revision {
+      type uint64;
+      config false;
+      description 
+        "Configuration revision.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.12 and 30.3.6.1.13";
+    }
+    leaf oammtu {
+      type uint16;
+      units octets;
+      config false;
+      description 
+        "The maximum OAMPDU size for the local node. The peer OAM 
+         entities exchange the maximum size they can support and 
+         negotiate to use the smaller of the two maximum OAMPDU sizes.";
+      reference
+        "IEEE Std 802.3, 30.3.6.1.8 and 30.3.6.1.9";
+    }
+  }
+
+  grouping discovery-info {
+    description 
+      "Information relating to the discovery process.";
+
+    container local {
+      description
+        "Properties of the local device.";
+
+      leaf operational-status {
+        type operational-state;
+        config false;
+        mandatory true;
+        description 
+          "Operational status.";
+        reference
+          "IETF RFC 4878, dot3OamOperStatus; IEEE Std 802.3, 
+           30.3.6.1.4, 30.3.6.1.10, and 30.3.6.1.11";
+      }
+      leaf loopback-mode {
+        if-feature "remote-loopback-initiate or 
+          remote-loopback-respond";
+        type loopback-status;
+        config false;
+        mandatory true;
+        description 
+          "The loopback mode the interface is in.";
+        reference
+          "IEEE Std 802.3, 30.3.6.1.14";
+      }
+      uses discovery-local;
+    }
+
+    container remote {
+      config false;
+      description
+        "Properties of the remote (peer) device.";
+
+      leaf mac-address {
+        type ieee:mac-address;
+        description 
+          "Remote MAC address.";
+        reference
+          "IEEE Std 802.3, 30.3.6.1.5";
+      }
+      leaf vendor-oui {
+        type vendor-oui;
+        description 
+          "Remote vendor OUI.";
+        reference
+          "IEEE Std 802.3, 30.3.6.1.16";
+      }
+      leaf vendor-info {
+        type uint64;
+        description
+          "Remote vendor info. The semantics of this value are
+           proprietary and specific to the vendor.";
+        reference
+          "IEEE Std 802.3, 30.3.6.1.17";
+      }
+      leaf loopback-mode {
+        type loopback-status;
+        mandatory true;
+        description 
+          "The loopback mode the interface is in.";
+        reference
+          "IEEE Std 802.3, 30.3.6.1.15";
+      }
+
+      uses discovery-remote;
+    }
+  }
+
+augment '/if:interfaces/if:interface/link-oam' {
+ description
+ "Augments the interface model with nodes for PME managed objects retrieval.";
+ container remote-mib-retrieval {
+ if-feature "remote-mib-retrieval-initiate or remote-mib-retrieval-respond";
+ description
+ "Ethernet link oam - remote-mib retrieval.";
+ leaf response-timeout {
+ type uint8 {
+ range “2..10”;
+ }
+ default 5;
+ units seconds;
+ description
+ “This is the maximum time to get the response/responses (in case of bonding group) from the CPE 
+for the remote-mib retrieval request.”;
+ } 
+ container mac-objects-retrieval {
+ description
+ "Remote mib - MAC Statistics.";
+ config false;
+ action request-mac-objects {
+ description
+ "Request MAC Statistics from the peer DTE.";
+ reference
+ "IEEE Std 802.3, 57.1.2:c(2)";
+ }
+ container status {
+ description
+ "Status of the mac-objects retrieval.";
+ leaf state {
+ type identityref {
+ base mib-retrieval-state;
+ }
+ description
+ "The state of the mac-stats retrieval.";
+ reference
+ “;
+ }
+ leaf timestamp {
+ type yang:date-and-time;
+ description
+ "The time at which mac stats retrieval entered its state.";
+ }
+ }
+ container mac-objects {
+ description
+ "Peer DTE - MAC Objects. The counters display is based on the Peer DTE support. For the peer DTE 
+unsupported counters no output shall be displayed";
+ list mac-object {
+ key "mac-id";
+ description
+ "This list has the attributes managed by a particular MAC entity";
+ leaf mac-id {
+ type uint32;
+ description
+ "The value of mac-id is assigned so as to uniquely identify a MAC among the subordinate 
+managed objects of the containing object.";
+ reference
+ "30.3.1.1.1 of IEEE Std 802.3-2022";
+ }
+ leaf frames-transmitted-ok {
+ type yang:counter64;
+ description
+ "A count of frames that are successfully transmitted.";
+ reference
+ "30.3.1.1.2 of IEEE Std 802.3-2022";
+ }
+ leaf single-collision-frames {
+ type yang:counter64;
+ description
+ "A count of frames that are involved in a single collision and are subsequently transmitted 
+successfully.";
+ reference
+ "30.3.1.1.3 of IEEE Std 802.3-2022";
+ }
+ leaf multiple-collision-frames {
+ type yang:counter64;
+ description
+ "A count of frames that are involved in more than one collision and are subsequently 
+transmitted successfully.";
+ reference
+ "30.3.1.1.4 of IEEE Std 802.3-2022";
+ }
+ leaf frames-received-ok {
+ type yang:counter64;
+ description
+ "A count of frames that are successfully received. This does not include frames received 
+with frame-too-long, FCS,length or alignment errors, or frames lost due to internal MAC sublayer error.";
+ reference
+ "30.3.1.1.5 of IEEE Std 802.3-2022";
+ }
+ leaf frame-check-sequence-errors {
+ type yang:counter64;
+ description
+ "A count of frames that are an integral number of octets in length and do not pass the FCS 
+check.";
+ reference
+ "30.3.1.1.6 of IEEE Std 802.3-2022";
+ }
+ leaf alignment-errors {
+ type yang:counter64;
+ description
+ "A Count of frames that are not an integral number of octets in length and do not pass the FCS 
+check.";
+ reference
+ "30.3.1.1.7 of IEEE Std 802.3-2022";
+ }
+ leaf octets-transmitted-ok {
+ type yang:counter64;
+ description
+ "A count of data and padding octets of frames that are successfully transmitted.";
+ reference
+ "30.3.1.1.8 of IEEE Std 802.3-2022";
+ }
+ leaf frames-with-deferred-xmissions {
+ type yang:counter64;
+ description
+ "A count of frames whose transmission was delayed on its first attempt because the medium 
+was busy.";
+ reference
+ "30.3.1.1.9 of IEEE Std 802.3-2022";
+ }
+ leaf late-collisions {
+ type yang:counter64;
+ description
+ "A count of the times that a collision has been detected later than 512 bit times into the 
+transmitted packet. A late collision is counted twice, i.e., both as a collision and as a late-collision.";
+ reference
+ "30.3.1.1.10 of IEEE Std 802.3-2022";
+ }
+ leaf frames-aborted-due-to-xs-colls {
+ type yang:counter64;
+ description
+ "A count of the frames that due to excessive collisions are not transmitted successfully.";
+ reference
+ "30.3.1.1.11 of IEEE Std 802.3-2022";
+ }
+ leaf frames-lost-due-to-int-mac-xmit-error {
+ type yang:counter64;
+ description
+ "A count of frames that would otherwise be transmitted by the station, but could not be sent 
+due to an internal MAC sublayer transmit error.";
+ reference
+ "30.3.1.1.12 of IEEE Std 802.3-2022";
+ }
+ leaf carrier-sense-errors {
+ type yang:counter64;
+ description
+ "A count of times that the carrierSense functionality was not asserted or was deasserted 
+during the transmission of a frame without collision.";
+ reference
+ "30.3.1.1.13 and 7.2.4.6 of IEEE Std 802.3-2022";
+ }
+ leaf octets-received-ok {
+ type yang:counter64;
+ description
+ "A count of data and padding octets in frames that are successfully received. This does not 
+include octets in frames received with frame-too-long, FCS, length or alignment errors, or frames lost 
+due to internal MAC sublayer error.";
+ reference
+ "30.3.1.1.14 of IEEE Std 802.3-2022";
+ }
+ leaf frames-lost-due-to-int-mac-rcv-error {
+ type yang:counter64;
+ description
+ "A count of frames that would otherwise be received by the station, but could not be accepted 
+due to an internal MAC sublayer receive error.";
+ reference
+ "30.3.1.1.15 of IEEE Std 802.3-2022";
+ }
+ leaf promiscuous-status { 
+ type boolean;
+ description
+ "True for promiscuous mode enabled, and false otherwise.";
+ reference
+ "30.3.1.1.16 of IEEE Std 802.3-2022";
+ }
+ leaf-list read-multicast-address-list {
+ type yang:mac-address;
+ description
+ "Return the current multicast address list.";
+ reference
+ "30.3.1.1.17 of IEEE Std 802.3-2022";
+ }
+ leaf multicast-frames-xmitted-ok {
+ type yang:counter64;
+ description
+ "A count of frames that are successfully transmitted, to a group destination address other than 
+broadcast.";
+ reference
+ "30.3.1.1.18 of IEEE Std 802.3-2022";
+ }
+ leaf broadcast-frames-xmitted-ok {
+ type yang:counter64;
+ description
+ "A count of the frames that were successfully transmitted, to the broadcast address. Frames 
+transmitted to multicast addresses are not broadcast frames and are excluded.";
+ reference
+ "30.3.1.1.19 of IEEE Std 802.3-2022";
+ }
+ leaf frames-with-excessive-deferral {
+ type yang:counter64;
+ description
+ "A count of frames that deferred for an excessive period of time.";
+ reference
+ "30.3.1.1.20 of IEEE Std 802.3-2022";
+ }
+ leaf multicast-frames-received-ok {
+ type yang:counter64;
+ description
+ "A count of frames that are successfully received and are directed to an active nonbroadcast 
+group address. This does not include frames received with frame-too-long, FCS, length, or alignment 
+error, or frames lost due to internal MAC sublayer error.";
+ reference
+ "30.3.1.1.21 of IEEE Std 802.3-2022";
+ }
+ leaf broadcast-frames-received-ok {
+ type yang:counter64;
+ description
+ "A count of frames that are successfully received and are directed to the broadcast group 
+address. This does not include frames received with frame-too-long ,FCS, length, or alignment errors, or 
+frames lost due to internal MAC sublayer error.";
+ reference
+ "30.3.1.1.22 of IEEE Std 802.3-2022";
+ }
+ leaf in-range-length-errors {
+ type yang:counter64;
+ description
+ "A count of frames with a length field value between the minimum unpadded LLC data size and 
+the maximum allowed LLC data size,inclusive, that does not match the number of LLC data octets 
+received. The counter also contains frames with a length field value less than the minimum unpadded 
+LLC data size.";
+ reference
+ "30.3.1.1.23 of IEEE Std 802.3-2022";
+ }
+ leaf out-of-range-length-field {
+ type yang:counter64;
+ description
+ "A count of frames with a length field value greater than the maximum allowed LLC data size.";
+ reference
+ "30.3.1.1.24 of IEEE Std 802.3-2022";
+ }
+ leaf frame-too-long-errors {
+ type yang:counter64;
+ description
+ "A count of frames that are received and exceed the maximum permitted frame size.";
+ reference
+ "30.3.1.1.25 of IEEE Std 802.3-2022";
+ }
+ leaf mac-enable-status { //TODO : check if this leaf needs to be ro or rw because it is marked to be 
+GET-SET in standard.
+ type boolean;
+ description
+ "True if MAC sublayer is enabled, and false if disabled.";
+ reference
+ "30.3.1.1.26 of IEEE Std 802.3-2022";
+ }
+ leaf transmit-enable-status { //TODO : check if this leaf needs to be ro or rw because it is marked 
+to be GET-SET in standard.
+ type boolean;
+ description
+ "True if transmission is enabled, and false otherwise.";
+ reference
+ "30.3.1.1.27 of IEEE Std 802.3-2022";
+ }
+ leaf multicast-receive-status { //TODO : check if this leaf needs to be ro or rw because it is marked 
+to be GET-SET in standard.
+ type boolean;
+ description
+ "True if multicast receive is enabled, and false otherwise.";
+ reference
+ "30.3.1.1.28 of IEEE Std 802.3-2022";
+ }
+ leaf read-mac-address { //TODO : check if this leaf needs to be ro or rw because it is marked to be 
+GET-SET in standard.
+ type yang:mac-address;
+ description
+ "Read the MAC station address.";
+ reference
+ "30.3.1.1.29 of IEEE Std 802.3-2022";
+ }
+ leaf-list collision-frames {
+ type yang:counter64;
+ max-elements 32;
+ description
+ "A histogram of collision activity. The indices of this array (1 to attemptLimit–1) denote the 
+number of collisions experienced in transmitting a frame. Each element of this array contains a counter 
+that denotes the number of frames that have experienced a specific number of collisions. ";
+ reference
+ "30.3.1.1.30 of IEEE Std 802.3-2022";
+ }
+ leaf mac-capabilities {
+ type bits {
+ bit half-duplex {
+ position 0;
+ description
+ "Capable of operating in half duplex mode.";
+ }
+ bit full-duplex {
+ position 1;
+ description
+ "Capable of operating in full duplex mode.";
+ }
+ }
+ description
+ "This indicates the duplex capabilities of the MAC.";
+ reference
+ "30.3.1.1.31 of IEEE Std 802.3-2022";
+ }
+ leaf duplex-status { //TODO : check if this leaf needs to be ro or rw because it is marked to be GETSET in standard.
+ type enumeration {
+ enum "full-duplex" {
+ description "Full duplex mode";
+ }
+ enum "half-duplex" {
+ description "Half duplex mode";
+ }
+ enum "unknown" {
+ description "Duplex status unknown";
+ }
+ }
+ description
+ "The current mode of operation of the MAC entity, either half duplex, full duplex, or unknown";
+ reference
+ "30.3.1.1.32 of IEEE Std 802.3-2022";
+ }
+ leaf rate-control-ability {
+ type boolean;
+ description
+ "True for operating speeds above 1000 Mb/s where Rate Control through lowering the average 
+data rate of the MAC sublayer, with frame granularity, is supported, and false otherwise.";
+ reference
+ "30.3.1.1.33 of IEEE Std 802.3-2022";
+ }
+ leaf rate-control-status { //TODO : check if this leaf needs to be ro or rw because it is marked to be 
+GET-SET in standard.
+ type enumeration {
+ enum "rate-control-off" {
+ description
+ "Rate control mode disabled";
+ }
+ enum "rate-control-on" {
+ description
+ "Rate control mode enabled";
+ }
+ enum "unknown" {
+ description
+ "Rate control mode unknown";
+ }
+ }
+ description
+ "The current Rate Control mode of operation of the MAC sublayer.";
+ reference
+ "30.3.1.1.34 of IEEE Std 802.3-2022";
+ }
+ leaf defer-control-ability {
+ type boolean;
+ description
+ "The enumeration “true” is returned when the interframe spacing is accomplished within the 
+MAC sublayer, the enumeration “false” is returned otherwise.";
+ reference
+ "30.3.1.1.35 of IEEE Std 802.3-2022";
+ }
+ leaf defer-control-status { //TODO : check if this leaf needs to be ro or rw because it is marked to 
+be GET-SET in standard.
+ type enumeration {
+ enum "defer-control-off" {
+ description
+ "Defer control mode disabled";
+ }
+ enum "defer-control-on" {
+ description
+ "Defer control mode enabled";
+ }
+ enum "unknown" {
+ description
+ "Defer control mode unknown";
+ }
+ }
+ description
+ "The current Rate Control mode of operation of the MAC sublayer.";
+ reference
+ "30.3.1.1.36 of IEEE Std 802.3-2022";
+ }
+ leaf max-frame-length {
+ type enumeration {
+ enum "unknown"
+ {
+ description
+ "Frame length capability unknown";
+ }
+ enum "basicFrame"
+ {
+ description
+ "Capable of supporting maxBasicFrameSize 
+ (1518 octet frames)";
+ }
+ enum "qTaggedFrame"
+ {
+ description
+ "Capable of supporting maxBasicFrameSize + qTagPrefixSize (1522 octet frames)";
+ }
+ enum "envelopeFrame"
+ {
+ description
+ "Capable of supporting maxEnvelopeFrameSize (2000 octet frames)";
+ }
+ }
+ description
+ "This indicates the MAC frame length at which the aFramesTooLong counter is incremented.";
+ reference
+ "30.3.1.1.37 of IEEE Std 802.3-2022";
+ }
+ leaf slow-protocol-frame-limit {
+ type uint64;
+ default 10;
+ description
+ "The maximum number of Slow Protocol frames of a given subtype that can be transmitted in a 
+one-second period.";
+ reference
+ "30.3.1.1.38 of IEEE Std 802.3-2022";
+ }
+ } //mac-object
+ } //mac-objects
+ } //mac-objects-retrieval
+ container pme-objects-retrieval {
+ description
+ “Remote mib retrieval - PME Managed objects.”;
+ reference
+ “57.1.2 of IEEE Std 802.3-2022
+ 30.3.1.1 of IEEE Std 802.3-2022”;
+ config false;
+ action request-pme-objects {
+ description
+ “Request PME managed object attributes from the peer DTE.”;
+ reference
+ “IEEE Std 802.3, 57.1.2:c(2)”;
+ }
+ container status {
+ description
+ “Status of the PME mangaged objects retrieval.”;
+ leaf state {
+ type identityref {
+ base mib-retrieval-state;
+ }
+ description
+ “The state of the pme objects retrieval.”;
+ reference
+ ““;
+ }
+ leaf timestamp {
+ type yang:date-and-time;
+ description
+ “The time at which pme managed objects are retrieved.”;
+ }
+ }
+ container pme-objects {
+ description
+ “PME Managed objects.PME objects displayed is based on the Peer DTE support. For the peer DTE 
+unsupported objects no ouput shall be displayed”;
+ list pme-object {
+ key “pmeid”;
+ description
+ “The list of PME Responses received for the PME variable request.Incase of multi-link Bonding 
+group, for each physical interface which is part of the Bonding group 1 response is expected. The list 
+shall contain list of PME responses.For the PME variable request on single link, the list shall contain 1 
+response.”;
+ leaf pmeid {
+ type uint64;
+ description
+ “ The value of aPMEID value. it is assigned so as to uniquely identify a PME among the 
+subordinate managed objects of the containing object (oPAF).”;
+ reference
+ “30.11.2.1.1 of IEEE Std 802.3-2018”;
+ }
+ leaf adminstate {
+ type admin-state;
+ description
+ “This leaf indicates the state of the PME. The enumeration “disabled” indicates that the PME is 
+disabled, the enumeration “enabled” indicates that the PME is enabled..”;
+ reference
+ “30.11.2.1.2 of IEEE Std 802.3-2018”;
+ }
+ leaf status {
+ type identityref {
+ base pme-status;
+ }
+ description
+ “This leaf indicates the PME status. Value “not ready” indicates that the link is down and 
+handshake tones are not being received from the peer device, the value “ready” indicates that the link is 
+down and that handshake tones are being received from a peer device, the value “initializing” indicates 
+that the link is initializing.”; 
+ reference
+ “30.11.2.1.3 of IEEE Std 802.3-2018”;
+ }
+ leaf signal-to-noise-ratio-margin {
+ type uint64;
+ description
+ “This leaf indicates the PME current signal to noise ratio (SNR) Margin.”;
+ reference
+ “30.11.2.1.4 of IEEE Std 802.3-2018”;
+ }
+ leaf TCCodingViolations {
+ type yang:counter64;
+ description
+ “A count of 64/65-octet encapsulation error. Increment the counter by one for each 64/65-octet
+encapsulation error detected by the 64/65-octet receive function.”;
+ reference
+ “30.11.2.1.5 of IEEE Std 802.3-2018”;
+ }
+ leaf-list profile-number {
+ type uint32;
+ max-elements 6;
+ description
+ “This leaf indicates the PME current signal to noise ratio (SNR) Margin.”;
+ reference
+ “30.11.2.1.6 of IEEE Std 802.3-2018”;
+ }
+ leaf pme-profile-state {
+ type identityref {
+ base pme-prof-state;
+ }
+ description
+ “This leaf indicates the first instance of aOperatingProfile and it indicates the pme profile state 
+and it has following values: 
+no link which means link is down
+match which means link up using a profile 
+ no match which means link up not using a profile
+ activate failure which mean link activate failure.”;
+ reference
+ “30.11.2.1.7 of IEEE Std 802.3-2018”;
+ }
+ leaf operating-profile {
+ type uint32;
+ description
+ “This leaf indicates the second instance of aOperatingProfile and it indicates the operating 
+profile number.”;
+ reference
+ “30.11.2.1.7 of IEEE Std 802.3-2018”;
+ }
+ leaf PMEFECCorrectedBlocks {
+ type yang:counter64;
+ description
+ “For a 10PASS-TS PME, a count of corrected FEC blocks. This counter will not increment for 
+other PHY types. Increment the counter by one for each received block that is corrected by the FEC
+function in the PME.”;
+ reference
+ “30.11.2.1.8 of IEEE Std 802.3-2018”;
+ }
+ leaf PMEFECUncorrectableBlocks {
+ type yang:counter64;
+ description
+ “For a 10PASS-TS PME, a count of uncorrectable FEC blocks. This counter will not increment for
+other PME types. Increment the counter by one for each FEC block that is determined to be
+uncorrectable by the FEC function in the PME.”;
+ reference
+ “30.11.2.1.9 of IEEE Std 802.3-2018”;
+ }
+ leaf TCCRCErrors {
+ type yang:counter64;
+ description
+ “A count of TC-CRC errors. Increment the counter by one for each TC-CRC error detected by the
+64/65-octet receive function.”;
+ reference
+ “30.11.2.1.10 of IEEE Std 802.3-2018”;
+ }
+ } // pme-objects.
+ } // pme-objects.
+ } // pme-objects-retrieval.
+ } } 2. Proposedchange - add new identity identity pme-status {
+ description
+ “Base identity to represent the state of a pme status.”;
+ }
+ identity not-ready {
+ base pme-status;
+ description
+ “This value indicates that the link is down and handshake tones are not being received from the peer 
+device.”;
+ }
+ identity ready {
+ base pme-status;
+ description
+ “This value indicates that the link is down and that handshake tones are being received from a peer 
+device.”;
+ }
+ identity initializing {
+ base pme-status;
+ description
+ “This value indicates that the link is initializing.”;
+ } 
+ 
+ identity pme-prof-state {
+ description
+ “Base identity to represent the state of a pme profile state.”;
+ }
+ identity no-link {
+ base pme-prof-state;
+ description
+ “link is down.”;
+ }
+ identity match {
+ base pme-prof-state;
+ description
+ “link up using a profile.”;
+ }
+ identity no-match {
+ base pme-prof-state;
+ description
+ “link up not using a profile.”;
+ }
+ 
+ identity activate-failure {
+ base pme-prof-state;
+ description
+ “link activate failure.”;
+ } "
+
+  augment '/if:interfaces/if:interface' {
+    when
+      "derived-from-or-self(if:type, 'ianaift:ethernetCsmacd') or
+       derived-from-or-self(if:type, 'ianaift:ptm') " {
+    description
+      "Augments the interface model with nodes
+       specific to Ethernet Link OAM.";
+    }
+    description 
+      "Augments Ethernet interface model with nodes
+       specific to Ethernet Link OAM.";
+
+    container link-oam {
+      presence
+        "Implies Link OAM is configured on the interface.";
+      description
+        "Interface operational state for Ethernet Link OAM.";
+
+      leaf admin {
+        type admin-state;
+        default disabled;
+        description
+          "This object is used to provision the default 
+           administrative OAM mode for this interface. This object 
+           represents the desired state of OAM for this interface.
+           It starts in the disabled state until an explicit 
+           management action or configuration information retained by 
+           the system causes a transition to the enabled(1) state. 
+           When enabled(1), Ethernet OAM will attempt to operate over 
+           this interface. The default value is 
+           implementation-dependent.";
+      }
+
+      container discovery-info {
+        description 
+          "Information relating to the discovery process.";
+        uses discovery-info;
+      }
+
+      container event-log {
+        config false;
+        description
+          "List of Ethernet Link OAM event log entries on the
+           interface.";
+
+        list event-log-entry {
+          key "index";
+          description
+            "Ethernet Link OAM event log entry.";
+          leaf index {
+            type uint64;
+            description 
+              "Index of this event in the event log.";
+          }
+          uses event-details;
+          uses threshold-event-details;
+        }
+      }
+
+      container statistics {
+        config false;
+        description 
+          "Statistics for an 802.3 OAM interface.";
+
+        uses statistics-common;
+
+        leaf local-error-symbol-period-log-entries {
+          type yang:counter64;
+          mandatory true;
+          description
+            "Number of local error symbol period log entries.";
+        }
+        leaf local-error-frame-log-entries {
+          type yang:counter64;
+          mandatory true;
+          description
+            "Number of local error frame log entries.";
+        }
+        leaf local-error-frame-period-log-entries {
+          type yang:counter64;
+          mandatory true;
+          description
+            "Number of local error frame period log entries.";
+        }
+        leaf local-error-frame-second-log-entries {
+          type yang:counter64;
+          mandatory true;
+          description
+            "Number of local error frame second log entries.";
+        }
+        leaf remote-error-symbol-period-log-entries {
+          if-feature "link-monitoring-remote";
+          type yang:counter64;
+          mandatory true;
+          description
+            "Number of remote error symbol period log entries.";
+        }
+        leaf remote-error-frame-log-entries {
+          if-feature "link-monitoring-remote";
+          type yang:counter64;
+          mandatory true;
+          description
+            "Number of remote error frame log entries.";
+        }
+        leaf remote-error-frame-period-log-entries {
+          if-feature "link-monitoring-remote";
+          type yang:counter64;
+          mandatory true;
+          description
+            "Number of remote error frame period log entries.";
+        }
+        leaf remote-error-frame-second-log-entries {
+          if-feature "link-monitoring-remote";
+          type yang:counter64;
+          mandatory true;
+          description
+            "Number of remote error frame second log entries.";
+        }
+      }
+
+      action remote-loopback {
+        if-feature "remote-loopback-initiate";
+        description
+          "Start/stop remote loopback on the specified interface.";
+        reference
+          "IEEE Std 802.3, 57.1.2:b";
+        input {
+          leaf enable {
+            type boolean;
+            mandatory true;
+            description
+              "Whether to enable or disable remote loopback.";
+          }
+        }
+        output {
+          leaf success {
+            type boolean;
+            mandatory true;
+            description
+              "True if the operation was successful, 
+               false otherwise.";
+          }
+          leaf error-message {
+            type string;
+            description
+              "If the operation failed, optionally used to 
+               provide extra details.";
+          }
+        }
+      }
+
+      action reset-stats {
+        description
+          "Reset Ethernet Link OAM statistics on this interface.";
+        output {
+          leaf success {
+            type boolean;
+            mandatory true;
+            description
+              "True if the operation was successful,
+               false otherwise.";
+          }
+          leaf error-message {
+            type string;
+            description
+              "If the operation failed, optionally used to provide
+               extra details.";
+          }
+        }
+      }
+
+      notification non-threshold-event {
+        description
+          "This notification is sent when a local or remote 
+           non-threshold crossing event is detected.";
+        uses event-details {
+          refine event-type {
+            must ". != 'threshold-event-type'" {
+              description
+                "This leaf is not set to 
+                 'threshold-event-type'.";
+            }
+          }
+        }
+      }
+
+      notification threshold-event {
+        if-feature "link-monitoring-local or 
+          link-monitoring-remote";
+        description
+          "This notification is sent when a local or remote 
+           threshold crossing event is detected.";
+        uses event-details {
+          refine event-type {
+            must ". = 'threshold-event-type'" {
+              description
+                "This leaf is set to 'threshold-event-type'.";
+            }
+          }
+        }
+        uses threshold-event-details;
+      }
+    }
+  }
+}

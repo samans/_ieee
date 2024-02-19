@@ -1,0 +1,34 @@
+module: ieee802-ethernet-pse
+  augment /if:interfaces/if:interface/eth-if:ethernet:
+    +--rw pse
+       +--ro supported-pse-type?   identityref
+       +--rw multi-pair!
+       |  +--rw pse-enable?              boolean
+       |  +--rw powering-pairs?          identityref
+       |  +--ro pairs-control-ability?   boolean
+       |  +--ro detection-status?        multi-pair-detection-state
+       |  +--ro classifications?         power-class
+       |  +--ro statistics
+       |  |  +--ro power-denied?        yang:counter64
+       |  |  +--ro invalid-signature?   yang:counter64
+       |  |  +--ro mps-absent?          yang:counter64
+       |  |  +--ro overload?            yang:counter64
+       |  |  +--ro short?               yang:counter64
+       |  |  +--ro cumulative-energy?   yang:counter64
+       |  +--ro actual-power?            decimal64
+       |  +--ro power-accuracy?          uint64
+       +--rw single-pair!
+          +--rw pse-enable?         boolean
+          +--ro detection-status?   single-pair-detection-state
+          +--ro podl-type?          enumeration
+          +--ro detected-pd-type?   enumeration
+          +--ro pd-power-class?     power-class
+          +--ro statistics
+          |  +--ro power-denied?        yang:counter64
+          |  +--ro invalid-signature?   yang:counter64
+          |  +--ro invalid-class?       yang:counter64
+          |  +--ro overload?            yang:counter64
+          |  +--ro fvs-absence?         yang:counter64
+          |  +--ro cumulative-energy?   yang:counter64
+          +--ro actual-power?       decimal64
+          +--ro power-accuracy?     uint64

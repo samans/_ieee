@@ -1,0 +1,14 @@
+8a9,13
+>   revision 2024-02-12 {
+>     description "Updates under IEEE Std 802.3.2-202x, Draft 1.";
+>     reference "IEEE Std 802.3.2-202x, unless dated explicitly";
+> }
+> 
+337c342
+<                 "Deprecated in-frames-pfc as not defined in base standard.
+---
+>                 “Deprecated in-frames-pfc as not defined in base standard.
+348c353
+<                 "Deprecated out-frames-pfc as not defined in base standard.A count of PFC MAC Control frames transmitted on
+---
+>                 “Deprecated out-frames-pfc as not defined in base standard.A count of PFC MAC Control frames transmitted on

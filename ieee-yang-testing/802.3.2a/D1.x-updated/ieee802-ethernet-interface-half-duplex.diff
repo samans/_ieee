@@ -1,0 +1,14 @@
+9a10,14
+>   revision 2024-02-12 {
+>     description "Updates under IEEE Std 802.3.2-202x, Draft 1.1";
+>     reference "IEEE Std 802.3-2022, unless dated explicitly"; 
+> }
+> 
+43,46c48,49
+<   revision 2024-02-12 {
+<     description "Updates under IEEE Std 802.3.2-202x, Draft 1.1";
+<     reference "IEEE Std 802.3-2022, unless dated explicitly"; 
+<   }
+---
+>   reference 
+>     "IEEE Std 802.3-2022, unless dated explicitly";

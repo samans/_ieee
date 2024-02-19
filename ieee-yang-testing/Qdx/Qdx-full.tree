@@ -1,0 +1,9 @@
+module: ieee802-dot1q-cbsa-bridge
+
+  augment /if:interfaces/if:interface/dot1q:bridge-port:
+    +--rw cbsa-parameters {credit-based-shaper-algorithm}?
+       +--rw cbsa-parameter-table* [traffic-class]
+          +--rw traffic-class       dot1q-types:traffic-class-type
+          +--rw admin-idle-slope?   uint64
+          +--ro oper-idle-slope?    uint64
+

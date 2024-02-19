@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8'?>
+  <lldp xmlns="urn:ieee:std:802.1AB:yang:ieee802-dot1ab-lldp">
+    <local-system-data>
+      <system-capabilities-supported>bridge</system-capabilities-supported>
+    </local-system-data>
+  </lldp>
+  <ptp xmlns="urn:ieee:std:1588:yang:ieee1588-ptp">
+    <common-services>
+      <cmlds>
+        <ports>
+          <port>
+            <port-index>0</port-index>
+            <link-port-ds>
+              <version-number>1</version-number>
+              <minor-version-number>0</minor-version-number>
+            </link-port-ds>
+          </port>
+        </ports>
+      </cmlds>
+    </common-services>
+  </ptp>
+  <system-capabilities xmlns="urn:ietf:params:xml:ns:yang:ietf-system-capabilities">
+    <datastore-capabilities>
+      <datastore xmlns:ds="urn:ietf:params:xml:ns:yang:ietf-datastores">ds:operational</datastore>
+      <per-node-capabilities>
+        <node-selector>/</node-selector>
+        <subscription-capabilities xmlns="urn:ietf:params:xml:ns:yang:ietf-notification-capabilities">
+          <max-nodes-per-update>5</max-nodes-per-update>
+<!--          <periodic-notifications-supported xmlns:nc="urn:ietf:params:xml:ns:yang:ietf-notification-capabilities">nc:state-changes</periodic-notifications-supported> -->
+          <minimum-update-period>250</minimum-update-period>
+<!--          <on-change-supported xmlns:nc="urn:ietf:params:xml:ns:yang:ietf-notification-capabilities">nc:state-changes</on-change-supported> -->
+          <minimum-dampening-period>1000</minimum-dampening-period>
+<!--           <supported-excluded-change-type  xmlns:nc="urn:ietf:params:xml:ns:yang:ietf-notification-capabilities">nc:none</supported-excluded-change-type> -->
+        </subscription-capabilities>
+      </per-node-capabilities>
+    </datastore-capabilities>
+  </system-capabilities>
+  <yang-library xmlns="urn:ietf:params:xml:ns:yang:ietf-yang-library">
+    <module-set>
+      <name>dds-minimal-module-set</name>
+      <module>
+        <name>ieee802-dot1ab-lldp</name>
+        <revision>2022-03-15</revision>
+        <namespace>lldp</namespace>
+      </module>
+    </module-set>
+    <schema>
+      <name>dds-minimal-schema</name>
+      <module-set>dds-minimal-module-set</module-set>
+    </schema>
+    <datastore>
+      <name xmlns:ds="urn:ietf:params:xml:ns:yang:ietf-datastores">ds:operational</name>
+      <schema>dds-minimal-schema</schema>
+    </datastore>
+    <content-id>"0001"</content-id>
+  </yang-library>
+  <modules-state xmlns="urn:ietf:params:xml:ns:yang:ietf-yang-library">
+    <module-set-id>"module-set-id"</module-set-id>
+    <module>
+      <name>ieee802-dot1ab-lldp</name>
+      <revision>2022-03-15</revision>
+      <schema>dds-minimal-schema</schema>
+      <namespace>lldp</namespace>
+      <conformance-type>implement</conformance-type>
+      <submodule>
+        <name>sub1</name>
+        <revision>2023-12-21</revision>
+        <schema/>
+      </submodule>
+    </module>
+  </modules-state>
+

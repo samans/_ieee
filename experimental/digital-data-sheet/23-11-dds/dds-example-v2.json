@@ -1,0 +1,103 @@
+{
+  "ieee1588-ptp:ptp": {
+    "common-services": {
+      "cmlds": {
+        "ports": {
+          "port": [
+            {
+              "port-index": 0,
+              "link-port-ds": {
+                "version-number": 1,
+                "minor-version-number": 0
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "ieee802-dot1ab-lldp:lldp": {
+    "remote-statistics": {
+      "remote-inserts": 0,
+      "remote-deletes": 0,
+      "remote-drops": 0,
+      "remote-ageouts": 0
+    },
+    "local-system-data": {
+      "system-capabilities-supported": "bridge"
+    }
+  },
+  "ietf-system-capabilities:system-capabilities": {
+    "datastore-capabilities": [
+      {
+        "datastore": "ietf-datastores:operational",
+        "per-node-capabilities": [
+          {
+            "node-selector": "/",
+            "ietf-notification-capabilities:subscription-capabilities": {
+              "max-nodes-per-update": 5,
+              "minimum-update-period": 250,
+              "minimum-dampening-period": 1000,
+              "supported-excluded-change-type": [
+                "none"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "ietf-notification-capabilities:subscription-capabilities": {
+      "supported-excluded-change-type": [
+        "none"
+      ]
+    }
+  },
+  "ietf-yang-library:yang-library": {
+    "module-set": [
+      {
+        "name": "dds-minimal-module-set",
+        "module": [
+          {
+            "name": "ieee802-dot1ab-lldp",
+            "revision": "2022-03-15",
+            "namespace": "lldp"
+          }
+        ]
+      }
+    ],
+    "schema": [
+      {
+        "name": "dds-minimal-schema",
+        "module-set": [
+          "dds-minimal-module-set"
+        ]
+      }
+    ],
+    "datastore": [
+      {
+        "name": "ietf-datastores:operational",
+        "schema": "dds-minimal-schema"
+      }
+    ],
+    "content-id": "\"0001\""
+  },
+  "ietf-yang-library:modules-state": {
+    "module-set-id": "\"module-set-id\"",
+    "module": [
+      {
+        "name": "ieee802-dot1ab-lldp",
+        "revision": "2022-03-15",
+        "schema": "dds-minimal-schema",
+        "namespace": "lldp",
+        "conformance-type": "implement",
+        "submodule": [
+          {
+            "name": "sub1",
+            "revision": "2023-12-21",
+            "schema": ""
+          }
+        ]
+      }
+    ]
+  }
+}

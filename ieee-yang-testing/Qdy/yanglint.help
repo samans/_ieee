@@ -1,0 +1,155 @@
+Example usage:
+    yanglint [-f { yang | yin | info}] <schema>...
+        Validates the YANG module <schema>(s) and all its dependencies, optionally printing
+        them in the specified format.
+
+    yanglint [-f { xml | json }] <schema>... <file>...
+        Validates the YANG modeled data <file>(s) according to the <schema>(s) optionally
+        printing them in the specified format.
+
+    yanglint -t (nc-)rpc/notif [-O <operational-file>] <schema>... <file>
+        Validates the YANG/NETCONF RPC/notification <file> according to the <schema>(s) using
+        <operational-file> with possible references to the operational datastore data.
+
+    yanglint -t nc-reply -R <rpc-file> [-O <operational-file>] <schema>... <file>
+        Validates the NETCONF rpc-reply <file> of RPC <rpc-file> according to the <schema>(s)
+        using <operational-file> with possible references to the operational datastore data.
+
+    yanglint
+        Starts interactive mode with more features.
+
+Options:
+  -h, --help    Show this help message and exit.
+  -v, --version Show version number and exit.
+  -V, --verbose Increase libyang verbosity and show verbose messages. If specified
+                a second time, show even debug messages.
+  -Q, --quiet   Decrease libyang verbosity and hide warnings. If specified a second
+                time, hide errors so no libyang messages are printed.
+  -f FORMAT, --format=FORMAT
+                Convert input into FORMAT. Supported formats: 
+                yang, yin, tree, info and feature-param for schemas,
+                xml, json, and lyb for data.
+
+  -p PATH, --path=PATH
+                Search path for schema (YANG/YIN) modules. The option can be
+                used multiple times. The current working directory and the
+                path of the module being added is used implicitly.
+
+  -D, --disable-searchdir
+                Do not implicitly search in current working directory for
+                schema modules. If specified a second time, do not even
+                search in the module directory (all modules must be 
+                explicitly specified).
+
+  -F FEATURES, --features=FEATURES
+                Specific module features to support in the form <module-name>:(<feature>,)*
+                Use <feature> '*' to enable all features of a module. This option can be
+                specified multiple times, to enable features in multiple modules. If this
+                option is not specified, all the features in all the implemented modules
+                are enabled.
+
+  -i, --make-implemented
+                Make the imported modules "referenced" from any loaded
+                module also implemented. If specified a second time, all the
+                modules are set implemented.
+
+  -P PATH, --schema-node=PATH
+                Print only the specified subtree of the schema.
+                The PATH is the XPath subset mentioned in documentation as
+                the Path format. The option can be combined with --single-node
+                option to print information only about the specified node.
+  -q, --single-node
+                Supplement to the --schema-node option to print information
+                only about a single node specified as PATH argument.
+
+  -s SUBMODULE, --submodule=SUBMODULE
+                Print the specific submodule instead of the main module.
+
+  -x FILE, --ext-data=FILE
+                File containing the specific data required by an extension. Required by
+                the schema-mount extension, for example, when the operational data are
+                expected in the file. File format is guessed.
+
+  -n, --not-strict
+                Do not require strict data parsing (silently skip unknown data),
+                has no effect for schemas.
+
+  -e, --present Validate only with the schema modules whose data actually
+                exist in the provided input data files. Takes effect only
+                with the 'data' or 'config' TYPEs. Used to avoid requiring
+                mandatory nodes from modules which data are not present in the
+                provided input data files.
+
+  -t TYPE, --type=TYPE
+                Specify data tree type in the input data file(s):
+        data          - Complete datastore with status data (default type).
+        config        - Configuration datastore (without status data).
+        get           - Data returned by the NETCONF <get> operation.
+        getconfig     - Data returned by the NETCONF <get-config> operation.
+        edit          - Config content of the NETCONF <edit-config> operation.
+        rpc           - Invocation of a YANG RPC/action, defined as input.
+        nc-rpc        - Similar to 'rpc' but expect and check also the NETCONF
+                        envelopes <rpc> or <action>.
+        reply         - Reply to a YANG RPC/action, defined as output. Note that
+                        the reply data are expected inside a container representing
+                        the original RPC/action invocation.
+        nc-reply      - Similar to 'reply' but expect and check also the NETCONF
+                        envelope <rpc-reply> with output data nodes as direct
+                        descendants. The original RPC/action invocation is expected
+                        in a separate parameter '-R' and is parsed as 'nc-rpc'.
+        notif         - Notification instance of a YANG notification.
+        nc-notif      - Similar to 'notif' but expect and check also the NETCONF
+                        envelope <notification> with element <eventTime> and its
+                        sibling as the actual notification.
+
+  -d MODE, --default=MODE
+                Print data with default values, according to the MODE
+                (to print attributes, ietf-netconf-with-defaults model
+                must be loaded):
+      all             - Add missing default nodes.
+      all-tagged      - Add missing default nodes and mark all the default
+                        nodes with the attribute.
+      trim            - Remove all nodes with a default value.
+      implicit-tagged - Add missing nodes and mark them with the attribute.
+
+  -l, --list    Print info about the loaded schemas.
+                (i - imported module, I - implemented module)
+                In case the '-f' option with data encoding is specified,
+                the list is printed as "ietf-yang-library" data.
+
+  -L LINE_LENGTH, --tree-line-length=LINE_LENGTH
+                The limit of the maximum line length on which the 'tree'
+                format will try to be printed.
+
+  -o OUTFILE, --output=OUTFILE
+                Write the output to OUTFILE instead of stdout.
+
+  -O FILE, --operational=FILE
+                Provide optional data to extend validation of the '(nc-)rpc',
+                '(nc-)reply' or '(nc-)notif' TYPEs. The FILE is supposed to contain
+                the operational datastore referenced from the operation.
+                In case of a nested operation, its parent existence is also
+                checked in these operational data.
+
+  -R FILE, --reply-rpc=FILE
+                Provide source RPC for parsing of the 'nc-reply' TYPE. The FILE
+                is supposed to contain the source 'nc-rpc' operation of the reply.
+
+  -m, --merge   Merge input data files into a single tree and validate at
+                once. The option has effect only for 'data' and 'config' TYPEs.
+
+  -y, --yang-library
+                Load and implement internal "ietf-yang-library" YANG module.
+                Note that this module includes definitions of mandatory state
+                data that can result in unexpected data validation errors.
+
+  -Y FILE, --yang-library-file=FILE
+                Parse FILE with "ietf-yang-library" data and use them to
+                create an exact YANG schema context. If specified, the '-F'
+                parameter (enabled features) is ignored.
+
+  -G GROUPS, --debug=GROUPS
+                Enable printing of specific debugging message group
+                (nothing will be printed unless verbosity is set to debug):
+                <group>[,<group>]* (dict, xpath, dep-sets)
+

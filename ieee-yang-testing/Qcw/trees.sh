@@ -1,0 +1,10 @@
+pyang -f tree -p ../Qcz -p ../common-ietf -p ../common-iana ieee802-dot1q-bridge.yang > ieee802-dot1q-bridge.tree
+pyang -f tree -p ../Qcz -p ../common-ietf -p ../common-iana ieee802-dot1q-pb.yang > ieee802-dot1q-pb.tree
+pyang -f tree -p ../Qcz -p ../common-ietf -p ../common-iana ieee802-dot1q-preemption-bridge.yang > ieee802-dot1q-preemption-bridge.tree
+pyang -f tree -p ../Qcz -p ../common-ietf -p ../common-iana ieee802-dot1q-preemption.yang > ieee802-dot1q-preemption.tree
+pyang -f tree -p ../Qcz -p ../common-ietf -p ../common-iana ieee802-dot1q-psfp.yang > ieee802-dot1q-psfp.tree
+pyang -f tree -p ../Qcz -p ../common-ietf -p ../common-iana ieee802-dot1q-psfp-bridge.yang > ieee802-dot1q-psfp-bridge.tree
+pyang -f tree -p ../Qcz -p ../common-ietf -p ../common-iana ieee802-dot1q-sched-bridge.yang > ieee802-dot1q-sched-bridge.tree
+pyang -f tree -p ../Qcz -p ../common-ietf -p ../common-iana ieee802-dot1q-sched.yang > ieee802-dot1q-sched.tree
+pyang -f tree -p ../Qcz -p ../common-ietf -p ../common-iana ieee802-dot1q-types.yang > ieee802-dot1q-types.tree
+pyang -f tree -p ../Qcz -p ../common-ietf -p ../common-iana ieee802-types.yang > ieee802-types.tree

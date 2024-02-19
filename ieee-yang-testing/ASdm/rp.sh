@@ -1,2 +1,2 @@
 
-pyang -p ../1588 -p ../ASdn -p ../common-ietf -p ../common-iana ieee802-dot1as-hs.yang
+pyang -p ~/yang/yang/standard/ietf/RFC -p ~/yang/yang/standard/ieee/draft/1588 -p ~/yang/yang/standard/iana -p ../ASdn ieee802-dot1as-hs.yang

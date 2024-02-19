@@ -1,0 +1,24 @@
+7a8,12
+>   revision 2024-02-12 {
+>     description "Updates under IEEE Std 802.3.2-202x, Draft 1.1";
+>     reference "IEEE Std 802.3-2022, unless dated explicitly"; 
+> }
+> 
+41,45c46,48
+<   revision 2024-02-12 {
+<     description "Updates under IEEE Std 802.3.2-202x, Draft 1.1";
+<     reference "IEEE Std 802.3-2022, unless dated explicitly"; 
+<   }
+< 
+---
+>   reference
+>     "IEEE Std 802.3-2022, Clause 64 and Clause 77, unless dated explicitly
+>      IEEE Std 802.3.1-2013, Clause 9, unless dated explicitly";
+307c310
+<     description
+---
+>     Description
+2497c2500
+<       when "../ompe-mode = 'olt'";
+---
+>       when "../ompe-mode = olt'";

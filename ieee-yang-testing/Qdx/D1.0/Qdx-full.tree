@@ -1,0 +1,16 @@
+module: ieee802-dot1q-cbs-bridge
+
+  augment /if:interfaces/if:interface/dot1q:bridge-port:
+    +--rw cbs-parameters {credit-based-shaper}?
+       +--rw class* [traffic-class]
+          +--rw traffic-class    dot1q-types:traffic-class-type
+          +--rw idle-slope?      uint64
+
+module: ieee802-dot1q-cbs-if
+
+  augment /if:interfaces/if:interface:
+    +--rw cbs-parameters {credit-based-shaper}?
+       +--rw class* [traffic-class]
+          +--rw traffic-class    dot1q-types:traffic-class-type
+          +--rw idle-slope?      uint64
+

@@ -1,0 +1,23 @@
+5a6,10
+>   revision 2024-02-12 {
+>     description "Updates under IEEE Std 802.3.2-202x, Draft 1.1";
+>     reference "IEEE Std 802.3-2022, unless dated explicitly"; 
+> }
+> 
+33,37c38,39
+<   revision 2024-02-12 {
+<     description "Updates under IEEE Std 802.3.2-202x, Draft 1.1";
+<     reference "IEEE Std 802.3-2022, unless dated explicitly"; 
+<   }
+< 
+---
+>   reference 
+>     "IEEE Std 802.3-2022, unless dated explicitly";
+457c459
+<             enum typeE {
+---
+>             enum typeC {
+460c462
+<             enum typeF {
+---
+>             enum typeD {

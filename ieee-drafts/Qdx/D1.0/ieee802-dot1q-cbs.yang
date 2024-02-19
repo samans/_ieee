@@ -1,0 +1,83 @@
+module ieee802-dot1q-cbs {
+
+  namespace urn:ieee:std:802.1Q:yang:ieee802-dot1q-cbs;
+  prefix cbs;
+  
+  import ietf-interfaces { prefix if; }
+  import ieee802-dot1q-types { prefix dot1q-types; }
+
+  organization
+    "IEEE 802.1 Working Group";
+  contact
+  	"WG-URL: http://www.ieee802.org/1/
+  	WG-EMail: stds-802-1-L@ieee.org
+
+  	Contact: IEEE 802.1 Working Group Chair
+  	Postal: C/O IEEE 802.1 Working Group
+  	IEEE Standards Association
+  	445 Hoes Lane
+  	P.O. Box 1331
+  	Piscataway
+  	NJ 08855-1331
+   	USA
+
+   	E-mail: STDS-802-1-L@IEEE.ORG";
+  
+  description 
+    "This module provides for management of IEEE Std 802.1Q bridges
+     that support the Credit Based Shaper
+    
+    Copyright (C) IEEE (2023).";
+
+  revision 2023-10-12
+  {
+    description
+      "Published as part of IEEE Std 802.1Qdx.
+       Initial version.";
+    reference
+      "IEEE Std 802.1Qdx, YANG Data Models for the Credit-Based Shaper.";
+  }
+
+  grouping cbs-config
+  {
+    description
+      "cbs-config comprises all the parameters associated 
+       with Credit Based Shaper.";
+    container cbs-parameters
+    {
+      reference "34.3 of IEEE Std 802.1Q";
+
+      list class 
+      {
+        key "traffic-class";
+        leaf traffic-class 
+        {
+          type dot1q-types:traffic-class-type;
+		  config true;
+          description "An 802.1 CBS traffic class value. This is the numerical 
+                       value associated with a traffic class in a Bridge. Larger
+                       values are associated with higher priority traffic classes.";
+          reference "12.20.1 of IEEE Std 802.1Q";
+        }
+        leaf idle-slope
+        {
+          type uint64;
+          units "bits/second";
+          default 0;
+          config true;
+          description "The bandwidth, in bits per second, that the manager desires
+                       to allocate to this traffic class as idleSlope.
+
+                       If SRP is supported and in operation, then the reserved
+                       bandwidth is determined by the operation of SRP, and any
+                       changes to the value of this object have no effect on the
+                       operational value of idleSlope(N).
+
+                       The value of this object MUST be retained across
+                       reinitializations of the management system.";
+          reference "34.3 of IEEE Std 802.1Q";
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+module: ieee802-dot1q-preemption-bridge
+
+  augment /if:interfaces/if:interface/dot1q:bridge-port:
+    +--rw frame-preemption-parameters {frame-preemption}?
+       +--rw frame-preemption-status-table
+       |  +--rw priority0?   frame-preemption-status-enum
+       |  +--rw priority1?   frame-preemption-status-enum
+       |  +--rw priority2?   frame-preemption-status-enum
+       |  +--rw priority3?   frame-preemption-status-enum
+       |  +--rw priority4?   frame-preemption-status-enum
+       |  +--rw priority5?   frame-preemption-status-enum
+       |  +--rw priority6?   frame-preemption-status-enum
+       |  +--rw priority7?   frame-preemption-status-enum
+       +--ro hold-advance?                    uint32
+       +--ro release-advance?                 uint32
+       +--ro preemption-active?               boolean
+       +--ro hold-request?                    enumeration

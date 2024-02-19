@@ -1,0 +1,8 @@
+module: iecieee60802-sched-bridge
+
+  augment /if:interfaces/if:interface/bridge:bridge-port/sched-bridge:gate-parameter-table:
+    +--ro min-gating-times* [speed]
+       +--ro speed                uint32
+       +--ro min-cycle-time
+       |  +---u ieee802:rational-grouping
+       +--ro min-interval-time?   uint32

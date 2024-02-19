@@ -1,0 +1,30 @@
+spawn /usr/local/bin/yanglint
+> load ietf-hardware
+> load iana-hardware
+> load iana-if-type
+> load ieee802-dot1q-types
+> load ietf-datastores
+> load ietf-interfaces
+> load ietf-routing
+> load ieee802-dot1q-bridge
+> load ieee802-ethernet-interface
+> load ieee802-dot1ab-lldp
+> load ieee1588-ptp --features=ieee1588-ptp:external-port-config,cmlds
+> load ietf-system-capabilities
+> load ietf-yang-push --feature=ietf-yang-push:on-change
+> load ietf-yang-library
+> load ietf-notification-capabilities
+> load ietf-netconf-monitoring
+> load iecieee60802-ethernet-interface
+> load ietf-subscribed-notifications
+> load iecieee60802-subscribed-notifications
+> load iecieee60802-bridge
+> data -e -t data -f json --output=dds-example.json dds-example.xml
+libyang[0]: Invalid bit "nc:state-changes". (path: Data location "/ietf-system-capabilities:system-capabilities/datastore-capabilities[datastore='ietf-datastores:operational']/per-node-capabilities[1]/ietf-notification-capabilities:subscription-capabilities/periodic-notifications-supported", line number 29.)
+libyang[0]: Invalid bit "nc:state-changes". (path: Data location "/ietf-system-capabilities:system-capabilities/datastore-capabilities[datastore='ietf-datastores:operational']/per-node-capabilities[1]/ietf-notification-capabilities:subscription-capabilities/on-change-supported", line number 31.)
+libyang[0]: Invalid union value "nc:none" - no matching subtype found:
+    libyang 2 - enumeration, version 1: Invalid enumeration value "nc:none".
+    libyang 2 - enumeration, version 1: Invalid enumeration value "nc:none".
+ (path: Data location "/ietf-system-capabilities:system-capabilities/datastore-capabilities[datastore='ietf-datastores:operational']/per-node-capabilities[1]/ietf-notification-capabilities:subscription-capabilities/supported-excluded-change-type", line number 33.)
+libyang[0]: Invalid identityref "operational" value - identity not found in module "ietf-yang-library". (path: Data location "/ietf-yang-library:yang-library/datastore/name", line number 48.)
+libyang[0]: List instance is missing its key "name". (path: Data location "/ietf-yang-library:yang-library/datastore", line number 50.)
