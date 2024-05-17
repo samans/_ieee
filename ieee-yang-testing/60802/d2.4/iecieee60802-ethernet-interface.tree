@@ -1,0 +1,6 @@
+module: iecieee60802-ethernet-interface
+
+  augment /if:interfaces/if:interface/eth-if:ethernet:
+    +--ro supported-mau-types* [mau-type]
+       +--ro mau-type                int32
+       +--ro preemption-supported?   boolean

@@ -1,0 +1,7 @@
+module: iecieee60802-subscribed-notifications
+
+  augment /sn:subscriptions:
+    +--ro max-subscriptions?                    uint16
+    +--ro max-on-change-subscription-leaves?    uint16
+    +--ro max-periodic-subscription-leaves?     uint16
+    +--ro min-periodic-subscription-interval?   uint16

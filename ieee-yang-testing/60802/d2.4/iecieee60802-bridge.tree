@@ -1,0 +1,68 @@
+module: iecieee60802-bridge
+
+  augment /if:interfaces/if:interface/bridge:bridge-port:
+    +--ro max-burst-params* [speed]
+    |  +--ro speed                    uint32
+    |  +--ro worst-case-packet-gap?   uint8
+    |  +--ro max-burst-frames?        uint8
+    |  +--ro max-burst-bytes?         uint8
+    +--ro committed-data-rates* [traffic-class speed]
+    |  +--ro traffic-class                 dot1q-types:traffic-class-type
+    |  +--ro speed                         uint32
+    |  +--ro committed-information-rate?   uint32
+    |  +--ro committed-burst-size?         uint32
+    +--ro transmission-selection-algorithm* [traffic-class]
+    |  +--ro traffic-class    dot1q-types:traffic-class-type
+    |  +--ro algorithms* [algorithm]
+    |     +--ro algorithm    identityref
+    +--ro supported-resource-pools* [resource-pool-name]
+       +--ro resource-pool-name               string
+       +--ro covered-time-interval
+       |  +---u ieee802:rational-grouping
+       +--ro resource-pool-traffic-classes* [traffic-class]
+          +--ro traffic-class    dot1q-types:traffic-class-type
+  augment /bridge:bridges/bridge:bridge/bridge:component:
+    +--ro frer-supported?                      boolean
+    +--ro max-redundant-streams?               uint32
+    +--ro max-fids?                            uint16
+    +--ro max-fdb-entries* [fid]
+    |  +--ro fid                        uint16
+    |  +--ro max-static-fdb-entries?    uint16
+    |  +--ro max-dynamic-fdb-entries?   uint16
+    +--ro (delay-variance)?
+    |  +--:(single-value)
+    |  |  +--ro independent-delays* [in-port-mau-type out-port-mau-type traffic-class]
+    |  |  |  +--ro in-port-mau-type         int32
+    |  |  |  +--ro out-port-mau-type        int32
+    |  |  |  +--ro traffic-class            dot1q-types:traffic-class-type
+    |  |  |  +--ro independent-delay-min?   uint32
+    |  |  |  +--ro independent-delay-max?   uint32
+    |  |  +--ro dependent-delays* [in-port-line-speed]
+    |  |     +--ro in-port-line-speed     uint32
+    |  |     +--ro dependent-delay-min?   uint32
+    |  |     +--ro dependent-delay-max?   uint32
+    |  +--:(multiple-values)
+    |     +--ro independent-delays-cascaded* [in-port in-port-mau-type out-port out-port-mau-type traffic-class]
+    |     |  +--ro in-port                  uint8
+    |     |  +--ro in-port-mau-type         int32
+    |     |  +--ro out-port                 uint8
+    |     |  +--ro out-port-mau-type        int32
+    |     |  +--ro traffic-class            dot1q-types:traffic-class-type
+    |     |  +--ro independent-delay-min?   uint32
+    |     |  +--ro independent-delay-max?   uint32
+    |     +--ro dependent-delays-cascaded* [in-port in-port-line-speed out-port]
+    |        +--ro in-port                uint8
+    |        +--ro in-port-line-speed     uint32
+    |        +--ro out-port               uint8
+    |        +--ro dependent-delay-min?   uint32
+    |        +--ro dependent-delay-max?   uint32
+    +--ro max-ptp-instances?                   uint8
+    +--ro max-hot-standby-systems?             uint8
+    +--ro clock* [clock-identity]
+       +--ro clock-identity                 ptp:clock-identity
+       +--ro clock-target?                  boolean
+       +--ro attached-ptp-instance-index?   -> /ptp:ptp/instances/instance/instance-index
+       +--ro arb-supported?                 boolean
+       +--ro ptp-supported?                 boolean
+       +--ro hot-standby-supported?         boolean
+       +--ro is-synced?                     boolean

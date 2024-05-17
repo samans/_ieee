@@ -1,0 +1,53 @@
+module: ieee802-ethernet-phy
+
+  augment /if:interfaces/if:interface:
+    +--rw phy-table
+       +--rw control
+       |  +--rw phy-admin-control?                  enumeration
+       |  +--rw pmd-default-type?                   identityref
+       |  +--rw phy-reset?                          boolean
+       |  +--rw fec-mode?                           enumeration
+       |  +--rw rs-fec-bypass-enabled?              enabled-state
+       |  +--rw rs-fec-bypass-indication-enabled?   enabled-state
+       +--ro status
+       |  +--ro phy-type?                 identityref
+       |  +--ro pmd-type?                 identityref
+       |  +--ro pmd-type-list?            ieee802-phy:pmd-type-list
+       |  +--ro phy-status?               enumeration
+       |  +--ro phy-media-available?      ieee802-phy:media-available-type
+       |  +--ro jabber-state?             enumeration
+       |  +--ro jabbering-state-enters?   yang:counter64
+       |  +--ro fec-ability?              bits
+       |  +--ro snr-op-margin-chnl-a?     snr-value
+       |  +--ro snr-op-margin-chnl-b?     snr-value
+       |  +--ro snr-op-margin-chnl-c?     snr-value
+       |  +--ro snr-op-margin-chnl-d?     snr-value
+       |  +--ro time-sync-ability?        bits
+       |  +--ro time-sync-delay-tx-max?   uint32
+       |  +--ro time-sync-delay-tx-min?   uint32
+       |  +--ro time-sync-delay-rx-max?   int32
+       |  +--ro time-sync-delay-rx-min?   int32
+       +--ro statistics
+       |  +--ro phy-media-losts?           yang:counter64
+       |  +--ro jabbering-state-enters?    yang:counter64
+       |  +--ro false-carriers?            yang:counter64
+       |  +--ro pcs-coding-violations?     yang:counter64
+       |  +--ro fast-retain-count-local?   counter-1000-second
+       |  +--ro fast-retain-count-peer?    counter-1000-second
+       +--ro pcs-lane-statistics
+       |  +--ro pcs-lane* [pcs-lane-index]
+       |     +--ro pcs-lane-index            uint32
+       |     +--ro fec-corrected-blocks?     counter-pcs-lane
+       |     +--ro fec-uncorrected-blocks?   counter-pcs-lane
+       +--rw auto-neg-table
+          +--rw control
+          |  +--rw auto-neg-control?   boolean
+          |  +--rw auto-neg-restart?   boolean
+          +--ro status
+             +--ro auto-neg-supported?             boolean
+             +--ro auto-neg-enabled?               boolean
+             +--ro auto-neg-remote-signaling?      boolean
+             +--ro auto-neg-status?                enumeration
+             +--ro auto-neg-capability-bits?       ieee802-phy:auto-neg-ability-bits
+             +--ro auto-neg-cap-advertised-bits?   ieee802-phy:auto-neg-ability-bits
+             +--ro auto-neg-cap-received-bits?     ieee802-phy:auto-neg-ability-bits

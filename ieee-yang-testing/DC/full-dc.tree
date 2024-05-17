@@ -1,0 +1,252 @@
+module: ieee802-dot1dc-ats-if
+
+  augment /if:interfaces/if:interface:
+    +--ro discarded-frames-count?   yang:counter64
+  augment /sys:system:
+    +--rw stream-gates
+    |  +--rw stream-gate-instance-table* [stream-gate-instance-id]
+    |  |  +--rw stream-gate-instance-id    uint32
+    |  |  +--rw gate-enable?               boolean
+    |  |  +--rw admin-gate-states?         gate-state-value-type
+    |  |  +--rw admin-ipv?                 ipv-spec-type
+    |  +--ro max-stream-gate-instances?    uint32
+    +--rw stream-filters
+       +--rw stream-filter-instance-table* [stream-filter-instance-id]
+       |  +--rw stream-filter-instance-id                       uint32
+       |  +--rw (stream-handle-spec)?
+       |  |  +--:(wildcard)
+       |  |  |  +--rw wildcard?                                 empty
+       |  |  +--:(stream-handle)
+       |  |     +--rw stream-handle                             uint32
+       |  +--rw priority-spec                                   priority-spec-type
+       |  +--rw max-sdu-size                                    uint32
+       |  +--rw stream-blocked-due-to-oversize-frame-enabled?   boolean
+       |  +--rw stream-blocked-due-to-oversize-frame?           boolean
+       |  +--rw stream-gate-ref                                 -> ../../../stream-gates/stream-gate-instance-table/stream-gate-instance-id
+       |  +--rw schedulers
+       |  |  +--rw scheduler-instance-table* [scheduler-instance-id]
+       |  |  |  +--rw scheduler-instance-id         uint32
+       |  |  |  +--rw committed-information-rate    uint64
+       |  |  |  +--rw committed-burst-size          uint32
+       |  |  |  +--rw scheduler-group-ref           -> ../../../scheduler-groups/scheduler-group-instance-table/scheduler-group-instance-id
+       |  |  +--ro max-scheduler-instances?    uint32
+       |  +--rw scheduler-groups
+       |  |  +--rw scheduler-group-instance-table* [scheduler-group-instance-id]
+       |  |  |  +--rw scheduler-group-instance-id    uint32
+       |  |  |  +--rw max-residence-time             uint32
+       |  |  +--ro max-scheduler-group-instances?      uint32
+       |  |  +--rw scheduler-timing-characteristics
+       |  |     +--ro scheduler-timing-characteristics-table* [reception-port transmission-port]
+       |  |        +--ro reception-port                   dot1qtypes:port-number-type
+       |  |        +--ro transmission-port                dot1qtypes:port-number-type
+       |  |        +--ro clock-offset-variation-max       uint32
+       |  |        +--ro clock-rate-deviation-max         uint32
+       |  |        +--ro arrival-recognition-delay-max    uint32
+       |  |        +--ro processing-delay-min             uint32
+       |  |        +--ro processing-delay-max             uint32
+       |  +--rw scheduler
+       |     +--rw scheduler-ref?      -> ../../schedulers/scheduler-instance-table/scheduler-instance-id
+       |     +--rw scheduler-enable?   boolean
+       +--ro max-stream-filter-instances?    uint32
+
+module: ieee802-dot1dc-cbsa-if
+
+  augment /if:interfaces/if:interface:
+    +--rw cbsa-parameters
+       +--rw cbsa-parameter-table* [traffic-class]
+          +--rw traffic-class       dot1q-types:traffic-class-type
+          +--rw admin-idle-slope?   uint64
+          +--ro oper-idle-slope?    uint64
+
+module: ieee802-dot1dc-gfqos
+
+  augment /if:interfaces/if:interface:
+    +--rw gfqos-ifc
+       +--rw pvid?                                     dot1qtypes:vlan-index-type {eiss}?
+       +--rw acceptable-frame?                         enumeration {eiss}?
+       +--rw transmission-selection-algorithm-table
+       |  +--rw transmission-selection-algorithm-map* [traffic-class]
+       |     +--rw traffic-class                       traffic-class-type
+       |     +--rw transmission-selection-algorithm?   identityref
+       +--ro media-dependent-overhead?                 uint8
+       +--ro statistics
+          +--ro delay-exceeded-discards?          yang:counter64
+          +--ro mtu-exceeded-discards?            yang:counter64
+          +--ro frame-rx?                         yang:counter64
+          +--ro octets-rx?                        yang:counter64
+          +--ro frame-tx?                         yang:counter64
+          +--ro octets-tx?                        yang:counter64
+          +--ro discard-inbound?                  yang:counter64
+          +--ro forward-outbound?                 yang:counter64
+          +--ro discard-lack-of-buffers?          yang:counter64
+          +--ro discard-transit-delay-exceeded?   yang:counter64
+          +--ro discard-on-error?                 yang:counter64
+          +--ro discard-on-ingress-filtering?     yang:counter64 {dot1q:ingress-filtering}?
+
+module: ieee802-dot1dc-preemption-if
+
+  augment /if:interfaces/if:interface:
+    +--rw frame-preemption-parameters {frame-preemption}?
+       +--rw frame-preemption-status-table
+       |  +--rw priority0?   frame-preemption-status-enum
+       |  +--rw priority1?   frame-preemption-status-enum
+       |  +--rw priority2?   frame-preemption-status-enum
+       |  +--rw priority3?   frame-preemption-status-enum
+       |  +--rw priority4?   frame-preemption-status-enum
+       |  +--rw priority5?   frame-preemption-status-enum
+       |  +--rw priority6?   frame-preemption-status-enum
+       |  +--rw priority7?   frame-preemption-status-enum
+       +--ro hold-advance?                    uint32
+       +--ro release-advance?                 uint32
+       +--ro preemption-active?               boolean
+       +--ro hold-request?                    enumeration
+
+module: ieee802-dot1dc-psfp-sys
+
+  augment /sys:system:
+    +--rw flow-meters
+    |  +--rw flow-meter-instance-table* [flow-meter-instance-id]
+    |  |  +--rw flow-meter-instance-id        uint32
+    |  |  +--rw committed-information-rate    uint64
+    |  |  +--rw committed-burst-size          uint32
+    |  |  +--rw excess-information-rate       uint64
+    |  |  +--rw excess-burst-size             uint32
+    |  |  +--rw coupling-flag                 enumeration
+    |  |  +--rw color-mode                    enumeration
+    |  |  +--rw drop-on-yellow                boolean
+    |  |  +--rw mark-all-frames-red-enable?   boolean
+    |  |  +--rw mark-all-frames-red?          boolean
+    |  +--rw max-flow-meter-instances?    uint32
+    +--rw stream-gates
+    |  +--rw stream-gate-instance-table* [stream-gate-instance-id]
+    |  |  +--rw stream-gate-instance-id                   uint32
+    |  |  +--rw gate-enable?                              boolean
+    |  |  +--rw admin-gate-states?                        gate-state-value-type
+    |  |  +--rw admin-ipv?                                ipv-spec-type
+    |  |  +--ro oper-gate-state?                          sfsg:gate-state-value-type
+    |  |  +--rw oper-ipv?                                 sfsg:ipv-spec-type
+    |  |  +--rw admin-control-list
+    |  |  |  +--rw gate-control-entry* [index]
+    |  |  |     +--rw index                  uint32
+    |  |  |     +--rw operation-name         identityref
+    |  |  |     +--rw time-interval-value?   uint32
+    |  |  |     +--rw gate-state-value       sfsg:gate-state-value-type
+    |  |  |     +--rw ipv-spec               sfsg:ipv-spec-type
+    |  |  |     +--rw interval-octet-max?    uint32
+    |  |  +--ro oper-control-list
+    |  |  |  +--ro gate-control-entry* [index]
+    |  |  |     +--ro index                  uint32
+    |  |  |     +--ro operation-name         identityref
+    |  |  |     +--ro time-interval-value?   uint32
+    |  |  |     +--ro gate-state-value       sfsg:gate-state-value-type
+    |  |  |     +--ro ipv-spec               sfsg:ipv-spec-type
+    |  |  |     +--ro interval-octet-max?    uint32
+    |  |  +--rw admin-cycle-time
+    |  |  |  +--rw numerator?     uint32
+    |  |  |  +--rw denominator?   uint32
+    |  |  +--ro oper-cycle-time
+    |  |  |  +--ro numerator?     uint32
+    |  |  |  +--ro denominator?   uint32
+    |  |  +--rw admin-cycle-time-extension?               uint32
+    |  |  +--ro oper-cycle-time-extension?                uint32
+    |  |  +--rw admin-base-time
+    |  |  |  +--rw seconds?       uint64
+    |  |  |  +--rw nanoseconds?   uint32
+    |  |  +--ro oper-base-time
+    |  |  |  +--ro seconds?       uint64
+    |  |  |  +--ro nanoseconds?   uint32
+    |  |  +--rw config-change?                            boolean
+    |  |  +--ro config-change-time
+    |  |  |  +--ro seconds?       uint64
+    |  |  |  +--ro nanoseconds?   uint32
+    |  |  +--ro tick-granularity?                         uint32
+    |  |  +--ro current-time
+    |  |  |  +--ro seconds?       uint64
+    |  |  |  +--ro nanoseconds?   uint32
+    |  |  +--ro config-pending?                           boolean
+    |  |  +--ro config-change-error?                      yang:counter64
+    |  |  +--rw gate-closed-due-to-invalid-rx-enable?     boolean
+    |  |  +--rw gate-closed-due-to-invalid-rx?            boolean
+    |  |  +--rw gate-closed-due-octets-exceeded-enable?   boolean
+    |  |  +--rw gate-closed-due-octets-exceeded?          boolean
+    |  +--ro max-stream-gate-instances?    uint32
+    |  +--rw supported-list-max?           uint32
+    |  +--rw supported-cycle-max
+    |  |  +--rw numerator?     uint32
+    |  |  +--rw denominator?   uint32
+    |  +--rw supported-interval-max?       uint32
+    +--rw stream-filters
+       +--rw stream-filter-instance-table* [stream-filter-instance-id]
+       |  +--rw stream-filter-instance-id                       uint32
+       |  +--rw (stream-handle-spec)?
+       |  |  +--:(wildcard)
+       |  |  |  +--rw wildcard?                                 empty
+       |  |  +--:(stream-handle)
+       |  |     +--rw stream-handle                             uint32
+       |  +--rw priority-spec                                   priority-spec-type
+       |  +--rw max-sdu-size                                    uint32
+       |  +--rw stream-blocked-due-to-oversize-frame-enabled?   boolean
+       |  +--rw stream-blocked-due-to-oversize-frame?           boolean
+       |  +--rw stream-gate-ref                                 -> ../../../stream-gates/stream-gate-instance-table/stream-gate-instance-id
+       |  +--ro matching-frames-count?                          yang:counter64
+       |  +--ro passing-frames-count?                           yang:counter64
+       |  +--ro not-passing-frames-count?                       yang:counter64
+       |  +--ro red-frames-count?                               yang:counter64
+       |  +--ro passing-sdu-count?                              yang:counter64
+       |  +--ro not-passing-sdu-count?                          yang:counter64
+       |  +--rw flow-meter-ref?                                 -> ../../../flow-meters/flow-meter-instance-table/flow-meter-instance-id
+       |  +--rw flow-meter-enable?                              boolean
+       +--ro max-stream-filter-instances?    uint32
+
+module: ieee802-dot1dc-sched-if
+
+  augment /if:interfaces/if:interface:
+    +--rw gate-parameter-table
+       +--rw queue-max-sdu-table* [traffic-class]
+       |  +--rw traffic-class           dot1q-types:traffic-class-type
+       |  +--rw queue-max-sdu?          uint32
+       |  +--ro transmission-overrun?   yang:counter64
+       +--rw gate-enabled?                 boolean
+       +--rw admin-gate-states?            uint8
+       +--ro oper-gate-states?             uint8
+       +--rw admin-control-list
+       |  +--rw gate-control-entry* [index]
+       |     +--rw index                  uint32
+       |     +--rw operation-name         identityref
+       |     +--rw time-interval-value?   uint32
+       |     +--rw gate-states-value      uint8
+       +--ro oper-control-list
+       |  +--ro gate-control-entry* [index]
+       |     +--ro index                  uint32
+       |     +--ro operation-name         identityref
+       |     +--ro time-interval-value?   uint32
+       |     +--ro gate-states-value      uint8
+       +--rw admin-cycle-time
+       |  +--rw numerator?     uint32
+       |  +--rw denominator?   uint32
+       +--ro oper-cycle-time
+       |  +--ro numerator?     uint32
+       |  +--ro denominator?   uint32
+       +--rw admin-cycle-time-extension?   uint32
+       +--ro oper-cycle-time-extension?    uint32
+       +--rw admin-base-time
+       |  +--rw seconds?       uint64
+       |  +--rw nanoseconds?   uint32
+       +--ro oper-base-time
+       |  +--ro seconds?       uint64
+       |  +--ro nanoseconds?   uint32
+       +--rw config-change?                boolean
+       +--ro config-change-time
+       |  +--ro seconds?       uint64
+       |  +--ro nanoseconds?   uint32
+       +--ro tick-granularity?             uint32
+       +--ro current-time
+       |  +--ro seconds?       uint64
+       |  +--ro nanoseconds?   uint32
+       +--ro config-pending?               boolean
+       +--ro config-change-error?          yang:counter64
+       +--rw supported-list-max?           uint32
+       +--rw supported-cycle-max
+       |  +--rw numerator?     uint32
+       |  +--rw denominator?   uint32
+       +--rw supported-interval-max?       uint32

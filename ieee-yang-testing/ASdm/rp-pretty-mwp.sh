@@ -1,0 +1,1 @@
+pyang -f yang -o ieee802-dot1as-hs-pretty.yang --yang-canonical --yang-remove-unused-imports --yang-line-length=68 -p ~/yang/standard/ietf/RFC -p ~/yang/standard/ieee/draft/1588 -p ~/yang/standard/iana -p ../ASdn ieee802-dot1as-hs.yang

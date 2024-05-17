@@ -1,0 +1,14 @@
+module: ieee802-ethernet-interface-half-duplex
+
+  augment /if:interfaces/if:interface/ieee802-eth-if:ethernet/ieee802-eth-if:statistics/ieee802-eth-if:frame:
+    +--ro csma-cd {csma-cd}?
+       +--ro in-errors-sqe-test?                yang:counter64
+       +--ro out-frames-collision-single?       yang:counter64
+       +--ro out-frames-collision-multiple?     yang:counter64
+       +--ro out-frames-deferred?               yang:counter64
+       +--ro out-frames-collisions-excessive?   yang:counter64
+       +--ro out-collisions-late?               yang:counter64
+       +--ro out-errors-carrier-sense?          yang:counter64
+       +--ro collision-histogram* [collision-count]
+          +--ro collision-count           yang:counter64
+          +--ro collision-count-frames?   yang:counter64

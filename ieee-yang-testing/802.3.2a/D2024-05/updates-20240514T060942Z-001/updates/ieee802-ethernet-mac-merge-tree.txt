@@ -1,0 +1,20 @@
+module: ieee802-ethernet-mac-merge
+
+  augment /if:interfaces/if:interface/ieee802-eth-if:ethernet:
+    +--rw mac-merge {mac-merge}?
+       +--rw admin-control
+       |  +--rw merge-enable-tx?     enable-disable
+       |  +--rw verify-disable-tx?   enable-disable
+       |  +--rw verify-time?         uint16
+       |  +--rw frag-size?           uint8
+       +--ro admin-status
+       |  +--ro merge-support?   boolean
+       |  +--ro verify-status?   enumeration
+       |  +--ro status-tx?       enumeration
+       +--ro statistics
+          +--ro assembly-error-count?   yang:counter64
+          +--ro smd-error-count?        yang:counter64
+          +--ro assembly-ok-count?      yang:counter64
+          +--ro fragment-count-rx?      yang:counter64
+          +--ro fragment-count-tx?      yang:counter64
+          +--ro hold-count?             yang:counter64

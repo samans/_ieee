@@ -1,0 +1,29 @@
+module: iecieee60802-tsn-config-uni
+
+  augment /tsn:tsn-uni:
+    +--ro max-config-domains?       uint8
+    +--ro max-cucs?                 uint8
+    +--ro max-ia-stations?          uint16
+    +--ro max-network-diameter?     uint8
+    +--ro max-streams?              uint16
+    +--ro max-num-seamless-trees?   uint8
+    +--ro hot-standby-supported?    uint8
+    +---x add_streams
+       +---w input
+       |  +---w cuc-id?        string
+       |  +---w stream-list* [stream-id]
+       |     +---w stream-id    tsn-types:stream-id-type
+       |     +---w talker
+       |     |  +---w tsn-types:group-talker
+       |     +---w listener* [index]
+       |        +---w index                       uint32
+       |        +---w tsn-types:group-listener
+       +--rw output
+          +--rw result?   boolean
+  augment /tsn:tsn-uni/tsn:domain/tsn:cuc/tsn:stream:
+    +---x remove_listener
+       +---w input
+       |  +---w listener* [index]
+       |     +---w index    uint32
+       +--rw output
+          +--rw result?   boolean

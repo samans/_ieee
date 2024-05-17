@@ -1,0 +1,123 @@
+module: ieee802-ethernet-pon
+
+  augment /if:interfaces/if:interface/ieee802-eth-if:ethernet:
+    +--rw fec-mode?                              fec-mode
+    |       {fec-supported}?
+    +--rw mpcp-admin-state?                      mpcp-admin-state
+    +--ro mpcp-logical-link-admin-state?
+    |       mpcp-logical-link-admin-state
+    +--rw trx-transmit-admin-state?              trx-admin-state
+    |       {trx-power-level-reporting-supported}?
+    +--ro capabilities
+    |  +--ro mpcp-supported?   mpcp-supported
+    +--ro statistics-mpcp
+    |  +--ro out-mpcp-mac-ctrl-frames?       yang:counter64
+    |  +--ro in-mpcp-mac-ctrl-frames?        yang:counter64
+    |  +--ro mpcp-discovery-window-count?    yang:counter64
+    |  +--ro mpcp-discovery-timeout-count?   yang:counter64
+    |  +--ro out-mpcp-register-req?          yang:counter64
+    |  +--ro in-mpcp-register-req?           yang:counter64
+    |  +--ro out-mpcp-register-ack?          yang:counter64
+    |  +--ro in-mpcp-register-ack?           yang:counter64
+    |  +--ro out-mpcp-report?                yang:counter64
+    |  +--ro in-mpcp-report?                 yang:counter64
+    |  +--ro out-mpcp-gate?                  yang:counter64
+    |  +--ro in-mpcp-gate?                   yang:counter64
+    |  +--ro out-mpcp-register?              yang:counter64
+    |  +--ro in-mpcp-register?               yang:counter64
+    +--rw statistics-ompe
+    |  +--ro in-ompe-frames-errored-sld?
+    |  |       yang:counter64
+    |  +--ro in-ompe-frames-errored-crc8?
+    |  |       yang:counter64
+    |  +--ro ompe-onu-frames-with-good-llid-good-crc8?
+    |  |       yang:counter64
+    |  +--ro ompe-olt-frames-with-good-llid-good-crc8?
+    |  |       yang:counter64
+    |  +--ro in-ompe-frames-with-bad-llid?
+    |  |       yang:counter64
+    |  +--ro in-ompe-frames-with-good-llid?
+    |  |       yang:counter64
+    |  +--ro in-ompe-frames?
+    |  |       yang:counter64
+    |  +--ro in-ompe-frames-not-match-onu-llid-broadcast?
+    |  |       yang:counter64
+    |  +--ro in-ompe-frames-match-onu-llid-not-broadcast?
+    |  |       yang:counter64
+    |  +--ro in-ompe-frames-match-onu-llid-broadcast?
+    |  |       yang:counter64
+    |  +--ro in-ompe-frames-not-match-onu-llid-not-broadcast?
+    |          yang:counter64
+    +--rw thresholds-trx {trx-power-level-reporting-supported}?
+    |  +--rw in-trx-power-low-threshold?     power-level
+    |  |       {trx-power-level-reporting-supported}?
+    |  +--rw in-trx-power-high-threshold?    power-level
+    |  |       {trx-power-level-reporting-supported}?
+    |  +--rw out-trx-power-low-threshold?    power-level
+    |  |       {trx-power-level-reporting-supported}?
+    |  +--rw out-trx-power-high-threshold?   power-level
+    |          {trx-power-level-reporting-supported}?
+    x--rw statistics-trx {trx-power-level-reporting-supported}?
+    |  +--ro in-trx-power-signal-detect?          boolean
+    |  +--ro in-trx-power?                        power-level
+    |  +--ro in-trx-power-low-15-minutes-bin?     power-level
+    |  +--ro in-trx-power-high-15-minutes-bin?    power-level
+    |  +--ro out-trx-power-signal-detect?         boolean
+    |  +--ro out-trx-power?                       power-level
+    |  +--ro out-trx-power-low-15-minutes-bin?    power-level
+    |  +--ro out-trx-power-high-15-minutes-bin?   power-level
+    |  +--ro trx-data-reliable?                   boolean
+    |          {trx-power-level-reporting-supported}?
+    +--rw monitoring-trx {trx-power-level-reporting-supported}?
+    |  +--ro in-trx-power-signal-detect?          boolean
+    |  +--ro in-trx-power?                        power-level
+    |  +--ro in-trx-power-low-15-minutes-bin?     power-level
+    |  +--ro in-trx-power-high-15-minutes-bin?    power-level
+    |  +--ro out-trx-power-signal-detect?         boolean
+    |  +--ro out-trx-power?                       power-level
+    |  +--ro out-trx-power-low-15-minutes-bin?    power-level
+    |  +--ro out-trx-power-high-15-minutes-bin?   power-level
+    |  +--ro trx-data-reliable?                   boolean
+    |          {trx-power-level-reporting-supported}?
+    +--ro statistics-pon-fec {fec-supported}?
+    |  +--ro fec-code-group-violations?           yang:counter64
+    |  +--ro fec-buffer-head-coding-violations?   yang:counter64
+    |  +--ro fec-code-word-corrected-errors?      yang:counter64
+    |  +--ro fec-code-word-uncorrected-errors?    yang:counter64
+    +--rw mpcp-logical-link-admin-actions
+    |  +---x state-change-action-type
+    |  |  +---w input
+    |  |     +---w state-change-action-type?   identityref
+    |  +---x reset-action-type
+    |  |  +---w input
+    |  |     +---w reset-action-type?   identityref
+    |  +---x register-type
+    |     +---w input
+    |        +---w register-type?   identityref
+    +--rw mpcp-queues* [mpcp-queue-index]
+    |  +--rw mpcp-queue-index                  uint8
+    |  +--rw mpcp-queue-threshold-count?       uint8
+    |  +--ro mpcp-queue-threshold-count-max?   uint8
+    |  +--rw mpcp-queue-thresholds* [mpcp-queue-set-index]
+    |  |  +--rw mpcp-queue-set-index        uint8
+    |  |  +--rw mpcp-queue-set-threshold?   uint64
+    |  +--ro in-mpcp-queue-frames?             yang:counter64
+    |  +--ro out-mpcp-queue-frames?            yang:counter64
+    |  +--ro mpcp-queue-frames-drop?           yang:counter64
+    +--rw multicast-IDs* [multicast-ID]
+    |  +--rw multicast-ID    uint32
+    +--ro fec-capability?                        fec-capability
+    +--ro mpcp-mode?                             mpcp-mode
+    +--ro mpcp-sync-time?                        uint64
+    +--ro mpcp-logical-link-id?                  mpcp-supported
+    +--ro mpcp-remote-mac-address?               ieee:mac-address
+    +--ro mpcp-logical-link-state?
+    |       mpcp-logical-link-state
+    +--ro mpcp-elapsed-time-out?                 uint64
+    +--ro mpcp-elapsed-time-in?                  uint64
+    +--ro mpcp-round-trip-time?                  uint16
+    +--ro mpcp-maximum-grant-count?              uint8
+    +--ro mpcp-logical-link-count?               mpcp-llid-count
+    +--ro mpcp-maximum-queue-count-per-report?
+    |       mpcp-maximum-queue-count-per-report
+    +--ro ompe-mode?                             ompe-mode

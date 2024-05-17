@@ -1,0 +1,44 @@
+{
+  "ieee802-dot1ax:link-aggregation": {
+    "key-group": [
+      {
+        "name": "Key-1",
+	      "actor-admin-key": 1,
+	      "actor-system-id": "00-80-C2-00-00-01"
+      }
+    ]
+  },
+  "ietf-interfaces:interfaces": {
+    "interface": [
+      {
+        "name": "lag1",
+        "type": "iana-if-type:ieee8023adLag",
+        "ieee802-dot1ax:aggregator": {
+          "agg-key-group": "Key-1"
+        }
+      },
+      {
+        "name": "lag2",
+        "type": "iana-if-type:ieee8023adLag",
+        "ieee802-dot1ax:aggregator": {
+          "agg-key-group": "Key-1" 
+        }
+      },
+      {
+        "name": "eth1",
+        "type": "iana-if-type:ethernetCsmacd",
+        "ieee802-dot1ax:aggregation-port": {
+          "agg-key-group": "Key-1" 
+        }
+      },
+      {
+        "name": "eth2",
+        "type": "iana-if-type:ethernetCsmacd",
+        "ieee802-dot1ax:aggregation-port": {
+          "agg-key-group": "Key-1" 
+        }
+      }
+    ]
+
+  }
+}

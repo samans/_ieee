@@ -1,0 +1,24 @@
+#! /usr/bin/expect -f
+#set timeout -1
+spawn yanglint
+expect ">"
+send "searchpath /home/scott/yang/yang/standard/ietf/RFC /home/scott/yang/yang/standard/iana ../../qrev\r"
+expect ">"
+send "load iana-if-type\r"
+expect ">"
+send "load ieee802-types\r"
+expect ">"
+send "load ietf-yang-types\r"
+expect ">"
+send "load ietf-interfaces\r"
+expect ">"
+send "load ieee802-dot1q-types\r"
+expect ">"
+send "load ieee802-dot1q-bridge\r"
+expect ">"
+send "load ieee802-dot1q-pb\r"
+expect ">"
+send "data -t data -f json 2b.xml -o 2b-output.json\r"
+expect ">"
+send "quit\r"
+expect eof

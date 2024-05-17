@@ -1,0 +1,18 @@
+module: iecieee60802-ia-station
+  +--ro ia-station-capabilities
+     +--ro capability-lldp?                 boolean
+     +--ro capability-timesync?             boolean
+     +--ro capability-keystore?             boolean
+     +--ro capability-truststore?           boolean
+     +--ro capability-nacm?                 boolean
+     +--ro capability-yang-library?         boolean
+     +--ro capability-yang-push?            boolean
+     +--ro capability-yang-notifications?   boolean
+     +--ro capability-netconf-monitoring?   boolean
+     +--ro capability-netconf-client?       boolean
+     +--ro capability-tsn-uni?              boolean
+     +--ro capability-sched-traffic?        boolean
+     +--ro capability-frame-preemption?     boolean
+
+  rpcs:
+    +---x ia-factory-reset

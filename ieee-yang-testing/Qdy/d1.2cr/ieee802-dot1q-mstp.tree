@@ -1,0 +1,28 @@
+module: ieee802-dot1q-mstp
+
+  augment /dot1q:bridges/dot1q:bridge/dot1q:component/dot1q:bridge-mst:
+    +--rw mst-config-id!
+    |  +--rw format-selector?        int32
+    |  +--rw configuration-name?     string
+    |  +--rw revision-level?         uint32
+    |  +--ro configuration-digest?   binary
+    +--rw bridge-mstp!
+       +--rw max-hops?                      int32
+       +--ro ist-internal-root-path-cost?   uint32
+       +--rw mst* [mstid]
+          +--rw mstid                      uint16
+          +--rw port-id-priority?          dot1qtypes:priority-type
+          +--ro internal-root-path-cost?   uint32
+          +--ro root-port-number?          dot1qtypes:port-number-type
+  augment /if:interfaces/if:interface/dot1q:bridge-port:
+    +--rw port-mstp!
+       +--rw mst* [mstid]
+       |  +--rw mstid                           uint16
+       |  +--ro msti-port-state?                enumeration
+       |  +--ro msti-port-role?                 enumeration
+       |  +--rw msti-bridge-id-priority?        dot1qtypes:priority-type
+       |  +--rw msti-internal-port-path-cost?   uint32
+       |  +--ro msti-regional-root-id?          uint32
+       +--ro msti-internal-root-path-cost?   uint32
+       +--ro msti-designated-bridge-id?      uint32
+       +--ro msti-designated-port-id?        uint32

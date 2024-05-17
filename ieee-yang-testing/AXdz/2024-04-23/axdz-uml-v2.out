@@ -1,0 +1,285 @@
+'Download plantuml from http://plantuml.sourceforge.net/ 
+'Generate png with java -jar plantuml.jar <file> 
+'Output in img/<module>.png 
+'If Java spits out memory error increase heap size with java -Xmx1024m  -jar plantuml.jar <file> 
+@startuml img/ieee802-dot1ax.png 
+scale 3000 width
+scale 750 height
+hide empty fields 
+hide empty methods 
+hide <<case>> circle
+hide <<augment>> circle
+hide <<choice>> circle
+hide <<leafref>> stereotype
+hide <<leafref>> circle
+page 1x1 
+Title ieee802-dot1ax 
+package "ieee:ieee802-types" as ieee_ieee802_types { 
+} 
+package "yang:ietf-yang-types" as yang_ietf_yang_types { 
+} 
+package "if:ietf-interfaces" as if_ietf_interfaces { 
+} 
+package "ianaif:iana-if-type" as ianaif_iana_if_type { 
+} 
+package "dot1ax:ieee802-dot1ax" as dot1ax_ieee802_dot1ax { 
+ieee_ieee802_types +-- dot1ax_ieee802_dot1ax
+yang_ietf_yang_types +-- dot1ax_ieee802_dot1ax
+if_ietf_interfaces +-- dot1ax_ieee802_dot1ax
+ianaif_iana_if_type +-- dot1ax_ieee802_dot1ax
+class "ieee802-dot1ax" as ieee802_dot1ax << (M, #33CCFF) module>> 
+ieee802_dot1ax : feature : cscd 
+ieee802_dot1ax : feature : dwc 
+ieee802_dot1ax : feature : drni 
+class "lacp-state" as lacp_state << (T, YellowGreen) typedef>>
+lacp_state : bits
+class "irp-state" as irp_state << (T, YellowGreen) typedef>>
+irp_state : bits
+class "link-aggregation" as  ieee802_dot1ax_I_link_aggregation <<container>> 
+ieee802_dot1ax *-- "1" ieee802_dot1ax_I_link_aggregation 
+class "key-groups" as ieee802_dot1ax_I_link_aggregation_I_key_groups << (L, #FF7700) list>> 
+ieee802_dot1ax_I_link_aggregation *-- "0..N" ieee802_dot1ax_I_link_aggregation_I_key_groups 
+ieee802_dot1ax_I_link_aggregation_I_key_groups : +key-group : string  {key} 
+ieee802_dot1ax_I_link_aggregation_I_key_groups : actor-admin-key : uint16  {unique}  {mandatory}
+ieee802_dot1ax_I_link_aggregation_I_key_groups : actor-system-id : ieee:mac-address  {unique}  {mandatory}
+ieee802_dot1ax_I_link_aggregation_I_key_groups : actor-system-priority : uint16   = 1 
+ieee802_dot1ax_I_link_aggregation_I_key_groups : actor-protocol-da : ieee:mac-address   = 01-80-c2-00-00-02 
+ieee802_dot1ax_I_link_aggregation_I_key_groups : collector-max-delay : uint16  
+class "partner" as  ieee802_dot1ax_I_link_aggregation_I_key_groups_I_partner <<container>> 
+ieee802_dot1ax_I_link_aggregation_I_key_groups *-- "1" ieee802_dot1ax_I_link_aggregation_I_key_groups_I_partner 
+ieee802_dot1ax_I_link_aggregation_I_key_groups_I_partner : partner-admin-system-priority : uint16  
+ieee802_dot1ax_I_link_aggregation_I_key_groups_I_partner : partner-admin-system-id : ieee:mac-address  
+class "cscd" as  ieee802_dot1ax_I_link_aggregation_I_key_groups_I_cscd <<container>> 
+ieee802_dot1ax_I_link_aggregation_I_key_groups *-- "0..1" ieee802_dot1ax_I_link_aggregation_I_key_groups_I_cscd 
+note bottom of ieee802_dot1ax_I_link_aggregation_I_key_groups_I_cscd
+<b>if-feature: </b>cscd
+end note 
+note bottom of ieee802_dot1ax_I_link_aggregation_I_key_groups_I_cscd
+<b>Presence: </b>The presence of this container indicates that CSCD is supported
+end note 
+ieee802_dot1ax_I_link_aggregation_I_key_groups_I_cscd : agg-port-algorithm : uint32   = 0x0080c200 
+class "admin-conv-service-map" as ieee802_dot1ax_I_link_aggregation_I_key_groups_I_cscd_I_admin_conv_service_map << (L, #FF7700) list>> 
+ieee802_dot1ax_I_link_aggregation_I_key_groups_I_cscd *-- "0..N" ieee802_dot1ax_I_link_aggregation_I_key_groups_I_cscd_I_admin_conv_service_map 
+ieee802_dot1ax_I_link_aggregation_I_key_groups_I_cscd_I_admin_conv_service_map : +cid : uint16 [0..4095]  {key} 
+ieee802_dot1ax_I_link_aggregation_I_key_groups_I_cscd_I_admin_conv_service_map : service-ids []: uint32 
+ieee802_dot1ax_I_link_aggregation_I_key_groups_I_cscd : admin-conv-service-digest : binary   {Config : false}
+class "admin-conv-link-map" as ieee802_dot1ax_I_link_aggregation_I_key_groups_I_cscd_I_admin_conv_link_map << (L, #FF7700) list>> 
+ieee802_dot1ax_I_link_aggregation_I_key_groups_I_cscd *-- "0..N" ieee802_dot1ax_I_link_aggregation_I_key_groups_I_cscd_I_admin_conv_link_map 
+ieee802_dot1ax_I_link_aggregation_I_key_groups_I_cscd_I_admin_conv_link_map : +cid : uint16 [0..4095]  {key} 
+ieee802_dot1ax_I_link_aggregation_I_key_groups_I_cscd_I_admin_conv_link_map : link-numbers []: uint16 
+ieee802_dot1ax_I_link_aggregation_I_key_groups_I_cscd : admin-conv-link-digest : binary   {Config : false}
+ieee802_dot1ax_I_link_aggregation_I_key_groups_I_cscd : admin-discard-wrong-conv : enumeration : {force-true,force-false,auto,}   = force-false  {if-feature : dwc}
+ieee802_dot1ax_I_link_aggregation_I_key_groups : aggregators []: string  {Config : false}
+ieee802_dot1ax_I_link_aggregation_I_key_groups : aggregation-ports []: string  {Config : false}
+class "/if:interfaces/if:interface" as if_interfaces_if_interface << (A,CadetBlue) augment>>
+ieee802_dot1ax *--  if_interfaces_if_interface 
+note bottom of if_interfaces_if_interface
+<b>When: </b>derived-from-or-self(if:type,'ianaif:ieee8023adLag') or if:type = 'dot1ax:ieee8021axIrp' or if:type = 'ianaif:bridge'
+end note 
+class "aggregator" as  ietf_interfaces_I_interfaces_I_interface_I_aggregator <<container>> 
+if_interfaces_if_interface *-- "1" ietf_interfaces_I_interfaces_I_interface_I_aggregator 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator : agg-key-group : string   {mandatory}
+ietf_interfaces_I_interfaces_I_interface_I_aggregator : agg-mac-address : ieee:mac-address   {Config : false}
+ietf_interfaces_I_interfaces_I_interface_I_aggregator : data-rate : uint64   {Config : false}
+class "aggregator-lacp" as  ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_lacp <<container>> 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator *-- "1" ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_lacp 
+note bottom of ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_lacp
+<b>Config = </b>false
+end note 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_lacp : actor-oper-key : uint16  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_lacp : partner-system-id : ieee:mac-address  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_lacp : partner-system-priority : uint16  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_lacp : partner-oper-key : uint16  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_lacp : aggregate-or-individual : boolean  
+class "aggregator-cscd" as  ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_cscd <<container>> 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator *-- "0..1" ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_cscd 
+note bottom of ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_cscd
+<b>if-feature: </b>cscd
+end note 
+note bottom of ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_cscd
+<b>Presence: </b>The presence of this container indicates that CSCD is supported
+end note 
+note bottom of ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_cscd
+<b>Config = </b>false
+end note 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_cscd : partner-port-algorithm : uint32  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_cscd : partner-conv-service-digest : binary  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_cscd : partner-conv-link-digest : binary  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_cscd : discard-wrong-conversation : boolean  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_cscd : active-lag-links []: uint16  {Config : false}
+class "redundant" as  ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_redundant <<container>> 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator *-- "1" ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_redundant 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_redundant : name : string {length = 0..255}  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_redundant : admin-state : enumeration : {up,down,}  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_redundant : link-up-down-notification : enumeration : {enabled,disabled,}  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_redundant : id : int32   {Config : false}
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_redundant : description : string {length = 0..255}   {Config : false}
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_redundant : oper-state : enumeration : {up,down,}   {Config : false}
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_redundant : time-of-last-oper-change : yang:counter32   {Config : false}
+class "statistics" as  ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_statistics <<container>> 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator *-- "1" ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_statistics 
+note bottom of ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_statistics
+<b>Config = </b>false
+end note 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_statistics : octets-tx : yang:counter64  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_statistics : octets-rx : yang:counter64  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_statistics : frames-tx : yang:counter64  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_statistics : frames-rx : yang:counter64  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_statistics : multicast-frames-tx : yang:counter64  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_statistics : multicast-frames-rx : yang:counter64  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_statistics : broadcast-frames-tx : yang:counter64  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_statistics : broadcast-frames-rx : yang:counter64  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_statistics : frames-discarded-on-tx : yang:counter64  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_statistics : frames-discarded-on-rx : yang:counter64  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_statistics : frames-with-tx-errors : yang:counter64  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_statistics : frames-with-rx-errors : yang:counter64  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_statistics : unknown-protocol-frames : yang:counter64  
+class "drni-enable" as  ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_drni_enable <<container>> 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator *-- "0..1" ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_drni_enable 
+note bottom of ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_drni_enable
+<b>if-feature: </b>drni
+end note 
+note bottom of ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_drni_enable
+<b>Presence: </b>When present, this Aggregator is enabled for DRNI
+end note 
+class "/if:interfaces/if:interface" as if_interfaces_if_interface << (A,CadetBlue) augment>>
+note bottom of if_interfaces_if_interface
+<b>When: </b>if:type = 'ianaif:ethernetCsmacd'
+end note 
+class "aggregation-port" as  ietf_interfaces_I_interfaces_I_interface_I_aggregation_port <<container>> 
+if_interfaces_if_interface *-- "1" ietf_interfaces_I_interfaces_I_interface_I_aggregation_port 
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port : agg-key-group : string   {mandatory}
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port : actor-port-number : uint16 [1..65535]  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port : actor-port-priority : uint16   = 0 
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port : actor-admin-state : lacp-state   = lacp-activity aggregation 
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port : partner-admin-key : uint16  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port : partner-admin-port : uint16  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port : partner-admin-port-priority : uint16   = 0 
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port : partner-admin-state : lacp-state   = synchronization 
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port : wtr-time : uint16   = 1 
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port : wtr-revertive : boolean   = true 
+class "aggregation-port-lacp" as  ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_lacp <<container>> 
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port *-- "1" ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_lacp 
+note bottom of ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_lacp
+<b>Config = </b>false
+end note 
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_lacp : actor-lacp-version : uint16  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_lacp : actor-oper-key : uint16  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_lacp : actor-oper-state : lacp-state  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_lacp : partner-lacp-version : uint16  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_lacp : partner-oper-system-priority : uint16  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_lacp : partner-oper-system-id : ieee:mac-address  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_lacp : partner-oper-key : uint16  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_lacp : partner-oper-port : uint16  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_lacp : partner-oper-port-priority : uint16  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_lacp : partner-oper-state : lacp-state  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_lacp : selected-agg-id : int32  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_lacp : attached-agg-id : int32  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_lacp : aggregate-or-individual : boolean  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_lacp : wtr-waiting : boolean  
+class "aggregation-port-cscd" as  ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_cscd <<container>> 
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port *-- "0..1" ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_cscd 
+note bottom of ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_cscd
+<b>if-feature: </b>cscd
+end note 
+note bottom of ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_cscd
+<b>Presence: </b>The presence of this container indicates that CSCD is supported
+end note 
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_cscd : admin-link-number : uint16  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_cscd : link-number : uint16   {Config : false}
+class "redundant" as  ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_redundant <<container>> 
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port *-- "1" ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_redundant 
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_redundant : id : int32   {Config : false}
+class "aggregation-port-statisticss" as  ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_statisticss <<container>> 
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port *-- "1" ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_statisticss 
+note bottom of ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_statisticss
+<b>Config = </b>false
+end note 
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_statisticss : stats-id : int32  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_statisticss : lacp-pdu-rx : yang:counter64  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_statisticss : marker-pdu-rx : yang:counter64  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_statisticss : marker-response-pdu-rx : yang:counter64  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_statisticss : unknown-rx : yang:counter64  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_statisticss : illegal-rx : yang:counter64  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_statisticss : lacp-pdu-tx : yang:counter64  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_statisticss : marker-pdu-tx : yang:counter64  
+ietf_interfaces_I_interfaces_I_interface_I_aggregation_port_I_aggregation_port_statisticss : marker-response-pdu-tx : yang:counter64  
+class "/if:interfaces/if:interface/aggregator" as if_interfaces_if_interface_aggregator << (A,CadetBlue) augment>>
+ieee802_dot1ax *--  if_interfaces_if_interface_aggregator 
+note bottom of if_interfaces_if_interface_aggregator
+<b>When: </b>drni-enable
+end note 
+class "aggregator-drni" as  ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni <<container>> 
+if_interfaces_if_interface_aggregator *-- "1" ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni : intra-relay-port : string   {mandatory}
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni : drni-agg-key : uint16  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni : drni-agg-system : ieee:mac-address   = 00-00-00-00-00-00 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni : drni-agg-system-priority : uint16   = 0 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni : drcp-protocol-da : ieee:mac-address   = 01-80-c2-00-00-03 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni : home-admin-irp-state : irp-state  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni : home-oper-irp-state : irp-state   {Config : false}
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni : home-cscd-gateway-control : boolean   = true 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni : home-dr-client-gateway-control : boolean   = true 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni : home-gateway-algorithm : uint32   = 0x0080c200 
+class "home-admin-conv-service-map" as ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_home_admin_conv_service_map << (L, #FF7700) list>> 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni *-- "0..N" ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_home_admin_conv_service_map 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_home_admin_conv_service_map : +cid : uint16 [0..4095]  {key} 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_home_admin_conv_service_map : service-ids []: uint32 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni : home-admin-conv-service-digest : binary   {Config : false}
+class "neighbor" as  ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor <<container>> 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni *-- "1" ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor 
+note bottom of ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor
+<b>Config = </b>false
+end note 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor : oper-irp-state : irp-state  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor : system : ieee:mac-address  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor : system-priority : uint16  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor : drni-key : uint16  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor : aggregator-algorithm : identityref {dot1ax:distribution-algorithm}  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor : aggregator-conv-service-digest : binary   {Config : false}
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor : aggregator-conv-link-digest : binary   {Config : false}
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor : partner-system-priority : uint16  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor : partner-system : ieee:mac-address  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor : partner-aggregator-key : uint16  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor : neighbor-cscd-state : bits  
+class "neighbor-active-links" as  ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor_I_neighbor_active_links <<container>> 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor *-- "1" ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor_I_neighbor_active_links 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor_I_neighbor_active_links : active-link []: uint16 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor : gateway-algorithm : identityref {dot1ax:distribution-algorithm}  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor : gateway-conv-service-digest : binary   {Config : false}
+class "gateway-relay" as  ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_gateway_relay <<container>> 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni *-- "1" ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_gateway_relay 
+class "irp-statistics" as  ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_irp_statistics <<container>> 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni *-- "1" ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_irp_statistics 
+note bottom of ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_irp_statistics
+<b>Config = </b>false
+end note 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_irp_statistics : drcpdus-rx : yang:counter64  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_irp_statistics : illegal-rx : yang:counter64  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_irp_statistics : drcpdus-tx : yang:counter64  
+class "redundant" as  ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_redundant <<container>> 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni *-- "1" ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_redundant 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_redundant : id : uint16  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_redundant : description : string {length = 0..255}   {Config : false}
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_redundant : name : string {length = 0..255}   {Config : false}
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_redundant : aggregator : uint16  
+class "port-list" as  ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_redundant_I_port_list <<container>> 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_redundant *-- "1" ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_redundant_I_port_list 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_redundant_I_port_list : agg-port []: uint16 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_redundant : gateway-admin-state : enumeration : {up,down,}  
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_redundant : oper-state : enumeration : {up,down,}   {Config : false}
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_redundant : gateway-time-of-last-oper-change : yang:counter32   {Config : false}
+class "ianaif:iana-interface-type" as ianaif_iana_interface_type << (I,Silver) identity>> 
+class "distribution-algorithm" as distribution_algorithm << (I,Silver) identity>> 
+class "unspecified" as unspecified << (I,Silver) identity>> 
+distribution_algorithm <|-- unspecified 
+class "ieee8021axIrp" as ieee8021axIrp << (I,Silver) identity>> 
+ianaif_iana_interface_type <|-- ieee8021axIrp 
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor-->dot1ax_distribution_algorithm: aggregator-algorithm
+ietf_interfaces_I_interfaces_I_interface_I_aggregator_I_aggregator_drni_I_neighbor-->dot1ax_distribution_algorithm: gateway-algorithm
+} 
+
+center footer
+ <size:20> UML Generated : 2024-04-24 03:35 </size>
+ endfooter 
+@enduml 

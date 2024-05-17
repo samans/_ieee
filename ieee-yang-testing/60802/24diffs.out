@@ -1,0 +1,15 @@
+In:  iecieee60802-bridge.yang
+6c6
+<   import ieee802-dot1q-cnc-config {
+---
+>   import ieee802-dot1q-tsn-config-uni {
+
+In:  iecieee60802-tsn-config-uni.yang
+50c50
+<   augment "/tsn:cnc-config" {
+---
+>   augment "/tsn:tsn-uni" {
+168c168
+<   augment "/tsn:cnc-config/tsn:domain/tsn:cuc/tsn:stream" {
+---
+>   augment "/tsn:tsn-uni/tsn:domain/tsn:cuc/tsn:stream" {

@@ -1,0 +1,147 @@
+module: ieee802-ethernet-link-oam
+
+  augment /if:interfaces/if:interface:
+    +--rw link-oam!
+       +---x remote-loopback {remote-loopback-initiate}?
+       |  +---w input
+       |  |  +---w enable    boolean
+       |  +--ro output
+       |     +--ro success          boolean
+       |     +--ro error-message?   string
+       +---x reset-stats
+       |  +--ro output
+       |     +--ro success          boolean
+       |     +--ro error-message?   string
+       +---n non-threshold-event
+       |  +-- oui              vendor-oui
+       |  +-- timestamp        uint64
+       |  +-- location         event-location
+       |  +-- event-type       identityref
+       |  +-- running-total    yang:counter64
+       |  +-- event-total      yang:counter64
+       +---n threshold-event
+       |       {link-monitoring-local or
+link-monitoring-remote}?
+       |  +-- oui              vendor-oui
+       |  +-- timestamp        uint64
+       |  +-- location         event-location
+       |  +-- event-type       identityref
+       |  +-- running-total    yang:counter64
+       |  +-- event-total      yang:counter64
+       |  +-- threshold
+       |          {link-monitoring-local or
+link-monitoring-remote}?
+       |     +-- threshold-event-type    threshold-event-enum
+       |     +-- window                  uint64
+       |     +-- threshold               uint64
+       |     +-- value                   uint64
+       +--rw admin?                 admin-state
+       +--rw discovery-info
+       |  +--rw local
+       |  |  +--ro operational-status     operational-state
+       |  |  +--ro loopback-mode          loopback-status
+       |  |  |       {remote-loopback-initiate or
+remote-loopback-respond}?
+       |  |  +--rw mode?                  mode
+       |  |  +--rw functions-supported
+       |  |  |  +--rw uni-directional-link-fault?   boolean
+       |  |  |  |       {uni-directional-link-fault}?
+       |  |  |  +--rw loopback?                     boolean
+       |  |  |  |       {remote-loopback-initiate}?
+       |  |  |  +--rw link-monitor
+       |  |  |  |       {link-monitoring-remote or
+link-monitoring-local}?
+       |  |  |  |  +--rw link-monitoring?   boolean
+       |  |  |  |  +--rw event-type* [threshold-type]
+       |  |  |  |          {link-monitoring-local}?
+       |  |  |  |     +--rw threshold-type    threshold-event-enum
+       |  |  |  |     +--rw window?           uint64
+       |  |  |  |     +--rw threshold?        uint64
+       |  |  |  x--rw mib-retrieval?                boolean
+       |  |  |  |       {remote-mib-retrieval-initiate or
+remote-mib-retrieval-respond}?
+       |  |  |  +--rw data-retrieval?               boolean
+       |  |  |          {remote-data-retrieval-initiate or
+remote-mib-retrieval-respond}?
+       |  |  +--ro revision?              uint64
+       |  |  +--ro oammtu?                uint16
+       |  +--ro remote
+       |     +--ro mac-address?           ieee:mac-address
+       |     +--ro vendor-oui?            vendor-oui
+       |     +--ro vendor-info?           uint64
+       |     +--ro loopback-mode          loopback-status
+       |     +--ro mode?                  mode
+       |     +--ro functions-supported
+       |     |  +--ro uni-directional-link-fault?   boolean
+       |     |  +--ro loopback?                     boolean
+       |     |  +--ro link-monitoring?              boolean
+       |     |  +--ro mib-retrieval?                boolean
+       |     +--ro revision?              uint64
+       |     +--ro oammtu?                uint16
+       +--ro event-log
+       |  +--ro event-log-entry* [index]
+       |     +--ro index            uint64
+       |     +--ro oui              vendor-oui
+       |     +--ro timestamp        uint64
+       |     +--ro location         event-location
+       |     +--ro event-type       identityref
+       |     +--ro running-total    yang:counter64
+       |     +--ro event-total      yang:counter64
+       |     +--ro threshold
+       |             {link-monitoring-local or
+link-monitoring-remote}?
+       |        +--ro threshold-event-type    threshold-event-enum
+       |        +--ro window                  uint64
+       |        +--ro threshold               uint64
+       |        +--ro value                   uint64
+       +--ro statistics
+          +--ro out-information
+          |       yang:counter64
+          +--ro in-information
+          |       yang:counter64
+          +--ro out-unique-event-notification
+          |       yang:counter64 {link-monitoring-local}?
+          +--ro in-unique-event-notification
+          |       yang:counter64 {link-monitoring-remote}?
+          +--ro out-duplicate-event-notification
+          |       yang:counter64 {link-monitoring-local}?
+          +--ro in-duplicate-event-notification
+          |       yang:counter64 {link-monitoring-remote}?
+          +--ro out-loopback-control
+          |       yang:counter64 {remote-loopback-initiate}?
+          +--ro in-loopback-control
+          |       yang:counter64 {remote-loopback-respond}?
+          +--ro out-variable-request
+          |       yang:counter64 {remote-data-retrieval-initiate}?
+          +--ro in-variable-request
+          |       yang:counter64 {remote-mib-retrieval-respond}?
+          +--ro out-variable-response
+          |       yang:counter64 {remote-mib-retrieval-respond}?
+          +--ro in-variable-response
+          |       yang:counter64 {remote-data-retrieval-initiate}?
+          +--ro out-org-specific
+          |       yang:counter64
+          +--ro in-org-specific
+          |       yang:counter64
+          +--ro out-unsupported-codes
+          |       yang:counter64
+          +--ro in-unsupported-codes
+          |       yang:counter64
+          +--ro frames-lost-due-to-oam
+          |       yang:counter64
+          +--ro local-error-symbol-period-log-entries
+          |       yang:counter64
+          +--ro local-error-frame-log-entries
+          |       yang:counter64
+          +--ro local-error-frame-period-log-entries
+          |       yang:counter64
+          +--ro local-error-frame-second-log-entries
+          |       yang:counter64
+          +--ro remote-error-symbol-period-log-entries
+          |       yang:counter64 {link-monitoring-remote}?
+          +--ro remote-error-frame-log-entries
+          |       yang:counter64 {link-monitoring-remote}?
+          +--ro remote-error-frame-period-log-entries
+          |       yang:counter64 {link-monitoring-remote}?
+          +--ro remote-error-frame-second-log-entries
+                  yang:counter64 {link-monitoring-remote}?

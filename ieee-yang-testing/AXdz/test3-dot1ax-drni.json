@@ -1,0 +1,38 @@
+{
+  "ietf-interfaces:interfaces": {
+    "interface": [
+      {
+        "name": "my-drni",
+        "type": "iana-if-type:ieee8023adLag",
+        "ieee802-dot1ax:aggregator": {
+          "agg-key-group": "Key-drni",
+          "ieee802-dot1ax-drni:aggregator-drni": {
+            "intra-relay-port": "my-irp"
+          }
+        }
+      },
+      {
+        "name": "my-irp",
+        "type": "ieee802-dot1ax-types:ieee8021axIrp",
+        "ieee802-dot1ax:aggregator": {
+          "agg-key-group": "Key-irp"
+        }
+      }
+    ]
+
+  },
+  "ieee802-dot1ax:link-aggregation": {
+    "key-group": [
+      {
+        "name": "Key-drni",
+	      "actor-admin-key": 1,
+	      "actor-system-id": "00-80-C2-00-00-01"
+      },
+      {
+        "name": "Key-irp",
+	      "actor-admin-key": 2,
+	      "actor-system-id": "00-80-C2-00-00-01"
+      }
+    ]
+  }
+}

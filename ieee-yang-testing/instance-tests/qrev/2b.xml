@@ -1,0 +1,100 @@
+   <bridges xmlns="urn:ieee:std:802.1Q:yang:ieee802-dot1q-bridge">
+      <bridge xmlns:dot1q="urn:ieee:std:802.1Q:yang:ieee802-dot1q-bridge">
+         <name>br0</name>
+         <address>10-10-10-10-10-10</address>
+         <bridge-type>dot1q:customer-vlan-bridge</bridge-type>
+         <up-time>0</up-time>
+         <component>
+            <name>c-vlan-comp</name>
+            <type xmlns:dot1q="urn:ieee:std:802.1Q:yang:ieee802-dot1q-bridge">dot1q:s-vlan-component</type>
+            <filtering-database>
+               <vlan-registration-entry>
+                  <database-id>1</database-id>
+                  <vids>1</vids>
+                  <port-map>
+                     <port-ref>100</port-ref>
+                     <static-vlan-registration-entries>
+                        <vlan-transmitted>tagged</vlan-transmitted>
+                     </static-vlan-registration-entries>
+                  </port-map>
+                  <port-map>
+                     <port-ref>101</port-ref>
+                     <static-vlan-registration-entries>
+                        <vlan-transmitted>untagged</vlan-transmitted>
+                     </static-vlan-registration-entries>
+                  </port-map>
+               </vlan-registration-entry>
+               <vlan-registration-entry>
+                  <database-id>2</database-id>
+                  <vids>2</vids>
+                  <port-map>
+                     <port-ref>100</port-ref>
+                     <static-vlan-registration-entries>
+                        <vlan-transmitted>tagged</vlan-transmitted>
+                     </static-vlan-registration-entries>
+                  </port-map>
+                  <port-map>
+                     <port-ref>102</port-ref>
+                     <static-vlan-registration-entries>
+                        <vlan-transmitted>untagged</vlan-transmitted>
+                     </static-vlan-registration-entries>
+                  </port-map>
+               </vlan-registration-entry>
+            </filtering-database>
+            <bridge-vlan>
+               <vlan>
+                  <vid>1</vid>
+                  <name>vlan1</name>
+               </vlan>
+               <vlan>
+                  <vid>2</vid>
+                  <name>vlan2</name>
+               </vlan>
+            </bridge-vlan>
+         </component>
+      </bridge>
+   </bridges>
+   <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+      <interface xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">
+         <name>eth0</name>
+         <type>ianaift:ethernetCsmacd</type>
+         <admin-status>up</admin-status>
+         <oper-status>up</oper-status>
+         <if-index>10</if-index>
+         <statistics>
+            <discontinuity-time>2022-03-23T05:00:00-04:00</discontinuity-time>
+         </statistics>
+      </interface>
+      <interface xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">
+         <name>eth1</name>
+         <type>ianaift:ethernetCsmacd</type>
+         <admin-status>up</admin-status>
+         <oper-status>up</oper-status>
+         <if-index>10</if-index>
+         <statistics>
+            <discontinuity-time>2022-03-23T05:00:00-04:00</discontinuity-time>
+         </statistics>
+         <bridge-port xmlns="urn:ieee:std:802.1Q:yang:ieee802-dot1q-bridge">
+            <bridge-name>br0</bridge-name>
+            <component-name>c-vlan-comp</component-name>
+            <port-type xmlns:dot1q="urn:ieee:std:802.1Q:yang:ieee802-dot1q-bridge">dot1q:customer-edge-port</port-type>
+            <pvid>1</pvid>
+         </bridge-port>
+      </interface>
+      <interface xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">
+         <name>eth2</name>
+         <type>ianaift:ethernetCsmacd</type>
+         <admin-status>up</admin-status>
+         <oper-status>up</oper-status>
+         <if-index>10</if-index>
+         <statistics>
+            <discontinuity-time>2022-03-23T05:00:00-04:00</discontinuity-time>
+         </statistics>
+         <bridge-port xmlns="urn:ieee:std:802.1Q:yang:ieee802-dot1q-bridge">
+            <bridge-name>br0</bridge-name>
+            <component-name>c-vlan-comp</component-name>
+            <port-type xmlns:dot1q="urn:ieee:std:802.1Q:yang:ieee802-dot1q-bridge">dot1q:customer-edge-port</port-type>
+            <pvid>2</pvid>
+         </bridge-port>
+      </interface>
+   </interfaces>

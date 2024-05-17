@@ -1,0 +1,3390 @@
+module ieee802-ethernet-mau {
+  yang-version 1.1;
+  namespace "urn:ieee:std:802.3:yang:ieee802-ethernet-mau";
+  prefix ieee802-eth-mau;
+
+  organization
+    "IEEE Std 802.3 Ethernet Working Group
+     Web URL: http://www.ieee802.org/3/";
+  contact
+    "Web URL: http://www.ieee802.org/3/";
+  description
+    "This module contains YANG definitions for MAU IDENTITIES and
+     type-list-bits, MediaAvailable, AutoNegCapBits, and Jacktype- TCs";
+  reference
+    "IEEE Std 802.3-2022, unless dated explicitly";
+
+  revision 2024-01-01 {
+    description
+      "Initial revision derived from IANA-MAU-MIB REVISION 202309070000Z
+       using smidump.";
+    reference
+      "IEEE Std 802.3-2022, unless dated explicitly";
+  }  
+
+  identity mau-type {
+    description
+      "Base type for MAU types.";
+  }
+
+  identity type-AUI {
+    base mau-type;
+    description
+      "No internal MAU, view from AUI";
+    reference
+      "IEEE Std 802.3,  Section 7";
+  }
+
+  identity type-10Base5 {
+    description
+      "thick coax MAU";
+    reference
+      "IEEE Std 802.3,  Section 7";
+  }
+
+  identity type-Foirl {
+    description
+      "FOIRL MAU";
+    reference
+      "IEEE Std 802.3,  Section 9.9";
+  }
+
+  identity type-10Base2 {
+    description
+      "thin coax MAU";
+    reference
+      "IEEE Std 802.3,  Section 10";
+  }
+
+  identity type-10BaseT {
+    description
+      "UTP MAU.
+       Note that it is strongly recommended that
+       agents return either type-10BaseTHD or
+       type-10BaseTFD if the duplex mode is
+       known.  However, management applications should
+       be prepared to receive this MAU type- value from
+       older agent implementations.";
+    reference
+      "IEEE Std 802.3,  Section 14";
+  }
+
+  identity type-10BaseFP {
+    description
+      "passive fiber MAU";
+    reference
+      "IEEE Std 802.3,  Section 16";
+  }
+
+  identity type-10BaseFB {
+    description
+      "sync fiber MAU";
+    reference
+      "IEEE Std 802.3,  Section 17";
+  }
+
+  identity type-10BaseFL {
+    description
+      "async fiber MAU.
+       Note that it is strongly recommended that
+       agents return either type-10BaseFLHD or
+       type-10BaseFLFD if the duplex mode is
+       known.  However, management applications should
+       be prepared to receive this MAU type- value from
+       older agent implementations.";
+    reference
+      "IEEE Std 802.3,  Section 18";
+  }
+
+  identity type-10Broad36 {
+    description
+      "broadband DTE MAU.
+       Note that 10BROAD36 MAUs can be attached to
+       interfaces but not to repeaters.";
+    reference
+      "IEEE Std 802.3,  Section 11";
+  }
+
+  identity type-10BaseTHD {
+    description
+      "UTP MAU, half duplex mode";
+    reference
+      "IEEE Std 802.3,  Section 14";
+  }
+
+  identity type-10BaseTFD {
+    base mau-type;
+    description
+      "UTP MAU, full duplex mode";
+    reference
+      "IEEE Std 802.3,  Section 14";
+  }
+
+  identity type-10BaseFLHD {
+    base mau-type;
+    description
+      "async fiber MAU, half duplex mode";
+    reference
+      "IEEE Std 802.3,  Section 18";
+  }
+
+  identity type-10BaseFLFD {
+    base mau-type;
+    description
+      "async fiber MAU, full duplex mode";
+    reference
+      "IEEE Std 802.3,  Section 18";
+  }
+
+  identity type-100BaseT4 {
+    base mau-type;
+    description
+      "4 pair category 3 UTP";
+    reference
+      "IEEE Std 802.3,  Section 23";
+  }
+
+  identity type-100BaseTXHD {
+    base mau-type;
+    description
+      "2 pair category 5 UTP, half duplex mode";
+    reference
+      "IEEE Std 802.3,  Section 25";
+  }
+
+  identity type-100BaseTXFD {
+    base mau-type;
+    description
+      "2 pair category 5 UTP, full duplex mode";
+    reference
+      "IEEE Std 802.3,  Section 25";
+  }
+
+  identity type-100BaseFXHD {
+    base mau-type;
+    description
+      "X fiber over PMT, half duplex mode";
+    reference
+      "IEEE Std 802.3,  Section 26";
+  }
+
+  identity type-100BaseFXFD {
+    base mau-type;
+    description
+      "X fiber over PMT, full duplex mode";
+    reference
+      "IEEE Std 802.3,  Section 26";
+  }
+
+  identity type-100BaseT2HD {
+    base mau-type;
+    description
+      "2 pair category 3 UTP, half duplex mode";
+    reference
+      "IEEE Std 802.3,  Section 32";
+  }
+
+  identity type-100BaseT2FD {
+    base mau-type;
+    description
+      "2 pair category 3 UTP, full duplex mode";
+    reference
+      "IEEE Std 802.3,  Section 32";
+  }
+
+  identity type-1000BaseXHD {
+    base mau-type;
+    description
+      "PCS/PMA, unknown PMD, half duplex mode";
+    reference
+      "IEEE Std 802.3,  Section 36";
+  }
+
+  identity type-1000BaseXFD {
+    base mau-type;
+    description
+      "PCS/PMA, unknown PMD, full duplex mode";
+    reference
+      "IEEE Std 802.3,  Section 36";
+  }
+
+  identity type-1000BaseLXHD {
+    base mau-type;
+    description
+      "Fiber over long-wavelength laser, half duplex
+       mode";
+    reference
+      "IEEE Std 802.3,  Section 38";
+  }
+
+  identity type-1000BaseLXFD {
+    base mau-type;
+    description
+      "Fiber over long-wavelength laser, full duplex
+       mode";
+    reference
+      "IEEE Std 802.3,  Section 38";
+  }
+
+  identity type-1000BaseSXHD {
+    base mau-type;
+    description
+      "Fiber over short-wavelength laser, half
+       duplex mode";
+    reference
+      "IEEE Std 802.3,  Section 38";
+  }
+
+  identity type-1000BaseSXFD {
+    base mau-type;
+    description
+      "Fiber over short-wavelength laser, full
+       duplex mode";
+    reference
+      "IEEE Std 802.3,  Section 38";
+  }
+
+  identity type-1000BaseCXHD {
+    base mau-type;
+    description
+      "Copper over 150-Ohm balanced cable, half
+       duplex mode";
+    reference
+      "IEEE Std 802.3,  Section 39";
+  }
+
+  identity type-1000BaseCXFD {
+    base mau-type;
+    description
+      "Copper over 150-Ohm balanced cable, full
+       duplex mode";
+    reference
+      "IEEE Std 802.3,  Section 39";
+  }
+
+  identity type-1000BaseTHD {
+    base mau-type;
+    description
+      "Four-pair Category 5 UTP, half duplex mode";
+    reference
+      "IEEE Std 802.3,  Section 40";
+  }
+
+  identity type-1000BaseTFD {
+    base mau-type;
+    description
+      "Four-pair Category 5 UTP, full duplex mode";
+    reference
+      "IEEE Std 802.3,  Section 40";
+  }
+
+  identity type-10GigBaseX {
+    base mau-type;
+    description
+      "X PCS/PMA, unknown PMD.";
+    reference
+      "IEEE Std 802.3,  Section 48";
+  }
+
+  identity type-10GigBaseLX4 {
+    base mau-type;
+    description
+      "X fiber over WWDM optics";
+    reference
+      "IEEE Std 802.3,  Section 53";
+  }
+
+  identity type-10GigBaseR {
+    base mau-type;
+    description
+      "R PCS/PMA, unknown PMD.";
+    reference
+      "IEEE Std 802.3,  Section 49";
+  }
+
+  identity type-10GigBaseER {
+    base mau-type;
+    description
+      "R fiber over 1550 nm optics";
+    reference
+      "IEEE Std 802.3,  Section 52";
+  }
+
+  identity type-10GigBaseLR {
+    base mau-type;
+    description
+      "R fiber over 1310 nm optics";
+    reference
+      "IEEE Std 802.3,  Section 52";
+  }
+
+  identity type-10GigBaseSR {
+    base mau-type;
+    description
+      "R fiber over 850 nm optics";
+    reference
+      "IEEE Std 802.3,  Section 52";
+  }
+
+  identity type-10GigBaseW {
+    base mau-type;
+    description
+      "W PCS/PMA, unknown PMD.";
+    reference
+      "IEEE Std 802.3,  Section 49 and 50";
+  }
+
+  identity type-10GigBaseEW {
+    base mau-type;
+    description
+      "W fiber over 1550 nm optics";
+    reference
+      "IEEE Std 802.3,  Section 52";
+  }
+
+  identity type-10GigBaseLW {
+    base mau-type;
+    description
+      "W fiber over 1310 nm optics";
+    reference
+      "IEEE Std 802.3,  Section 52";
+  }
+
+  identity type-10GigBaseSW {
+    base mau-type;
+    description
+      "W fiber over 850 nm optics";
+    reference
+      "IEEE Std 802.3,  Section 52";
+  }
+
+  identity type-10GigBaseCX4 {
+    base mau-type;
+    description
+      "X copper over 8 pair 100-Ohm balanced cable";
+    reference
+      "IEEE Std 802.3,  Section 54";
+  }
+
+  identity type-2BaseTL {
+    base mau-type;
+    description
+      "Voice grade UTP copper, up to 2700m, optional PAF";
+    reference
+      "IEEE Std 802.3,  Sections 61 and 63";
+  }
+
+  identity type-10PassTS {
+    base mau-type;
+    description
+      "Voice grade UTP copper, up to 750m, optional PAF";
+    reference
+      "IEEE Std 802.3,  Sections 61 and 62";
+  }
+
+  identity type-100BaseBX10D {
+    base mau-type;
+    description
+      "One single-mode fiber OLT, long wavelength, 10km";
+    reference
+      "IEEE Std 802.3,  Section 58";
+  }
+
+  identity type-100BaseBX10U {
+    base mau-type;
+    description
+      "One single-mode fiber ONU, long wavelength, 10km";
+    reference
+      "IEEE Std 802.3,  Section 58";
+  }
+
+  identity type-100BaseLX10 {
+    base mau-type;
+    description
+      "Two single-mode fibers, long wavelength, 10km";
+    reference
+      "IEEE Std 802.3,  Section 58";
+  }
+
+  identity type-1000BaseBX10D {
+    base mau-type;
+    description
+      "One single-mode fiber OLT, long wavelength, 10km";
+    reference
+      "IEEE Std 802.3,  Section 59";
+  }
+
+  identity type-1000BaseBX10U {
+    base mau-type;
+    description
+      "One single-mode fiber ONU, long wavelength, 10km";
+    reference
+      "IEEE Std 802.3,  Section 59";
+  }
+
+  identity type-1000BaseLX10 {
+    base mau-type;
+    description
+      "Two sigle-mode fiber, long wavelength, 10km";
+    reference
+      "IEEE Std 802.3,  Section 59";
+  }
+
+  identity type-1000BasePX10D {
+    base mau-type;
+    description
+      "One single-mode fiber EPON OLT, 10km";
+    reference
+      "IEEE Std 802.3,  Section 60";
+  }
+
+  identity type-1000BasePX10U {
+    base mau-type;
+    description
+      "One single-mode fiber EPON ONU, 10km";
+    reference
+      "IEEE Std 802.3,  Section 60";
+  }
+
+  identity type-1000BasePX20D {
+    base mau-type;
+    description
+      "One single-mode fiber EPON OLT, 20km";
+    reference
+      "IEEE Std 802.3,  Section 60";
+  }
+
+  identity type-1000BasePX20U {
+    base mau-type;
+    description
+      "One single-mode fiber EPON ONU, 20km";
+    reference
+      "IEEE Std 802.3,  Section 60";
+  }
+
+  identity type-10GbaseT {
+    base mau-type;
+    description
+      "Four-pair Category 6A or better, full duplex mode only";
+    reference
+      "IEEE Std 802.3, Clause 55";
+  }
+
+  identity type-10GbaseLRM {
+    base mau-type;
+    description
+      "R multimode fiber over 1310 nm optics";
+    reference
+      "IEEE Std 802.3, Clause 68";
+  }
+
+  identity type-1000baseKX {
+    base mau-type;
+    description
+      "X backplane, full duplex mode only";
+    reference
+      "IEEE Std 802.3, Clause 70";
+  }
+
+  identity type-10GbaseKX4 {
+    base mau-type;
+    description
+      "4 lane X backplane, full duplex mode only";
+    reference
+      "IEEE Std 802.3, Clause 71";
+  }
+
+  identity type-10GbaseKR {
+    base mau-type;
+    description
+      "R backplane, full duplex mode only";
+    reference
+      "IEEE Std 802.3, Clause 72";
+  }
+
+  identity type-10G1GbasePRXD1 {
+    base mau-type;
+    description
+      "One single-mode fiber asymmetric-rate EPON OLT, supporting low
+       power budget (PRX10)";
+    reference
+      "IEEE Std 802.3, Clause 75";
+  }
+
+  identity type-10G1GbasePRXD2 {
+    base mau-type;
+    description
+      "One single-mode fiber asymmetric-rate EPON OLT, supporting
+       medium power budget (PRX20)";
+    reference
+      "IEEE Std 802.3, Clause 75";
+  }
+
+  identity type-10G1GbasePRXD3 {
+    base mau-type;
+    description
+      "One single-mode fiber asymmetric-rate EPON OLT, supporting high
+       power budget (PRX30)";
+    reference
+      "IEEE Std 802.3, Clause 75";
+  }
+
+  identity type-10G1GbasePRXU1 {
+    base mau-type;
+    description
+      "One single-mode fiber asymmetric-rate EPON ONU, supporting low
+       power budget (PRX10)";
+    reference
+      "IEEE Std 802.3, Clause 75";
+  }
+
+  identity type-10G1GbasePRXU2 {
+    base mau-type;
+    description
+      "One single-mode fiber asymmetric-rate EPON ONU, supporting
+       medium power budget (PRX20)";
+    reference
+      "IEEE Std 802.3, Clause 75";
+  }
+
+  identity type-10G1GbasePRXU3 {
+    base mau-type;
+    description
+      "One single-mode fiber asymmetric-rate EPON ONU, supporting high
+       power budget (PRX30)";
+    reference
+      "IEEE Std 802.3, Clause 75";
+  }
+
+  identity type-10GbasePRD1 {
+    base mau-type;
+    description
+      "One single-mode fiber symmetric-rate EPON OLT, supporting low
+       power budget (PR10)";
+    reference
+      "IEEE Std 802.3, Clause 75";
+  }
+
+  identity type-10GbasePRD2 {
+    base mau-type;
+    description
+      "One single-mode fiber symmetric-rate EPON OLT, supporting
+       medium power budget (PR20)";
+    reference
+      "IEEE Std 802.3, Clause 75";
+  }
+
+  identity type-10GbasePRD3 {
+    base mau-type;
+    description
+      "One single-mode fiber symmetric-rate EPON OLT, supporting high
+       power budget (PR30)";
+    reference
+      "IEEE Std 802.3, Clause 75";
+  }
+
+  identity type-10GbasePRU1 {
+    base mau-type;
+    description
+      "One single-mode fiber symmetric-rate EPON ONU, supporting
+       low and medium power budget (PR10 and PR20)";
+    reference
+      "IEEE Std 802.3, Clause 75";
+  }
+
+  identity type-10GbasePRU3 {
+    base mau-type;
+    description
+      "One single-mode fiber symmetric-rate EPON ONU, supporting high
+       power budget (PR30)";
+    reference
+      "IEEE Std 802.3, Clause 75";
+  }
+
+  identity type-40GbaseKR4 {
+    base mau-type;
+    description
+      "40GBASE-R PCS/PMA over an electrical
+       backplane";
+    reference
+      "IEEE Std 802.3, Clause 84";
+  }
+
+  identity type-40GbaseCR4 {
+    base mau-type;
+    description
+      "40GBASE-R PCS/PMA over 4 lane shielded
+       copper balanced cable";
+    reference
+      "IEEE Std 802.3, Clause 85";
+  }
+
+  identity type-40GbaseSR4 {
+    base mau-type;
+    description
+      "40GBASE-R PCS/PMA over 4 lane multimode
+       fiber";
+    reference
+      "IEEE Std 802.3, Clause 86";
+  }
+
+  identity type-40GbaseFR {
+    base mau-type;
+    description
+      "40GBASE-R PCS/PMA over single mode
+       fiber";
+    reference
+      "IEEE Std 802.3, Clause 89";
+  }
+
+  identity type-40GbaseLR4 {
+    base mau-type;
+    description
+      "40GBASE-R PCS/PMA over 4 WDM lane
+       single mode fiber";
+    reference
+      "IEEE Std 802.3, Clause 87";
+  }
+
+  identity type-100GbaseCR10 {
+    base mau-type;
+    description
+      "100GBASE-R PCS/PMA over 10 lane
+       shielded copper balanced cable";
+    reference
+      "IEEE Std 802.3, Clause 85";
+  }
+
+  identity type-100GbaseSR10 {
+    base mau-type;
+    description
+      "100GBASE-R PCS/PMA over 10 lane
+       multimode fiber";
+    reference
+      "IEEE Std 802.3, Clause 86";
+  }
+
+  identity type-100GbaseLR4 {
+    base mau-type;
+    description
+      "100GBASE-R PCS/PMA over 4 WDM lane
+       single mode fiber, long reach";
+    reference
+      "IEEE Std 802.3, Clause 88";
+  }
+
+  identity type-100GbaseER4 {
+    base mau-type;
+    description
+      "100GBASE-R PCS/PMA over 4 WDM lane
+       single mode fiber PMD, extended reach";
+    reference
+      "IEEE Std 802.3, Clause 88";
+  }
+
+  identity type-1000baseT1 {
+    base mau-type;
+    description
+      "1000BASE-T1 single balanced twisted-pair copper cabling PHY";
+    reference
+      "IEEE Std 802.3, Clause 97";
+  }
+
+  identity type-1000basePX30D {
+    base mau-type;
+    description
+      "One single-mode fiber EPON OLT, 20km, 1:32 split ratio";
+    reference
+      "IEEE Std 802.3, Clause 60";
+  }
+
+  identity type-1000basePX30U {
+    base mau-type;
+    description
+      "One single-mode fiber EPON ONU, 20km, 1:32 split ratio";
+    reference
+      "IEEE Std 802.3, Clause 60";
+  }
+
+  identity type-1000basePX40D {
+    base mau-type;
+    description
+      "One single-mode fiber EPON OLT, 20km, 1:64 split ratio";
+    reference
+      "IEEE Std 802.3, Clause 60";
+  }
+
+  identity type-1000basePX40U {
+    base mau-type;
+    description
+      "One single-mode fiber EPON ONU, 20km, 1:64 split ratio";
+    reference
+      "IEEE Std 802.3, Clause 60";
+  }
+
+  identity type-10G1GbasePRXD4 {
+    base mau-type;
+    description
+      "One single-mode fiber asymmetric-rate EPON OLT, supporting
+       extended power budget (PRX40)";
+    reference
+      "IEEE Std 802.3, Clause 75";
+  }
+
+  identity type-10G1GbasePRXU4 {
+    base mau-type;
+    description
+      "One single-mode fiber asymmetric-rate EPON ONU, supporting
+       extended power budget (PRX40)";
+    reference
+      "IEEE Std 802.3, Clause 75";
+  }
+
+  identity type-10GbasePRD4 {
+    base mau-type;
+    description
+      "One single-mode fiber symmetric-rate EPON OLT, supporting
+       extended power budget (PR40)";
+    reference
+      "IEEE Std 802.3, Clause 75";
+  }
+
+  identity type-10GbasePRU4 {
+    base mau-type;
+    description
+      "One single-mode fiber symmetric-rate EPON ONU, supporting
+       extended power budget (PR40)";
+    reference
+      "IEEE Std 802.3, Clause 75";
+  }
+
+  identity type-25GbaseCR {
+    base mau-type;
+    description
+      "25GBASE-R PCS/PMA over shielded balanced copper cable";
+    reference
+      "IEEE Std 802.3, Clause 110";
+  }
+
+  identity type-25GbaseCRS {
+    base mau-type;
+    description
+      "25GBASE-R PCS/PMA over shielded balanced copper cable
+       without RS-FEC";
+    reference
+      "IEEE Std 802.3, Clause 110";
+  }
+
+  identity type-25GbaseKR {
+    base mau-type;
+    description
+      "25GBASE-R PCS/PMA over an electrical backplane";
+    reference
+      "IEEE Std 802.3, Clause 111";
+  }
+
+  identity type-25GbaseKRS {
+    base mau-type;
+    description
+      "25GBASE-R PCS/PMA over an electrical backplane without RS-FEC";
+    reference
+      "IEEE Std 802.3, Clause 111";
+  }
+
+  identity type-25GbaseR {
+    base mau-type;
+    description
+      "25GBASE-R PCS/PMA over undefined PMD";
+    reference
+      "IEEE Std 802.3, Clause 107 and 109";
+  }
+
+  identity type-25GbaseSR {
+    base mau-type;
+    description
+      "25GBASE-R PCS/PMA over multimode fiber";
+    reference
+      "IEEE Std 802.3, Clause 112";
+  }
+
+  identity type-25GbaseT {
+    base mau-type;
+    description
+      "Four-pair twisted-pair balanced copper cabling";
+    reference
+      "IEEE Std 802.3, Clause 113";
+  }
+
+  identity type-40GbaseER4 {
+    base mau-type;
+    description
+      "40GBASE-R PCS/PMA over 4 WDM lane single mode fiber";
+    reference
+      "IEEE Std 802.3, Clause 82";
+  }
+
+  identity type-40GbaseR {
+    base mau-type;
+    description
+      "40GBASE-R PCS as over undefined PMA/PMD";
+    reference
+      "IEEE Std 802.3, Clause 82";
+  }
+
+  identity type-40GbaseT {
+    base mau-type;
+    description
+      "Four-pair twisted-pair balanced copper cabling";
+    reference
+      "IEEE Std 802.3, Clause 113";
+  }
+
+  identity type-100GbaseCR4 {
+    base mau-type;
+    description
+      " 100GBASE-R PCS/PMA over 4 lane shielded copper balanced cable";
+    reference
+      "IEEE Std 802.3, Clause 92";
+  }
+
+  identity type-100GbaseKR4 {
+    base mau-type;
+    description
+      "100GBASE-R PCS/PMA over an electrical backplane";
+    reference
+      "IEEE Std 802.3, Clause 93";
+  }
+
+  identity type-100GbaseKP4 {
+    base mau-type;
+    description
+      "100GBASE-P PCS/PMA over an electrical backplane PMD";
+    reference
+      "IEEE Std 802.3, Clause 94";
+  }
+
+  identity type-100GbaseR {
+    base mau-type;
+    description
+      "100GBASE-R Multi-lane PCS over undefined PMA/PMD";
+    reference
+      "IEEE Std 802.3, Clause 82";
+  }
+
+  identity type-100GbaseSR4 {
+    base mau-type;
+    description
+      "100GBASE-R PCS/PMA over 4 lane multimode fiber";
+    reference
+      "IEEE Std 802.3, Clause 95";
+  }
+
+  identity type-2p5GigT {
+    base mau-type;
+    description
+      "2.5GBASE-T Four-pair twisted-pair balanced copper cabling PHY";
+    reference
+      "IEEE Std 802.3-2018, Clause 126";
+  }
+
+  identity type-5GigT {
+    base mau-type;
+    description
+      "5GBASE-T Four-pair twisted-pair balanced copper cabling PHY";
+    reference
+      "IEEE Std 802.3-2018, Clause 126";
+  }
+
+  identity type-100baseT1 {
+    base mau-type;
+    description
+      "100BASE-T1 Single balanced twisted-pair copper cabling PHY";
+    reference
+      "IEEE Std 802.3, Clause 96";
+  }
+
+  identity type-1000baseRHA {
+    base mau-type;
+    description
+      "1000BASE-RHA Plastic optical fiber PHY";
+    reference
+      "IEEE Std 802.3, Clause 115";
+  }
+
+  identity type-1000baseRHB {
+    base mau-type;
+    description
+      "1000BASE-RHB Plastic optical fiber PHY";
+    reference
+      "IEEE Std 802.3, Clause 115";
+  }
+
+  identity type-1000baseRHC {
+    base mau-type;
+    description
+      "1000BASE-RHC Plastic optical fiber PHY";
+    reference
+      "IEEE Std 802.3, Clause 115";
+  }
+
+  identity type-2p5GbaseKX {
+    base mau-type;
+    description
+      "2.5GBASE-X PMD over an electrical backplane";
+    reference
+      "IEEE Std 802.3, Clause 128";
+  }
+
+  identity type-2p5GbaseX {
+    base mau-type;
+    description
+      "2.5GBASE-X PCS/PMA over undefined PMD";
+    reference
+      "IEEE Std 802.3, Clause 127";
+  }
+
+  identity type-5GbaseKR {
+    base mau-type;
+    description
+      "5GBASE-KR PMD over an electrical backplane";
+    reference
+      "IEEE Std 802.3, Clause 130";
+  }
+
+  identity type-5GbaseR {
+    base mau-type;
+    description
+      "5GBASE-R PCS/PMA over undefined PMD";
+    reference
+      "IEEE Std 802.3, Clause 129";
+  }
+
+  identity type-10GpassXR {
+    base mau-type;
+    description
+      "Coax cable distribution network PHY continuous downstream/burst mode upstream PHY";
+    reference
+      "IEEE Std 802.3, Clause 100 and 101";
+  }
+
+  identity type-25GbaseLR {
+    base mau-type;
+    description
+      "25GBASE-R PCS/PMA over single-mode fiber PMD, with long reach";
+    reference
+      "IEEE Std 802.3, Clause 114";
+  }
+
+  identity type-25GbaseER {
+    base mau-type;
+    description
+      "25GBASE-R PCS/PMA over single-mode fiber PMD, with extended reach";
+    reference
+      "IEEE Std 802.3, Clause 114";
+  }
+
+  identity type-50GbaseR {
+    base mau-type;
+    description
+      "50GBASE-R Multi-lane PCS over undefined PMA/PMD";
+    reference
+      "IEEE Std 802.3, Clause 133 and 135";
+  }
+
+  identity type-50GbaseCR {
+    base mau-type;
+    description
+      "50GBASE-R PCS/PMA over shielded copper balanced cable PMD";
+    reference
+      "IEEE Std 802.3, Clause 136";
+  }
+
+  identity type-50GbaseKR {
+    base mau-type;
+    description
+      "50GBASE-R PCS/PMA over an electrical backplane PMD";
+    reference
+      "IEEE Std 802.3, Clause 137";
+  }
+
+  identity type-50GbaseSR {
+    base mau-type;
+    description
+      "50GBASE-R PCS/PMA over multimode fiber PMD";
+    reference
+      "IEEE Std 802.3, Clause 138";
+  }
+
+  identity type-50GbaseFR {
+    base mau-type;
+    description
+      "50GBASE-R PCS/PMA over single mode fiber PMD with reach up to at least 2 km";
+    reference
+      "IEEE Std 802.3, Clause 139";
+  }
+
+  identity type-50GbaseLR {
+    base mau-type;
+    description
+      "50GBASE-R PCS/PMA over single mode fiber PMD with reach up to at least 10 km";
+    reference
+      "IEEE Std 802.3, Clause 139";
+  }
+
+  identity type-50GbaseER {
+    base mau-type;
+    description
+      "50GBASE-R PCS/PMA over single-mode fiber PMD with reach up to at least 40 km";
+    reference
+      "IEEE Std 802.3, Clause 139";
+  }
+
+  identity type-100GbaseCR2 {
+    base mau-type;
+    description
+      "100GBASE-R PCS/PMA over 2 lane shielded copper balanced cable PMD";
+    reference
+      "IEEE Std 802.3, Clause 136";
+  }
+
+  identity type-100GbaseKR2 {
+    base mau-type;
+    description
+      "100GBASE-R PCS/PMA over an electrical backplane PMD";
+    reference
+      "IEEE Std 802.3, Clause 137";
+  }
+
+  identity type-100GbaseSR2 {
+    base mau-type;
+    description
+      "100GBASE-R PCS/PMA over 2 lane multimode fiber PMD";
+    reference
+      "IEEE Std 802.3, Clause 138";
+  }
+
+  identity type-100GbaseDR {
+    base mau-type;
+    description
+      "100GBASE-R PCS/PMA over single mode fiber PMD";
+    reference
+      "IEEE Std 802.3, Clause 140";
+  }
+
+  identity type-200GbaseR {
+    base mau-type;
+    description
+      "200GBASE-R Multi-lane PCS over undefined PMA/PMD";
+    reference
+      "IEEE Std 802.3, Clause 119";
+  }
+
+  identity type-200GbaseDR4 {
+    base mau-type;
+    description
+      "200GBASE-R PCS/PMA over 4-lane single-mode fiber PMD";
+    reference
+      "IEEE Std 802.3, Clause 121";
+  }
+
+  identity type-200GbaseFR4 {
+    base mau-type;
+    description
+      "200GBASE-R PCS/PMA over 4 WDM lane single-mode fiber PMD with reach up to at least 2 km";
+    reference
+      "IEEE Std 802.3, Clause 122";
+  }
+
+  identity type-200GbaseLR4 {
+    base mau-type;
+    description
+      "200GBASE-R PCS/PMA over 4 WDM lane single-mode fiber PMD with reach up to at least 10 km";
+    reference
+      "IEEE Std 802.3, Clause 122";
+  }
+
+  identity type-200GbaseCR4 {
+    base mau-type;
+    description
+      "200GBASE-R PCS/PMA over 4 lane shielded copper balanced cable PMD";
+    reference
+      "IEEE Std 802.3, Clause 136";
+  }
+
+  identity type-200GbaseKR4 {
+    base mau-type;
+    description
+      "200GBASE-R PCS/PMA over an electrical backplane PMD";
+    reference
+      "IEEE Std 802.3, Clause 137";
+  }
+
+  identity type-200GbaseSR4 {
+    base mau-type;
+    description
+      "200GBASE-R PCS/PMA over 4 lane multimode fiber PMD";
+    reference
+      "IEEE Std 802.3, Clause 138";
+  }
+
+  identity type-200GbaseER4 {
+    base mau-type;
+    description
+      "200GBASE-R PCS/PMA over 4 WDM lane single-mode fiber PMD with reach up to at least 40 km";
+    reference
+      "IEEE Std 802.3, Clause 122";
+  }
+
+  identity type-400GbaseR {
+    base mau-type;
+    description
+      "400GBASE-R Multi-lane PCS over undefined PMA/PMD";
+    reference
+      "IEEE Std 802.3, Clause 119";
+  }
+
+  identity type-400GbaseSR16 {
+    base mau-type;
+    description
+      "400GBASE-R PCS/PMA over 16-lane multimode fiber PMD";
+    reference
+      "IEEE Std 802.3, Clause 123";
+  }
+
+  identity type-400GbaseDR4 {
+    base mau-type;
+    description
+      "400GBASE-R PCS/PMA over 4-lane single-mode fiber PMD";
+    reference
+      "IEEE Std 802.3, Clause 124";
+  }
+
+  identity type-400GbaseFR8 {
+    base mau-type;
+    description
+      "400GBASE-R PCS/PMA over 8 WDM lane single-mode fiber PMD with reach up to at least 2 km";
+    reference
+      "IEEE Std 802.3, Clause 122";
+  }
+
+  identity type-400GbaseLR8 {
+    base mau-type;
+    description
+      "400GBASE-R PCS/PMA over 8 WDM lane single-mode fiber PMD with reach up to at least 10 km";
+    reference
+      "IEEE Std 802.3, Clause 122";
+  }
+
+  identity type-400GbaseER8 {
+    base mau-type;
+    description
+      "400GBASE-R PCS/PMA over 8 WDM lane single-mode fiber PMD with reach up to at least 40 km";
+    reference
+      "IEEE Std 802.3, Clause 122";
+  }
+
+  identity type-10baseT1L {
+    base mau-type;
+    description
+      "10BASE-T1L Single balanced pair PHY";
+    reference
+      "IEEE Std 802.3, Clause 146";
+  }
+
+  identity type-10baseT1SHD {
+    base mau-type;
+    description
+      "10BASE-T1S Single balanced pair PHY, half duplex mode";
+    reference
+      "IEEE Std 802.3, Clause 147";
+  }
+
+  identity type-10baseT1SMD {
+    base mau-type;
+    description
+      "10BASE-T1S Single balanced pair PHY, multidrop mode";
+    reference
+      "IEEE Std 802.3, Clause 147";
+  }
+
+  identity type-10baseT1SFD {
+    base mau-type;
+    description
+      "10BASE-T1S Single balanced pair PHY, full duplex mode";
+    reference
+      "IEEE Std 802.3, Clause 147";
+  }
+
+  identity type-100GbaseFR1 {
+    base mau-type;
+    description
+      "100GBASE-R PCS/PMA over single-mode fiber PMD with reach up to at least 2 km";
+    reference
+      "IEEE Std 802.3, Clause 140";
+  }
+
+  identity type-100GbaseLR1 {
+    base mau-type;
+    description
+      "100GBASE-R PCS/PMA over single-mode fiber PMD with reach up to at least 10 km";
+    reference
+      "IEEE Std 802.3, Clause 140";
+  }
+
+  identity type-400GbaseFR4 {
+    base mau-type;
+    description
+      "400GBASE-R PCS/PMA over 4 WDM lane single-mode fiber PMD with reach up to at least 2 km";
+    reference
+      "IEEE Std 802.3, Clause 151";
+  }
+
+  identity type-400GbaseLR46 {
+    base mau-type;
+    description
+      "400GBASE-R PCS/PMA over 4 WDM lane single-mode fiber PMD with reach up to at least 6 km";
+    reference
+      "IEEE Std 802.3, Clause 151";
+  }
+
+  identity type-400GbaseSR8 {
+    base mau-type;
+    description
+      "400GBASE-R PCS/PMA over 8-lane multimode fiber PMD as specified in Clause 138";
+  }
+
+  identity type-400GbaseSR4p2 {
+    base mau-type;
+    description
+      "400GBASE-R PCS/PMA over 8-lane multimode fiber PMD as specified in Clause 150";
+  }
+
+  identity type-2p5GbaseT1 {
+    base mau-type;
+    description
+      "Single balanced pair of conductors PHY as specified in Clause 149";
+  }
+
+  identity type-5GbaseT1 {
+    base mau-type;
+    description
+      "Single balanced pair of conductors PHY as specified in Clause 149";
+  }
+
+  identity type-10GbaseT1 {
+    base mau-type;
+    description
+      "Single balanced pair of conductors PHY as specified in Clause 149";
+  }
+
+  identity type-25G10GbasePQGD2 {
+    base mau-type;
+    description
+      "One single mode fiber, 1 x 25.78125 GBd continuous transmission / 1 x 10.3125 GBd burst mode reception, medium power class, as specified in Clause 141";
+  }
+
+  identity type-25G10GbasePQGD3 {
+    base mau-type;
+    description
+      "One single mode fiber, 1 x 25.78125 GBd continuous transmission / 1 x 10.3125 GBd burst mode reception, high power class, as specified in Clause 141";
+  }
+
+  identity type-25G10GbasePQGU2 {
+    base mau-type;
+    description
+      "One single mode fiber, 1 x 25.78125 GBd continuous reception / 1 x 10.3125 GBd burst mode transmission, medium power class, as specified in Clause 141";
+  }
+
+  identity type-25G10GbasePQGU3 {
+    base mau-type;
+    description
+      "One single mode fiber, 1 x 25.78125 GBd continuous reception / 1 x 10.3125 GBd burst mode transmission, high power class, as specified in Clause 141";
+  }
+
+  identity type-25G10GbasePQXD2 {
+    base mau-type;
+    description
+      "One single mode fiber, 1 x 25.78125 GBd continuous transmission / 1 x 10.3125 GBd burst mode reception, medium power class, as specified in Clause 141";
+  }
+
+  identity type-25G10GbasePQXD3 {
+    base mau-type;
+    description
+      "One single mode fiber, 1 x 25.78125 GBd continuous transmission / 1 x 10.3125 GBd burst mode reception, high power class, as specified in Clause 141";
+  }
+
+  identity type-25G10GbasePQXU2 {
+    base mau-type;
+    description
+      "One single mode fiber, 1 x 25.78125 GBd continuous reception / 1 x 10.3125 GBd burst mode transmission, medium power class, as specified in Clause 141";
+  }
+
+  identity type-25G10GbasePQXU3 {
+    base mau-type;
+    description
+      "One single mode fiber, 1 x 25.78125 GBd continuous reception / 1 x 10.3125 GBd burst mode transmission, high power class, as specified in Clause 141";
+  }
+
+  identity type-25GbasePQGD2 {
+    base mau-type;
+    description
+      "One single mode fiber, 1 x 25.78125 GBd continuous transmission / 1 x 25.78125 GBd burst mode reception, medium power class, as specified in Clause 141";
+  }
+
+  identity type-25GbasePQGD3 {
+    base mau-type;
+    description
+      "One single mode fiber, 1 x 25.78125 GBd continuous transmission / 1 x 25.78125 GBd burst mode reception, high power class, as specified in Clause 141";
+  }
+
+  identity type-25GbasePQGU2 {
+    base mau-type;
+    description
+      "One single mode fiber, 1 x 25.78125 GBd continuous reception / 1 x 25.78125 GBd burst mode transmission, medium power class, as specified in Clause 141";
+  }
+
+  identity type-25GbasePQGU3 {
+    base mau-type;
+    description
+      "One single mode fiber, 1 x 25.78125 GBd continuous reception / 1 x 25.78125 GBd burst mode transmission, high power class, as specified in Clause 141";
+  }
+
+  identity type-25GbasePQXD2 {
+    base mau-type;
+    description
+      "One single mode fiber, 1 x 25.78125 GBd continuous transmission / 1 x 25.78125 GBd burst mode reception, medium power class, as specified in Clause 141";
+  }
+
+  identity type-25GbasePQXD3 {
+    base mau-type;
+    description
+      "One single mode fiber, 1 x 25.78125 GBd continuous transmission / 1 x 25.78125 GBd burst mode reception, high power class, as specified in Clause 141";
+  }
+
+  identity type-25GbasePQXU2 {
+    base mau-type;
+    description
+      "One single mode fiber, 1 x 25.78125 GBd continuous reception / 1 x 25.78125 GBd burst mode transmission, medium power class, as specified in Clause 141";
+  }
+
+  identity type-25GbasePQXU3 {
+    base mau-type;
+    description
+      "One single mode fiber, 1 x 25.78125 GBd continuous reception / 1 x 25.78125 GBd burst mode transmission, high power class, as specified in Clause 141";
+  }
+
+  identity type-50G10GbasePQGD2 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous transmission / 1 x 10.3125 GBd burst mode reception, medium power class, as specified in Clause 141";
+  }
+
+  identity type-50G10GbasePQGD3 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous transmission / 1 x 10.3125 GBd burst mode reception, high power class, as specified in Clause 141";
+  }
+
+  identity type-50G10GbasePQGU2 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous reception / 1 x 10.3125 GBd burst mode transmission, medium power class, as specified in Clause 141";
+  }
+
+  identity type-50G10GbasePQGU3 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous reception / 1 x 10.3125 GBd burst mode transmission, high power class, as specified in Clause 141";
+  }
+
+  identity type-50G10GbasePQXD2 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous transmission / 1 x 10.3125 GBd burst mode reception, medium power class, as specified in Clause 141";
+  }
+
+  identity type-50G10GbasePQXD3 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous transmission / 1 x 10.3125 GBd burst mode reception, high power class, as specified in Clause 141";
+  }
+
+  identity type-50G10GbasePQXU2 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous reception / 1 x 10.3125 GBd burst mode transmission, medium power class, as specified in Clause 141";
+  }
+
+  identity type-50G10GbasePQXU3 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous reception / 1 x 10.3125 GBd burst mode transmission, high power class, as specified in Clause 141";
+  }
+
+  identity type-50G25GbasePQGD2 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous transmission / 1 x 25.78125 GBd burst mode reception, medium power class, as specified in Clause 141";
+  }
+
+  identity type-50G25GbasePQGD3 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous transmission / 1 x 25.78125 GBd burst mode reception, high power class, as specified in Clause 141";
+  }
+
+  identity type-50G25GbasePQGU2 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous reception / 1 x 25.78125 GBd burst mode transmission, medium power class, as specified in Clause 141";
+  }
+
+  identity type-50G25GbasePQGU3 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous reception / 1 x 25.78125 GBd burst mode transmission, high power class, as specified in Clause 141";
+  }
+
+  identity type-50G25GbasePQXD2 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous transmission / 1 x 25.78125 GBd burst mode reception, medium power class, as specified in Clause 141";
+  }
+
+  identity type-50G25GbasePQXD3 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous transmission / 1 x 25.78125 GBd burst mode reception, high power class, as specified in Clause 141";
+  }
+
+  identity type-50G25GbasePQXU2 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous reception / 1 x 25.78125 GBd burst mode transmission, medium power class, as specified in Clause 141";
+  }
+
+  identity type-50G25GbasePQXU3 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous reception / 1 x 25.78125 GBd burst mode transmission, high power class, as specified in Clause 141";
+  }
+
+  identity type-50GbasePQGD2 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous transmission / 2 x 25.78125 GBd burst mode reception, medium power class, as specified in Clause 141";
+  }
+
+  identity type-50GbasePQGD3 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous transmission / 2 x 25.78125 GBd burst mode reception, high power class, as specified in Clause 141";
+  }
+
+  identity type-50GbasePQGU2 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous reception / 2 x 25.78125 GBd burst mode transmission, medium power class, as specified in Clause 141";
+  }
+
+  identity type-50GbasePQGU3 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous reception / 2 x 25.78125 GBd burst mode transmission, high power class, as specified in Clause 141";
+  }
+
+  identity type-50GbasePQXD2 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous transmission / 2 x 25.78125 GBd burst mode reception, medium power class, as specified in Clause 141";
+  }
+
+  identity type-50GbasePQXD3 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous transmission / 2 x 25.78125 GBd burst mode reception, high power class, as specified in Clause 141";
+  }
+
+  identity type-50GbasePQXU2 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous reception / 2 x 25.78125 GBd burst mode transmission, medium power class, as specified in Clause 141";
+  }
+
+  identity type-50GbasePQXU3 {
+    base mau-type;
+    description
+      "One single mode fiber, 2 x 25.78125 GBd continuous reception / 2 x 25.78125 GBd burst mode transmission, high power class, as specified in Clause 141";
+  }
+
+  identity type-100GbaseZR {
+    base mau-type;
+    description
+      "100GBASE-R PCS/100GBASE-ZR PMA over a PMD with reach up to at least 80 km as specified in Clause 154";
+  }
+
+  identity type-10GbaseBR10D {
+    base mau-type;
+    description
+      "One single-mode fiber OLT PHY supporting a distance of at least 10 km as specified in Clause 158";
+  }
+
+  identity type-10GbaseBR10U {
+    base mau-type;
+    description
+      "One single-mode fiber ONU PHY supporting a distance of at least 10 km as specified in Clause 158";
+  }
+
+  identity type-10GbaseBR20D {
+    base mau-type;
+    description
+      "One single-mode fiber OLT PHY supporting a distance of at least 20 km as specified in Clause 158";
+  }
+
+  identity type-10GbaseBR20U {
+    base mau-type;
+    description
+      "One single-mode fiber ONU PHY supporting a distance of at least 20 km as specified in Clause 158";
+  }
+
+  identity type-10GbaseBR40D {
+    base mau-type;
+    description
+      "One single-mode fiber OLT PHY supporting a distance of at least 40 km as specified in Clause 158";
+  }
+
+  identity type-10GbaseBR40U {
+    base mau-type;
+    description
+      "One single-mode fiber ONU PHY supporting a distance of at least 40 km as specified in Clause 158";
+  }
+
+  identity type-25GbaseBR10D {
+    base mau-type;
+    description
+      "One single-mode fiber OLT PHY supporting a distance of at least 10 km as specified in Clause 159";
+  }
+
+  identity type-25GbaseBR10U {
+    base mau-type;
+    description
+      "One single-mode fiber ONU PHY supporting a distance of at least 10 km as specified in Clause 159";
+  }
+
+  identity type-25GbaseBR20D {
+    base mau-type;
+    description
+      "One single-mode fiber OLT PHY supporting a distance of at least 20 km as specified in Clause 159";
+  }
+
+  identity type-25GbaseBR20U {
+    base mau-type;
+    description
+      "One single-mode fiber ONU PHY supporting a distance of at least 20 km as specified in Clause 159";
+  }
+
+  identity type-25GbaseBR40D {
+    base mau-type;
+    description
+      "One single-mode fiber OLT PHY supporting a distance of at least 40 km as specified in Clause 159";
+  }
+
+  identity type-25GbaseBR40U {
+    base mau-type;
+    description
+      "One single-mode fiber ONU PHY supporting a distance of at least 40 km as specified in Clause 159";
+  }
+
+  identity type-50GbaseBR10D {
+    base mau-type;
+    description
+      "One single-mode fiber OLT PHY supporting a distance of at least 10 km as specified in Clause 160";
+  }
+
+  identity type-50GbaseBR10U {
+    base mau-type;
+    description
+      "One single-mode fiber ONU PHY supporting a distance of at least 10 km as specified in Clause 160";
+  }
+
+  identity type-50GbaseBR20D {
+    base mau-type;
+    description
+      "One single-mode fiber OLT PHY supporting a distance of at least 20 km as specified in Clause 160";
+  }
+
+  identity type-50GbaseBR20U {
+    base mau-type;
+    description
+      "One single-mode fiber ONU PHY supporting a distance of at least 20 km as specified in Clause 160";
+  }
+
+  identity type-50GbaseBR40D {
+    base mau-type;
+    description
+      "One single-mode fiber OLT PHY supporting a distance of at least 40 km as specified in Clause 160";
+  }
+
+  identity type-50GbaseBR40U {
+    base mau-type;
+    description
+      "One single-mode fiber ONU PHY supporting a distance of at least 40 km as specified in Clause 160";
+  }
+
+  identity type-2p5GbaseAU {
+    description
+      "Glass optical fiber PHY as specified in Clause 166";
+  }
+
+  identity type-5GbaseAU {
+    base mau-type;
+    description
+      "Glass optical fiber PHY as specified in Clause 166";
+  }
+
+  identity type-10GbaseAU {
+    base mau-type;
+    description
+      "Glass optical fiber PHY as specified in Clause 166";
+  }
+
+  identity type-25GbaseAU {
+    base mau-type;
+    description
+      "Glass optical fiber PHY as specified in Clause 166";
+  }
+
+  identity type-50GbaseAU {
+    base mau-type;
+    description
+      "Glass optical fiber PHY as specified in Clause 166";
+  }
+
+  identity type-25GbaseT1 {
+    base mau-type;
+    description
+      "Single balanced pair of conductors PHY as specified in Clause 165";
+  }
+
+  typedef type-list-bits {
+    type bits {
+      bit bOther {
+        position 0;
+        description
+          "Other";
+      }
+      bit bAUI {
+        position 1;
+        description
+          "AUI";
+      }
+      bit b10base5 {
+        position 2;
+        description
+          "10BASE-5";
+      }
+      bit bFoirl {
+        position 3;
+        description
+          "Foirl";
+      }
+      bit b10base2 {
+        position 4;
+        description
+          "10BASE-2";
+      }
+      bit b10baseT {
+        position 5;
+        description
+          "10BASE-T";
+      }
+      bit b10baseFP {
+        position 6;
+        description
+          "10BASE-FP";
+      }
+      bit b10baseFB {
+        position 7;
+        description
+          "10BASE-FB";
+      }
+      bit b10baseFL {
+        position 8;
+        description
+          "10BASE-FL";
+      }
+      bit b10broad36 {
+        position 9;
+        description
+          "10BROAD36";
+      }
+      bit b10baseTHD {
+        position 10;
+        description
+          "10BASE-THD";
+      }
+      bit b10baseTFD {
+        position 11;
+        description
+          "10BASE-TFD";
+      }
+      bit b10baseFLHD {
+        position 12;
+        description
+          "10BASE-FLHD";
+      }
+      bit b10baseFLFD {
+        position 13;
+        description
+          "10BASE-FLFD";
+      }
+      bit b100baseT4 {
+        position 14;
+        description
+          "100BASE-T4";
+      }
+      bit b100baseTXHD {
+        position 15;
+        description
+          "100BASE-TXHD";
+      }
+      bit b100baseTXFD {
+        position 16;
+        description
+          "100BASE-TXFD";
+      }
+      bit b100baseFXHD {
+        position 17;
+        description
+          "100BASE-FXHD";
+      }
+      bit b100baseFXFD {
+        position 18;
+        description
+          "100BASE-FXFD";
+      }
+      bit b100baseT2HD {
+        position 19;
+        description
+          "100BASE-T2HD";
+      }
+      bit b100baseT2FD {
+        position 20;
+        description
+          "100BASE-T2FD";
+      }
+      bit b1000baseXHD {
+        position 21;
+        description
+          "1000BASE-XHD";
+      }
+      bit b1000baseXFD {
+        position 22;
+        description
+          "1000BASE-XFD";
+      }
+      bit b1000baseLXHD {
+        position 23;
+        description
+          "1000BASE-LXHD";
+      }
+      bit b1000baseLXFD {
+        position 24;
+        description
+          "1000BASE-LXFD";
+      }
+      bit b1000baseSXHD {
+        position 25;
+        description
+          "1000BASE-SXHD";
+      }
+      bit b1000baseSXFD {
+        position 26;
+        description
+          "1000BASE-SXFD";
+      }
+      bit b1000baseCXHD {
+        position 27;
+        description
+          "1000BASE-CXHD";
+      }
+      bit b1000baseCXFD {
+        position 28;
+        description
+          "1000BASE-CXFD";
+      }
+      bit b1000baseTHD {
+        position 29;
+        description
+          "1000BASE-THD";
+      }
+      bit b1000baseTFD {
+        position 30;
+        description
+          "1000BASE-TFD";
+      }
+      bit b10GbaseX {
+        position 31;
+        description
+          "10GBASE-X";
+      }
+      bit b10GbaseLX4 {
+        position 32;
+        description
+          "10GBASE-LX4";
+      }
+      bit b10GbaseR {
+        position 33;
+        description
+          "10GBASE-R";
+      }
+      bit b10GbaseER {
+        position 34;
+        description
+          "10GBASE-ER";
+      }
+      bit b10GbaseLR {
+        position 35;
+        description
+          "10GBASE-LR";
+      }
+      bit b10GbaseSR {
+        position 36;
+        description
+          "10GBASE-SR";
+      }
+      bit b10GbaseW {
+        position 37;
+        description
+          "10GBASE-W";
+      }
+      bit b10GbaseEW {
+        position 38;
+        description
+          "10GBASE-EW";
+      }
+      bit b10GbaseLW {
+        position 39;
+        description
+          "10GBASE-LW";
+      }
+      bit b10GbaseSW {
+        position 40;
+        description
+          "10GBASE-SW";
+      }
+      bit b10GbaseCX4 {
+        position 41;
+        description
+          "10GBASE-CX4";
+      }
+      bit b2BaseTL {
+        position 42;
+        description
+          "2BASE-TL";
+      }
+      bit b10PassTS {
+        position 43;
+        description
+          "10PASSTS";
+      }
+      bit b100BaseBX10D {
+        position 44;
+        description
+          "100BASE-BX10D";
+      }
+      bit b100BaseBX10U {
+        position 45;
+        description
+          "100BASE-BX10U";
+      }
+      bit b100BaseLX10 {
+        position 46;
+        description
+          "100BASE-LX10";
+      }
+      bit b1000BaseBX10D {
+        position 47;
+        description
+          "1000BASE-BX10D";
+      }
+      bit b1000BaseBX10U {
+        position 48;
+        description
+          "1000BASE-BX10U";
+      }
+      bit b1000BaseLX10 {
+        position 49;
+        description
+          "1000BASE-LX10";
+      }
+      bit b1000BasePX10D {
+        position 50;
+        description
+          "1000BASE-PX10D";
+      }
+      bit b1000BasePX10U {
+        position 51;
+        description
+          "1000BASE-PX10U";
+      }
+      bit b1000BasePX20D {
+        position 52;
+        description
+          "1000BASE-PX20D";
+      }
+      bit b1000BasePX20U {
+        position 53;
+        description
+          "1000BASE-PX20U";
+      }
+      bit b10GbaseT {
+        position 54;
+        description
+          "10GBASE-T";
+      }
+      bit b10GbaseLRM {
+        position 55;
+        description
+          "10GBASE-LRM";
+      }
+      bit b1000baseKX {
+        position 56;
+        description
+          "1000BASE-KX";
+      }
+      bit b10GbaseKX4 {
+        position 57;
+        description
+          "10GBASE-KX4";
+      }
+      bit b10GbaseKR {
+        position 58;
+        description
+          "10GBASE-KR";
+      }
+      bit b10G1GbasePRXD1 {
+        position 59;
+        description
+          "10/1GBASE-PRXD1";
+      }
+      bit b10G1GbasePRXD2 {
+        position 60;
+        description
+          "10/1GBASE-PRXD2";
+      }
+      bit b10G1GbasePRXD3 {
+        position 61;
+        description
+          "10/1GBASE-PRXD3";
+      }
+      bit b10G1GbasePRXU1 {
+        position 62;
+        description
+          "10/1GBASE-PRXU1";
+      }
+      bit b10G1GbasePRXU2 {
+        position 63;
+        description
+          "10/1GBASE-PRXU2";
+      }
+      bit b10G1GbasePRXU3 {
+        position 64;
+        description
+          "10/1GBASE-PRXU3";
+      }
+      bit b10GbasePRD1 {
+        position 65;
+        description
+          "10GBASE-PRD1";
+      }
+      bit b10GbasePRD2 {
+        position 66;
+        description
+          "10GBASE-PRD2";
+      }
+      bit b10GbasePRD3 {
+        position 67;
+        description
+          "10GBASE-PRD3";
+      }
+      bit b10GbasePRU1 {
+        position 68;
+        description
+          "10GBASE-PRU1";
+      }
+      bit b10GbasePRU3 {
+        position 69;
+        description
+          "10GBASE-PRU3";
+      }
+      bit b40GbaseKR4 {
+        position 70;
+        description
+          "40GBASE-KR4";
+      }
+      bit b40GbaseCR4 {
+        position 71;
+        description
+          "40GBASE-CR4";
+      }
+      bit b40GbaseSR4 {
+        position 72;
+        description
+          "40GBASE-SR4";
+      }
+      bit b40GbaseFR {
+        position 73;
+        description
+          "40GBASE-FR";
+      }
+      bit b40GbaseLR4 {
+        position 74;
+        description
+          "40GBASE-LR4";
+      }
+      bit b100GbaseCR10 {
+        position 75;
+        description
+          "100GBASE-CR10";
+      }
+      bit b100GbaseSR10 {
+        position 76;
+        description
+          "100GBASE-SR10";
+      }
+      bit b100GbaseLR4 {
+        position 77;
+        description
+          "100GBASE-LR4";
+      }
+      bit b100GbaseER4 {
+        position 78;
+        description
+          "100GBASE-ER4";
+      }
+      bit b1000baseT1 {
+        position 79;
+        description
+          "1000BASE-T1";
+      }
+      bit b1000basePX30D {
+        position 80;
+        description
+          "1000BASE-PX30D";
+      }
+      bit b1000basePX30U {
+        position 81;
+        description
+          "1000BASE-PX30U";
+      }
+      bit b1000basePX40D {
+        position 82;
+        description
+          "1000BASE-PX40D";
+      }
+      bit b1000basePX40U {
+        position 83;
+        description
+          "1000BASE-PX40U";
+      }
+      bit b10G1GbasePRXD4 {
+        position 84;
+        description
+          "10/1GBASE-PRXD4";
+      }
+      bit b10G1GbasePRXU4 {
+        position 85;
+        description
+          "10/1GBASE-PRXU4";
+      }
+      bit b10GbasePRD4 {
+        position 86;
+        description
+          "10GBASE-PRD4";
+      }
+      bit b10GbasePRU4 {
+        position 87;
+        description
+          "10GBASE-PRU4";
+      }
+      bit b25GbaseCR {
+        position 88;
+        description
+          "25GBASE-CR";
+      }
+      bit b25GbaseCRS {
+        position 89;
+        description
+          "25GBASE-CRS";
+      }
+      bit b25GbaseKR {
+        position 90;
+        description
+          "25GBASE-KR";
+      }
+      bit b25GbaseKRS {
+        position 91;
+        description
+          "25GBASE-KRS";
+      }
+      bit b25GbaseR {
+        position 92;
+        description
+          "25GBASE-R";
+      }
+      bit b25GbaseSR {
+        position 93;
+        description
+          "25GBASE-SR";
+      }
+      bit b25GbaseT {
+        position 94;
+        description
+          "25GBASE-T";
+      }
+      bit b40GbaseER4 {
+        position 95;
+        description
+          "40GBASE-ER4";
+      }
+      bit b40GbaseR {
+        position 96;
+        description
+          "40GBASE-R";
+      }
+      bit b40GbaseT {
+        position 97;
+        description
+          "40GBASE-T";
+      }
+      bit b100GbaseCR4 {
+        position 98;
+        description
+          "100GBASE-CR4";
+      }
+      bit b100GbaseKR4 {
+        position 99;
+        description
+          "100GBASE-KR4";
+      }
+      bit b100GbaseKP4 {
+        position 100;
+        description
+          "100GBASE-KP4";
+      }
+      bit b100GbaseR {
+        position 101;
+        description
+          "100GBASE-R";
+      }
+      bit b100GbaseSR4 {
+        position 102;
+        description
+          "100GBASE-SR4";
+      }
+      bit b2p5GbaseT {
+        position 103;
+        description
+          "2.5GBASE-T";
+      }
+      bit b5GbaseT {
+        position 104;
+        description
+          "5GBASE-T";
+      }
+      bit b100baseT1 {
+        position 105;
+        description
+          "100BASE-T1";
+      }
+      bit b1000baseRHA {
+        position 106;
+        description
+          "1000BASE-RHA";
+      }
+      bit b1000baseRHB {
+        position 107;
+        description
+          "1000BASE-RHB";
+      }
+      bit b1000baseRHC {
+        position 108;
+        description
+          "1000BASE-RHC";
+      }
+      bit b2p5GbaseKX {
+        position 109;
+        description
+          "2.5GBASE-KX";
+      }
+      bit b2p5GbaseX {
+        position 110;
+        description
+          "2.5GBASE-X";
+      }
+      bit b5GbaseKR {
+        position 111;
+        description
+          "5GBASE-KR";
+      }
+      bit b5GbaseR {
+        position 112;
+        description
+          "5GBASE-R";
+      }
+      bit b10GpassXR {
+        position 113;
+        description
+          "10GPASS-XR";
+      }
+      bit b25GbaseLR {
+        position 114;
+        description
+          "25GBASE-LR";
+      }
+      bit b25GbaseER {
+        position 115;
+        description
+          "25GBASE-ER";
+      }
+      bit b50GbaseR {
+        position 116;
+        description
+          "50GBASE-R";
+      }
+      bit b50GbaseCR {
+        position 117;
+        description
+          "50GBASE-CR";
+      }
+      bit b50GbaseKR {
+        position 118;
+        description
+          "50GBASE-KR";
+      }
+      bit b50GbaseSR {
+        position 119;
+        description
+          "50GBASE-SR";
+      }
+      bit b50GbaseFR {
+        position 120;
+        description
+          "50GBASE-FR";
+      }
+      bit b50GbaseLR {
+        position 121;
+        description
+          "50GBASE-LR";
+      }
+      bit b50GbaseER {
+        position 122;
+        description
+          "50GBASE-ER";
+      }
+      bit b100GbaseCR2 {
+        position 123;
+        description
+          "100GBASE-CR2";
+      }
+      bit b100GbaseKR2 {
+        position 124;
+        description
+          "100GBASE-KR2";
+      }
+      bit b100GbaseSR2 {
+        position 125;
+        description
+          "100GBASE-SR2";
+      }
+      bit b100GbaseDR {
+        position 126;
+        description
+          "100GBASE-DR";
+      }
+      bit b200GbaseR {
+        position 127;
+        description
+          "200GBASE-R";
+      }
+      bit b200GbaseDR4 {
+        position 128;
+        description
+          "200GBASE-DR4";
+      }
+      bit b200GbaseFR4 {
+        position 129;
+        description
+          "200GBASE-FR4";
+      }
+      bit b200GbaseLR4 {
+        position 130;
+        description
+          "200GBASE-LR4";
+      }
+      bit b200GbaseCR4 {
+        position 131;
+        description
+          "200GBASE-CR4";
+      }
+      bit b200GbaseKR4 {
+        position 132;
+        description
+          "200GBASE-KR4";
+      }
+      bit b200GbaseSR4 {
+        position 133;
+        description
+          "200GBASE-SR4";
+      }
+      bit b200GbaseER4 {
+        position 134;
+        description
+          "200GBASE-ER4";
+      }
+      bit b400GbaseR {
+        position 135;
+        description
+          "400GBASE-R";
+      }
+      bit b400GbaseSR16 {
+        position 136;
+        description
+          "400GBASE-SR16";
+      }
+      bit b400GbaseDR4 {
+        position 137;
+        description
+          "400GBASE-DR4";
+      }
+      bit b400GbaseFR8 {
+        position 138;
+        description
+          "400GBASE-FR8";
+      }
+      bit b400GbaseLR8 {
+        position 139;
+        description
+          "400GBASE-LR8";
+      }
+      bit b400GbaseER8 {
+        position 140;
+        description
+          "400GBASE-ER8";
+      }
+      bit b10baseT1L {
+        position 141;
+        description
+          "10BASE-T1L";
+      }
+      bit b10baseT1SHD {
+        position 142;
+        description
+          "10BASE-T1SHD";
+      }
+      bit b10baseT1SMD {
+        position 143;
+        description
+          "10BASE-T1SMD";
+      }
+      bit b10baseT1SFD {
+        position 144;
+        description
+          "10BASE-T1SFD";
+      }
+      bit b100GbaseFR1 {
+        position 145;
+        description
+          "100GBASE-FR1";
+      }
+      bit b100GbaseLR1 {
+        position 146;
+        description
+          "100GBASE-LR1";
+      }
+      bit b400GbaseFR4 {
+        position 147;
+        description
+          "400GBASE-FR4";
+      }
+      bit b400GbaseLR46 {
+        position 148;
+        description
+          "400GBASE-LR46";
+      }
+      bit b400GbaseSR8 {
+        position 149;
+        description
+          "400GBASE-SR8";
+      }
+      bit b400GbaseSR4p2 {
+        position 150;
+        description
+          "400GBASE-SR4p2";
+      }
+      bit b2p5GbaseT1 {
+        position 151;
+        description
+          "2.5GBASE-T1";
+      }
+      bit b5GbaseT1 {
+        position 152;
+        description
+          "5GBASE-T1";
+      }
+      bit b10GbaseT1 {
+        position 153;
+        description
+          "10GBASE-T1";
+      }
+      bit b25G10GbasePQGD2 {
+        position 154;
+        description
+          "25/10GBASE-PQGD2";
+      }
+      bit b25G10GbasePQGD3 {
+        position 155;
+        description
+          "25/10GBASE-PQGD3";
+      }
+      bit b25G10GbasePQGU2 {
+        position 156;
+        description
+          "25/10GBASE-PQGU2";
+      }
+      bit b25G10GbasePQGU3 {
+        position 157;
+        description
+          "25/10GBASE-PQGU3";
+      }
+      bit b25G10GbasePQXD2 {
+        position 158;
+        description
+          "25/10GBASE-PQXD2";
+      }
+      bit b25G10GbasePQXD3 {
+        position 159;
+        description
+          "25/10GBASE-PQXD3";
+      }
+      bit b25G10GbasePQXU2 {
+        position 160;
+        description
+          "25/10GBASE-PQXU2";
+      }
+      bit b25G10GbasePQXU3 {
+        position 161;
+        description
+          "25/10GBASE-PQXU3";
+      }
+      bit b25GbasePQGD2 {
+        position 162;
+        description
+          "25GBASE-PQGD2";
+      }
+      bit b25GbasePQGD3 {
+        position 163;
+        description
+          "25GBASE-PQGD3";
+      }
+      bit b25GbasePQGU2 {
+        position 164;
+        description
+          "25GBASE-PQGU2";
+      }
+      bit b25GbasePQGU3 {
+        position 165;
+        description
+          "25GBASE-PQGU3";
+      }
+      bit b25GbasePQXD2 {
+        position 166;
+        description
+          "25GBASE-PQXD2";
+      }
+      bit b25GbasePQXD3 {
+        position 167;
+        description
+          "25GBASE-PQXD3";
+      }
+      bit b25GbasePQXU2 {
+        position 168;
+        description
+          "25GBASE-PQXU2";
+      }
+      bit b25GbasePQXU3 {
+        position 169;
+        description
+          "25GBASE-PQXU3";
+      }
+      bit b50G10GbasePQGD2 {
+        position 170;
+        description
+          "50/10GBASE-PQGD2";
+      }
+      bit b50G10GbasePQGD3 {
+        position 171;
+        description
+          "50/10GBASE-PQGD3";
+      }
+      bit b50G10GbasePQGU2 {
+        position 172;
+        description
+          "50/10GBASE-PQGU2";
+      }
+      bit b50G10GbasePQGU3 {
+        position 173;
+        description
+          "50/10GBASE-PQGU3";
+      }
+      bit b50G10GbasePQXD2 {
+        position 174;
+        description
+          "50/10GBASE-PQXD2";
+      }
+      bit b50G10GbasePQXD3 {
+        position 175;
+        description
+          "50/10GBASE-PQXD3";
+      }
+      bit b50G10GbasePQXU2 {
+        position 176;
+        description
+          "50/10GBASE-PQXU2";
+      }
+      bit b50G10GbasePQXU3 {
+        position 177;
+        description
+          "50/10GBASE-PQXU3";
+      }
+      bit b50G25GbasePQGD2 {
+        position 178;
+        description
+          "50/25GBASE-PQGD2";
+      }
+      bit b50G25GbasePQGD3 {
+        position 179;
+        description
+          "50/25GBASE-PQGD3";
+      }
+      bit b50G25GbasePQGU2 {
+        position 180;
+        description
+          "50/25GBASE-PQGU2";
+      }
+      bit b50G25GbasePQGU3 {
+        position 181;
+        description
+          "50/25GBASE-PQGU3";
+      }
+      bit b50G25GbasePQXD2 {
+        position 182;
+        description
+          "50/25GBASE-PQXD2";
+      }
+      bit b50G25GbasePQXD3 {
+        position 183;
+        description
+          "50/25GBASE-PQXD3";
+      }
+      bit b50G25GbasePQXU2 {
+        position 184;
+        description
+          "50/25GBASE-PQXU2";
+      }
+      bit b50G25GbasePQXU3 {
+        position 185;
+        description
+          "50/25GBASE-PQXU3";
+      }
+      bit b50GbasePQGD2 {
+        position 186;
+        description
+          "50GBASE-PQGD2";
+      }
+      bit b50GbasePQGD3 {
+        position 187;
+        description
+          "50GBASE-PQGD3";
+      }
+      bit b50GbasePQGU2 {
+        position 188;
+        description
+          "50GBASE-PQGU2";
+      }
+      bit b50GbasePQGU3 {
+        position 189;
+        description
+          "50GBASE-PQGU3";
+      }
+      bit b50GbasePQXD2 {
+        position 190;
+        description
+          "50GBASE-PQXD2";
+      }
+      bit b50GbasePQXD3 {
+        position 191;
+        description
+          "50GBASE-PQXD3";
+      }
+      bit b50GbasePQXU2 {
+        position 192;
+        description
+          "50GBASE-PQXU2";
+      }
+      bit b50GbasePQXU3 {
+        position 193;
+        description
+          "50GBASE-PQXU3";
+      }
+      bit b100GbaseZR {
+        position 194;
+        description
+          "100GBASE-ZR";
+      }
+      bit b10GbaseBR10D {
+        position 195;
+        description
+          "10GBASE-BR10D";
+      }
+      bit b10GbaseBR10U {
+        position 196;
+        description
+          "10GBASE-BR10U";
+      }
+      bit b10GbaseBR20D {
+        position 197;
+        description
+          "10GBASE-BR20D";
+      }
+      bit b10GbaseBR20U {
+        position 198;
+        description
+          "10GBASE-BR20U";
+      }
+      bit b10GbaseBR40D {
+        position 199;
+        description
+          "10GBASE-BR40D";
+      }
+      bit b10GbaseBR40U {
+        position 200;
+        description
+          "10GBASE-BR40U";
+      }
+      bit b25GbaseBR10D {
+        position 201;
+        description
+          "25GBASE-BR10D";
+      }
+      bit b25GbaseBR10U {
+        position 202;
+        description
+          "25GBASE-BR10U";
+      }
+      bit b25GbaseBR20D {
+        position 203;
+        description
+          "25GBASE-BR20D";
+      }
+      bit b25GbaseBR20U {
+        position 204;
+        description
+          "25GBASE-BR20U";
+      }
+      bit b25GbaseBR40D {
+        position 205;
+        description
+          "25GBASE-BR40D";
+      }
+      bit b25GbaseBR40U {
+        position 206;
+        description
+          "25GBASE-BR40U";
+      }
+      bit b50GbaseBR10D {
+        position 207;
+        description
+          "50GBASE-BR10D";
+      }
+      bit b50GbaseBR10U {
+        position 208;
+        description
+          "50GBASE-BR10U";
+      }
+      bit b50GbaseBR20D {
+        position 209;
+        description
+          "50GBASE-BR20D";
+      }
+      bit b50GbaseBR20U {
+        position 210;
+        description
+          "50GBASE-BR20U";
+      }
+      bit b50GbaseBR40D {
+        position 211;
+        description
+          "50GBASE-BR40D";
+      }
+      bit b50GbaseBR40U {
+        position 212;
+        description
+          "50GBASE-BR40U";
+      }
+      bit b2p5GbaseAU {
+        position 213;
+        description
+          "2.5GBASE-AU";
+      }
+      bit b5GbaseAU {
+        position 214;
+        description
+          "5GBASE-AU";
+      }
+      bit b10GbaseAU {
+        position 215;
+        description
+          "10GBASE-AU";
+      }
+      bit b25GbaseAU {
+        position 216;
+        description
+          "25GBASE-AU";
+      }
+      bit b50GbaseAU {
+        position 217;
+        description
+          "50GBASE-AU";
+      }
+      bit b25GbaseT1 {
+        position 218;
+        description
+          "25GBASE-T1";
+      }
+    }
+    description
+      "This data type is used as the syntax of the ieee802-eth-mau-type-list-bits
+       object in the (updated) definition of MAU-MIB's ieee802-eth-mauTable.
+
+       The most recent version of this textual convention is available
+       in the online version of this YANG module on the <GITHUB>.";
+    reference
+      "IEEE Std 802.3, Section 30.5.1.1.2";
+  }
+
+  typedef MediaAvailable {
+    type enumeration {
+      enum other {
+        value 1;
+        description
+          "other";
+      }
+      enum unknown {
+        value 2;
+        description
+          "unknown";
+      }
+      enum available {
+        value 3;
+        description
+          "available";
+      }
+      enum notAvailable {
+        value 4;
+        description
+          "notAvailable";
+      }
+      enum remoteFault {
+        value 5;
+        description
+          "remoteFault";
+      }
+      enum invalidSignal {
+        value 6;
+        description
+          "invalidSignal";
+      }
+      enum remoteJabber {
+        value 7;
+        description
+          "remoteJabber";
+      }
+      enum remoteLinkLoss {
+        value 8;
+        description
+          "remoteLinkLoss";
+      }
+      enum remoteTest {
+        value 9;
+        description
+          "remoteTest";
+      }
+      enum offline {
+        value 10;
+        description
+          "offline";
+      }
+      enum autoNegError {
+        value 11;
+        description
+          "autoNegError";
+      }
+      enum pmdLinkFault {
+        value 12;
+        description
+          "pmdLinkFault";
+      }
+      enum wisFrameLoss {
+        value 13;
+        description
+          "wisFrameLoss";
+      }
+      enum wisSignalLoss {
+        value 14;
+        description
+          "wisSignalLoss";
+      }
+      enum pcsLinkFault {
+        value 15;
+        description
+          "pcsLinkFault";
+      }
+      enum excessiveBER {
+        value 16;
+        description
+          "excessiveBER";
+      }
+      enum dxsLinkFault {
+        value 17;
+        description
+          "dxsLinkFault";
+      }
+      enum pxsLinkFault {
+        value 18;
+        description
+          "pxsLinkFault";
+      }
+      enum availableReduced {
+        value 19;
+        description
+          "availableReduced";
+      }
+      enum ready {
+        value 20;
+        description
+          "ready";
+      }
+    }
+    description
+      "This data type is used as the syntax of the
+       ieee802-eth-mauMediaAvailable and rpMauMediaAvailable objects in the
+       (updated) definition of MAU-MIB's ieee802-eth-mauTable and rpMauTable
+       respectively.
+
+       Possible values are:
+       other(1)             - undefined (not listed below)
+       unknown(2)           - MAU's true state is unknown; e.g.,
+       during initialization
+       available(3)         - link, light, or loopback is normal
+       notAvailable(4)      - link loss, low light, or no loopback
+       remoteFault(5)       - a fault has been detected at the
+       remote end of the link.  This value
+       applies to 10BASE-FB, 100BASE-T4 Far
+       End Fault Indication and non-specified
+       remote faults from a system running
+       auto-negotiation
+       invalidSignal(6)     - invalid signal has been received from
+       the other end of the link, 10BASE-FB
+       only
+       remoteJabber(7)      - remote fault, due to jabber
+
+       remoteLinkLoss(8)    - remote fault, due to link loss
+       remoteTest(9)        - remote fault, due to test
+       offline(10)          - offline, Clause 37 Auto-Negotiation
+       only
+       autoNegError(11)     - Auto-Negotiation Error, Clause 37
+       Auto-Negotiation only
+       pmdLinkFault(12)     - PMA/PMD receive link fault.  In case
+       of PAF (2BASE-TL / 10PASS-TS PHYs),
+       all PMEs in the aggregation group have
+       detected a link fault
+       wisFrameLoss(13)     - WIS loss of frame, 10GBASE-W only
+       wisSignalLoss(14)    - WIS loss of signal, 10GBASE-W only
+       pcsLinkFault(15)     - PCS receive link fault
+       excessiveBER(16)     - PCS Bit Error Ratio monitor
+       reporting excessive error ratio
+       dxsLinkFault(17)     - DTE XGXS receive link fault, XAUI only
+       pxsLinkFault(18)     - PHY XGXS receive link fault, XAUI only
+       availableReduced(19) - link normal, reduced bandwidth,
+       2BASE-TL / 10PASS-TS only
+       ready(20)            - at least one PME in the aggregation
+       group is detecting handshake tones,
+       2BASE-TL / 10PASS-TS only
+
+       If the MAU is a 10M b/s link or fiber t (FOIRL, 10BASE-T,
+        10BASE-F), then this is equivalent to the link test fail
+        state/low light function.  For an AUI, 10BASE2, 10BASE5, or
+        10BROAD36 MAU, this indicates whether loopback is detected on
+        the DI circuit.  The value of this attribute persists between
+        packets for MAU ts AUI, 10BASE5, 10BASE2, 10BROAD36, and
+        10BASEFP.
+
+        At power-up or following a reset, the Media Available state
+        will be unknown(2) for AUI, 10BASE5, 10BASE2, 10BROAD36, and
+        10BASE-FP MAUs.  For these MAUs loopback will be tested on each
+        transmission during which no collision is detected.
+        If DI is receiving input when DO returns to IDL after a
+        transmission and there has been no collision during the
+        transmission, then loopback will be detected.  The Media
+        Available state will only change during noncollided
+        transmissions for AUI, 10BASE2, 10BASE5, 10BROAD36, and
+        10BASE-FP MAUs.
+
+        For 100BASE-T2, 100BASE-T4, 100BASE-TX, 100BASE-FX,
+        100BASE-LX10, and 100BASE-BX10 PHYs the enumerations match the
+        states within the link integrity state diagram.
+        Any MAU that implements management of [IEEE802.3] Clause
+        28 Auto-Negotiation, will map remote fault indication to
+        remoteFault(5).
+
+        Any MAU that implements management of Clause 37
+        Auto-Negotiation, will map the received RF1 and RF2 bits as
+        follows: Offline maps to offline(10), Link_Failure maps to
+        remoteFault(5), and Auto-Negotiation Error maps to
+        autoNegError(11).
+
+        The value remoteFault(5) applies to 10BASE-FB remote
+        fault indication, the 100BASE-X far-end fault indication, and
+        nonspecified remote faults from a system running Clause 28
+        Auto-Negotiation.
+
+        The value remoteJabber(7), remoteLink loss(8), or remoteTest(9)
+        SHOULD be used instead of remoteFault(5) where the reason for
+        remote fault is identified in the remote signaling protocol.
+        Where a Clause 22 MII or Clause 35 GMII is present, a logic
+        one in the remote fault bit maps to the value remoteFault(5),
+        a logic zero in the link status bit maps to the enumeration
+        notAvailable(4).  The value notAvailable(4) takes precedence
+        over remoteFault(5).
+
+        For 2BASE-TL and 10PASS-TS PHYs, the value unknown(2) maps to
+        the condition where the PHY (PCS with connected PMEs) is
+        initializing, the value ready(20) maps to the condition where
+        the interface is down and at least one PME in the aggregation
+        group is ready for handshake, the value available(3) maps to
+        the condition where all the PMEs in the aggregation group are
+        up, the value notAvailable(4) maps to the condition where all
+        the PMEs in the aggregation group are down and no handshake
+        tones are detected, the value availableReduced(19) maps to the
+        condition where the interface is up, a link fault is detected
+        at the receive direction by one or more PMEs in the
+        aggregation group, but at least one PME is up and the
+        enumeration pmdLinkFault(12) maps to the condition where a link
+        fault is detected at the receive direction by all of the PMEs
+        in the aggregation group.
+
+        For 10 Gb/s the enumerations map to value of the link_fault
+        variable within the Link Fault Signaling state diagram
+        as follows: the value OK maps to the value available(3),
+        the value Local Fault maps to the value notAvailable(4),
+        and the value Remote Fault maps to the value remoteFault(5).
+        The value pmdLinkFault(12), wisFrameLoss(13),
+        wisSignalLoss(14), pcsLinkFault(15), excessiveBER(16), or
+        dxsLinkFault(17) SHOULD be used instead of the value
+        notAvailable(4), where the reason for the Local Fault state can
+        be identified through the use of the Clause 45 MDIO Interface.
+        Where multiple reasons for the Local Fault state can be
+        identified, only the highest precedence error SHOULD be
+        reported.  This precedence in descending order is as follows:
+
+        pxsLinkFault
+        pmdLinkFault
+        wisFrameLoss
+        wisSignalLoss
+        pcsLinkFault
+        excessiveBER
+        dxsLinkFault.
+
+        Where a Clause 45 MDIO interface is present a logic zero in
+        the PMA/PMD Receive link status bit ([IEEE802.3]
+          Section 45.2.1.2.2) maps to the value pmdLinkFault(12),
+          logic one in the LOF status bit (Section 45.2.2.10.4) maps
+          to the value wisFrameLoss(13), a logic one in the LOS
+          status bit (Section 45.2.2.10.5) maps to the value
+          wisSignalLoss, a logic zero in the PCS Receive
+          link status bit (Section 45.2.3.2.2) maps to the value
+          pcsLinkFault(15), a logic one in the 10GBASE-R PCS Latched
+          high BER status bit (Section 45.2.3.12.2) maps to the value
+          excessiveBER, a logic zero in the DTE XS receive link status
+          bit (Section 45.2.5.2.2) maps to the value dxsLinkFault(17)
+          and a logic zero in the PHY XS transmit link status bit
+          (Section 45.2.4.2.2) maps to the value pxsLinkFault(18).
+
+          The most recent version of this textual convention is available
+          in the online version of this MIB module on the IANA web site.
+
+          Requests for new values should be made to IANA via email
+          (iana&iana.org).";
+    reference
+      "IEEE Std 802.3,  Section 30.5.1.1.4";
+  }
+
+  typedef auto-neg-cap-bits {
+    type bits {
+      bit bOther {
+        position 0;
+        description
+          "Other";
+      }
+      bit b10baseT {
+        position 1;
+        description
+          "10BASE-T";
+      }
+      bit b10baseTFD {
+        position 2;
+        description
+          "10BASE-TFD";
+      }
+      bit b100baseT4 {
+        position 3;
+        description
+          "100BASE-T4";
+      }
+      bit b100baseTX {
+        position 4;
+        description
+          "100BASE-TX";
+      }
+      bit b100baseTXFD {
+        position 5;
+        description
+          "100BASE-TXFD";
+      }
+      bit b100baseT2 {
+        position 6;
+        description
+          "100BASE-T2";
+      }
+      bit b100baseT2FD {
+        position 7;
+        description
+          "100BASE-T2FD";
+      }
+      bit bFdxPause {
+        position 8;
+        description
+          "FdxPause";
+      }
+      bit bFdxAPause {
+        position 9;
+        description
+          "FdxAPause";
+      }
+      bit bFdxSPause {
+        position 10;
+        description
+          "FdxSPause";
+      }
+      bit bFdxBPause {
+        position 11;
+        description
+          "FdxBPause";
+      }
+      bit b1000baseX {
+        position 12;
+        description
+          "1000BASE-X";
+      }
+      bit b1000baseXFD {
+        position 13;
+        description
+          "1000BASE-XFD";
+      }
+      bit b1000baseT {
+        position 14;
+        description
+          "1000BASE-T";
+      }
+      bit b1000baseTFD {
+        position 15;
+        description
+          "1000BASE-TFD";
+      }
+      bit b10GbaseT {
+        position 16;
+        description
+          "10GBASE-T";
+      }
+      bit b1000baseKX {
+        position 17;
+        description
+          "1000BASE-KX";
+      }
+      bit b10GbaseKX4 {
+        position 18;
+        description
+          "10GBASE-KX4";
+      }
+      bit b10GbaseKR {
+        position 19;
+        description
+          "10GBASE-KR";
+      }
+      bit b40GbaseKR4 {
+        position 20;
+        description
+          "40GBASE-KR4";
+      }
+      bit b40GbaseCR4 {
+        position 21;
+        description
+          "40GBASE-CR4";
+      }
+      bit b100GbaseCR10 {
+        position 22;
+        description
+          "100GBASE--CR10";
+      }
+      bit b1000baseT1 {
+        position 23;
+        description
+          "1000BASE-T1";
+      }
+      bit b25GbaseRS {
+        position 24;
+        description
+          "25GBASE-RS";
+      }
+      bit b25GbaseR {
+        position 25;
+        description
+          "25GBASE-R";
+      }
+      bit bRSFEC25Greq {
+        position 26;
+        description
+          "RSFEC25Greq";
+      }
+      bit bBaseFEC25Greq {
+        position 27;
+        description
+          "BaseFEC25Greq";
+      }
+      bit b25GbaseT {
+        position 28;
+        description
+          "25GBASE-T";
+      }
+      bit b40GbaseT {
+        position 29;
+        description
+          "40GBASE-T";
+      }
+      bit b100GbaseCR4 {
+        position 30;
+        description
+          "100GBASE-CR4";
+      }
+      bit b100GbaseKR4 {
+        position 31;
+        description
+          "100GBASE-KR4";
+      }
+      bit b100GbaseKP4 {
+        position 32;
+        description
+          "100GBASE-KP4";
+      }
+      bit bForceMS {
+        position 33;
+        description
+          "ForceMS";
+      }
+      bit b2p5GbaseT {
+        position 34;
+        description
+          "2.5GBASE-T";
+      }
+      bit b5GBaseT {
+        position 35;
+        description
+          "5GBASE-T";
+      }
+      bit b2p5GbaseKX {
+        position 36;
+        description
+          "2.5GBASE-KX";
+      }
+      bit b5GbaseKR {
+        position 37;
+        description
+          "5GBASE-KR";
+      }
+      bit b50GbaseR {
+        position 38;
+        description
+          "50GBASE-R";
+      }
+      bit b100GbaseR2 {
+        position 39;
+        description
+          "100GBASE-R2";
+      }
+      bit b200GbaseR4 {
+        position 40;
+        description
+          "200GBASE-R4";
+      }
+      bit b10baseT1L {
+        position 41;
+        description
+          "10BASE-T1L";
+      }
+      bit b10baseT1S {
+        position 42;
+        description
+          "10BASE-T1S";
+      }
+      bit b2p5GbaseT1 {
+        position 43;
+        description
+          "2.5GBASE-T1";
+      }
+      bit b5GbaseT1 {
+        position 44;
+        description
+          "5GBASE-T1";
+      }
+      bit b10GbaseT1 {
+        position 45;
+        description
+          "10GBASE-T1";
+      }
+      bit b25GbaseT1 {
+        position 46;
+        description
+          "25GBASE-T1";
+      }
+    }
+    description
+      "This data t is used as the syntax of the
+       ieee802-eth-mau-auto-neg-capability-bits, ieee802-eth-mau-auto-neg-cap-advertised-bits,
+       and ieee802-eth-mau-auto-neg-cap-received-bits objects in the (updated) definition
+       of MAU-MIB's ieee802-eth-mau-auto-neg-table.";
+    reference
+      "IEEE Std 802.3,  Section 30.6.1.1.5";
+  }
+
+  typedef jack-t {
+    type enumeration {
+      enum other {
+        value 1;
+        description
+          "";
+      }
+      enum rj45 {
+        value 2;
+        description
+          "";
+      }
+      enum rj45S {
+        value 3;
+        description
+          "";
+      }
+      enum db9 {
+        value 4;
+        description
+          "";
+      }
+      enum bnc {
+        value 5;
+        description
+          "";
+      }
+      enum fAUI {
+        value 6;
+        description
+          "";
+      }
+      enum mAUI {
+        value 7;
+        description
+          "";
+      }
+      enum fiberSC {
+        value 8;
+        description
+          "";
+      }
+      enum fiberMIC {
+        value 9;
+        description
+          "";
+      }
+      enum fiberST {
+        value 10;
+        description
+          "";
+      }
+      enum telco {
+        value 11;
+        description
+          "";
+      }
+      enum mtrj {
+        value 12;
+        description
+          "";
+      }
+      enum hssdc {
+        value 13;
+        description
+          "";
+      }
+      enum fiberLC {
+        value 14;
+        description
+          "";
+      }
+      enum cx4 {
+        value 15;
+        description
+          "";
+      }
+      enum sfpPlusDA {
+        value 16;
+        description
+          "";
+      }
+    }
+    description
+      "Common enumeration values for repeater and interface MAU
+       jack ts.  This data t is used as the syntax of the
+       jack-t and rp-jack-t objects in ....
+
+       Possible values are:
+       other(1)          - undefined or unknown
+       rj45(2)           - RJ45
+       rj45S(3)          - RJ45 shielded
+       db9(4)            - DB9
+       bnc(5)            - BNC
+       fAUI(6)           - AUI female
+       mAUI(7)           - AUI male
+       fiberSC(8)        - SC fiber
+       fiberMIC(9)       - MIC fiber
+       fiberST(10)       - ST fiber
+       telco(11)         - Telco
+       mtrj(12)          - MT-RJ fiber
+       hssdc(13)         - fiber channel style-2
+       fiberLC(14)       - LC fiber
+       cx4(15)           - IB4X for 10GBASE-CX4
+       sfpPlusDA(16)     - SFP+ Direct Attach for 10GE
+
+       The most recent version of this textual convention is available
+       ................";
+  }
+}
