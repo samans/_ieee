@@ -25,68 +25,81 @@ module ieee802-ethernet-mac-merge {
   contact
     "Web URL: http://www.ieee802.org/3/";
   description
-    "The Yang model for managing devices that support the MAC Merge
-     (aka preemption) sublayer as defined in Clause 99. Unless
-     otherwise indicated, the references in this model module are to
-     IEEE Std 802.3-2022.";
+    "The Yang model for managing devices that support the MAC merge
+     sublayer as defined in Clause 99. Unless otherwise indicated,
+         the references in this model module are to
+         IEEE Std 802.3-2022.";
 
-  revision 2024-04-04 {
+  revision 2024-07-17 {
     description
-      "Updates under IEEE Std 802.3.2-202x, Draft 1.2";
+      "Updates under IEEE Std 802.3.2-202x, Draft D3.0";
     reference
       "IEEE Std 802.3-2022, unless dated explicitly";
   }
 
   feature mac-merge {
     description
-      "MAC Merge is supported.";
+      "Each Port supports the MAC merge sublayer.";
     reference
       "IEEE Std 802.3-2022";
-  }
-
-  typedef enable-disable {
-    type enumeration {
-      enum disabled {
-        description
-          "disabled";
-      }
-      enum enabled {
-        description
-          "enabled";
-      }
-    }
-    description
-      "Enabled/disabled control or status.";
   }
 
   augment "/if:interfaces/if:interface/ieee802-eth-if:ethernet" {
     if-feature "mac-merge";
     description
-      "Interfaces supporting MAC Merge.";
+      "Missing description D1.2 2024-04-04";
     container mac-merge {
       description
-        "Container for MAC Merge objects.";
+        "Missing description D1.2 2024-04-04";
       container admin-control {
         description
-          "Container for MAC Merge control objects.";
+          "Missing description D1.2 2024-04-04";
         leaf merge-enable-tx {
-          type enable-disable;
-          default "disabled";
+          type enumeration {
+            enum Disabled {
+              description
+                "Transmit preemption is disabled";
+            }
+            enum Enabled {
+              description
+                "Transmit preemption is enabled";
+            }
+          }
+          default "Disabled";
           description
-            "Is MAC Merge enabled when transmitting?
-             It may be modified using an edit operation.";
+            "This attribute indicates (when accessed via a
+              READ operation) the status of the MAC Merge
+              sublayer on the given device in the
+              transmit direction. The status of the
+              MAC Merge sublayer may be modified to the
+              indicated value via a WRITE operation.
+              This attribute maps to the variable pEnable
+              (see 99.4.7.3).";
           reference
             "IEEE Std 802.3, 30.14.1.3";
         }
         leaf verify-disable-tx {
-          type enable-disable;
-          default "disabled";
+          type enumeration {
+            enum Disabled {
+              description
+                "Verify is disabled";
+            }
+            enum Enabled {
+              description
+                "Verify is enabled";
+            }
+          }
+          default "Disabled";
           description
-            "Does MAC Merge check to make sure the link partner
-             supports MAC Merge?
-             The check is peformed by sending a verify request and
-             getting a verify response.
-             It may be modified using an edit operation.;";
+            "This attribute indicates (when accessed
+             via a READ operation) the status of the
+             Verify function of MAC Merge sublayer on
+             the given device in the transmit
+             direction. The status of the Verify
+             function may be modified to the indicated
+             value  via a read-write operation.
+             This attribute maps to the variable
+             disableVerify (see 99.4.7.3).;";
           reference
             "IEEE Std 802.3, 30.14.1.4";
         }
@@ -97,9 +110,13 @@ module ieee802-ethernet-mac-merge {
           units "milliseconds";
           default "10";
           description
-            "The retry timer for verification attempts.
-             The valid range is 1 to 128 inclusive.
-             The default value is 10.";
+            "The value of this attribute defines the
+             nominal wait time between verification
+             attempts in milliseconds.
+             Valid range is 1 to 128 inclusive.
+             The default value is 10. This attribute
+             maps to the variable verifyTime
+             (see 99.4.7.3).;";
           reference
             "IEEE Std 802.3, 30.14.1.6";
         }
@@ -109,10 +126,10 @@ module ieee802-ethernet-mac-merge {
           }
           default "0";
           description
-            "This controls minimum frame size for packet fragments.
-             It's specified in units of 64 bytes above the minimum
-			 of 64 bytes. The equation is:
-				minimum-size = 64 + (frag-size*64)-4";
+            "A 2-bit integer value used to indicate
+             the value of addFragSize variable used by
+             the Transmit Processing State Diagram
+             (see Figure IEEE Std 802.3, 99-5).";
           reference
             "IEEE Std 802.3, 30.14.1.7";
         }
@@ -120,11 +137,26 @@ module ieee802-ethernet-mac-merge {
       container admin-status {
         config false;
         description
-          "Container for MAC Merge status objects.";
+          "Missing description D1.2 2024-04-04";
         leaf merge-support {
-          type boolean;
+          type enumeration {
+            enum Supported {
+              description
+                "MAC Merge sublayer is
+                 supported on the device";
+            }
+            enum NotSupported {
+              description
+                "MAC Merge sublayer is not
+                 supported on the device";
+            }
+          }
           description
-            "Is MAC Merge is supported?";
+            "This attribute indicates (when accessed
+             via a READ operation) whether the given
+             device supports a MAC Merge sublayer.
+             The WRITE operation shall have no effect
+             on a device.";
           reference
             "IEEE Std 802.3, 30.14.1.1";
         }
@@ -132,31 +164,42 @@ module ieee802-ethernet-mac-merge {
           type enumeration {
             enum unknown {
               description
-                "unknown";
+                "Verification status is unknown";
             }
             enum initial {
               description
-                "initial";
+                "The Verify State diagram
+                 Figure 99-8 IEEE Std 802.3 is in
+                 the state INIT_VERIFICATION";
             }
             enum verifying {
               description
-                "verifying";
+                "The Verify State diagram is in
+                 the state VERIFICATION_IDLE,
+                 SEND_VERIFY or WAIT_FOR_RESPONSE";
             }
             enum succeeded {
               description
-                "succeeded";
+                "Indicates that the Verify State
+                 diagram is in the state VERIFIED";
             }
             enum failed {
               description
-                "failed";
+                "The Verify State diagram is in
+                 the state VERIFY_FAIL";
             }
             enum disabled {
               description
-                "disabled";
+                "Verification of
+                 preemption operation is disabled";
             }
           }
           description
-            "The status of MAC Merge Verification.";
+            "This attribute indicates (when accessed
+             via a READ operation) the status of the
+             MAC Merge sublayer verification on the
+             given device. The WRITE operation shall
+             have no effect on a device.";
           reference
             "IEEE Std 802.3, 30.14.1.2";
         }
@@ -164,19 +207,26 @@ module ieee802-ethernet-mac-merge {
           type enumeration {
             enum unknown {
               description
-                "unknown";
+                "transmit preemption status is
+                 unknown";
             }
             enum inactive {
               description
-                "inactive";
+                "transmit preemption is inactive";
             }
             enum active {
               description
-                "active";
+                "transmit preemption is active";
             }
           }
           description
-            "The status of MAC Merge in the transmit direction.";
+            "This attribute indicates (when accessed
+             via a READ operation) the status of the
+             MAC Merge sublayer on the given device in
+             the transmit direction. The SET operation
+             shall have no effect on a device. This
+             attribute maps to the variable preempt
+             (see 99.4.7.3).";
           reference
             "IEEE Std 802.3, 30.14.1.5";
         }
@@ -184,50 +234,78 @@ module ieee802-ethernet-mac-merge {
       container statistics {
         config false;
         description
-          "Container for MAC Merge counters.";
+          "Missing description D1.2 2024-04-04";
         leaf assembly-error-count {
           type yang:counter64;
           description
-            "A count of MAC frames with reassembly errors.";
+            "A count of MAC frames with reassembly
+             errors. The counter is incremented by one
+             every time the ASSEMBLY_ERROR state in
+             the Receive Processing State Diagram is
+             entered";
           reference
             "IEEE Std 802.3, 30.14.1.8";
         }
         leaf smd-error-count {
           type yang:counter64;
           description
-            "A count of received MAC frames / MAC frame fragments
-             rejected with an unexpected preemption header.";
+            "A count of received MAC frames / MAC
+             frame fragments rejected due to unknown
+             SMD value or arriving with an SMD-C when
+             no frame is in progress. The counter is
+             incremented by one every time the
+             BAD_FRAG state in the Receive Processing
+             State Diagram is entered and every time
+             the WAIT_FOR_DV_FALSE state is entered
+             due to the invocation of the SMD_DECODE
+             function returning the value ERR";
           reference
             "IEEE Std 802.3, 30.14.1.9";
         }
         leaf assembly-ok-count {
           type yang:counter64;
           description
-            "A count of preemptable MAC frames that were successfully
-             reassembled and delivered to MAC.";
+            "count of MAC frames that were
+             successfully reassembled and delivered to
+             MAC. The counter is incremented by one
+             every time the FRAME_COMPLETE state in the
+             Receive Processing state diagram
+             (see Figure 99-6) is entered if the state
+             CHECK_FOR_RESUME was previously entered
+             while processing the packet";
           reference
             "IEEE Std 802.3, 30.14.1.10";
         }
         leaf fragment-count-rx {
           type yang:counter64;
           description
-            "The number of preemptable frame fragments recieved.";
+            "A count of the number of additional
+             mPackets received due to preemption.
+             The counter is incremented by one every
+             time the state CHECK_FRAG_CNT in the
+             Receive Processing State Diagram
+             (see Figure 99-6) is entered";
           reference
             "IEEE Std 802.3, 30.14.1.11";
         }
         leaf fragment-count-tx {
           type yang:counter64;
           description
-            "The number of preemptable frame fragments transmitted.";
+            "A count of the number of additional
+             mPackets transmitted due to preemption.
+             This counter is incremented by one every
+             time the SEND_SMD_C state in the Transmit
+             Processing State Diagram
+             (see Figure 99-5) is entered.";
           reference
             "IEEE Std 802.3, 30.14.1.12";
         }
         leaf hold-count {
           type yang:counter64;
           description
-            "The number of MAC Merge hold requests (i.e., to stop
-             transmissions of preemptable traffic) received from 
-			 the MAC";
+            "A count of the number of times the
+             variable hold (see 99.4.7.3) transitions
+             from FALSE to TRUE.";
           reference
             "IEEE Std 802.3, 30.14.1.13";
         }

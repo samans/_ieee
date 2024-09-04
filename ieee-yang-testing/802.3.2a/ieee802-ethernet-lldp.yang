@@ -9,12 +9,6 @@ module ieee802-ethernet-lldp {
       "IEEE Std 802.1ABcu-2021";
   }
 
-  import ieee802-ethernet-phy-type {
-    prefix ieee802-phy;
-    reference
-      "IEEE Std 802.3-2022";
-	}
-
   organization
     "IEEE Std 802.3 Ethernet Working Group
      Web URL: http://www.ieee802.org/3/";
@@ -27,13 +21,12 @@ module ieee802-ethernet-lldp {
      as referring to 'IEEE Std 802.3 compliant Ethernet
      interfaces'.";
 
-  revision 2024-04-04 {
+  revision 2024-07-17 {
     description
-      "Updates under IEEE Std 802.3.2-202x, Draft 1.2";
+      "Updates under IEEE Std 802.3.2-202x, Draft D3.0";
     reference
       "IEEE Std 802.3-2022, unless dated explicitly";
   }
-  
 
   typedef port-class-type {
     type enumeration {
@@ -392,7 +385,7 @@ module ieee802-ethernet-lldp {
   }
 
   augment "/lldp:lldp/lldp:port" {
-	  description
+    description
       "Augments port with 802.3 port config tlvs";
     leaf tlvs-port-config-enable {
       type bits {
@@ -432,17 +425,15 @@ module ieee802-ethernet-lldp {
             "IEEE Std 802.3, 30.12.1.1.1";
         }
       }
-      config false;
       description
         "Bitmap that corresponds to an IEEE 802.3 subtype
          associated with a specific IEEE 802.3 port config TLV";
       reference
         "IEEE Std 802.3, 30.12.1.1.1";
     }
-	
     leaf auto-negotiation-supported {
       type boolean;
-	  config false;
+      config false;
       description
         "True if the port supports Auto-negotiation";
       reference
@@ -456,13 +447,11 @@ module ieee802-ethernet-lldp {
       reference
         "IEEE Std 802.3, 30.12.2.1.2";
     }
-	/* Obsolete */
-	leaf auto-negotiation-cap {
-	  type binary {
+    leaf auto-negotiation-cap {
+      type binary {
         length "2";
       }
       config false;
-	  status obsolete;
       description
         "A read-only 2-octet value that contains the value (bitmap)
          of the ifMauAutoNegCapAdvertisedBits object
@@ -471,89 +460,16 @@ module ieee802-ethernet-lldp {
       reference
         "IEEE Std802.3, 30.12.2.1.3";
     }
-	leaf operational-mau-type {
+    leaf operational-mau-type {
       type int32;
       config false;
- 	  status obsolete;    
-	  description
+      description
         "32-bit integer value that indicates the operational MAU
          type of the given port";
       reference
         "IEEE Std 802.3, 30.12.2.1.4";
     }
-	
-	leaf auto-negotiation-cap-bits {
-	   type ieee802-phy:auto-neg-ability-bits;
-       config false;
-	   description
-		"The capabilities advertised by the local Auto-Negotiation entity.";
-	   reference
-		"IEEE Std 802.3, 30.6.1.1.6, 
-		aAutoNegadvertisedTechnologyAbility.";
-    }
-
-    leaf operational-pmd-type {
-		type identityref {
-			base ieee802-phy:pmd-type;
-		}         
-		config false;
-      description
-        "Operational PMD type of the given port";
-      reference
-	  "IEEE Std 802.3, Clause 30.5.1.1.2 aMAUType";
-    }
-	
-	leaf local-max-frame-size {
-      type int32;
-      config false;
-      description
-        "An integer value indicating the maximum supported frame
-         size in octets on the given port of the local system.";
-      reference
-        "IEEE Std 802.3, 30.12.2.1.13";
-    }
-	
-	/* Obsolete Link Aggregation objects */
-     leaf link-aggregation-status {
-      type bits {
-        bit aggregation-capability {
-          position 0;
-          description
-            "IEEE Std 802.3, 79.3.3.1";
-        }
-        bit aggregation-status {
-          position 1;
-          description
-            "IEEE Std 802.3, 79.3.3.1";
-        }
-      }
-      config false;
-	  status obsolete;
-      description
-        "The bitmap value which contains the link aggregation
-         capabilities and the current aggregation
-         status of the link";
-      reference
-        "IEEE Std 802.3, 30.12.2.1.11";
-    }
-    leaf aggregation-port-id {
-	  type int32;
-      config false;
-   	  status obsolete;
-      description
-        "The unique identifier allocated to this Aggregation Port
-         by the local System.";
-      reference
-        "IEEE Std 802.3, 30.12.2.1.12";
-    }
-
-	/* POE objects
-		Lots of consistency errors between PoE definitions in 30.9 (PoE), 
-		30.12 (LLDP), 79.3.2 (PoE TLV), 79.3.8 (PoE measurement TLV).
-		Need to get these clauses reviewed against clause 145 and each other
-		*/
-
-   leaf power-port-class {
+    leaf power-port-class {
       type port-class-type;
       config false;
       description
@@ -603,8 +519,45 @@ module ieee802-ethernet-lldp {
       reference
         "IEEE Std 802.3, 30.12.2.1.10";
     }
- 	/* I'm not sure what the reference to aLldpXdot3LocPowerTypeExt 
-	is supposed to tell me. */
+    leaf link-aggregation-status {
+      type bits {
+        bit aggregation-capability {
+          position 0;
+          description
+            "IEEE Std 802.3, 79.3.3.1";
+        }
+        bit aggregation-status {
+          position 1;
+          description
+            "IEEE Std 802.3, 79.3.3.1";
+        }
+      }
+      config false;
+      description
+        "The bitmap value which contains the link aggregation
+         capabilities and the current aggregation
+         status of the link";
+      reference
+        "IEEE Std 802.3, 30.12.2.1.11";
+    }
+    leaf aggregation-port-id {
+      type int32;
+      config false;
+      description
+        "The unique identifier allocated to this Aggregation Port
+         by the local System.";
+      reference
+        "IEEE Std 802.3, 30.12.2.1.12";
+    }
+    leaf local-max-frame-size {
+      type int32;
+      config false;
+      description
+        "An integer value indicating the maximum supported frame
+         size in octets on the given port of the local system.";
+      reference
+        "IEEE Std 802.3, 30.12.2.1.13";
+    }
     leaf power-type {
       type bits {
         bit type1-or-greater {
@@ -626,7 +579,7 @@ module ieee802-ethernet-lldp {
          Type 1 or greater than Type 1. The second bit indicates
          PSE or PD. A PSE sets this bit to indicate a PSE. A PD sets
          this bit to indicate a PD. See also
-         aLldpXdot3LocPowerTypeExt.";
+         aLldpXdot3LocPowerTypeExt..";
       reference
         "IEEE Std 802.3, 30.12.2.1.14";
     }
@@ -890,8 +843,6 @@ module ieee802-ethernet-lldp {
       reference
         "IEEE Std 802.3, 30.12.2.1.37";
     }
-	
-	/* PoE measurement objects */
     leaf meas-voltage-support {
       type boolean;
       config false;
@@ -928,13 +879,12 @@ module ieee802-ethernet-lldp {
       reference
         "IEEE Std 802.3, 30.12.2.1.41";
     }
- 	/* NOTE - What do these values mean? */
-   leaf measurement-source {
+    leaf measurement-source {
       type bits {
         bit bit1 {
           position 0;
           description
-            "????";
+            "-";
         }
         bit bit2 {
           position 1;
@@ -1174,8 +1124,6 @@ module ieee802-ethernet-lldp {
       reference
         "IEEE Std 802.3, 30.12.2.1.66";
     }
-	
-	/* LDP EEE objects */
     leaf tx-dll-ready {
       type boolean;
       config false;
@@ -1243,8 +1191,6 @@ module ieee802-ethernet-lldp {
       reference
         "IEEE Std 802.3, 30.12.2.1.73";
     }
-	
-	/* LLDP preemption objects */ 
     leaf preemption-supported {
       type boolean;
       config false;
@@ -1285,12 +1231,12 @@ module ieee802-ethernet-lldp {
     }
   }
 
-/* NOTE - lldp:remote-systems-data container is "config false;" */
   augment "/lldp:lldp/lldp:port/lldp:remote-systems-data" {
     description
       "Augments port with 802.3 port config tlvs";
     leaf auto-negotiation-supported {
       type boolean;
+      config false;
       description
         "True if the port supports Auto-negotiation";
       reference
@@ -1298,19 +1244,17 @@ module ieee802-ethernet-lldp {
     }
     leaf auto-negotiation-enabled {
       type boolean;
+      config false;
       description
         "True if Auto-negotiation is enabled";
       reference
         "IEEE Std 802.3, 30.12.3.1.2";
     }
-
-	/* Obsolete */
-	leaf auto-negotiation-cap {
+    leaf auto-negotiation-cap {
       type binary {
         length "2";
       }
-	  config false;
-	  status obsolete;
+      config false;
       description
         "A read-only 2-octet value that contains the value (bitmap)
          of the ifMauAutoNegCapAdvertisedBits object (defined in
@@ -1322,44 +1266,62 @@ module ieee802-ethernet-lldp {
     leaf operational-mau-type {
       type int32;
       config false;
-  	  status obsolete;
       description
         "32-bit integer value that indicates the operational MAU
          type of the given port";
       reference
         "IEEE Std 802.3, 30.12.3.1.4";
     }
-	
-	leaf auto-negotiation-cap-bits {
-	   type ieee802-phy:auto-neg-ability-bits;
-       config false;
-	   description
-		"The capabilities advertised by the remote Auto-Negotiation 
-		entity.";
-	   reference
-		"IEEE Std 802.3, 30.12.3.1.3, 
-		aAutoNegadvertisedTechnologyAbility.";
-    }
-    leaf operational-pmd-type {
-		type identityref {
-			base ieee802-phy:pmd-type;
-		}  
+    leaf power-port-class {
+      type port-class-type;
+      config false;
       description
-        "The operational PMD type of the given port";
+        "A read-only value that identifies the port Class of the
+         given port";
       reference
-        "IEEE Std 802.3, 30.12.3.1.4";
+        "IEEE Std 802.3, 30.12.3.1.5";
     }
-	
-	leaf local-max-frame-size {
-      type int32;
+    leaf mdi-power-supported {
+      type boolean;
+      config false;
       description
-        "An integer value indicating the maximum supported frame
-         size in octets on the given port of the local system.";
+        "True if MDI power is supported";
       reference
-        "IEEE Std 802.3, 30.12.3.1.13";
+        "IEEE Std 802.3, 30.12.3.1.6";
     }
-	
-	/* Obsolete Link Aggregation objects */
+    leaf mdi-power-enabled {
+      type boolean;
+      config false;
+      description
+        "True if MDI power is enabled";
+      reference
+        "IEEE Std 802.3, 30.12.3.1.7";
+    }
+    leaf power-pair-controlable {
+      type boolean;
+      config false;
+      description
+        "True if the pair selection can be controlled";
+      reference
+        "IEEE Std 802.3, 30.12.3.1.8";
+    }
+    leaf power-pairs {
+      type pse-pinout-type;
+      config false;
+      description
+        "Indicates which pinout alernative is used for PD
+         detection and power";
+      reference
+        "IEEE Std 802.3, 30.12.3.1.9";
+    }
+    leaf power-class {
+      type pse-power-class-type;
+      config false;
+      description
+        "PD Power Class";
+      reference
+        "IEEE Std 802.3, 30.12.3.1.10";
+    }
     leaf link-aggregation-status {
       type bits {
         bit aggregation-capability {
@@ -1403,7 +1365,7 @@ module ieee802-ethernet-lldp {
             "IEEE Std 802.3, 79.3.3.1";
         }
       }
-	  status obsolete;
+      config false;
       description
         "The bitmap value which contains the link aggregation
          capabilities and the current aggregation status
@@ -1413,66 +1375,22 @@ module ieee802-ethernet-lldp {
     }
     leaf aggregation-port-id {
       type int32;
-	  status obsolete;
+      config false;
       description
         "The unique identifier allocated to this Aggregation Port
          by the local System.";
       reference
         "IEEE Std 802.3, 30.12.3.1.12";
     }
-
-	/* POE objects
-		Lots of consistency errors between PoE definitions in 30.9 (PoE), 
-		30.12 (LLDP), 79.3.2 (PoE TLV), 79.3.8 (PoE measurement TLV).
-		Need to get these clauses reviewed against clause 145 and each other
-		*/
-
-	 leaf power-port-class {
-      type port-class-type;
+    leaf local-max-frame-size {
+      type int32;
+      config false;
       description
-        "A read-only value that identifies the port Class of the
-         given port";
+        "An integer value indicating the maximum supported frame
+         size in octets on the given port of the local system.";
       reference
-        "IEEE Std 802.3, 30.12.3.1.5";
+        "IEEE Std 802.3, 30.12.3.1.13";
     }
-    leaf mdi-power-supported {
-      type boolean;
-      description
-        "True if MDI power is supported";
-      reference
-        "IEEE Std 802.3, 30.12.3.1.6";
-    }
-    leaf mdi-power-enabled {
-      type boolean;
-      description
-        "True if MDI power is enabled";
-      reference
-        "IEEE Std 802.3, 30.12.3.1.7";
-    }
-    leaf power-pair-controlable {
-      type boolean;
-      description
-        "True if the pair selection can be controlled";
-      reference
-        "IEEE Std 802.3, 30.12.3.1.8";
-    }
-    leaf power-pairs {
-      type pse-pinout-type;
-      description
-        "Indicates which pinout alernative is used for PD
-         detection and power";
-      reference
-        "IEEE Std 802.3, 30.12.3.1.9";
-    }
-    leaf power-class {
-      type pse-power-class-type;
-      description
-        "PD Power Class";
-      reference
-        "IEEE Std 802.3, 30.12.3.1.10";
-    }
-	
-	/* NOTE - how does this delate to aLldpXdot3LocPowerTypeExt? */
     leaf power-type {
       type bits {
         bit type1-or-greater {
@@ -1486,6 +1404,7 @@ module ieee802-ethernet-lldp {
             "0-pse, 1-pd";
         }
       }
+      config false;
       description
         "A read-only attribute that returns a bit string indicating
          whether the local system is a PSE or a PD and whether it
@@ -1499,6 +1418,7 @@ module ieee802-ethernet-lldp {
     }
     leaf power-source {
       type power-source-type;
+      config false;
       description
         "Indicates the power sources of the remote system. A PSE
          indicates whether it is being powered by a primary power
@@ -1518,6 +1438,7 @@ module ieee802-ethernet-lldp {
     }
     leaf pd-requested-power-value {
       type int32;
+      config false;
       description
         "PD requested power value that was used by the remote
          system to compute the power value that is has currently
@@ -1527,6 +1448,7 @@ module ieee802-ethernet-lldp {
     }
     leaf pd-requested-power-value-a {
       type int32;
+      config false;
       description
         "A read-only attribute that returns the PD requested power
          value for the Mode A pairset that was used by the remote
@@ -1543,6 +1465,7 @@ module ieee802-ethernet-lldp {
     }
     leaf pd-requested-power-value-b {
       type int32;
+      config false;
       description
         "A read-only attribute that returns the PD requested power
          value for the Mode B pairset that was used by the remote
@@ -1559,6 +1482,7 @@ module ieee802-ethernet-lldp {
     }
     leaf pse-allocated-power-value {
       type int32;
+      config false;
       description
         "PSE allocated power value. For a PSE, it is the power value
          that the PSE has currently allocated to the remote system.
@@ -1569,6 +1493,7 @@ module ieee802-ethernet-lldp {
     }
     leaf pse-allocated-power-value-a {
       type int32;
+      config false;
       description
         "A read-only attribute that returns the PSE allocated power
          value for the Alternative A pairset received from the
@@ -1584,6 +1509,7 @@ module ieee802-ethernet-lldp {
     }
     leaf pse-allocated-power-value-b {
       type int32;
+      config false;
       description
         "A read-only attribute that returns the PSE allocated power
          value for the Alternative B pairset received from the
@@ -1598,6 +1524,7 @@ module ieee802-ethernet-lldp {
     }
     leaf pse-powering-status {
       type powering-status-type;
+      config false;
       description
         "A read only value that indicates the powering status of
          the remote PSE. For a PD, the contents of this attribute
@@ -1607,6 +1534,7 @@ module ieee802-ethernet-lldp {
     }
     leaf pd-powered-status {
       type powered-status-type;
+      config false;
       description
         "A read only value that indicates the powering status of
          the PD. For a PSE, the contents of this attribute are
@@ -1616,6 +1544,7 @@ module ieee802-ethernet-lldp {
     }
     leaf power-pairs-ext {
       type power-pairs-type;
+      config false;
       description
         "A read-only value that identifies the supported PSE
          Pinout Alternative specified in 145.2.4. For a PD, this
@@ -1627,6 +1556,7 @@ module ieee802-ethernet-lldp {
     }
     leaf power-class-ext-A {
       type power-class-ext-AB-type;
+      config false;
       description
         "For a dual-signature PD, a read-only value that indicates
          the currently assigned Class for Mode A by the remote
@@ -1643,6 +1573,7 @@ module ieee802-ethernet-lldp {
     }
     leaf power-class-ext-B {
       type power-class-ext-AB-type;
+      config false;
       description
         "For a dual-signature PD, a read-only value that indicates
          the currently assigned Class for Mode B by the remote
@@ -1659,6 +1590,7 @@ module ieee802-ethernet-lldp {
     }
     leaf power-class-ext {
       type power-class-ext-type;
+      config false;
       description
         "For a single-signature PD or a dual-signature PD connected
          to a 2-pair only PSE, a read-only value that indicates the
@@ -1675,6 +1607,7 @@ module ieee802-ethernet-lldp {
     }
     leaf power-type-ext {
       type power-type;
+      config false;
       description
         "A read-only attribute that returns a value to indicate if
          the remote system is a Type 3 or Type 4 PSE or PD and, in
@@ -1685,6 +1618,7 @@ module ieee802-ethernet-lldp {
     }
     leaf pd-load {
       type boolean;
+      config false;
       description
         "For a PSE, a read-only attribute that returns whether the
          load of the remote dual-signature PD is electrically
@@ -1695,6 +1629,7 @@ module ieee802-ethernet-lldp {
     }
     leaf pd-4pid {
       type boolean;
+      config false;
       description
         "A read-only Boolean attribute indicating whether the
          remote PD system supports powering of both PD Modes.";
@@ -1703,6 +1638,7 @@ module ieee802-ethernet-lldp {
     }
     leaf pse-max-avail-power {
       type int32;
+      config false;
       description
         "A read-only attribute that returns the remote PSE maximum
          available power value in units of 0.1 W";
@@ -1711,6 +1647,7 @@ module ieee802-ethernet-lldp {
     }
     leaf pse-autoclass-support {
       type boolean;
+      config false;
       description
         "Indicates whether the remote PSE system supports
          Autoclass.";
@@ -1719,6 +1656,7 @@ module ieee802-ethernet-lldp {
     }
     leaf autoclass-completed {
       type boolean;
+      config false;
       description
         "Indicates whether the remote PSE system has completed the
          Autoclass measurement.";
@@ -1727,6 +1665,7 @@ module ieee802-ethernet-lldp {
     }
     leaf autoclass-request {
       type boolean;
+      config false;
       description
         "A read-only Boolean attribute indicating whether the
          remote PD system is requesting an Autoclass measurement.";
@@ -1750,10 +1689,9 @@ module ieee802-ethernet-lldp {
       reference
         "IEEE Std 802.3, 30.12.3.1.37";
     }
-	
- 	/* PoE measurement objects */
     leaf meas-voltage-support {
       type boolean;
+      config false;
       description
         "A read-only attribute that indicates the remote device is
          capable of providing a voltage measurement.;";
@@ -1762,6 +1700,7 @@ module ieee802-ethernet-lldp {
     }
     leaf meas-current-support {
       type boolean;
+      config false;
       description
         "A read-only attribute that indicates the remote device is
          capable of providing a current measurement.;";
@@ -1770,6 +1709,7 @@ module ieee802-ethernet-lldp {
     }
     leaf meas-power-support {
       type boolean;
+      config false;
       description
         "A read-only attribute that indicates the remote device is
          capable of providing a power measurement.;";
@@ -1778,13 +1718,13 @@ module ieee802-ethernet-lldp {
     }
     leaf meas-energy-support {
       type boolean;
+      config false;
       description
         "A read-only attribute that indicates the remote device is
          capable of providing a energy measurement.;";
       reference
         "IEEE Std 802.3, 30.12.3.1.41 ";
     }
-	/* NOTE - What do these values mean? */
     leaf measurement-source {
       type bits {
         bit bit1 {
@@ -1807,14 +1747,16 @@ module ieee802-ethernet-lldp {
     }
     leaf meas-voltage-request {
       type boolean;
+      config false;
       description
-        "A read-only attribute that indicates the remote device is
+        "A read-only attribute that indicates the rmote device is
          requesting a voltage measurement from the local device.";
       reference
         "IEEE Std 802.3, 30.12.3.1.43";
     }
     leaf meas-current-request {
       type boolean;
+      config false;
       description
         "A read-only attribute that indicates the remote device is
          requesting a current measurement from the local device.";
@@ -1823,6 +1765,7 @@ module ieee802-ethernet-lldp {
     }
     leaf meas-power-request {
       type boolean;
+      config false;
       description
         "A read-only attribute that indicates the remote device is
          requesting a power measurement from the local device.";
@@ -1831,6 +1774,7 @@ module ieee802-ethernet-lldp {
     }
     leaf meas-energy-request {
       type boolean;
+      config false;
       description
         "A read-only attribute that indicates the remote device is
          requesting an energy measurement from the local device.";
@@ -1839,6 +1783,7 @@ module ieee802-ethernet-lldp {
     }
     leaf meas-voltage-valid {
       type boolean;
+      config false;
       description
         "A read-only attribute that indicates the remote device’s
          voltage measurement is valid.";
@@ -1847,6 +1792,7 @@ module ieee802-ethernet-lldp {
     }
     leaf meas-current-valid {
       type boolean;
+      config false;
       description
         "A read-only attribute that indicates the remote device’s
          current measurement is valid.";
@@ -1855,6 +1801,7 @@ module ieee802-ethernet-lldp {
     }
     leaf meas-power-valid {
       type boolean;
+      config false;
       description
         "A read-only attribute that indicates the remote device’s
          power measurement is valid.";
@@ -1863,6 +1810,7 @@ module ieee802-ethernet-lldp {
     }
     leaf meas-energy-valid {
       type boolean;
+      config false;
       description
         "A read-only attribute that indicates the remote device’s
          energy measurement is valid.";
@@ -1871,6 +1819,7 @@ module ieee802-ethernet-lldp {
     }
     leaf meas-voltage-uncertainty {
       type int32;
+      config false;
       description
         "A read-only attribute that indicates the expanded
          uncertainty (coverage factor k = 2) for the remote device’s
@@ -1880,6 +1829,7 @@ module ieee802-ethernet-lldp {
     }
     leaf meas-current-uncertainty {
       type int32;
+      config false;
       description
         "A read-only attribute that indicates the expanded
          uncertainty (coverage factor k = 2) for the remote device’s
@@ -1889,6 +1839,7 @@ module ieee802-ethernet-lldp {
     }
     leaf meas-power-uncertainty {
       type int32;
+      config false;
       description
         "A read-only attribute that indicates the expanded
          uncertainty (coverage factor k = 2) for the remote device’s
@@ -1898,6 +1849,7 @@ module ieee802-ethernet-lldp {
     }
     leaf meas-energy-uncertainty {
       type int32;
+      config false;
       description
         "A read-only attribute that indicates the expanded
          uncertainty (coverage factor k = 2) for the remote device’s
@@ -1907,6 +1859,7 @@ module ieee802-ethernet-lldp {
     }
     leaf voltage-measurement {
       type int32;
+      config false;
       description
         "A read-only attribute that returns the measured remote
                 device voltage.";
@@ -1915,6 +1868,7 @@ module ieee802-ethernet-lldp {
     }
     leaf current-measurement {
       type int32;
+      config false;
       description
         "A read-only attribute that returns the measured remote
          device current.";
@@ -1923,6 +1877,7 @@ module ieee802-ethernet-lldp {
     }
     leaf power-measurement {
       type int32;
+      config false;
       description
         "A read-only attribute that returns the measured remote
          device power.";
@@ -1931,6 +1886,7 @@ module ieee802-ethernet-lldp {
     }
     leaf energy-measurement {
       type int32;
+      config false;
       description
         "A read-only attribute that returns the measured remote
          device energy.";
@@ -1939,6 +1895,7 @@ module ieee802-ethernet-lldp {
     }
     leaf pse-power-price-index {
       type int32;
+      config false;
       description
         "A read-only attribute that returns an index of the price
          of power being sourced by the remote PSE. For a PSE, this
@@ -1948,6 +1905,7 @@ module ieee802-ethernet-lldp {
     }
     leaf tx-system-value {
       type int32;
+      config false;
       description
         "Returns the value of Tw_sys_tx that the remote system can
          support in the transmit direction.";
@@ -1956,6 +1914,7 @@ module ieee802-ethernet-lldp {
     }
     leaf tx-system-value-echo {
       type int32;
+      config false;
       description
         "Returns the value of Tw_sys_tx that the local system is
          advertising that it can support in the transmit direction
@@ -1966,6 +1925,7 @@ module ieee802-ethernet-lldp {
     }
     leaf rx-system-value {
       type int32;
+      config false;
       description
         "Returns the value of Tw_sys_tx that the remote system is
          requesting in the receive direction.";
@@ -1974,6 +1934,7 @@ module ieee802-ethernet-lldp {
     }
     leaf rx-system-value-echo {
       type int32;
+      config false;
       description
         "Returns the value of Tw_sys_tx that the local system is
          advertising that it is requesting in the receive direction
@@ -1984,15 +1945,16 @@ module ieee802-ethernet-lldp {
     }
     leaf fallback-system-value {
       type int32;
+      config false;
       description
         "Returns the value of the fallback Tw_sys_tx that the
          remote system is advertising to the remote system.";
       reference
         "IEEE Std 802.3, 30.12.3.1.64";
     }
- 	/* LDP EEE objects */
-   leaf tx-system-fw {
+    leaf tx-system-fw {
       type boolean;
+      config false;
       description
         "Returns the value of LPI_FW that the remote system can
          support in the transmit direction.";
@@ -2001,6 +1963,7 @@ module ieee802-ethernet-lldp {
     }
     leaf tx-system-fw-echo {
       type boolean;
+      config false;
       description
         "Returns the value of LPI_FW that the local system is
          advertising that it can support in the transmit direction
@@ -2011,6 +1974,7 @@ module ieee802-ethernet-lldp {
     }
     leaf rx-system-fw {
       type boolean;
+      config false;
       description
         "Returns the value of LPI_FW that the remote system is
          requesting in the receive direction.";
@@ -2019,6 +1983,7 @@ module ieee802-ethernet-lldp {
     }
     leaf rx-system-fw-echo {
       type boolean;
+      config false;
       description
         "Returns the value of LPI_FW that the local system is
          advertising that it is requesting in the receive direction
@@ -2027,9 +1992,9 @@ module ieee802-ethernet-lldp {
       reference
         "IEEE Std 802.3, 30.12.3.1.68";
     }
- 	/* LLDP preemption objects */ 
-   leaf preemption-supported {
+    leaf preemption-supported {
       type boolean;
+      config false;
       description
         "Indicates whether the given port (associated with the
          remote System) supports the preemption capability.";
@@ -2038,6 +2003,7 @@ module ieee802-ethernet-lldp {
     }
     leaf preemption-enabled {
       type boolean;
+      config false;
       description
         "Indicates whether the preemption capability is enabled on
          the given port associated with the remote System.";
@@ -2046,6 +2012,7 @@ module ieee802-ethernet-lldp {
     }
     leaf preemption-active {
       type boolean;
+      config false;
       description
         "Indicates whether the preemption capability is active on
          the given port associated with the remote System.;";
@@ -2054,6 +2021,7 @@ module ieee802-ethernet-lldp {
     }
     leaf additional-fragement-size {
       type int32;
+      config false;
       description
         "Indicate the minimum size of non-final fragments supported
          by the receiver on the given port associated with the

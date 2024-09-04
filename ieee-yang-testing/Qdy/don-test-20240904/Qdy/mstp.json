@@ -1,0 +1,211 @@
+{
+  "ieee802-dot1q-bridge:bridges": {
+    "bridge": [
+      {
+        "name": "bridge1",
+        "address": "10-10-10-10-10-10",
+        "bridge-type": "ieee802-dot1q-bridge:customer-vlan-bridge",
+        "up-time": 0,
+        "component": [
+          {
+            "name": "cv1",
+            "id": 1,
+            "type": "ieee802-dot1q-bridge:c-vlan-component",
+            "capabilities": {
+              "extended-filtering": false,
+              "traffic-classes": false,
+              "static-entry-individual-port": false,
+              "ivl-capable": true,
+              "svl-capable": false,
+              "hybrid-capable": false,
+              "configurable-pvid-tagging": false,
+              "local-vlan-capable": false
+            },
+            "filtering-database": {
+              "vlan-registration-entry": [
+                {
+                  "database-id": 1,
+                  "vids": "1-3,5-199,999-1000,3999,4001-4094",
+                  "entry-type": "static",
+                  "port-map": [
+                    {
+                      "port-ref": 1,
+                      "static-filtering-entries": {
+                        "control-element": "forward",
+                        "connection-identifier": 1
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "bridge-vlan": {
+              "override-default-pvid": false
+            },
+            "bridge-mst": {
+              "mstid": [
+                10
+              ],
+              "fid-to-mstid": [
+                {
+                  "fid": 1,
+                  "mstid": 1
+                }
+              ],
+              "fid-to-mstid-allocation": [
+                {
+                  "fids": "1",
+                  "mstid": 1
+                }
+              ],
+              "ieee802-dot1q-mstp-bridge:bridge-mstp": {
+                "mst-config-id": {
+                  "format-selector": 0,
+                  "configuration-name": "12345678901234567890123456789012",
+                  "revision-level": 0,
+                  "configuration-digest": "MjgxNDc0OTc2NzEwNjU1NQ=="
+                },
+                "ist": {
+                  "internal-root-path-cost": 4294967295
+                },
+                "msti": [
+                  {
+                    "mstid": 1,
+                    "bridge-priority": 2,
+                    "internal-root-path-cost": 3
+                  }
+                ]
+              }
+            },
+            "ieee802-dot1q-rstp-bridge:rstp": {
+              "force-protocol-version": "rstp-mstp",
+              "bridge-id": {
+                "bridge-id": {
+                  "bridge-id": "18446744073709551615",
+                  "bridge-priority": 7
+                }
+              },
+              "root-id": {
+                "bridge-id": {
+                  "bridge-id": "1"
+                }
+              },
+              "root-path-cost": 5,
+              "max-age": 35,
+              "hello-time": 60,
+              "forward-delay": 2,
+              "bridge-hello-time": 2,
+              "tx-hold-count": 2
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "ietf-interfaces:interfaces": {
+    "interface": [
+      {
+        "name": "eth0-red-side",
+        "type": "iana-if-type:bridge",
+        "admin-status": "up",
+        "oper-status": "up",
+        "if-index": 1,
+        "statistics": {
+          "discontinuity-time": "2020-01-31T18:59:00-05:00"
+        },
+        "ieee802-dot1q-bridge:bridge-port": {
+          "bridge-name": "bridge1",
+          "component-name": "cv1",
+          "port-type": "ieee802-dot1q-bridge:c-vlan-bridge-port",
+          "pvid": 1
+        }
+      },
+      {
+        "name": "eth1-black-side",
+        "type": "iana-if-type:ethernetCsmacd",
+        "admin-status": "up",
+        "oper-status": "up",
+        "if-index": 1,
+        "statistics": {
+          "discontinuity-time": "2020-01-31T18:59:00-05:00"
+        },
+        "ieee802-dot1q-bridge:bridge-port": {
+          "bridge-name": "bridge1",
+          "component-name": "cv1",
+          "port-type": "ieee802-dot1q-bridge:c-vlan-bridge-port",
+          "pvid": 1,
+          "ieee802-dot1q-mstp-bridge:port-mstp": {
+            "msti": [
+              {
+                "mstid": 1,
+                "port-state": "forwarding",
+                "port-role": "alternate-port",
+                "port-id": {
+                  "port-id": {
+                    "port-priority": 3
+                  }
+                },
+                "internal-port-path-cost": 4,
+                "regional-root-id": {
+                  "bridge-id": {
+                    "bridge-id": "3"
+                  }
+                },
+                "internal-root-path-cost": 1,
+                "designated-bridge-id": {
+                  "bridge-id": {
+                    "bridge-id": "1"
+                  }
+                },
+                "designated-port-id": {
+                  "port-id": {
+                    "port-id": 10
+                  }
+                }
+              }
+            ]
+          },
+          "ieee802-dot1q-rstp-bridge:rstp": {
+            "port-state": "forwarding",
+            "port-role": "designated-port",
+            "restricted-role": false,
+            "restricted-tcn": false,
+            "port-id": {
+              "port-id": {
+                "port-id": 1,
+                "port-priority": 1
+              }
+            },
+            "port-path-cost": 1,
+            "root-id": {
+              "bridge-id": {
+                "bridge-id": "1"
+              }
+            },
+            "root-path-cost": 1,
+            "designated-bridge-id": {
+              "bridge-id": {
+                "bridge-id": "1"
+              }
+            },
+            "designated-port-id": {
+              "port-id": {
+                "port-id": 10
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "eth1-no-bridge",
+        "type": "iana-if-type:ethernetCsmacd",
+        "admin-status": "up",
+        "oper-status": "up",
+        "if-index": 1,
+        "statistics": {
+          "discontinuity-time": "2020-01-31T18:59:00-05:00"
+        }
+      }
+    ]
+  }
+}

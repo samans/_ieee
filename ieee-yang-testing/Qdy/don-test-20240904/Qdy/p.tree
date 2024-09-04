@@ -1,0 +1,437 @@
+module: ieee802-dot1q-bridge
+  +--rw bridges
+     +--rw bridge* [name]
+        +--rw name           dot1qtypes:name-type
+        +--rw address        ieee:mac-address
+        +--rw bridge-type    identityref
+        +--ro ports?         uint16
+        +--ro up-time?       yang:zero-based-counter32
+        +--ro components?    uint32
+        +--rw component* [name]
+           +--rw name                     string
+           +--rw id?                      uint32
+           +--rw type                     identityref
+           +--rw address?                 ieee:mac-address
+           +--rw traffic-class-enabled?   boolean
+           +--ro ports?                   uint16
+           +--ro bridge-port*             if:interface-ref
+           +--ro capabilities
+           |  +--ro extended-filtering?             boolean
+           |  +--ro traffic-classes?                boolean
+           |  +--ro static-entry-individual-port?   boolean
+           |  +--ro ivl-capable?                    boolean
+           |  +--ro svl-capable?                    boolean
+           |  +--ro hybrid-capable?                 boolean
+           |  +--ro configurable-pvid-tagging?      boolean
+           |  +--ro local-vlan-capable?             boolean
+           +--rw filtering-database
+           |  +--rw aging-time?                          uint32
+           |  +--ro size?                                yang:gauge32
+           |  +--ro static-entries?                      yang:gauge32
+           |  +--ro dynamic-entries?                     yang:gauge32
+           |  +--ro static-vlan-registration-entries?    yang:gauge32
+           |  +--ro dynamic-vlan-registration-entries?   yang:gauge32
+           |  +--ro mac-address-registration-entries?    yang:gauge32 {extended-filtering-services}?
+           |  +--rw filtering-entry* [database-id vids address]
+           |  |  +--rw database-id    uint32
+           |  |  +--rw address        ieee:mac-address
+           |  |  +--rw vids           dot1qtypes:vid-range-type
+           |  |  +--rw entry-type?    enumeration
+           |  |  +--rw port-map* [port-ref]
+           |  |  |  +--rw port-ref                                   port-number-type
+           |  |  |  +--rw (map-type)?
+           |  |  |     +--:(static-filtering-entries)
+           |  |  |     |  +--rw static-filtering-entries
+           |  |  |     |     +--rw control-element?         enumeration
+           |  |  |     |     +--rw connection-identifier?   port-number-type
+           |  |  |     +--:(static-vlan-registration-entries)
+           |  |  |     |  +--rw static-vlan-registration-entries
+           |  |  |     |     +--rw registrar-admin-control?   enumeration
+           |  |  |     |     +--rw vlan-transmitted?          enumeration
+           |  |  |     +--:(mac-address-registration-entries)
+           |  |  |     |  +--rw mac-address-registration-entries
+           |  |  |     |     +--rw control-element?   enumeration
+           |  |  |     +--:(dynamic-vlan-registration-entries)
+           |  |  |     |  +--rw dynamic-vlan-registration-entries
+           |  |  |     |     +--rw control-element?   enumeration
+           |  |  |     +--:(dynamic-reservation-entries)
+           |  |  |     |  +--rw dynamic-reservation-entries
+           |  |  |     |     +--rw control-element?   enumeration
+           |  |  |     +--:(dynamic-filtering-entries)
+           |  |  |        +--rw dynamic-filtering-entries
+           |  |  |           +--rw control-element?   enumeration
+           |  |  +--ro status?        enumeration
+           |  +--rw vlan-registration-entry* [database-id vids]
+           |     +--rw database-id    uint32
+           |     +--rw vids           dot1qtypes:vid-range-type
+           |     +--rw entry-type?    enumeration
+           |     +--rw port-map* [port-ref]
+           |        +--rw port-ref                                   port-number-type
+           |        +--rw (map-type)?
+           |           +--:(static-filtering-entries)
+           |           |  +--rw static-filtering-entries
+           |           |     +--rw control-element?         enumeration
+           |           |     +--rw connection-identifier?   port-number-type
+           |           +--:(static-vlan-registration-entries)
+           |           |  +--rw static-vlan-registration-entries
+           |           |     +--rw registrar-admin-control?   enumeration
+           |           |     +--rw vlan-transmitted?          enumeration
+           |           +--:(mac-address-registration-entries)
+           |           |  +--rw mac-address-registration-entries
+           |           |     +--rw control-element?   enumeration
+           |           +--:(dynamic-vlan-registration-entries)
+           |           |  +--rw dynamic-vlan-registration-entries
+           |           |     +--rw control-element?   enumeration
+           |           +--:(dynamic-reservation-entries)
+           |           |  +--rw dynamic-reservation-entries
+           |           |     +--rw control-element?   enumeration
+           |           +--:(dynamic-filtering-entries)
+           |              +--rw dynamic-filtering-entries
+           |                 +--rw control-element?   enumeration
+           +--rw permanent-database
+           |  +--ro size?                               yang:gauge32
+           |  +--ro static-entries?                     yang:gauge32
+           |  +--ro static-vlan-registration-entries?   yang:gauge32
+           |  +--rw filtering-entry* [database-id vids address]
+           |     +--rw database-id    uint32
+           |     +--rw address        ieee:mac-address
+           |     +--rw vids           dot1qtypes:vid-range-type
+           |     +--ro status?        enumeration
+           |     +--rw port-map* [port-ref]
+           |        +--rw port-ref                                   port-number-type
+           |        +--rw (map-type)?
+           |           +--:(static-filtering-entries)
+           |           |  +--rw static-filtering-entries
+           |           |     +--rw control-element?         enumeration
+           |           |     +--rw connection-identifier?   port-number-type
+           |           +--:(static-vlan-registration-entries)
+           |           |  +--rw static-vlan-registration-entries
+           |           |     +--rw registrar-admin-control?   enumeration
+           |           |     +--rw vlan-transmitted?          enumeration
+           |           +--:(mac-address-registration-entries)
+           |           |  +--rw mac-address-registration-entries
+           |           |     +--rw control-element?   enumeration
+           |           +--:(dynamic-vlan-registration-entries)
+           |           |  +--rw dynamic-vlan-registration-entries
+           |           |     +--rw control-element?   enumeration
+           |           +--:(dynamic-reservation-entries)
+           |           |  +--rw dynamic-reservation-entries
+           |           |     +--rw control-element?   enumeration
+           |           +--:(dynamic-filtering-entries)
+           |              +--rw dynamic-filtering-entries
+           |                 +--rw control-element?   enumeration
+           +--rw bridge-vlan
+           |  +--ro version?                   uint16
+           |  +--ro max-vids?                  uint16
+           |  +--ro override-default-pvid?     boolean
+           |  +--ro protocol-template?         dot1qtypes:protocol-frame-format-type {port-and-protocol-based-vlan}?
+           |  +--ro max-msti?                  uint16
+           |  +--rw vlan* [vid]
+           |  |  +--rw vid               dot1qtypes:vlan-index-type
+           |  |  +--rw name?             dot1qtypes:name-type
+           |  |  +--ro untagged-ports*   if:interface-ref
+           |  |  +--ro egress-ports*     if:interface-ref
+           |  +--rw protocol-group-database* [db-index] {port-and-protocol-based-vlan}?
+           |  |  +--rw db-index                 uint16
+           |  |  +--rw frame-format-type?       dot1qtypes:protocol-frame-format-type
+           |  |  +--rw (frame-format)?
+           |  |  |  +--:(ethernet-rfc1042-snap8021H)
+           |  |  |  |  +--rw ethertype?         dot1qtypes:ethertype-type
+           |  |  |  +--:(snap-other)
+           |  |  |  |  +--rw protocol-id?       string
+           |  |  |  +--:(llc-other)
+           |  |  |     +--rw dsap-ssap-pairs
+           |  |  |        +--rw llc-address?   string
+           |  |  +--rw group-id?                uint32
+           |  +--rw vid-to-fid-allocation* [vids]
+           |  |  +--rw vids               dot1qtypes:vid-range-type
+           |  |  +--ro fid?               uint32
+           |  |  +--ro allocation-type?   enumeration
+           |  +--rw fid-to-vid-allocation* [fid]
+           |  |  +--rw fid                uint32
+           |  |  +--ro allocation-type?   enumeration
+           |  |  +--ro vid*               dot1qtypes:vlan-index-type
+           |  +--rw vid-to-fid* [vid]
+           |     +--rw vid    dot1qtypes:vlan-index-type
+           |     +--rw fid?   uint32
+           +--rw bridge-mst
+           |  +--rw mstid*                     dot1qtypes:mstid-type
+           |  +--rw fid-to-mstid* [fid]
+           |  |  +--rw fid      uint32
+           |  |  +--rw mstid?   dot1qtypes:mstid-type
+           |  +--rw fid-to-mstid-allocation* [fids]
+           |  |  +--rw fids     dot1qtypes:vid-range-type
+           |  |  +--rw mstid?   dot1qtypes:mstid-type
+           |  +--rw mstp-bridge:bridge-mstp!
+           |     +--rw mstp-bridge:mst-config-id
+           |     |  +--ro mstp-bridge:format-selector?        uint8
+           |     |  +--rw mstp-bridge:configuration-name?     string
+           |     |  +--ro mstp-bridge:revision-level?         uint16
+           |     |  +--ro mstp-bridge:configuration-digest?   binary
+           |     +--rw mstp-bridge:max-hops?        uint8
+           |     +--rw mstp-bridge:ist
+           |     |  +--ro mstp-bridge:internal-root-path-cost?   uint32
+           |     +--rw mstp-bridge:msti* [mstid]
+           |        +--rw mstp-bridge:mstid                      uint16
+           |        +--rw mstp-bridge:bridge-priority?           rstp:id-priority
+           |        +--ro mstp-bridge:regional-root-id
+           |        |  +--ro mstp-bridge:bridge-id
+           |        |     +--ro mstp-bridge:bridge-id?             uint64
+           |        |     +--ro mstp-bridge:bridge-priority?       id-priority
+           |        |     +--ro mstp-bridge:system-id-extension?   uint16
+           |        |     +--ro mstp-bridge:bridge-address?        ieee:mac-address
+           |        +--ro mstp-bridge:internal-root-path-cost?   uint32
+           |        +--ro mstp-bridge:root-port?                 union
+           +--rw rstp-bridge:rstp!
+              +--rw rstp-bridge:force-protocol-version?          enumeration
+              +---x rstp-bridge:port-protocol-migration-check
+              +--rw rstp-bridge:bridge-id
+              |  +--rw rstp-bridge:bridge-id
+              |     +--ro rstp-bridge:bridge-id?             uint64
+              |     +--rw rstp-bridge:bridge-priority?       id-priority
+              |     +--ro rstp-bridge:system-id-extension?   uint16
+              |     +--ro rstp-bridge:bridge-address?        ieee:mac-address
+              +--ro rstp-bridge:root-id
+              |  +--ro rstp-bridge:bridge-id
+              |     +--ro rstp-bridge:bridge-id?             uint64
+              |     +--ro rstp-bridge:bridge-priority?       id-priority
+              |     +--ro rstp-bridge:system-id-extension?   uint16
+              |     +--ro rstp-bridge:bridge-address?        ieee:mac-address
+              +--ro rstp-bridge:root-path-cost?                  uint32
+              +--ro rstp-bridge:root-port?                       if:interface-ref
+              +--ro rstp-bridge:max-age?                         uint8
+              +--ro rstp-bridge:hello-time?                      uint8
+              +--ro rstp-bridge:forward-delay?                   uint8
+              +--rw rstp-bridge:bridge-max-age?                  uint8
+              +--ro rstp-bridge:bridge-hello-time?               uint8
+              +--rw rstp-bridge:bridge-forward-delay?            uint8
+              +--rw rstp-bridge:tx-hold-count?                   uint8
+              +--ro rstp-bridge:last-topology-change?            yang:date-and-time
+
+module: ietf-interfaces
+  +--rw interfaces
+  |  +--rw interface* [name]
+  |     +--rw name                        string
+  |     +--rw description?                string
+  |     +--rw type                        identityref
+  |     +--rw enabled?                    boolean
+  |     +--rw link-up-down-trap-enable?   enumeration {if-mib}?
+  |     +--ro admin-status                enumeration {if-mib}?
+  |     +--ro oper-status                 enumeration
+  |     +--ro last-change?                yang:date-and-time
+  |     +--ro if-index                    int32 {if-mib}?
+  |     +--ro phys-address?               yang:phys-address
+  |     +--ro higher-layer-if*            interface-ref
+  |     +--ro lower-layer-if*             interface-ref
+  |     +--ro speed?                      yang:gauge64
+  |     +--ro statistics
+  |     |  +--ro discontinuity-time    yang:date-and-time
+  |     |  +--ro in-octets?            yang:counter64
+  |     |  +--ro in-unicast-pkts?      yang:counter64
+  |     |  +--ro in-broadcast-pkts?    yang:counter64
+  |     |  +--ro in-multicast-pkts?    yang:counter64
+  |     |  +--ro in-discards?          yang:counter32
+  |     |  +--ro in-errors?            yang:counter32
+  |     |  +--ro in-unknown-protos?    yang:counter32
+  |     |  +--ro out-octets?           yang:counter64
+  |     |  +--ro out-unicast-pkts?     yang:counter64
+  |     |  +--ro out-broadcast-pkts?   yang:counter64
+  |     |  +--ro out-multicast-pkts?   yang:counter64
+  |     |  +--ro out-discards?         yang:counter32
+  |     |  +--ro out-errors?           yang:counter32
+  |     +--rw dot1q:bridge-port
+  |        +--rw dot1q:bridge-name?                           -> /bridges/bridge/name
+  |        +--rw dot1q:component-name?                        -> /bridges/bridge[dot1q:name=current()/../bridge-name]/component/name
+  |        +--rw dot1q:port-type?                             identityref
+  |        +--rw dot1q:pvid?                                  dot1qtypes:vlan-index-type
+  |        +--rw dot1q:default-priority?                      dot1qtypes:priority-type
+  |        +--rw dot1q:priority-regeneration
+  |        |  +--rw dot1q:priority0?   priority-type
+  |        |  +--rw dot1q:priority1?   priority-type
+  |        |  +--rw dot1q:priority2?   priority-type
+  |        |  +--rw dot1q:priority3?   priority-type
+  |        |  +--rw dot1q:priority4?   priority-type
+  |        |  +--rw dot1q:priority5?   priority-type
+  |        |  +--rw dot1q:priority6?   priority-type
+  |        |  +--rw dot1q:priority7?   priority-type
+  |        +--rw dot1q:pcp-selection?                         dot1qtypes:pcp-selection-type
+  |        +--rw dot1q:pcp-decoding-table
+  |        |  +--rw dot1q:pcp-decoding-map* [pcp]
+  |        |     +--rw dot1q:pcp             pcp-selection-type
+  |        |     +--rw dot1q:priority-map* [priority-code-point]
+  |        |        +--rw dot1q:priority-code-point    priority-type
+  |        |        +--rw dot1q:priority?              priority-type
+  |        |        +--rw dot1q:drop-eligible?         boolean
+  |        +--rw dot1q:pcp-encoding-table
+  |        |  +--rw dot1q:pcp-encoding-map* [pcp]
+  |        |     +--rw dot1q:pcp             pcp-selection-type
+  |        |     +--rw dot1q:priority-map* [priority dei]
+  |        |        +--rw dot1q:priority               priority-type
+  |        |        +--rw dot1q:dei                    boolean
+  |        |        +--rw dot1q:priority-code-point?   priority-type
+  |        +--rw dot1q:use-dei?                               boolean
+  |        +--rw dot1q:drop-encoding?                         boolean
+  |        +--rw dot1q:service-access-priority-selection?     boolean
+  |        +--rw dot1q:service-access-priority
+  |        |  +--rw dot1q:priority0?   priority-type
+  |        |  +--rw dot1q:priority1?   priority-type
+  |        |  +--rw dot1q:priority2?   priority-type
+  |        |  +--rw dot1q:priority3?   priority-type
+  |        |  +--rw dot1q:priority4?   priority-type
+  |        |  +--rw dot1q:priority5?   priority-type
+  |        |  +--rw dot1q:priority6?   priority-type
+  |        |  +--rw dot1q:priority7?   priority-type
+  |        +--rw dot1q:traffic-class-v2
+  |        |  +--rw dot1q:traffic-class-table* [traffic-class]
+  |        |     +--rw dot1q:traffic-class    traffic-class-type
+  |        |     +--rw dot1q:priority* [index]
+  |        |        +--rw dot1q:index       uint32
+  |        |        +--rw dot1q:priority?   priority-type
+  |        +--rw dot1q:acceptable-frame?                      enumeration
+  |        +--rw dot1q:enable-ingress-filtering?              boolean
+  |        +--rw dot1q:enable-restricted-vlan-registration?   boolean
+  |        +--rw dot1q:enable-vid-translation-table?          boolean
+  |        +--rw dot1q:enable-egress-vid-translation-table?   boolean
+  |        +--rw dot1q:protocol-group-vid-set* [group-id] {port-and-protocol-based-vlan}?
+  |        |  +--rw dot1q:group-id    uint32
+  |        |  +--rw dot1q:vid*        dot1qtypes:vlanid
+  |        +--rw dot1q:admin-point-to-point?                  enumeration
+  |        +--ro dot1q:protocol-based-vlan-classification?    boolean {port-and-protocol-based-vlan}?
+  |        +--ro dot1q:max-vid-set-entries?                   uint16 {port-and-protocol-based-vlan}?
+  |        +--ro dot1q:port-number?                           dot1qtypes:port-number-type
+  |        +--ro dot1q:address?                               ieee:mac-address
+  |        +--ro dot1q:capabilities?                          bits
+  |        +--ro dot1q:type-capabilties?                      bits
+  |        +--ro dot1q:external?                              boolean
+  |        +--ro dot1q:oper-point-to-point?                   boolean
+  |        +--ro dot1q:media-dependent-overhead?              uint8
+  |        +--ro dot1q:statistics
+  |        |  +--ro dot1q:delay-exceeded-discards?          yang:counter64
+  |        |  +--ro dot1q:mtu-exceeded-discards?            yang:counter64
+  |        |  +--ro dot1q:frame-rx?                         yang:counter64
+  |        |  +--ro dot1q:octets-rx?                        yang:counter64
+  |        |  +--ro dot1q:frame-tx?                         yang:counter64
+  |        |  +--ro dot1q:octets-tx?                        yang:counter64
+  |        |  +--ro dot1q:discard-inbound?                  yang:counter64
+  |        |  +--ro dot1q:forward-outbound?                 yang:counter64
+  |        |  +--ro dot1q:discard-lack-of-buffers?          yang:counter64
+  |        |  +--ro dot1q:discard-transit-delay-exceeded?   yang:counter64
+  |        |  +--ro dot1q:discard-on-error?                 yang:counter64
+  |        |  +--ro dot1q:discard-on-ingress-filtering?     yang:counter64 {ingress-filtering}?
+  |        +--rw dot1q:vid-translations* [local-vid]
+  |        |  +--rw dot1q:local-vid    dot1qtypes:vlanid
+  |        |  +--rw dot1q:relay-vid?   dot1qtypes:vlanid
+  |        +--rw dot1q:egress-vid-translations* [relay-vid]
+  |        |  +--rw dot1q:relay-vid    dot1qtypes:vlanid
+  |        |  +--rw dot1q:local-vid?   dot1qtypes:vlanid
+  |        +--rw rstp-bridge:rstp!
+  |        |  +--rw rstp-bridge:admin-bridge-port-enabled?   boolean
+  |        |  +--ro rstp-bridge:port-state?                  port-state
+  |        |  +--ro rstp-bridge:port-role?                   port-role
+  |        |  +--rw rstp-bridge:restricted-role?             boolean
+  |        |  +--rw rstp-bridge:restricted-tcn?              boolean
+  |        |  +--rw rstp-bridge:port-id
+  |        |  |  +--rw rstp-bridge:port-id
+  |        |  |     +--ro rstp-bridge:port-id?         uint16
+  |        |  |     +--rw rstp-bridge:port-priority?   id-priority
+  |        |  |     +--ro rstp-bridge:port-number?     id-port-number
+  |        |  +--rw rstp-bridge:port-path-cost?              uint32
+  |        |  +--ro rstp-bridge:root-id
+  |        |  |  +--ro rstp-bridge:bridge-id
+  |        |  |     +--ro rstp-bridge:bridge-id?             uint64
+  |        |  |     +--ro rstp-bridge:bridge-priority?       id-priority
+  |        |  |     +--ro rstp-bridge:system-id-extension?   uint16
+  |        |  |     +--ro rstp-bridge:bridge-address?        ieee:mac-address
+  |        |  +--ro rstp-bridge:root-path-cost?              uint32
+  |        |  +--ro rstp-bridge:designated-bridge-id
+  |        |  |  +--ro rstp-bridge:bridge-id
+  |        |  |     +--ro rstp-bridge:bridge-id?             uint64
+  |        |  |     +--ro rstp-bridge:bridge-priority?       id-priority
+  |        |  |     +--ro rstp-bridge:system-id-extension?   uint16
+  |        |  |     +--ro rstp-bridge:bridge-address?        ieee:mac-address
+  |        |  +--ro rstp-bridge:designated-port-id
+  |        |  |  +--ro rstp-bridge:port-id
+  |        |  |     +--ro rstp-bridge:port-id?         uint16
+  |        |  |     +--ro rstp-bridge:port-priority?   id-priority
+  |        |  |     +--ro rstp-bridge:port-number?     id-port-number
+  |        |  +--rw rstp-bridge:admin-edge-port?             boolean
+  |        |  +--ro rstp-bridge:oper-edge-port?              boolean
+  |        |  +--rw rstp-bridge:auto-edge-port?              boolean
+  |        |  +--ro rstp-bridge:disputed-port?               boolean
+  |        |  +--ro rstp-bridge:isolate-port?                boolean
+  |        +--rw mstp-bridge:port-mstp!
+  |           +--rw mstp-bridge:boundary-port?            boolean
+  |           +--rw mstp-bridge:restricted-domain-role?   boolean
+  |           +--rw mstp-bridge:ist
+  |           |  +--ro mstp-bridge:mst-config-id
+  |           |  |  +--ro mstp-bridge:format-selector?        uint8
+  |           |  |  +--ro mstp-bridge:configuration-name?     string
+  |           |  |  +--ro mstp-bridge:revision-level?         uint16
+  |           |  |  +--ro mstp-bridge:configuration-digest?   binary
+  |           |  +--rw mstp-bridge:internal-port-path-cost?   uint32
+  |           |  +--ro mstp-bridge:internal-root-path-cost?   uint32
+  |           |  +--ro mstp-bridge:designated-bridge
+  |           |  |  +--ro mstp-bridge:bridge-id
+  |           |  |     +--ro mstp-bridge:bridge-id?             uint64
+  |           |  |     +--ro mstp-bridge:bridge-priority?       id-priority
+  |           |  |     +--ro mstp-bridge:system-id-extension?   uint16
+  |           |  |     +--ro mstp-bridge:bridge-address?        ieee:mac-address
+  |           |  +--ro mstp-bridge:remaining-hops?            uint8
+  |           +--rw mstp-bridge:msti* [mstid]
+  |              +--rw mstp-bridge:mstid                      uint16
+  |              +--ro mstp-bridge:port-state?                rstp:port-state
+  |              +--ro mstp-bridge:port-role?                 union
+  |              +--rw mstp-bridge:port-id
+  |              |  +--rw mstp-bridge:port-id
+  |              |     +--ro mstp-bridge:port-id?         uint16
+  |              |     +--rw mstp-bridge:port-priority?   id-priority
+  |              |     +--ro mstp-bridge:port-number?     id-port-number
+  |              +--rw mstp-bridge:internal-port-path-cost?   uint32
+  |              +--ro mstp-bridge:regional-root-id
+  |              |  +--ro mstp-bridge:bridge-id
+  |              |     +--ro mstp-bridge:bridge-id?             uint64
+  |              |     +--ro mstp-bridge:bridge-priority?       id-priority
+  |              |     +--ro mstp-bridge:system-id-extension?   uint16
+  |              |     +--ro mstp-bridge:bridge-address?        ieee:mac-address
+  |              +--ro mstp-bridge:internal-root-path-cost?   uint32
+  |              +--ro mstp-bridge:designated-bridge-id
+  |              |  +--ro mstp-bridge:bridge-id
+  |              |     +--ro mstp-bridge:bridge-id?             uint64
+  |              |     +--ro mstp-bridge:bridge-priority?       id-priority
+  |              |     +--ro mstp-bridge:system-id-extension?   uint16
+  |              |     +--ro mstp-bridge:bridge-address?        ieee:mac-address
+  |              +--ro mstp-bridge:designated-port-id
+  |              |  +--ro mstp-bridge:port-id
+  |              |     +--ro mstp-bridge:port-id?         uint16
+  |              |     +--ro mstp-bridge:port-priority?   id-priority
+  |              |     +--ro mstp-bridge:port-number?     id-port-number
+  |              +--ro mstp-bridge:disputed-port?             boolean
+  |              +--ro mstp-bridge:remaining-hops?            uint8
+  x--ro interfaces-state
+     x--ro interface* [name]
+        x--ro name               string
+        x--ro type               identityref
+        x--ro admin-status       enumeration {if-mib}?
+        x--ro oper-status        enumeration
+        x--ro last-change?       yang:date-and-time
+        x--ro if-index           int32 {if-mib}?
+        x--ro phys-address?      yang:phys-address
+        x--ro higher-layer-if*   interface-state-ref
+        x--ro lower-layer-if*    interface-state-ref
+        x--ro speed?             yang:gauge64
+        x--ro statistics
+           x--ro discontinuity-time    yang:date-and-time
+           x--ro in-octets?            yang:counter64
+           x--ro in-unicast-pkts?      yang:counter64
+           x--ro in-broadcast-pkts?    yang:counter64
+           x--ro in-multicast-pkts?    yang:counter64
+           x--ro in-discards?          yang:counter32
+           x--ro in-errors?            yang:counter32
+           x--ro in-unknown-protos?    yang:counter32
+           x--ro out-octets?           yang:counter64
+           x--ro out-unicast-pkts?     yang:counter64
+           x--ro out-broadcast-pkts?   yang:counter64
+           x--ro out-multicast-pkts?   yang:counter64
+           x--ro out-discards?         yang:counter32
+           x--ro out-errors?           yang:counter32
+

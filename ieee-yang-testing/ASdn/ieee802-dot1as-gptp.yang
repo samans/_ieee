@@ -28,13 +28,13 @@ module ieee802-dot1as-gptp {
     
     Copyright (C) IEEE (2024). This version of this YANG module is part
     of IEEE Std 802.1AS; see the standard itself for full legal notices.";
-  revision 2024-04-16 {
+  revision 2024-06-23 {
     description
       "Published as part of IEEE Std 802.1ASdn-2024. Initial version.";
     reference
       "IEEE Std 802.1AS - Timing and Synchronization for Time-Sensitive
       Applications: IEEE Std 802.1AS-2020, IEEE Std 802.1AS-2020/Cor
-      1-2021, IEEE Std 802.1ASdr-2023, IEEE Std 802.1ASdn-2024. IEEE Std
+      1-2021, IEEE Std 802.1ASdr-2024, IEEE Std 802.1ASdn-2024. IEEE Std
       1588 - IEEE Standard for a Precision Clock Synchronization Protocol
       for Networked Measurement and Control Systems: IEEE Std 1588-2019,
       IEEE Std 1588g-2022, IEEE Std 1588e-2024.";
@@ -303,18 +303,18 @@ module ieee802-dot1as-gptp {
       
       14.8.4 of IEEE Std 802.1AS specifies ptpPortEnabled
       (ptp-port-enabled), which is provided in YANG as the semantically
-      equivalent node in ieee1588-ptp named port-enable (in port-ds).
+      equivalent node in ieee1588-ptp-tt named port-enable (in port-ds).
       
       14.8.15 of IEEE Std 802.1AS specifies
       mgtSettableLogAnnounceInterval (mgt-log-announce-interval), which
       is provided in YANG as the semantically equivalent node in
-      ieee1588-ptp named log-announce-interval (in port-ds). In the
+      ieee1588-ptp-tt named log-announce-interval (in port-ds). In the
       context of IEEE Std 802.1AS, log-announce-interval cannot be used
       unless use-mgt-log-announce-interval is true.
       
       14.8.20 of IEEE Std 802.1AS specifies mgtSettableLogSyncInterval
       (mgt-log-sync-interval), which is provided in YANG as the
-      semantically equivalent node in ieee1588-ptp named
+      semantically equivalent node in ieee1588-ptp-tt named
       log-sync-interval (in port-ds). In the context of IEEE Std 802.1AS,
       log-sync-interval cannot be used unless use-mgt-log-sync-interval
       is true.";
@@ -718,8 +718,6 @@ module ieee802-dot1as-gptp {
     leaf-list pdelay-truncated-timestamps {
       type uinteger48;
       config false;
-      min-elements 4;
-      max-elements 4;
       description
         "For full-duplex IEEE Std 802.3 media, and CSN media that use the
         peer-to-peer delay mechanism to measure path delay, the values of
@@ -940,6 +938,8 @@ module ieee802-dot1as-gptp {
           asymmetry measurement is being performed for the link attached
           to this PTP Port, and false otherwise. For all other media, the
           value shall be false.";
+        reference
+          "14.13.2 of IEEE Std 802.1AS";
       }
     }
   }
@@ -955,7 +955,7 @@ module ieee802-dot1as-gptp {
       
       14.16.9 of IEEE Std 802.1AS specifies neighborRateRatio
       (neighbor-rate-ratio), which is provided in YANG as the
-      semantically equivalent node in ieee1588-ptp named
+      semantically equivalent node in ieee1588-ptp-tt named
       scaled-neighbor-rate-ratio (in link-port-ds).";
     leaf cmlds-link-port-enabled {
       type boolean;
@@ -1114,8 +1114,6 @@ module ieee802-dot1as-gptp {
     leaf-list pdelay-truncated-timestamps {
       type uinteger48;
       config false;
-      min-elements 4;
-      max-elements 4;
       description
         "This leaf is analogous to pdelay-truncated-timestamps for a PTP
         Port, but applicable to this Link Port.";
@@ -1233,7 +1231,7 @@ module ieee802-dot1as-gptp {
           asymmetry-measurement-mode-ds.enabled for a PTP Port, but
           applicable to this Link Port.";
         reference
-          "14.13.2 of IEEE Std 802.1AS";
+          "14.18.2 of IEEE Std 802.1AS";
       }
     }
   }

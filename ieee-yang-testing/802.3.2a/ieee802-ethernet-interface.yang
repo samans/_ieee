@@ -8,22 +8,23 @@ module ieee802-ethernet-interface {
     reference
       "IETF RFC 6991";
   }
+  import ietf-interfaces {
+    prefix if;
+    reference
+      "IETF RFC 8343";
+  }
   import iana-if-type {
     prefix ianaift;
     reference
       "http://www.iana.org/assignments/yang-parameters/
        iana-if-type@2023-01-26.yang";
   }
-  import ietf-interfaces {
-    prefix if;
-    reference
-      "IETF RFC 8343";
-  }
-  import ieee802-ethernet-phy-type {
-    prefix ieee802-phy;
-    reference
-      "IEEE Std 802.3-2022";
-  }
+
+  //import ieee802-ethernet-mau {
+  //  prefix ieee802-mau;
+  //  reference 
+  //    	"IEEE Std 802.3-2022";
+  //}
 
   organization
     "IEEE Std 802.3 Ethernet Working Group
@@ -37,35 +38,36 @@ module ieee802-ethernet-interface {
      as referring to 'IEEE Std 802.3 compliant Ethernet
      interfaces'.";
 
-  revision 2024-04-04 {
+  revision 2024-07-17 {
     description
-      "Updates under IEEE Std 802.3.2-202x, Draft 1.2";
+      "Updates under IEEE Std 802.3.2-202x, Draft D3.0";
     reference
       "IEEE Std 802.3-2022 and IEEE Std 802.3.1-202X, unless dated
-              explicitly";
+       explicitly";
   }
 
   feature ethernet-pfc {
     description
       "This device supports Ethernet priority flow-control.";
   }
-   feature ethernet-pause {
+
+  feature ethernet-pause {
     description
       "This device supports Ethernet PAUSE.";
   }
-  
-  feature dynamic-rate-control {
+
+  typedef eth-if-speed-type {
+    type decimal64 {
+      fraction-digits 3;
+    }
+    units "Gb/s";
     description
-      "This feature indicates that the device supports Ethernet
-       interfaces lowering the average data rate of the MAC
-       sublayer, with frame granularity, by using Rate Control to
-       dynamically increase the inter-packet gap for some types of
-       Ethernet interface.
-       Only valid for 10GBASE-W Ethernet interfaces.";
-    reference
-      "IEEE Std 802.3, 30.3.1.1.33 aRateControlAbility";
+      "Used to represent the configured, negotiated, or actual
+       speed of an Ethernet interface in Gigabits per second
+       (Gb/s), accurate to 3 decimal places (i.e., accurate to 1
+       Mb/s).";
   }
-  
+
   typedef duplex-type {
     type enumeration {
       enum full {
@@ -81,8 +83,8 @@ module ieee802-ethernet-interface {
           "Link is currently disconnected or initializing.";
       }
     }
-     default "full";
-	 description
+    default "full";
+    description
       "Used to represent the configured, negotiated, or actual
        duplex mode of an Ethernet interface.";
     reference
@@ -94,22 +96,32 @@ module ieee802-ethernet-interface {
       enum disabled {
         description
           "Flow-control disabled in both ingress and egress
-           directions.";
+           directions, i.e., PAUSE frames are not transmitted and
+           PAUSE frames received in the ingress direction are
+           discarded without processing.";
       }
       enum ingress-only {
         description
           "PAUSE frame based flow control is enabled in the ingress
-           direction only.";
+           direction only, i.e., PAUSE frames may be transmitted to
+           reduce the ingress traffic flow, but PAUSE frames
+           received in the ingress direction are discarded without
+           reducing the egress traffic rate.";
       }
       enum egress-only {
         description
           "PAUSE frame based flow control is enabled in the egress
-           direction only.";
+           direction only, i.e., PAUSE frames are not transmitted,
+           but PAUSE frames received in the ingress direction are
+           processed to reduce the egress traffic rate.";
       }
       enum bi-directional {
         description
           "PAUSE frame based flow control is enabled in both
-           ingress and egress directions.";
+           ingress and egress directions, i.e., PAUSE frames may
+           be transmitted to reduce the ingress traffic flow, and
+           PAUSE frames received on ingress are processed to
+           reduce the egress traffic rate.";
       }
       enum undefined {
         description
@@ -122,31 +134,11 @@ module ieee802-ethernet-interface {
     reference
       "IEEE Std 802.3.1, dot3PauseAdminMode and dot3PauseOperMode";
   }
-  
-    
-  typedef counter-lpi-transitions {
-	type yang:counter64;
-	description
-		"This counter has a maximum per second increment rate 
-		 of:
-			50 thousand for 100 Mb/s;
-			90 thousand for 1000 Mb/s
-			230 thousand for 10 Gb/s.";
-	}
-	
-  typedef counter-lpi-duration {
-	type yang:counter64;
-    units "Microseconds";
-	description
-		"This counter has a maximum per second increment rate 
-		 of 1 million.";
-	}
-		
-  
+
   augment "/if:interfaces/if:interface" {
     when "derived-from-or-self(if:type, 'ianaift:ethernetCsmacd')" {
       description
-        "Applies to all Ethernet interfaces.";
+        "Applies to all P2P Ethernet interfaces.";
     }
     description
       "Augment interface model with Ethernet interface
@@ -237,51 +229,179 @@ module ieee802-ethernet-interface {
             "IEEE 802.3, 30.6.1.1.4, aAutoNegAutoConfig";
         }
       }
- 
-		leaf phy-type {
-			type identityref {
-				base ieee802-phy:phy-type;
-			}
-			config false;
-			description
-				"A value that uniquely identifies the IEEE 802.3 PHY type
-				of the interface.";
-			reference
-				"IEEE Std 802.3, 30.3.2.1.2 aPhyType";
+      /*
+      leaf mau-type {
+        type ieee802-mau:mau-type;
+        description
+          "A value that uniquely identifies the IEEE 802.3 MAU type
+      of the interface.";
+        reference
+          "IEEE Std 802.3, 30.????";
         }
-		
-		leaf pmd-type {
-			type identityref {
-			  base ieee802-phy:pmd-type;
-			}
-			config false;
-			description
-			 "A value that uniquely identifies the IEEE 802.3 PMD type
-			of the interface.";
-			reference
-			  "IEEE Std 802.3, 30.5.1.1.2 aMAUType";
-		}
-   
+      
+      leaf mau-type-list {
+        type ieee802-mau:type-list-bits;
+        description
+          "A value that uniquely identifies the set of
+           possible IEEE 802.3 types that the MAU could be.";
+        reference
+          "IEEE Std 802.3, 30.????";
+       }
+       */	
       leaf duplex {
         type duplex-type;
         description
           "Operational duplex mode of the Ethernet interface.";
         reference
           "IEEE Std 802.3, 30.3.1.1.32 aDuplexStatus";
-		}
-	  	  
-		 leaf max-frame-length {
-			type uint16;
-			units "octets";
-			config false;
-			description
-			  "This indicates the MAC frame length (including FCS bytes)
-			   at which frames are dropped for being too long.";
-			reference
-			  "IEEE Std 802.3, 30.3.1.1.37 aMaxFrameLength";
-		  }
-	  
+      }
+      leaf speed {
+        type eth-if-speed-type;
+        units "Gb/s";
+        description
+          "Operational speed (data rate) of the Ethernet interface.
+           The default value is implementation-dependent.";
+      }
+      container flow-control {
+        description
+          "Holds the different types of Ethernet PAUSE frame based
+           flow control that can be enabled.";
+        container pause {
+          if-feature "ethernet-pause";
+          description
+            "IEEE Std 802.3 PAUSE frame based PAUSE frame based
+             flow control.";
+          reference
+            "IEEE Std 802.3, Annex 31B";
+          leaf direction {
+            type pause-fc-direction-type;
+            description
+              "Indicates which direction PAUSE frame based flow
+               control is enabled in, or whether it is disabled.
+               The default flow-control settings are vendor
+               specific. If auto-negotiation is enabled, then PAUSE
+               based flow-control is negotiated by default.
+               The default value is implementation-dependent.";
+          }
+          container statistics {
+            config false;
+            description
+              "Contains the number of PAUSE frames received or
+               transmitted.
 
+                Discontinuities in the values of counters in
+                this container can occur at re-initialization of
+                the management system, and at other times as
+                indicated by the value of the 'discontinuity-time'
+                leaf defined in the ietf-interfaces YANG module
+                (IETF RFC 8343).";
+            leaf in-frames-pause {
+              type yang:counter64;
+              units "frames";
+              description
+                "A count of PAUSE MAC Control frames transmitted on
+                 this Ethernet interface.";
+              reference
+                "IEEE Std 802.3, 30.3.4.3
+                 aPAUSEMACCtrlFramesReceived";
+            }
+            leaf out-frames-pause {
+              type yang:counter64;
+              units "frames";
+              description
+                "A count of PAUSE MAC Control frames transmitted on
+                 this Ethernet interface.";
+              reference
+                "IEEE Std 802.3, 30.3.4.2
+                 aPAUSEMACCtrlFramesTransmitted";
+            }
+          }
+        }
+        container pfc {
+          if-feature "ethernet-pfc";
+          description
+            "IEEE Std 802.3 Priority-based flow control.";
+          reference
+            "IEEE Std 802.3, Annex 31D";
+          leaf enable {
+            type boolean;
+            description
+              "True indicates that IEEE Std 802.3 priority-based
+               flow control is enabled, false indicates that
+               IEEE Std 802.3 priority-based flow control is
+               disabled. For interfaces that have auto-negotiation,
+               the priority-based flow control is enabled by
+               default.";
+          }
+          container statistics {
+            config false;
+            description
+              "This container collects all statistics for
+               Ethernet interfaces.
+
+                 Discontinuities in the values of counters in
+                 this container can occur at re-initialization of
+                 the management system, and at other times as
+                 indicated by the value of the 'discontinuity-time'
+                 leaf defined in the ietf-interfaces YANG module
+                 (IETF RFC 8343).";
+            leaf in-frames-pfc {
+              type yang:counter64;
+              units "frames";
+              status deprecated;
+              description
+                "Deprecated in-frames-pfc as not defined in base
+                 standard. A count of PFC MAC Control frames
+                 received on this Ethernet interface.";
+              reference
+                "IEEE Std 802.3.1, dot3HCInPFCFrames";
+            }
+            leaf out-frames-pfc {
+              type yang:counter64;
+              units "frames";
+              status deprecated;
+              description
+                "Deprecated out-frames-pfc as not defined in base
+                 standard.A count of PFC MAC Control frames
+                 transmitted on this interface.";
+              reference
+                "IEEE Std 802.3.1, dot3HCInPFCFrames";
+            }
+          }
+        }
+        leaf force-flow-control {
+          type boolean;
+          default "false";
+          description
+            "Explicitly forces the local PAUSE frame based flow
+             control settings regardless of what has been
+             negotiated.
+
+             Since the auto-negotiation of flow-control settings
+             does not allow all sane combinations to be negotiated
+             (e.g., consider a device that is only capable of
+             sending PAUSE frames connected to a peer device that
+             is only capable of receiving and acting on PAUSE
+             frames) and failing to agree on the flow-control
+             settings does not cause the auto-negotiation to fail
+             completely, then it is sometimes useful to be able to
+             explicitly enable particular PAUSE frame based flow
+             control settings on the local device regardless of
+             what is being advertised or negotiated.";
+          reference
+            "IEEE Std 802.3, Table 28B-3";
+        }
+      }
+      leaf max-frame-length {
+        type uint16;
+        units "octets";
+        config false;
+        description
+          "This indicates the MAC frame length (including FCS bytes)
+           at which frames are dropped for being too long.";
+        reference
+          "IEEE Std 802.3, 30.3.1.1.37 aMaxFrameLength";
+      }
       leaf mac-control-extension-control {
         type boolean;
         config false;
@@ -317,95 +437,6 @@ module ieee802-ethernet-interface {
              this interface.";
         }
       }
- 
-	container pause {
-	  if-feature "ethernet-pause";
-	  description
-		"IEEE Std 802.3 PAUSE flow control.
-		 
-		Discontinuities in the values of counters in
-		this container can occur at re-initialization of
-		the management system, and at other times as
-		indicated by the value of the 'discontinuity-time'
-		leaf defined in the ietf-interfaces YANG module
-		(IETF RFC 8343).";
-	  reference
-		"IEEE Std 802.3,30.3.4 PAUSE entity managed object class and
-		Clause 31,Annex 31B)";
-	
-		container control-and-status {
-			description
-				"PAUSE function control and status objects.";
-				
-			leaf pause-admin-control {
-				type pause-fc-direction-type;
-				default "disabled";
-				description
-				  "What PAUSE functionality will run on this interface when 
-				   Auto-Negotiation is not implemented or disabled.";		
-				  reference
-					"IEEE Std 802.3, ????";
-				}
-			leaf pause-oper-status {
-				type pause-fc-direction-type;
-				config false;
-				description
-				  "What PAUSE functionality is running on this
-				  interface, as a result of  Auto-Negotiation or 
-				  setting pause-admin-control.";		
-			  reference
-				"IEEE Std 802.3, ????";
-				}								
-			
-			leaf link-delay-allowance {
-				type uint32;
-				description
-				  "The value in bit-times of the allowance made by the 
-				   MAC Control PAUSE entity for round-trip propagation 
-				   delay.
-				   The default value is implementation-dependent.";
-			}
-
-			leaf pfc-enable-status {
-				type boolean;
-				config false;
-				description
-				  "Is IEEE 802.1 Priority-based Flow Control(PFC) 
-				  enabled on the interface. If PFC is enabled, then 
-				  802.3 PAUSE flow control is disabled.";		
-				  reference
-					"IEEE Std 802.3, 30.3.3.6 aPFCEnableStatus";
-				}
-			}
-		
-		container statistics {
-			config false;
-			description
-			  "PAUSE frame counters.";
-			  
-			leaf in-frames-pause {
-			  type yang:counter64;
-			  units "frames";
-			  description
-				"A count of MAC Control PAUSE frames transmitted on
-				 this Ethernet interface.";
-			  reference
-				"IEEE Std 802.3, 30.3.4.3
-				 aPAUSEMACCtrlFramesReceived";
-			}
-			leaf out-frames-pause {
-			  type yang:counter64;
-			  units "frames";
-			  description
-				"A count of MAC Control PAUSE frames transmitted on
-				 this Ethernet interface.";
-			  reference
-				"IEEE Std 802.3, 30.3.4.2
-				 aPAUSEMACCtrlFramesTransmitted";
-			}
-		  }
-      }
-
       container statistics {
         config false;
         description
@@ -436,7 +467,13 @@ module ieee802-ethernet-interface {
              A frame that is counted by an instance of this object
              is also counted by the corresponding instance of
              'in-errors' leaf defined in the ietf-interfaces YANG
-             module (IETF RFC 8343).";
+             module (IETF RFC 8343).
+
+             Discontinuities in the values of counters in the
+             container can occur at re-initialization of the
+             management system, and at other times as indicated by
+             the value of the 'discontinuity-time' leaf defined in
+             the ietf-interfaces YANG module (IETF RFC 8343).";
           leaf in-total-frames {
             type yang:counter64;
             units "frames";
@@ -642,7 +679,13 @@ module ieee802-ethernet-interface {
         }
         container phy {
           description
-            "Ethernet statistics related to the PHY layer.";
+            "Ethernet statistics related to the PHY layer.
+
+             Discontinuities in the values of counters in the
+             container can occur at re-initialization of the
+             management system, and at other times as indicated by
+             the value of the 'discontinuity-time' leaf defined in
+             the ietf-interfaces YANG module (IETF RFC 8343).";
           leaf in-error-symbol {
             type yang:counter64;
             units "errors";
@@ -663,39 +706,59 @@ module ieee802-ethernet-interface {
               "Physical Ethernet statistics for the energy
                efficiency related low power idle indications.";
             leaf in-lpi-transitions {
-              type counter-lpi-transitions;
+              type yang:counter64;
               units "transitions";
               description
-              "The number of times the link partner transitioned to 
-				Low Power Idle.";
+                "A count of occurrences of the transition from
+                 DEASSERT to ASSERT of the LPI_INDICATE
+                 parameter. The indication reflects the state of
+                 the PHY according to the requirements of the RS
+                 (see IEEE Std 802.3, 22.7, 35.4, and 46.4).";
               reference
                 "IEEE Std 802.3, 30.3.2.1.11
                  aReceiveLPITransitions";
             }
             leaf in-lpi-time {
-              type counter-lpi-duration;
+              type decimal64 {
+                fraction-digits 6;
+              }
+              units "seconds";
               description
-                "The amount of time the link partner has 
-				been in Low Power Idle.";
+                "A count reflecting the total amount of time (in
+                 seconds) that the LPI_REQUEST parameter has the
+                 value ASSERT.  The request is indicated to the PHY
+                 according to the requirements of the RS (see
+                 IEEE Std 802.3, 22.7, 35.4, and 46.4).";
               reference
                 "IEEE Std 802.3, 30.3.2.1.9
                  aReceiveLPIMicroseconds";
             }
             leaf out-lpi-transitions {
-              type counter-lpi-transitions;
+              type yang:counter64;
               units "transitions";
               description
-                "The number of times this port transitioned to 
-				Low Power Idle.";
+                "A count of occurrences of the transition from
+                 state LPI_DEASSERTED to state LPI_ASSERTED in the
+                 LPI transmit state diagram of the RS. The state
+                 transition corresponds to the assertion of the
+                 LPI_REQUEST parameter. The request is indicated to
+                 the PHY according to the requirements of the RS
+                 (see IEEE Std 802.3, 22.7, 35.4, 46.4.)";
               reference
                 "IEEE Std 802.3, 30.3.2.1.10
                  aTransmitLPITransitions";
             }
             leaf out-lpi-time {
-              type counter-lpi-duration;
+              type decimal64 {
+                fraction-digits 6;
+              }
+              units "seconds";
               description
-                "The  amount of time in this port has 
-				been in Low Power Idle.";
+                "A count reflecting the total amount of time (in
+                 seconds) that the LPI_INDICATION parameter has the
+                 value ASSERT.  The request is indicated to the PHY
+                 according to the requirements of the RS (see IEEE
+                 802.3, 22.7, 35.4, and 46.4).";
               reference
                 "IEEE Std 802.3, 30.3.2.1.8
                  aTransmitLPIMicroseconds";
@@ -705,7 +768,13 @@ module ieee802-ethernet-interface {
         container mac-control {
           description
             "A group of statistics specific to MAC Control
-             operation of selected Ethernet interfaces.";
+             operation of selected Ethernet interfaces.
+
+             Discontinuities in the values of counters in the
+             container can occur at re-initialization of the
+             management system, and at other times as indicated
+             by the value of the 'discontinuity-time' leaf defined
+             in the ietf-interfaces YANG module (IETF RFC 8343).";
           reference
             "IEEE Std 802.3.1, dot3ExtensionTable";
           leaf in-frames-mac-control-unknown {
@@ -727,7 +796,7 @@ module ieee802-ethernet-interface {
             units "frames";
             description
               "The count of Extension MAC Control frames received
-               on this Ethernet interface.";
+                \t  on this Ethernet interface.";
             reference
               "IEEE Std 802.3, 30.3.8.2
                aEXTENSIONMACCtrlFramesReceived";
@@ -744,55 +813,6 @@ module ieee802-ethernet-interface {
           }
         }
       }
-	  	  
-	  container dynamic-rate-control {
-		  if-feature "dynamic-rate-control";
-		  /*
-			when "../phy-type = 'phy-type-10GBASE-W'" {
-				description "For 10GBASE-W interfaces.";
-			}
-		*/
-		description
-			"Dynamic Rate Control for 10GBASE-W.";
-		  
-		  leaf dynamic-rate-control-supported {
-			   type boolean;
-			   config false;
-			   description
-				"Indicates whether the Ethernet interface supports lowering
-				 the average data rate of the MAC sublayer, with frame
-				 granularity, by using Rate Control to dynamically increase
-				 the inter-packet gap.
-				 Only applies to 10GBASE-W.";
-			   reference
-				"IEEE Std 802.3, 30.3.1.1.33 aRateControlAbility";
-			}
-			leaf dynamic-rate-control-status {
-			  type enumeration {
-				  enum disabled {
-					description
-					  "Disabled";
-				  }
-				  enum enabled {
-					description
-					  "Enabled";
-				  }		  
-				  enum unknown {
-					description
-					  "unknown";
-				  }
-				}
-			  description
-				"Controls the state of dynamic rate control. This is 
-				 constrained by hardware support.
-				 The default value is implementation-dependent.";
-			  reference
-				"IEEE Std 802.3, 30.3.1.1.34 aRateControlStatus";
-			}
-		}
-	  
-	  
     }
   }
-
 }

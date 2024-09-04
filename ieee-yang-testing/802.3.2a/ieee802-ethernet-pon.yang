@@ -35,9 +35,9 @@ module ieee802-ethernet-pon {
 
      This YANG module augments the 'ethernet' module.";
 
-  revision 2024-04-04 {
+  revision 2024-07-17 {
     description
-      "Updates under IEEE Std 802.3.2-202x, Draft 1.2";
+      "Updates under IEEE Std 802.3.2-202x, Draft D3.0";
     reference
       "IEEE Std 802.3-2022, unless dated explicitly";
   }
@@ -332,7 +332,7 @@ module ieee802-ethernet-pon {
         description
           "FEC capability: supported.";
       }
-      enum "not supported" {
+      enum NotSupported {
         description
           "FEC capability: not supported.";
       }

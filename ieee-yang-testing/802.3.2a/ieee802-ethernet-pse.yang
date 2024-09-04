@@ -27,90 +27,90 @@ module ieee802-ethernet-pse {
      managing ports with Power Over Ethernet feature defined by
      IEEE 802.3. It provides functionality roughly equivalent to
      that of the POWER-ETHERNET-MIB defined in IETF RFC 3621.";
-  reference
-    "IEEE Std 802.3-2022, unless dated explicitly";
 
-  revision 2024-04-04 {
+  revision 2024-07-17 {
     description
-      "Updates under IEEE Std 802.3.2-202x, Draft 1.2";
+      "Updates under IEEE Std 802.3.2-202x, Draft D3.0";
     reference
       "IEEE Std IEEE Std 802.3.2-202x, unless dated
        explicitly";
   }
 
-  feature multi-pair-pse {
+  identity pse-type {
     description
-      "This object indicates the support for IEEE Std 802.3
-	  Clause 33 and/or 145.";
+      "Base type for PSE.";
   }
 
-  feature single-pair-pse {
+  identity all {
+    base powering-pairs;
     description
-      "This object indicates the support for IEEE Std 802.3
-	  Clause 104.";
+      "All pairs are in use.";
   }
 
-  typedef pse-support {
-    type enumeration {
-      enum two-pair {
-        description
-          "PSE port supports IEEE Std 802.3, Clause 33.";
-      }
-      enum four-pair {
-        description
-          "PSE port supports IEEE Std 802.3, Clause 33 and 145.";
-      }
-      enum single-pair {
-        description
-          "PSE port supports IEEE Std 802.3, Clause 104.";
-      }
-    }
+  identity four-pair {
+    base pse-type;
     description
-      "PSE support.";
+      "PSE support IEEE Std 802.3, Clause 145.";
   }
 
-  typedef powering-pairs {
-    type enumeration {
-      enum signal {
-        description
-          "Using signal pairs.";
-      }
-      enum spare {
-        description
-          "Using spare pairs.";
-      }
-      enum both {
-        description
-          "Using signal and spare pairs.";
-      }
-    }
+  identity two-pair {
+    base pse-type;
     description
-      "Powering pairs.";
+      "PSE supports IEEE Std 802.3, Clause 33.";
+  }
+
+  identity single-pair {
+    base pse-type;
+    description
+      "PSE support IEEE Std 802.3, Clause 104.";
+  }
+
+  identity powering-pairs {
+    description
+      "Base type for powering pairs.";
+  }
+
+  identity signal {
+    base powering-pairs;
+    description
+      "The signal pairs are in use.";
+  }
+
+  identity spare {
+    base powering-pairs;
+    description
+      "The spare pairs are in use.";
   }
 
   typedef multi-pair-detection-state {
     type enumeration {
       enum disabled {
+        value 1;
         description
           "PSE disabled.";
       }
       enum searching {
+        value 2;
         description
           "PSE is searching.";
       }
       enum deliveringPower {
+        value 3;
         description
           "PSE is delivering power.";
       }
       enum fault {
+        value 4;
         description
           "PSE fault detected.";
       }
       enum test {
+        value 5;
         description
           "PSE test mode.";
       }
       enum otherFault {
+        value 6;
         description
           "PSE implementation specific fault detected.";
       }
@@ -124,265 +124,154 @@ module ieee802-ethernet-pse {
   typedef single-pair-detection-state {
     type enumeration {
       enum unknown {
+        value 1;
         description
           "True detection state unknown.";
       }
       enum disabled {
+        value 2;
         description
-          "PSE is disabled.";
+          "PoDL PSE is disabled.";
       }
       enum searching {
+        value 3;
         description
-          "PSE is searching.";
+          "PoDL PSE is searching.";
       }
       enum deliveringPower {
+        value 4;
         description
-          "PSE is delivering power.";
+          "PoDL PSE is delivering power.";
       }
       enum sleep {
+        value 5;
         description
-          "PSE is in sleep state.";
+          "PoDL PSE is in sleep state.";
       }
       enum idle {
+        value 6;
         description
-          "PSE is idle.";
+          "PoDL PSE is idle.";
       }
       enum error {
+        value 7;
         description
-          "PSE error.";
+          "PoDL PSE error.";
       }
     }
     description
-      "Detection state of a single-pair PSE.";
+      "Detection state of a PoDL PSE.";
     reference
       "IEEE Std 802.3, 30.15.1.1.3";
   }
 
-  typedef multi-pair-power-class {
+  typedef power-class {
     type enumeration {
       enum class0 {
+        value 1;
         description
           "Class 0";
       }
       enum class1 {
+        value 2;
         description
           "Class 1";
       }
       enum class2 {
+        value 3;
         description
           "Class 2";
       }
       enum class3 {
-       description
+        value 4;
+        description
           "Class 3";
       }
       enum class4 {
+        value 5;
         description
           "Class 4";
       }
       enum class5 {
+        value 6;
         description
-          "Class 5";
+          "Class 5 (for PoDL-only)";
       }
       enum class6 {
+        value 7;
         description
-          "Class 6";
+          "Class 6 (for PoDL-only)";
       }
       enum class7 {
+        value 8;
         description
-          "Class 7";
+          "Class 7 (for PoDL-only)";
       }
       enum class8 {
+        value 9;
         description
-          "Class 8";
-      }
-    }
-    description
-      "Multi-pair PoE power class.";
-    reference
-      "IEEE Std 802.3, 30.9.1.1.6 aPSEPowerClassification ";
-  }
-
-  typedef single-pair-pd-type {
-    type enumeration {
-      enum unknown {
-        description
-          "Unknown PD type";
-      }
-      enum typeA {
-        description
-          "TypeA PD";
-      }
-      enum typeB {
-        description
-          "TypeB PD";
-      }
-      enum typeC {
-        description
-          "TypeC PD";
-      }
-      enum typeD {
-        description
-          "TypeD PD";
-      }
-      enum typeE {
-        description
-          "TypeE PD";
-      }
-      enum typeF {
-        description
-          "TypeF PD";
-      }
-    }
-    description
-      "Single-pair PoE PD type.";
-    reference
-      "IEEE Std 802.3, 30.15.1.1.5 aPoDLPSEDetectedPDType";
-  }
-
-  typedef single-pair-pse-type {
-    type enumeration {
-      enum unknown {
-        description
-          "Unknown PSE type.";
-      }
-      enum typeA {
-        description
-          "TypeA PSE";
-      }
-      enum typeB {
-        description
-          "TypeB PSE";
-      }
-      enum typeC {
-        description
-          "TypeC PSE";
-      }
-      enum typeD {
-        description
-          "TypeD PSE";
-      }
-      enum typeE {
-        description
-          "TypeE PSE";
-      }
-      enum typeF {
-        description
-          "TypeF PSE";
-      }
-    }
-    description
-      "Single-pair PoE PSE type.";
-    reference
-      "IEEE Std 802.3, 30.15.1.1.5 aPoDLPSEDetectedPDType";
-  }
-
-  typedef single-pair-power-class {
-    type enumeration {
-      enum class0 {
-        description
-          "Class 0";
-      }
-      enum class1 {
-        description
-          "Class 1";
-      }
-      enum class2 {
-        description
-          "Class 2";
-      }
-      enum class3 {
-       description
-          "Class 3";
-      }
-      enum class4 {
-        description
-          "Class 4";
-      }
-      enum class5 {
-        description
-          "Class 5";
-      }
-      enum class6 {
-        description
-          "Class 6";
-      }
-      enum class7 {
-        description
-          "Class 7";
-      }
-      enum class8 {
-        description
-          "Class 8";
+          "Class 8 (for PoDL-only)";
       }
       enum class9 {
+        value 10;
         description
-          "Class 9 ";
+          "Class 9 (for PoDL-only)";
       }
       enum unknown {
+        value 11;
         description
-          "Initializing, true Power Class not yet known.";
+          "Initializing, true Power Class not yet known
+           (only for PoDL PSE).";
       }
     }
     description
-      "Single-pair PoE power class.";
+      "The power class.";
     reference
-      "IEEE Std 802.3, 30.9.1.1.6 aPSEPowerClassification";
+      "IEEE Std 802.3, 30.9.1.1.6 aPSEPowerClassification and
+       IEEE Std 802.3, 30.15.1.1.6 aPoDLPSEDetectedPDPowerClass.";
   }
 
   augment "/if:interfaces/if:interface/ieee802-eth-if:ethernet" {
     description
       "Augments ethernet interface configuration model with
-       nodes specific to Multi-pair and Single-pair PoE.";
+       nodes specific to DTE Power via MDI devices and ports";
     container pse {
       description
-        "Multi-pair and Single-pair PoE port configuration.
-		
-         Discontinuities in the values of counters in this container
-         can occur at re-initialization of the  management system,
-         and at other times as indicated by the value of the
-         'discontinuity-time' leaf  defined in the ietf-interfaces
-          YANG module (IETF RFC 8343).";
+        "DTE Power via MDI port configuration";
       reference
-        "IEEE Std 802.3, 30.9.1 multi-pair PoE PSE and
-                IEEE Std 802.3, 30.15.1 single-pair PoE PSE";
+        "IEEE Std 802.3, 30.9.1 PoE PSE & IEEE Std 802.3, 30.15.1
+         PoDL PSE";
       leaf supported-pse-type {
-        type pse-support;
+        type identityref {
+          base ieee802-pse:pse-type;
+        }
         config false;
         description
-          "The PSE types are supported.";
+          "PSE supports one or more of IEEE Std 802.3 Clause 33,
+           Clause 104, or Clause 145.";
       }
-	  
-	  /* Multi-pair objects */
       container multi-pair {
-        presence
-          "PSE port supports IEEE Std 802.3 Clause 33 
-		  and/or Clause 145.";
+        presence "PSE port supports IEEE Std 802.3, Clause 33.";
         description
           "PSE port configuration in IEEE Std 802.3, 30.9.1.";
         leaf pse-enable {
           type boolean;
           default "false";
           description
-            "When true enables the PSE function on the port,
-             when false disables the PSE function on the port.";
-          reference
-            "IEEE Std 802.3, 30.9.1.2.1 acPSEAdminControl";
-        }
-        leaf pse-state {
-          type boolean;
-          config false;
-          description
-            "The PSE enabled state on the port.";
+            "When true enables the PSE function on the interface,
+             when false disables the PSE function on the
+             interface.";
           reference
             "IEEE Std 802.3, 30.9.1.1.2 aPSEAdminState";
         }
         leaf powering-pairs {
-          type powering-pairs;
+          type identityref {
+            base powering-pairs;
+          }
           description
-            "The PSE pairs in use. If the value of
-             pairs-control-ability is true, this object is
-             writeable.";
+            "Describes or controls the PSE pairs in use. If the
+             value of pairs-control-ability is true, this object
+             is writeable.";
           reference
             "IEEE Std 802.3, 30.9.1.1.4 aPSEPowerPairs";
         }
@@ -391,16 +280,18 @@ module ieee802-ethernet-pse {
           default "true";
           config false;
           description
-            "Can the PSE Port control switching the
-             power sourcing pins.";
+            "Describes the ability to control switching the
+             power sourcing pins of the PSE.";
           reference
-            "IEEE Std 802.3, 30.9.1.1.3 aPSEPowerPairsControlAbility";
+            "IEEE Std 802.3, 30.9.1.1.3
+             aPSEPowerPairsControlAbility";
         }
         leaf detection-status {
           type multi-pair-detection-state;
           config false;
           description
-            "The operational status of the port PD detection.";
+            "Describes the operational status of the port
+             PD detection.";
           reference
             "IEEE Std 802.3, 30.9.1.1.5 aPSEPowerDetectionStatus";
         }
@@ -410,39 +301,42 @@ module ieee802-ethernet-pse {
               "This node only applies when the detection status is
                delivering power.";
           }
-          type multi-pair-power-class;
+          type power-class;
           config false;
           description
-            "The power class of the detected PD.";
+            "The power class of the PSE port.";
           reference
             "IEEE Std 802.3, 30.9.1.1.6 aPSEPowerClassfication";
         }
-		
-		/* Multi-pair statistics */
         container statistics {
           config false;
           description
-            "Multi-pair PoE Statistics information for the port.";
+            "statistics information of the multi-pair port.";
           leaf power-denied {
             type yang:counter64;
             description
-              "The number of times the PSE denied power.";
+              "This counter is incremented when the PSE state
+               diagram enters the POWER_DENIED state, per
+               IEEE Std 802.3, Figure 33-9.";
             reference
               "IEEE Std 802.3, 30.9.1.1.14";
           }
           leaf invalid-signature {
             type yang:counter64;
             description
-              "The number of times the PSE detected an
-               invalid signature.";
+              "This counter is incremented when the PSE state
+               diagram enters the SIGNATURE_INVALID state per
+               IEEE Std 802.3, Figure 33-9.";
             reference
               "IEEE Std 802.3, 30.9.1.1.11";
           }
           leaf mps-absent {
             type yang:counter64;
             description
-              "The number of times the PSE
-               lost the 'Maintain Power Signature'(MPS).";
+              "This counter is incremented when the PSE
+               transitions directly from the POWER_ON state to the
+               IDLE state due to tmpdo_timer_done being asserted,
+               per IEEE Std 802.3, Figure 33-9.";
             reference
               "IEEE Std 802.3, 30.9.1.1.20";
           }
@@ -450,8 +344,10 @@ module ieee802-ethernet-pse {
             type yang:counter64;
             status deprecated;
             description
-              "The number of times the PSE detected
-               an output current overload.";
+              "This counter is incremented when the PSE state
+               diagram enters the ERROR_DELAY state due to the
+               ovld_detected variable being TRUE, per
+               IEEE Std 802.3, Figure 33-9.";
             reference
               "IEEE Std 802.3, 30.9.1.1.17";
           }
@@ -459,22 +355,29 @@ module ieee802-ethernet-pse {
             type yang:counter64;
             status deprecated;
             description
-              "This object is deprecated as it's not defined in base
-               standard.";
+              "This Yang object is deprecated as its not defined in
+               base standard.
+               This counter is incremented when the PSE state
+               diagram enters the ERROR_DELAY state due to the
+               short_detected variable being TRUE, per
+               IEEE Std 802.3, Figure 33-9.";
+            reference
+              "IEEE Std 802.3, 30.9.1.1.10 aPSEShortCounter";
           }
           leaf cumulative-energy {
             type yang:counter64;
             units "millijoules";
             description
-              "The cumulative energy supplied by the PSE.";
+              "The cumulative energy supplied by the PSE as
+               measured at the MDI in millijoules.";
             reference
               "IEEE Std 802.3, 30.9.1.1.25";
           }
         }
-		
-		/* Multi-pair measurement */
         leaf actual-power {
-          type uint32;
+          type decimal64 {
+            fraction-digits 4;
+          }
           units "milliwatts";
           config false;
           description
@@ -487,32 +390,24 @@ module ieee802-ethernet-pse {
           units "milliwatts";
           config false;
           description
-            "The power accuracy of the port.";
+            "An integer value indicating the accuracy
+             associated with power-accuracy in +/- milliwatts.";
           reference
             "IEEE Std 802.3, 30.9.1.1.24";
         }
       }
-
-		/* Single-pair objects */
       container single-pair {
-	  	  /* why can't I use this "when" statement here?
-			when "../supported-pse-type = 'single-pair'" {
-				description
-				  "This node only applies when this port is a 
-				  Single-pair PSE.";
-			}
-		*/
-
-		presence "PSE port supports IEEE Std 802.3 Clause 104.";
+        presence "PSE port working in PoDL.";
         description
-          "Single-pair PSE configuration as defined in 
-		  IEEE Std 802.3, 30.15.1.";
+          "PoDL PSE configuration as defined in
+           IEEE Std 802.3, 30.15.1.";
         leaf pse-enable {
           type boolean;
           default "false";
           description
-            "When true enables the PSE function on the port,
-             when false disables the PSE function on the port.";
+            "When true enables the PSE function on the interface,
+             when false disables the PSE function on the
+             interface.";
           reference
             "IEEE Std 802.3, 30.15.1.1.2 aPoDLPSEAdminState";
         }
@@ -520,18 +415,46 @@ module ieee802-ethernet-pse {
           type single-pair-detection-state;
           config false;
           description
-            "Indicates the current status of the Single-pair PSE.";
+            "Indicates the current status of the PoDL PSE.";
           reference
-            "IEEE Std 802.3, 
-			30.15.1.1.3 aPoDLPSEPowerDetectionStatus";
+            "IEEE Std 802.3, 30.15.1.1.3
+             aPoDLPSEPowerDetectionStatus";
         }
-        leaf single-pair-type {
-          type single-pair-pse-type;
+        leaf podl-type {
+          type enumeration {
+            enum unknown {
+              description
+                "Unknown PSE type.";
+            }
+            enum typeA {
+              description
+                "TypeA PSE";
+            }
+            enum typeB {
+              description
+                "TypeB PSE";
+            }
+            enum typeC {
+              description
+                "Type PSEC";
+            }
+            enum typeD {
+              description
+                "TypeD PSE";
+            }
+            enum typeE {
+              description
+                "TypeE PSE";
+            }
+            enum typeF {
+              description
+                "TypeF PSE";
+            }
+          }
           config false;
           description
-            "Single-pair PSE type.";
-          reference
-            "IEEE Std 802.3, 30.15.1.1.4 aPoDLPSEType";
+            "PSE type specified in and
+             IEEE Std 802.3,  30.15.1.1.4.";
         }
         leaf detected-pd-type {
           when "../detection-status = 'deliveringPower'" {
@@ -539,10 +462,40 @@ module ieee802-ethernet-pse {
               "This node only applies when the detection status is
                delivering power.";
           }
-          type single-pair-pd-type;
+          type enumeration {
+            enum unknown {
+              description
+                "Unknown PD type";
+            }
+            enum typeA {
+              description
+                "TypeA PD";
+            }
+            enum typeB {
+              description
+                "TypeB PD";
+            }
+            enum typeC {
+              description
+                "TypeC PD";
+            }
+            enum typeD {
+              description
+                "TypeD PD";
+            }
+            enum typeE {
+              description
+                "TypeE PD";
+            }
+            enum typeF {
+              description
+                "TypeF PD";
+            }
+          }
           config false;
           description
-            "Indicates the detected type of the single-pair PD.";
+            "Indicates the Type of the detected PoDL PD as
+             specified in IEEE Std 802.3, 104.5.1.";
           reference
             "IEEE Std 802.3, 30.15.1.1.5 aPoDLPSEDetectedPDType";
         }
@@ -552,33 +505,39 @@ module ieee802-ethernet-pse {
               "This node only applies when the detection status is
                delivering power.";
           }
-          type single-pair-power-class;
+          type power-class;
           config false;
           description
-            "The power class of the detected PD.";
+            "Power class of the PD detected on the PSE port.";
           reference
-            "IEEE Std 802.3, 
-			30.15.1.1.6 aPoDLPSEDetectedPDPowerClass";
+            "IEEE Std 802.3, 30.15.1.1.6
+             aPoDLPSEDetectedPDPowerClass";
         }
-		
-		/* Single-pair statistics */
         container statistics {
           config false;
           description
-            "Single-pair PoE Statistics information for the port.";
+            "Statistics information of the single-pair
+                   PSE Discontinuities in the values of counters in this
+                   container can occur at re-initialization of the
+                   management system, and at other times as indicated by the
+                   value of the 'discontinuity-time' leaf  defined in the
+                   ietf-interfaces YANG module (IETF RFC 8343).";
           leaf power-denied {
             type yang:counter64;
             description
-              "The number of times the PSE denied power.";
+              "This counter is incremented when the PoDL PSE state
+               diagram variable power_available transitions from
+               true to false (see IEEE Std 802.3, 104.4.3.3).";
             reference
-              "IEEE Std 802.3, 
-			  30.15.1.1.9 aPoDLPSEPowerDeniedCounter";
+              "IEEE Std 802.3, 30.15.1.1.9
+                \t   aPoDLPSEPowerDeniedCounter";
           }
           leaf invalid-signature {
             type yang:counter64;
             description
-              "The number of times the PSE detected an
-               invalid signature.";
+              "This counter is incremented when the PSE state
+               diagram enters the SIGNATURE_INVALID state per
+               IEEE Std 802.3, Figure 33-9.";
             reference
               "IEEE Std 802.3, 30.15.1.1.7
                aPoDLPSEInvalidSignatureCounter";
@@ -586,25 +545,32 @@ module ieee802-ethernet-pse {
           leaf invalid-class {
             type yang:counter64;
             description
-              "The number of times PD classification timed out 
-			  or did not get valid class information from SCCP.";
+              "This counter is incremented when the PoDL PSE state
+               diagram variable tclass_timer_done transitions from
+               false to true or when the valid_class variable
+               transitions from true to false
+               (see IEEE Std 802.3, 104.4.3.3).";
             reference
-              "IEEE Std 802.3, 
-			  30.15.1.1.8 aPoDLPSEInvalidClassCounter";
+              "IEEE Std 802.3, 30.15.1.1.8
+               aPoDLPSEInvalidClassCounter";
           }
           leaf overload {
             type yang:counter64;
             description
-              "The number of times the PSE detected
-               an output current overload.";
+              "This counter is incremented when the PSE state
+               diagram variable overload_held transitions from
+               false to true (see IEEE Std 802.3, 104.4.3.3).";
             reference
-              "IEEE Std 802.3, 30.15.1.1.10 aPoDLPSEOverLoadCounter";
+              "IEEE Std 802.3, 30.15.1.1.10
+               aPoDLPSEOverLoadCounter";
           }
           leaf fvs-absence {
             type yang:counter64;
             description
-              "The number of times the PSE
-               lost the 'Maintain Full Voltage Signature'(MFVS).";
+              "Maintain Full Voltage Signature absent counter.
+               This counter is incremented when the PoDL PSE state
+               diagram variable mfvs_timeout transitions from false
+               to true (see IEEE Std 802.3, 104.4.3.3).";
             reference
               "IEEE Std 802.3, 30.15.1.1.11
                aPoDLPSEMaintainFullVoltageSignatureAbsentCounter";
@@ -613,20 +579,24 @@ module ieee802-ethernet-pse {
             type yang:counter64;
             units "millijoules";
             description
-              "The cumulative energy supplied by the PSE as 
-			  measured at the MDI.";
+              "A count of the cumulative energy supplied by the
+               PoDL PSE, measured at the MDI, and expressed in
+               units of millijoules.";
             reference
-              "IEEE Std 802.3, 30.15.1.1.14 aPoDLPSECumulativeEnergy";
+              "IEEE Std 802.3, 30.15.1.1.14
+               aPoDLPSECumulativeEnergy";
           }
         }
-		
-		/* Single-pair measurement */
         leaf actual-power {
-		  type uint32;
+          type decimal64 {
+            fraction-digits 4;
+          }
           units "milliwatts";
           config false;
           description
-            "The actual power drawn by a PD over the port.";
+            "An integer value indicating present (actual) power
+             being supplied by the PoDL PSE as measured at the MDI
+             in milliwatts.";
           reference
             "IEEE Std 802.3, 30.15.1.1.12 aPoDLPSEActualPower";
         }
@@ -635,7 +605,9 @@ module ieee802-ethernet-pse {
           units "milliwatts";
           config false;
           description
-            "The power accuracy of the port.";
+            "A signed integer value indicating the accuracy
+             associated
+             with power-accuracy in milliwatts.";
           reference
             "IEEE Std 802.3, 30.15.1.1.13 aPoDLPSEPowerAccuracy";
         }

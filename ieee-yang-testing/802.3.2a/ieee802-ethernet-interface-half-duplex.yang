@@ -30,14 +30,31 @@ module ieee802-ethernet-interface-half-duplex {
   contact
     "Web URL: http://www.ieee802.org/3/";
   description
-    "This module contains YANG definitions for half duplex 
-	Ethernet interfaces, e.g., 10BASE-T1S.";
+    "This module contains YANG definitions for configuring Ethernet
+     interfaces that are deprecated, and are no longer
+     widely used in the industry. The definitions are maintained
+     for backwards compatibility purposes, but the general
+     expectation is that this module is not anticipated to be
+     widely implemented.";
 
-  revision 2024-04-04 {
+  revision 2024-07-17 {
     description
-      "Updates under IEEE Std 802.3.2-202x, Draft 1.2";
+      "Updates under IEEE Std 802.3.2-202x, Draft D3.0";
     reference
       "IEEE Std 802.3-2022, unless dated explicitly";
+  }
+
+  feature dynamic-rate-control {
+    description
+      "This feature indicates that the device supports Ethernet
+       interfaces lowering the average data rate of the MAC
+       sublayer, with frame granularity, by using Rate Control to
+       dynamically increase the inter-packet gap for some types of
+       Ethernet interface.
+       Only valid for Ethernet interfaces operating at speeds
+       (data rates)above 1000 Mb/s.";
+    reference
+      "IEEE Std 802.3, 30.3.1.1.33 aRateControlAbility";
   }
 
   feature csma-cd {
@@ -46,12 +63,82 @@ module ieee802-ethernet-interface-half-duplex {
        interfaces running at half-duplex using CSMA/CD.";
   }
 
+  typedef dynamic-rate-control-type {
+    type enumeration {
+      enum disabled {
+        description
+          "Dynamic rate control is disabled";
+      }
+      enum sonet-oc192 {
+        value 2;
+        description
+          "Dynamic rate control is enabled for a 10 Gb/s Ethernet
+           interface to SONET/SDH OC192/STM64.";
+      }
+    }
+    default "disabled";
+    description
+      "Allowed values for dynamic-rate-control.";
+    reference
+      "IEEE Std 802.3, 4.4.2 ipgStretchRatio and 30.3.1.1.34
+       aRateControlStatus";
+  }
+
+  augment "/if:interfaces/if:interface/ieee802-eth-if:ethernet" {
+    when "derived-from-or-self(../if:type, 'ianaift:ethernetCsmacd')
+          and ieee802-eth-if:duplex = 'half'" {
+      description
+        "Applies to half-duplex Ethernet interfaces.";
+    }
+    description
+      "Augment with Ethernet interface configuration parameters
+       for half-duplex operation.";
+    leaf dynamic-rate-control {
+      if-feature "dynamic-rate-control";
+      type dynamic-rate-control-type;
+      description
+        "Enables dynamic rate control and specifies what speed
+         (data rate) the dynamic rate control is operating at.
+         The value of this attribute is constrained by the MAC
+         data rate and hardware support.
+         The default value is implementation-dependent.";
+      reference
+        "IEEE Std 802.3, 30.3.1.1.34 aRateControlStatus";
+    }
+  }
+
+  augment "/if:interfaces/if:interface/ieee802-eth-if:ethernet/"
+        + "ieee802-eth-if:capabilities" {
+    when
+      "derived-from-or-self(../../if:type,
+       'ianaift:ethernetCsmacd') and ../ieee802-eth-if:duplex = 'half'" {
+      description
+        "Applies to half-duplex Ethernet interfaces";
+    }
+    description
+      "Augment with configuration capabilities for half-duplex
+       Ethernet interface.";
+    leaf dynamic-rate-control-supported {
+      if-feature "dynamic-rate-control";
+      type boolean;
+      default "false";
+      description
+        "Indicates whether the Ethernet interface supports lowering
+         the average data rate of the MAC sublayer, with frame
+         granularity, by using Rate Control to dynamically increase
+         the inter-packet gap.
+         Only valid for Ethernet interfaces operating at speeds
+         (data rates) above 1000 Mb/s.";
+      reference
+        "IEEE Std 802.3, 30.3.1.1.33 aRateControlAbility";
+    }
+  }
+
   augment "/if:interfaces/if:interface/ieee802-eth-if:ethernet/"
         + "ieee802-eth-if:statistics/ieee802-eth-if:frame" {
     when
       "derived-from-or-self(../../../if:type,
-       'ianaift:ethernetCsmacd') and 
-	   ../../ieee802-eth-if:duplex = 'half'" {
+       'ianaift:ethernetCsmacd') and ../../ieee802-eth-if:duplex = 'half'" {
       description
         "Applies to half-duplex Ethernet interfaces.";
     }
@@ -63,7 +150,6 @@ module ieee802-ethernet-interface-half-duplex {
       description
         "Holds counters that are specific to CDMA/CD half-duplex
          operation of Ethernet interfaces.
-		 
          This counter does not increment on Ethernet interfaces
          operating at speeds (data rates) greater than 10 Mb/s, or
          on Ethernet interfaces operating in full-duplex mode.

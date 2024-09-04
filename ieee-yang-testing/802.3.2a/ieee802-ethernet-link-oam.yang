@@ -36,9 +36,9 @@ module ieee802-ethernet-link-oam {
      802.3. It provides functionality roughly equivalent to that of
      the DOT3-OAM-MIB defined in IETF RFC 4878.";
 
-  revision 2024-04-04 {
+  revision 2024-07-17 {
     description
-      "Updates under IEEE Std 802.3.2-202x, Draft 1.2";
+      "Updates under IEEE Std 802.3.2-202x, Draft D3.0";
     reference
       "IEEE Std 802.3-2022, unless dated explicitly";
   }
@@ -242,17 +242,17 @@ module ieee802-ethernet-link-oam {
       enum initiating {
         value 2;
         description
-          "Initiating master loopback.";
+          "Initiating loopback.";
       }
       enum master-loopback {
         value 3;
         description
-          "In master loopback mode.";
+          "In loopback mode.";
       }
       enum terminating {
         value 4;
         description
-          "Terminating master loopback mode.";
+          "Terminating loopback mode.";
       }
       enum local-loopback {
         value 5;

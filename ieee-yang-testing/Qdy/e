@@ -1,0 +1,31 @@
+ieee802-dot1q-mstp.yang:229: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+ieee802-dot1q-mstp.yang:232: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+ieee802-dot1q-mstp.yang:235: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+ieee802-dot1q-mstp.yang:249: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+ieee802-dot1q-mstp.yang:252: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+ieee802-dot1q-mstp.yang:255: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+ieee802-dot1q-mstp.yang:258: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+ieee802-dot1q-mstp.yang:261: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+ieee802-dot1q-mstp.yang:264: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+
+ieee802-dot1q-rstp.yang:63: error: RFC 8407: 4.14: statement "container" must have a "description" substatement
+ieee802-dot1q-rstp.yang:67: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+ieee802-dot1q-rstp.yang:70: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+ieee802-dot1q-rstp.yang:73: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+ieee802-dot1q-rstp.yang:76: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+ieee802-dot1q-rstp.yang:79: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+ieee802-dot1q-rstp.yang:199: error: keyword "units" not in canonical order (see RFC 7950, Section 14)
+ieee802-dot1q-rstp.yang:213: error: keyword "units" not in canonical order (see RFC 7950, Section 14)
+ieee802-dot1q-rstp.yang:226: error: keyword "units" not in canonical order (see RFC 7950, Section 14)
+ieee802-dot1q-rstp.yang:257: error: keyword "units" not in canonical order (see RFC 7950, Section 14)
+ieee802-dot1q-rstp.yang:301: error: RFC 8407: 4.14: statement "container" must have a "description" substatement
+ieee802-dot1q-rstp.yang:305: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+ieee802-dot1q-rstp.yang:308: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+ieee802-dot1q-rstp.yang:311: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+ieee802-dot1q-rstp.yang:330: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+ieee802-dot1q-rstp.yang:333: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+ieee802-dot1q-rstp.yang:336: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+ieee802-dot1q-rstp.yang:339: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+ieee802-dot1q-rstp.yang:342: warning: RFC 8407: 4.11.3,4.14: statement "enum" should have a "description" substatement
+ieee802-dot1q-rstp.yang:354: error: RFC 8407: 4.14: statement "leaf" must have a "description" substatement
+ieee802-dot1q-rstp.yang:362: error: RFC 8407: 4.14: statement "leaf" must have a "description" substatement

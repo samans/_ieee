@@ -1,0 +1,64 @@
+module: ieee802-dot1q-rstp-bridge
+
+  augment /dot1q:bridges/dot1q:bridge/dot1q:component:
+    +--rw rstp!
+       +--rw force-protocol-version?          enumeration
+       +---x port-protocol-migration-check
+       +--rw bridge-id
+       |  +--rw bridge-id
+       |     +--ro bridge-id?             uint64
+       |     +--rw bridge-priority?       id-priority
+       |     +--ro system-id-extension?   uint16
+       |     +--ro bridge-address?        ieee:mac-address
+       +--ro root-id
+       |  +--ro bridge-id
+       |     +--ro bridge-id?             uint64
+       |     +--ro bridge-priority?       id-priority
+       |     +--ro system-id-extension?   uint16
+       |     +--ro bridge-address?        ieee:mac-address
+       +--ro root-path-cost?                  uint32
+       +--ro root-port?                       if:interface-ref
+       +--ro max-age?                         uint8
+       +--ro hello-time?                      uint8
+       +--ro forward-delay?                   uint8
+       +--rw bridge-max-age?                  uint8
+       +--ro bridge-hello-time?               uint8
+       +--rw bridge-forward-delay?            uint8
+       +--rw tx-hold-count?                   uint8
+       +--ro last-topology-change?            yang:date-and-time
+  augment /if:interfaces/if:interface/dot1q:bridge-port:
+    +--rw rstp!
+       +--rw admin-bridge-port-enabled?   boolean
+       +--ro port-state?                  port-state
+       +--ro port-role?                   port-role
+       +--rw restricted-role?             boolean
+       +--rw restricted-tcn?              boolean
+       +--rw port-id
+       |  +--rw port-id
+       |     +--ro port-id?         uint16
+       |     +--rw port-priority?   id-priority
+       |     +--ro port-number?     id-port-number
+       +--rw port-path-cost?              uint32
+       +--ro root-id
+       |  +--ro bridge-id
+       |     +--ro bridge-id?             uint64
+       |     +--ro bridge-priority?       id-priority
+       |     +--ro system-id-extension?   uint16
+       |     +--ro bridge-address?        ieee:mac-address
+       +--ro root-path-cost?              uint32
+       +--ro designated-bridge-id
+       |  +--ro bridge-id
+       |     +--ro bridge-id?             uint64
+       |     +--ro bridge-priority?       id-priority
+       |     +--ro system-id-extension?   uint16
+       |     +--ro bridge-address?        ieee:mac-address
+       +--ro designated-port-id
+       |  +--ro port-id
+       |     +--ro port-id?         uint16
+       |     +--ro port-priority?   id-priority
+       |     +--ro port-number?     id-port-number
+       +--rw admin-edge-port?             boolean
+       +--ro oper-edge-port?              boolean
+       +--rw auto-edge-port?              boolean
+       +--ro disputed-port?               boolean
+       +--ro isolate-port?                boolean

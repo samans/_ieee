@@ -1,0 +1,28 @@
+#! /usr/bin/expect -f
+#set timeout -1
+spawn yanglint
+expect ">"
+send "load iana-if-type\r"
+expect ">"
+send "load ieee802-dot1q-types\r"
+expect ">"
+send "load ietf-interfaces\r"
+expect ">"
+send "load ietf-routing-types\r"
+expect ">"
+send "load ietf-yang-types\r"
+expect ">"
+send "load ieee802-dot1q-bridge\r"
+expect ">"
+send "load ieee802-dot1q-rstp\r"
+expect ">"
+send "load ieee802-dot1q-rstp-bridge\r"
+expect ">"
+send "load ieee802-dot1q-mstp\r"
+expect ">"
+send "load ieee802-dot1q-mstp-bridge\r"
+expect ">"
+send "data -t data -f json mstp.xml -o mstp.json\r"
+expect ">"
+send "quit\r"
+expect eof
