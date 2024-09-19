@@ -4,7 +4,7 @@ spawn /usr/local/bin/yanglint
 expect ">"
 send "load  ieee802-dot1ax-types\r"
 expect ">"
-send "load  ieee802-dot1ax\r"
+send "load  ieee802-dot1ax-linkagg\r"
 expect ">"
 send "load  ieee802-dot1ax-drni\r"
 expect ">"

@@ -1,0 +1,121 @@
+module: ieee802-dot1as-gptp
+
+  augment /ptp-tt:ptp/ptp-tt:instances/ptp-tt:instance/ptp-tt:default-ds:
+    +--ro gm-capable?                 boolean
+    +--ro current-utc-offset?         int16
+    +--ro current-utc-offset-valid?   boolean
+    +--ro leap59?                     boolean
+    +--ro leap61?                     boolean
+    +--ro time-traceable?             boolean
+    +--ro frequency-traceable?        boolean
+    +--ro ptp-timescale?              boolean
+    +--ro time-source?                identityref
+  augment /ptp-tt:ptp/ptp-tt:instances/ptp-tt:instance/ptp-tt:current-ds:
+    +--ro last-gm-phase-change?        scaled-ns
+    +--ro last-gm-freq-change?         float64
+    +--ro gm-timebase-indicator?       uint16
+    +--ro gm-change-count?             yang:counter32
+    +--ro time-of-last-gm-change?      yang:timestamp
+    +--ro time-of-last-phase-change?   yang:timestamp
+    +--ro time-of-last-freq-change?    yang:timestamp
+  augment /ptp-tt:ptp/ptp-tt:instances/ptp-tt:instance/ptp-tt:parent-ds:
+    +--ro cumulative-rate-ratio?   int32
+  augment /ptp-tt:ptp/ptp-tt:instances/ptp-tt:instance/ptp-tt:ports/ptp-tt:port/ptp-tt:port-ds:
+    +--ro is-measuring-delay?                    boolean
+    +--ro as-capable?                            boolean
+    +--rw mean-link-delay-thresh?                ptp-tt:time-interval
+    +--ro neighbor-rate-ratio?                   int32
+    +--rw initial-log-announce-interval?         int8
+    +--ro current-log-announce-interval?         int8
+    +--rw use-mgt-log-announce-interval?         boolean
+    +--rw initial-log-sync-interval?             int8
+    +--ro current-log-sync-interval?             int8
+    +--rw use-mgt-log-sync-interval?             boolean
+    +--rw sync-receipt-timeout?                  uint8
+    +--ro sync-receipt-timeout-interval?         uscaled-ns
+    +--rw initial-log-pdelay-req-interval?       int8
+    +--ro current-log-pdelay-req-interval?       int8
+    +--rw use-mgt-log-pdelay-req-interval?       boolean
+    +--rw mgt-log-pdelay-req-interval?           int8
+    +--rw initial-log-gptp-cap-interval?         int8
+    +--ro current-log-gptp-cap-interval?         int8
+    +--rw use-mgt-log-gptp-cap-interval?         boolean
+    +--rw mgt-log-gptp-cap-interval?             int8
+    +--rw initial-compute-neighbor-rate-ratio?   boolean
+    +--ro current-compute-neighbor-rate-ratio?   boolean
+    +--rw use-mgt-compute-neighbor-rate-ratio?   boolean
+    +--rw mgt-compute-neighbor-rate-ratio?       boolean
+    +--rw initial-compute-mean-link-delay?       boolean
+    +--ro current-compute-mean-link-delay?       boolean
+    +--rw use-mgt-compute-mean-link-delay?       boolean
+    +--rw mgt-compute-mean-link-delay?           boolean
+    +--rw allowed-lost-responses?                uint8
+    +--rw allowed-faults?                        uint8
+    +--rw gptp-cap-receipt-timeout?              uint8
+    +--rw nup?                                   float64
+    +--rw ndown?                                 float64
+    +--ro one-step-tx-oper?                      boolean
+    +--ro one-step-receive?                      boolean
+    +--ro one-step-transmit?                     boolean
+    +--rw initial-one-step-tx-oper?              boolean
+    +--ro current-one-step-tx-oper?              boolean
+    +--rw use-mgt-one-step-tx-oper?              boolean
+    +--rw mgt-one-step-tx-oper?                  boolean
+    +--ro sync-locked?                           boolean
+    +--ro pdelay-truncated-timestamps*           uinteger48
+  augment /ptp-tt:ptp/ptp-tt:instances/ptp-tt:instance/ptp-tt:ports/ptp-tt:port:
+    +--rw port-statistics-ds
+       +--ro rx-sync-count?                        yang:counter32
+       +--ro rx-one-step-sync-count?               yang:counter32
+       +--ro rx-follow-up-count?                   yang:counter32
+       +--ro rx-pdelay-req-count?                  yang:counter32
+       +--ro rx-pdelay-resp-count?                 yang:counter32
+       +--ro rx-pdelay-resp-follow-up-count?       yang:counter32
+       +--ro rx-announce-count?                    yang:counter32
+       +--ro rx-packet-discard-count?              yang:counter32
+       +--ro sync-receipt-timeout-count?           yang:counter32
+       +--ro announce-receipt-timeout-count?       yang:counter32
+       +--ro pdelay-allowed-lost-exceeded-count?   yang:counter32
+       +--ro tx-sync-count?                        yang:counter32
+       +--ro tx-one-step-sync-count?               yang:counter32
+       +--ro tx-follow-up-count?                   yang:counter32
+       +--ro tx-pdelay-req-count?                  yang:counter32
+       +--ro tx-pdelay-resp-count?                 yang:counter32
+       +--ro tx-pdelay-resp-follow-up-count?       yang:counter32
+       +--ro tx-announce-count?                    yang:counter32
+  augment /ptp-tt:ptp/ptp-tt:instances/ptp-tt:instance/ptp-tt:ports/ptp-tt:port:
+    +--rw asymmetry-measurement-mode-ds
+       +--rw enabled?   boolean
+  augment /ptp-tt:ptp/ptp-tt:common-services/ptp-tt:cmlds/ptp-tt:ports/ptp-tt:port/ptp-tt:link-port-ds:
+    +--ro cmlds-link-port-enabled?               boolean
+    +--ro is-measuring-delay?                    boolean
+    +--ro as-capable-across-domains?             boolean
+    +--rw mean-link-delay-thresh?                ptp-tt:time-interval
+    +--rw initial-log-pdelay-req-interval?       int8
+    +--ro current-log-pdelay-req-interval?       int8
+    +--rw use-mgt-log-pdelay-req-interval?       boolean
+    +--rw mgt-log-pdelay-req-interval?           int8
+    +--rw initial-compute-neighbor-rate-ratio?   boolean
+    +--ro current-compute-neighbor-rate-ratio?   boolean
+    +--rw use-mgt-compute-neighbor-rate-ratio?   boolean
+    +--rw mgt-compute-neighbor-rate-ratio?       boolean
+    +--rw initial-compute-mean-link-delay?       boolean
+    +--ro current-compute-mean-link-delay?       boolean
+    +--rw use-mgt-compute-mean-link-delay?       boolean
+    +--rw mgt-compute-mean-link-delay?           boolean
+    +--rw allowed-lost-responses?                uint8
+    +--rw allowed-faults?                        uint8
+    +--ro pdelay-truncated-timestamps*           uinteger48
+  augment /ptp-tt:ptp/ptp-tt:common-services/ptp-tt:cmlds/ptp-tt:ports/ptp-tt:port:
+    +--rw port-statistics-ds
+       +--ro rx-pdelay-req-count?                  yang:counter32
+       +--ro rx-pdelay-resp-count?                 yang:counter32
+       +--ro rx-pdelay-resp-follow-up-count?       yang:counter32
+       +--ro rx-packet-discard-count?              yang:counter32
+       +--ro pdelay-allowed-lost-exceeded-count?   yang:counter32
+       +--ro tx-pdelay-req-count?                  yang:counter32
+       +--ro tx-pdelay-resp-count?                 yang:counter32
+       +--ro tx-pdelay-resp-follow-up-count?       yang:counter32
+  augment /ptp-tt:ptp/ptp-tt:common-services/ptp-tt:cmlds/ptp-tt:ports/ptp-tt:port:
+    +--rw asymmetry-measurement-mode-ds
+       +--rw enabled?   boolean

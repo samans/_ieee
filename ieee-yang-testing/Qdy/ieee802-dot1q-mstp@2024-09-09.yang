@@ -26,19 +26,19 @@ module ieee802-dot1q-mstp {
      E-mail: stds-802-1-chairs@ieee.org";
   description
     "This module augments ieee802-dot1q-rstp to provide management of 
-    IEEE Std 802.1Q Bridge 802.1Q Bridge components that support the 
+    IEEE Std 802.1Q Bridge components that support the 
     Multiple Spanning Tree Algorithm and Protocol (MSTP).
     
-	References specify constraints on, and consequences of, settings of 
-	leaf values and the creation and deletion of list entries. The values
-	of all configured objects are retained across system reinitialization.
+    References specify constraints on, and consequences of, settings of 
+    leaf values and the creation and deletion of list entries. The values
+    of all configured objects are retained across system reinitialization.
     
     Copyright (C) IEEE (2024).
 
     This version of this YANG module is part of IEEE Std 802.1Q; see the
     standard itself for full legal notices.";
 
-  revision 2024-08-20 {
+  revision 2024-09-09 {
     description
       "Published as part of IEEE Std 802.1Qdy-2024.
 

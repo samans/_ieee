@@ -3,7 +3,7 @@ module iecieee60802-tsn-config-uni {
   namespace "urn:ieee:std:60802:yang:iecieee60802-tsn-config-uni";
   prefix ia-tsn;
 
-  import ieee802-dot1q-cnc-config {
+  import ieee802-dot1q-tsn-config-uni {
     prefix tsn;
   }
   import ieee802-dot1q-tsn-types {
@@ -47,7 +47,7 @@ module iecieee60802-tsn-config-uni {
       IEEE Std 802.1Qdx-2024, IEEE Std 802.1Qdy-2024.";
   }
 
-  augment "/tsn:cnc-config" {
+  augment "/tsn:tsn-uni" {
     description
       "Augment main container in tsc-config-uni.";
     leaf max-config-domains {
@@ -165,7 +165,7 @@ module iecieee60802-tsn-config-uni {
     }
   }
 
-  augment "/tsn:cnc-config/tsn:domain/tsn:cuc/tsn:stream" {
+  augment "/tsn:tsn-uni/tsn:domain/tsn:cuc/tsn:stream" {
     description
       "Augment stream list in tsc-config-uni.";
     action remove_listener {

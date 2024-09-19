@@ -15,7 +15,7 @@ module iecieee60802-bridge {
   import ieee802-dot1q-types {
     prefix dot1q-types;
   }
-  import ieee1588-ptp-tt {
+  import ieee1588-ptp {
     prefix ptp;
   }
 

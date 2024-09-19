@@ -1,5 +1,5 @@
 {
-  "ieee802-dot1ax:link-aggregation": {
+  "ieee802-dot1ax-linkagg:linkagg": {
     "key-group": [
       {
         "name": "Key-1",
@@ -13,29 +13,29 @@
       {
         "name": "lag1",
         "type": "iana-if-type:ieee8023adLag",
-        "ieee802-dot1ax:aggregator": {
-          "agg-key-group": "Key-1"
+        "ieee802-dot1ax-linkagg:lag": {
+          "key-group-name": "Key-1"
         }
       },
       {
         "name": "lag2",
         "type": "iana-if-type:ieee8023adLag",
-        "ieee802-dot1ax:aggregator": {
-          "agg-key-group": "Key-1" 
+        "ieee802-dot1ax-linkagg:lag": {
+          "key-group-name": "Key-1" 
         }
       },
       {
         "name": "eth1",
         "type": "iana-if-type:ethernetCsmacd",
-        "ieee802-dot1ax:aggregation-port": {
-          "agg-key-group": "Key-1" 
+        "ieee802-dot1ax-linkagg:aggport": {
+          "key-group-name": "Key-1" 
         }
       },
       {
         "name": "eth2",
         "type": "iana-if-type:ethernetCsmacd",
-        "ieee802-dot1ax:aggregation-port": {
-          "agg-key-group": "Key-1" 
+        "ieee802-dot1ax-linkagg:aggport": {
+          "key-group-name": "Key-1" 
         }
       }
     ]
