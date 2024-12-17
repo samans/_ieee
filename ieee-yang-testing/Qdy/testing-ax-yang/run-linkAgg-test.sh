@@ -1,0 +1,28 @@
+#! /usr/bin/expect -f
+#set timeout -1
+spawn yanglint
+expect ">"
+send "load ietf-yang-types\r"
+expect ">"
+send "load ietf-inet-types\r"
+expect ">"
+send "load ieee802-types\r"
+expect ">"
+send "load ietf-interfaces\r"
+expect ">"
+send "load iana-if-type\r"
+expect ">"
+send "load ieee802-dot1ax-types\r"
+expect ">"
+send "load ieee802-dot1ax-linkagg\r"
+expect ">"
+send "load ieee802-dot1ax-drni\r"
+expect ">"
+send "data -t data -f json ieee802-dot1ax-complete.xml \r"
+expect ">"
+#send "data -t data -f json ieee802-dot1ax-complete.xml -o ieee802-dot1ax-complete.json\r"
+#expect ">"
+#send "data -t data -f xml ieee802-dot1ax-complete.xml -o ieee802-dot1ax-complete-out.xml\r"
+#expect ">"
+send "quit\r"
+expect eof

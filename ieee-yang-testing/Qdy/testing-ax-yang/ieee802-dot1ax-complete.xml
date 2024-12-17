@@ -1,0 +1,226 @@
+  <linkagg xmlns="urn:ieee:params:xml:ns:yang:ieee802-dot1ax-linkagg">
+    <agg-system>
+      <name>802-linkagg-01</name>
+      <actor-system>01-03-05-07-09-11</actor-system>
+    </agg-system>
+    <key-group>
+      <name>secure-key</name>
+      <actor-admin-key>1</actor-admin-key>
+      <agg-system-name>Omaha</agg-system-name>
+      <actor-protocol-da>01-80-c2-00-00-00</actor-protocol-da>
+      <collector-max-delay>8876</collector-max-delay>
+      <partner-admin-system>00-00-00-00-00-01</partner-admin-system>
+      <lags>eth0</lags>
+      <aggports>
+        <!-- # entries: 0.. -->
+      </aggports>
+      <cscd>
+        <admin-conv-service-map>
+          <pattern> </pattern>
+          <cid-list>
+          <cid> </cid>
+          <service-ids>
+              <!-- # entries: 0.. -->
+          </service-ids>
+          </cid-list>
+        </admin-conv-service-map>
+        <admin-conv-service-digest> </admin-conv-service-digest>
+        <admin-conv-link-map>
+          <pattern> </pattern>
+          <cid-list>
+          <cid> </cid>
+          <link-numbers>
+              <!-- # entries: 0.. -->
+          </link-numbers>
+          </cid-list>
+        </admin-conv-link-map>
+        <admin-conv-link-digest> </admin-conv-link-digest>
+      </cscd>
+    </key-group>
+  </linkagg>
+  <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+    <interface>
+      <name> </name>
+      <description> </description>
+      <type> </type>
+      <link-up-down-trap-enable> </link-up-down-trap-enable>
+      <admin-status> </admin-status>
+      <oper-status> </oper-status>
+      <last-change> </last-change>
+      <if-index> </if-index>
+      <phys-address> </phys-address>
+      <higher-layer-if>
+        <!-- # entries: 0.. -->
+      </higher-layer-if>
+      <lower-layer-if>
+        <!-- # entries: 0.. -->
+      </lower-layer-if>
+      <speed> </speed>
+      <statistics>
+        <discontinuity-time> </discontinuity-time>
+        <in-octets> </in-octets>
+        <in-unicast-pkts> </in-unicast-pkts>
+        <in-broadcast-pkts> </in-broadcast-pkts>
+        <in-multicast-pkts> </in-multicast-pkts>
+        <in-discards> </in-discards>
+        <in-errors> </in-errors>
+        <in-unknown-protos> </in-unknown-protos>
+        <out-octets> </out-octets>
+        <out-unicast-pkts> </out-unicast-pkts>
+        <out-broadcast-pkts> </out-broadcast-pkts>
+        <out-multicast-pkts> </out-multicast-pkts>
+        <out-discards> </out-discards>
+        <out-errors> </out-errors>
+        <lag-stats xmlns="urn:ieee:params:xml:ns:yang:ieee802-dot1ax-linkagg">
+          <unknown-protocol-frames> </unknown-protocol-frames>
+        </lag-stats>
+        <aggport-stats xmlns="urn:ieee:params:xml:ns:yang:ieee802-dot1ax-linkagg">
+          <lacp-pdu-rx> </lacp-pdu-rx>
+          <marker-pdu-rx> </marker-pdu-rx>
+          <marker-response-pdu-rx> </marker-response-pdu-rx>
+          <unknown-rx> </unknown-rx>
+          <illegal-rx> </illegal-rx>
+          <lacp-pdu-tx> </lacp-pdu-tx>
+          <marker-pdu-tx> </marker-pdu-tx>
+          <marker-response-pdu-tx> </marker-response-pdu-tx>
+        </aggport-stats>
+        <drni-stats xmlns="urn:ieee:params:xml:ns:yang:ieee802-dot1ax-drni">
+          <drcpdus-rx> </drcpdus-rx>
+          <illegal-rx> </illegal-rx>
+          <drcpdus-tx> </drcpdus-tx>
+        </drni-stats>
+      </statistics>
+      <lag xmlns="urn:ieee:params:xml:ns:yang:ieee802-dot1ax-linkagg">
+        <key-group-name> </key-group-name>
+        <mac-address> </mac-address>
+        <lacp>
+          <actor-oper-key> </actor-oper-key>
+          <partner-system> </partner-system>
+          <partner-system-priority> </partner-system-priority>
+          <partner-oper-key> </partner-oper-key>
+          <aggregate-or-individual> </aggregate-or-individual>
+        </lacp>
+        <cscd>
+          <partner-port-algorithm> </partner-port-algorithm>
+          <partner-conv-service-digest> </partner-conv-service-digest>
+          <partner-conv-link-digest> </partner-conv-link-digest>
+          <discard-wrong-conversation> </discard-wrong-conversation>
+          <active-lag-links>
+            <!-- # entries: 0.. -->
+          </active-lag-links>
+        </cscd>
+        <drni xmlns="urn:ieee:params:xml:ns:yang:ieee802-dot1ax-drni">
+          <irp-name> </irp-name>
+          <drni-aggregator-key> </drni-aggregator-key>
+          <home-oper-irp-state> </home-oper-irp-state>
+          <home-admin-conv-service-map>
+            <cid> </cid>
+            <service-ids>
+              <!-- # entries: 0.. -->
+            </service-ids>
+          </home-admin-conv-service-map>
+          <home-admin-conv-service-digest> </home-admin-conv-service-digest>
+          <gateway-enable-mask>
+            <cid-list>
+              <!-- # entries: 0.. -->
+            </cid-list>
+            <mask> </mask>
+          </gateway-enable-mask>
+          <gateway-preference-mask>
+            <cid-list>
+              <!-- # entries: 0.. -->
+            </cid-list>
+            <mask> </mask>
+          </gateway-preference-mask>
+          <gateway-available-mask> </gateway-available-mask>
+          <neighbor>
+            <oper-irp-state> </oper-irp-state>
+            <system> </system>
+            <system-priority> </system-priority>
+            <drni-key> </drni-key>
+            <aggregator-algorithm> </aggregator-algorithm>
+            <aggregator-conv-service-digest> </aggregator-conv-service-digest>
+            <aggregator-conv-link-digest> </aggregator-conv-link-digest>
+            <partner-system-priority> </partner-system-priority>
+            <partner-system> </partner-system>
+            <partner-aggregator-key> </partner-aggregator-key>
+            <cscd-state> </cscd-state>
+            <active-links>
+              <!-- # entries: 0.. -->
+            </active-links>
+            <gateway-algorithm> </gateway-algorithm>
+            <gateway-conv-service-digest> </gateway-conv-service-digest>
+            <gateway-available-mask> </gateway-available-mask>
+            <gateway-preference-mask> </gateway-preference-mask>
+          </neighbor>
+          <gateway-relay>
+            <home-aggregator-mask> </home-aggregator-mask>
+            <home-gateway-mask> </home-gateway-mask>
+            <neighbor-aggregator-mask> </neighbor-aggregator-mask>
+            <neighbor-gateway-mask> </neighbor-gateway-mask>
+          </gateway-relay>
+        </drni>
+      </lag>
+      <aggport xmlns="urn:ieee:params:xml:ns:yang:ieee802-dot1ax-linkagg">
+        <key-group-name> </key-group-name>
+        <actor-port-number> </actor-port-number>
+        <partner-admin-key> </partner-admin-key>
+        <partner-admin-port> </partner-admin-port>
+        <lacp>
+          <actor-lacp-version> </actor-lacp-version>
+          <actor-oper-key> </actor-oper-key>
+          <actor-oper-state> </actor-oper-state>
+          <partner-lacp-version> </partner-lacp-version>
+          <partner-oper-system-priority> </partner-oper-system-priority>
+          <partner-oper-system> </partner-oper-system>
+          <partner-oper-key> </partner-oper-key>
+          <partner-oper-port> </partner-oper-port>
+          <partner-oper-port-priority> </partner-oper-port-priority>
+          <partner-oper-state> </partner-oper-state>
+          <aggregate-or-individual> </aggregate-or-individual>
+          <wtr-waiting> </wtr-waiting>
+        </lacp>
+        <cscd>
+          <admin-link-number> </admin-link-number>
+          <partner-link-number> </partner-link-number>
+          <link-number> </link-number>
+          <oper-conversation-passes> </oper-conversation-passes>
+          <oper-conversation-collected> </oper-conversation-collected>
+        </cscd>
+      </aggport>
+    </interface>
+  </interfaces>
+  <interfaces-state xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+    <interface>
+      <name> </name>
+      <type> </type>
+      <admin-status> </admin-status>
+      <oper-status> </oper-status>
+      <last-change> </last-change>
+      <if-index> </if-index>
+      <phys-address> </phys-address>
+      <higher-layer-if>
+        <!-- # entries: 0.. -->
+      </higher-layer-if>
+      <lower-layer-if>
+        <!-- # entries: 0.. -->
+      </lower-layer-if>
+      <speed> </speed>
+      <statistics>
+        <discontinuity-time> </discontinuity-time>
+        <in-octets> </in-octets>
+        <in-unicast-pkts> </in-unicast-pkts>
+        <in-broadcast-pkts> </in-broadcast-pkts>
+        <in-multicast-pkts> </in-multicast-pkts>
+        <in-discards> </in-discards>
+        <in-errors> </in-errors>
+        <in-unknown-protos> </in-unknown-protos>
+        <out-octets> </out-octets>
+        <out-unicast-pkts> </out-unicast-pkts>
+        <out-broadcast-pkts> </out-broadcast-pkts>
+        <out-multicast-pkts> </out-multicast-pkts>
+        <out-discards> </out-discards>
+        <out-errors> </out-errors>
+      </statistics>
+    </interface>
+  </interfaces-state>

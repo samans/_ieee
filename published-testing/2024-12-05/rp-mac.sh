@@ -1,0 +1,1 @@
+pyang -V --ieee -p ../../ieee-yang-testing/common-ietf -p ../../ieee-yang-testing/common-iana -p ~/gits/yang/standard/ieee/published/802 -p ~/gits/yang/standard/ieee/published/1588 -p ~/gits/yang/standard/ieee/published/802.1 *.yang
