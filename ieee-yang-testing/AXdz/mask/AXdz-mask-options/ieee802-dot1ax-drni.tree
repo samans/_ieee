@@ -1,0 +1,198 @@
+module: ieee802-dot1ax-drni
+
+  augment /if:interfaces/if:interface/dot1ax:lag:
+    +--rw drni!
+       +--rw irp-name                            if:interface-ref
+       +--rw drni-aggregator-key?                uint16
+       +--rw drni-aggregator-system?             ieee:mac-address
+       +--rw drni-aggregator-system-priority?    uint16
+       +--rw drcp-protocol-da?                   ieee:mac-address
+       +--rw home-admin-irp-state?               irp-state
+       +--ro home-oper-irp-state?                irp-state
+       +--rw home-cscd-gateway-control?          boolean
+       +--rw home-dr-client-gateway-control?     boolean
+       +--rw home-gateway-algorithm?             identityref
+       +--rw home-gateway-conv-service-map {ax:sid-map}?
+       |  +--rw (method)?
+       |     +--:(pattern)
+       |     |  +--rw pattern?    identityref
+       |     +--:(cid-list)
+       |        +--rw cid-list* [cid]
+       |           +--rw cid            uint16
+       |           +--rw service-ids*   uint32
+       +--ro home-gateway-conv-service-digest?   binary
+       +--rw gateway-enable-mask
+       |  +--rw (method)?
+       |  |  +--:(pattern)
+       |  |  |  +--rw pattern?        identityref
+       |  |  +--:(cid-list)
+       |  |  |  +--rw cid-list*       uint16
+       |  |  +--:(mask-option1)
+       |  |  |  +--rw mask-option1?   string
+       |  |  +--:(mask-option2)
+       |  |  |  +--rw mask-option2* [index]
+       |  |  |     +--rw index       uint16
+       |  |  |     +--rw mask-str?   mask-string64
+       |  |  +--:(mask-option3)
+       |  |     +--rw mask-option3
+       |  |        +--rw cids-4095-3840?   mask-string64
+       |  |        +--rw cids-3839-3584?   mask-string64
+       |  |        +--rw cids-3583-3328?   mask-string64
+       |  |        +--rw cids-3527-3072?   mask-string64
+       |  |        +--rw cids-3071-2816?   mask-string64
+       |  |        +--rw cids-2815-2560?   mask-string64
+       |  |        +--rw cids-2559-2304?   mask-string64
+       |  |        +--rw cids-2303-2048?   mask-string64
+       |  |        +--rw cids-2047-1792?   mask-string64
+       |  |        +--rw cids-1791-1536?   mask-string64
+       |  |        +--rw cids-1535-1280?   mask-string64
+       |  |        +--rw cids-1279-1024?   mask-string64
+       |  |        +--rw cids-1023-0768?   mask-string64
+       |  |        +--rw cids-0767-0512?   mask-string64
+       |  |        +--rw cids-0511-0256?   mask-string64
+       |  |        +--rw cids-0255-0000?   mask-string64
+       |  +--rw invert-mask?          boolean
+       +--rw gateway-preference-mask
+       |  +--rw (method)?
+       |  |  +--:(pattern)
+       |  |  |  +--rw pattern?        identityref
+       |  |  +--:(cid-list)
+       |  |  |  +--rw cid-list*       uint16
+       |  |  +--:(mask-option1)
+       |  |  |  +--rw mask-option1?   string
+       |  |  +--:(mask-option2)
+       |  |  |  +--rw mask-option2* [index]
+       |  |  |     +--rw index       uint16
+       |  |  |     +--rw mask-str?   mask-string64
+       |  |  +--:(mask-option3)
+       |  |     +--rw mask-option3
+       |  |        +--rw cids-4095-3840?   mask-string64
+       |  |        +--rw cids-3839-3584?   mask-string64
+       |  |        +--rw cids-3583-3328?   mask-string64
+       |  |        +--rw cids-3527-3072?   mask-string64
+       |  |        +--rw cids-3071-2816?   mask-string64
+       |  |        +--rw cids-2815-2560?   mask-string64
+       |  |        +--rw cids-2559-2304?   mask-string64
+       |  |        +--rw cids-2303-2048?   mask-string64
+       |  |        +--rw cids-2047-1792?   mask-string64
+       |  |        +--rw cids-1791-1536?   mask-string64
+       |  |        +--rw cids-1535-1280?   mask-string64
+       |  |        +--rw cids-1279-1024?   mask-string64
+       |  |        +--rw cids-1023-0768?   mask-string64
+       |  |        +--rw cids-0767-0512?   mask-string64
+       |  |        +--rw cids-0511-0256?   mask-string64
+       |  |        +--rw cids-0255-0000?   mask-string64
+       |  +--rw invert-mask?          boolean
+       +--ro gateway-available-mask
+       |  +--ro (method)?
+       |  |  +--:(pattern)
+       |  |  |  +--ro pattern?        identityref
+       |  |  +--:(cid-list)
+       |  |  |  +--ro cid-list*       uint16
+       |  |  +--:(mask-option1)
+       |  |  |  +--ro mask-option1?   string
+       |  |  +--:(mask-option2)
+       |  |  |  +--ro mask-option2* [index]
+       |  |  |     +--ro index       uint16
+       |  |  |     +--ro mask-str?   mask-string64
+       |  |  +--:(mask-option3)
+       |  |     +--ro mask-option3
+       |  |        +--ro cids-4095-3840?   mask-string64
+       |  |        +--ro cids-3839-3584?   mask-string64
+       |  |        +--ro cids-3583-3328?   mask-string64
+       |  |        +--ro cids-3527-3072?   mask-string64
+       |  |        +--ro cids-3071-2816?   mask-string64
+       |  |        +--ro cids-2815-2560?   mask-string64
+       |  |        +--ro cids-2559-2304?   mask-string64
+       |  |        +--ro cids-2303-2048?   mask-string64
+       |  |        +--ro cids-2047-1792?   mask-string64
+       |  |        +--ro cids-1791-1536?   mask-string64
+       |  |        +--ro cids-1535-1280?   mask-string64
+       |  |        +--ro cids-1279-1024?   mask-string64
+       |  |        +--ro cids-1023-0768?   mask-string64
+       |  |        +--ro cids-0767-0512?   mask-string64
+       |  |        +--ro cids-0511-0256?   mask-string64
+       |  |        +--ro cids-0255-0000?   mask-string64
+       |  +--ro invert-mask?          boolean
+       +--ro neighbor
+          +--ro oper-irp-state?                   irp-state
+          +--ro system?                           ieee:mac-address
+          +--ro system-priority?                  uint16
+          +--ro drni-key?                         uint16
+          +--ro aggregator-algorithm?             identityref
+          +--ro aggregator-conv-service-digest?   binary
+          +--ro aggregator-conv-link-digest?      binary
+          +--ro partner-system-priority?          uint16
+          +--ro partner-system?                   ieee:mac-address
+          +--ro partner-aggregator-key?           uint16
+          +--ro cscd-state?                       bits
+          +--ro active-links*                     uint16
+          +--ro gateway-algorithm?                identityref
+          +--ro gateway-conv-service-digest?      binary
+          +--ro gateway-available-mask
+          |  +--ro (method)?
+          |  |  +--:(pattern)
+          |  |  |  +--ro pattern?        identityref
+          |  |  +--:(cid-list)
+          |  |  |  +--ro cid-list*       uint16
+          |  |  +--:(mask-option1)
+          |  |  |  +--ro mask-option1?   string
+          |  |  +--:(mask-option2)
+          |  |  |  +--ro mask-option2* [index]
+          |  |  |     +--ro index       uint16
+          |  |  |     +--ro mask-str?   mask-string64
+          |  |  +--:(mask-option3)
+          |  |     +--ro mask-option3
+          |  |        +--ro cids-4095-3840?   mask-string64
+          |  |        +--ro cids-3839-3584?   mask-string64
+          |  |        +--ro cids-3583-3328?   mask-string64
+          |  |        +--ro cids-3527-3072?   mask-string64
+          |  |        +--ro cids-3071-2816?   mask-string64
+          |  |        +--ro cids-2815-2560?   mask-string64
+          |  |        +--ro cids-2559-2304?   mask-string64
+          |  |        +--ro cids-2303-2048?   mask-string64
+          |  |        +--ro cids-2047-1792?   mask-string64
+          |  |        +--ro cids-1791-1536?   mask-string64
+          |  |        +--ro cids-1535-1280?   mask-string64
+          |  |        +--ro cids-1279-1024?   mask-string64
+          |  |        +--ro cids-1023-0768?   mask-string64
+          |  |        +--ro cids-0767-0512?   mask-string64
+          |  |        +--ro cids-0511-0256?   mask-string64
+          |  |        +--ro cids-0255-0000?   mask-string64
+          |  +--ro invert-mask?          boolean
+          +--ro gateway-preference-mask
+             +--ro (method)?
+             |  +--:(pattern)
+             |  |  +--ro pattern?        identityref
+             |  +--:(cid-list)
+             |  |  +--ro cid-list*       uint16
+             |  +--:(mask-option1)
+             |  |  +--ro mask-option1?   string
+             |  +--:(mask-option2)
+             |  |  +--ro mask-option2* [index]
+             |  |     +--ro index       uint16
+             |  |     +--ro mask-str?   mask-string64
+             |  +--:(mask-option3)
+             |     +--ro mask-option3
+             |        +--ro cids-4095-3840?   mask-string64
+             |        +--ro cids-3839-3584?   mask-string64
+             |        +--ro cids-3583-3328?   mask-string64
+             |        +--ro cids-3527-3072?   mask-string64
+             |        +--ro cids-3071-2816?   mask-string64
+             |        +--ro cids-2815-2560?   mask-string64
+             |        +--ro cids-2559-2304?   mask-string64
+             |        +--ro cids-2303-2048?   mask-string64
+             |        +--ro cids-2047-1792?   mask-string64
+             |        +--ro cids-1791-1536?   mask-string64
+             |        +--ro cids-1535-1280?   mask-string64
+             |        +--ro cids-1279-1024?   mask-string64
+             |        +--ro cids-1023-0768?   mask-string64
+             |        +--ro cids-0767-0512?   mask-string64
+             |        +--ro cids-0511-0256?   mask-string64
+             |        +--ro cids-0255-0000?   mask-string64
+             +--ro invert-mask?          boolean
+  augment /if:interfaces/if:interface/if:statistics:
+    +--ro drni-stats
+       +--ro drcpdus-rx?   yang:counter64
+       +--ro illegal-rx?   yang:counter64
+       +--ro drcpdus-tx?   yang:counter64

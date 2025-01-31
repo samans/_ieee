@@ -1,0 +1,31 @@
+{
+  "example-module:example-container": {
+    "patterns": [
+      {
+         "name": "0001",
+         "my-number-pattern": "0",
+         "my-number-pattern-part1": "0"
+      },
+      {
+         "name": "0002",
+         "my-number-pattern": "1",
+         "my-number-pattern-part1": "1"
+      },
+      {
+         "name": "0003",
+         "my-number-pattern": "6-10",
+         "my-number-pattern-part1": "6-10"
+      },
+      {
+         "name": "0004",
+         "my-number-pattern": "4095",
+         "my-number-pattern-part1": "4095"
+      },
+      {
+         "name": "0005",
+         "my-number-pattern": "4096",
+         "my-number-pattern-part1": "4096"
+      }
+    ]
+  }
+}

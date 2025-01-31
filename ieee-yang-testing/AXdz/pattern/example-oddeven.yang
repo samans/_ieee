@@ -1,0 +1,42 @@
+module example-oddeven {
+    namespace "urn:example:module";
+    prefix "ex";
+
+    container example-container {
+      list patterns {
+        key "name";
+            
+        leaf name {
+           type string;
+              description "Name of test";
+        }
+        choice pattern {
+          default all;
+          case odd {
+            leaf my-number-pattern-odd {
+              type string {
+                pattern '([13579]{1}|[1-9]{1}[13579]{1}|[1-9]{1}[0-9]{1}[13579]{1}|[1-3]{1}[0-9]{2}[13579]{1}|40[0-9]{1}[135]{1})(-([3579]{1}|[1-9]{1}[13579]{1}|[1-9]{1}[0-9]{1}[13579]{1}|[1-3]{1}[0-9]{2}[13579]{1}|4{1}[0-9]{2}[135]{1}))?(,([13579]{1}|[1-9]{1}[13579]{1}|[1-9]{1}[0-9]{1}[13579]{1}|[1-3]{1}[0-9]{2}[13579]{1}|40[0-9]{1}[135]{1})(-([3579]{1}|[1-9]{1}[13579]{1}|[1-9]{1}[0-9]{1}[13579]{1}|[1-3]{1}[0-9]{2}[13579]{1}|4{1}[0-9]{2}[135]{1}))?)*';
+              }
+            }
+            description "A leaf that accepts comma-separated individual values and ranges that accept and indicate only odd numbers";
+          }
+          case even {
+            leaf my-number-pattern-even {
+              type string {
+                pattern '([02468]{1}|[1-9]{1}[02468]{1}|[1-9]{1}[0-9]{1}[02468]{1}|[1-3]{1}[0-9]{2}[02468]{1}|40[0-9]{1}[024]{1})(-([2468]{1}|[1-9]{1}[02468]{1}|[1-9]{1}[0-9]{1}[02468]{1}|[1-3]{1}[0-9]{2}[02468]{1}|4{1}[0-9]{2}[024]{1}))?(,([02468]{1}|[1-9]{1}[02468]{1}|[1-9]{1}[0-9]{1}[02468]{1}|[1-3]{1}[0-9]{2}[02468]{1}|40[0-9]{1}[024]{1})(-([2468]{1}|[1-9]{1}[02468]{1}|[1-9]{1}[0-9]{1}[02468]{1}|[1-3]{1}[0-9]{2}[02468]{1}|4{1}[0-9]{2}[024]{1}))?)*';
+              }
+            }
+            description "A leaf that accepts comma-separated individual values and ranges that accept and indicate only even numbers";
+          }
+          case all {
+            leaf my-number-pattern-mod {
+              type string {
+                pattern '([0-9]{1}|[1-9]{1}[0-9]{1,2}|[1-3]{1}[0-9]{3}|40[0-9]{1}[0-5]{1})(-([1-9]{1}[0-9]{0,2}|[1-3][0-9]{3}|4{1}[0-9]{2}[0-5]{1}))?(,([1-9]{1}|[1-9]{1}[0-9]{1,2}|[1-3]{1}[0-9]{3}|40[0-9]{1}[0-5]{1})(-([1-9]{1}[0-9]{0,2}|[1-3][0-9]{3}|4{1}[0-9]{2}[0-5]{1}))?)*';
+              }
+            }
+            description "A leaf that accepts comma-separated individual values and ranges like 1,5,6-10,2000-3000,4094.";
+          }
+        }
+      }
+    }
+}

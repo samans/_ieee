@@ -1,0 +1,590 @@
+module: ieee802-ethernet-interface
+
+  augment /if:interfaces/if:interface:
+    +--rw ethernet
+       +--rw auto-negotiation!
+       |  +--rw enable?               boolean
+       |  +--ro negotiation-status?   enumeration
+       +--ro phy-type?                                              identityref
+       +--ro pmd-type?                                              identityref
+       +--rw duplex?                                                duplex-type
+       o--rw speed?                                                 eth-if-speed-type
+       x--rw flow-control
+       |  +--rw pause {ethernet-pause}?
+       |  |  +--rw direction?    pause-fc-direction-type
+       |  |  +--ro statistics
+       |  |     +--ro in-frames-pause?    yang:counter64
+       |  |     +--ro out-frames-pause?   yang:counter64
+       |  +--rw pfc {ethernet-pfc}?
+       |  |  +--rw enable?       boolean
+       |  |  x--ro statistics
+       |  |     +--ro in-frames-pfc?    yang:counter64
+       |  |     +--ro out-frames-pfc?   yang:counter64
+       |  +--rw force-flow-control?   boolean
+       +--ro max-frame-length?                                      uint16
+       +--ro mac-control-extension-control?                         boolean
+       +--ro frame-limit-slow-protocol?                             uint64
+       +--ro capabilities
+       |  +--ro auto-negotiation?                                         boolean
+       |  o--ro ieee802-eth-half-duplex:dynamic-rate-control-supported?   boolean {dynamic-rate-control}?
+       +--rw ethernet-pause {ethernet-pause}?
+       |  +--rw control-and-status
+       |  |  +--rw pause-admin-control?    pause-fc-direction-type
+       |  |  +--ro pause-oper-status?      pause-fc-direction-type
+       |  |  +--rw link-delay-allowance?   uint32
+       |  |  +--ro pfc-enable-status?      boolean
+       |  +--ro statistics
+       |     +--ro in-frames-pause?    yang:counter64
+       |     +--ro out-frames-pause?   yang:counter64
+       +--ro statistics
+       |  +--ro frame
+       |  |  +--ro in-total-frames?                   yang:counter64
+       |  |  +--ro in-total-octets?                   yang:counter64
+       |  |  +--ro in-frames?                         yang:counter64
+       |  |  +--ro in-multicast-frames?               yang:counter64
+       |  |  +--ro in-broadcast-frames?               yang:counter64
+       |  |  +--ro in-error-fcs-frames?               yang:counter64
+       |  |  x--ro in-error-undersize-frames?         yang:counter64
+       |  |  +--ro in-error-oversize-frames?          yang:counter64
+       |  |  +--ro in-error-mac-internal-frames?      yang:counter64
+       |  |  +--ro out-frames?                        yang:counter64
+       |  |  +--ro out-multicast-frames?              yang:counter64
+       |  |  +--ro out-broadcast-frames?              yang:counter64
+       |  |  +--ro out-error-mac-internal-frames?     yang:counter64
+       |  |  +--ro ieee802-eth-half-duplex:csma-cd {csma-cd}?
+       |  |     +--ro ieee802-eth-half-duplex:in-errors-sqe-test?                yang:counter64
+       |  |     +--ro ieee802-eth-half-duplex:out-frames-collision-single?       yang:counter64
+       |  |     +--ro ieee802-eth-half-duplex:out-frames-collision-multiple?     yang:counter64
+       |  |     +--ro ieee802-eth-half-duplex:out-frames-deferred?               yang:counter64
+       |  |     +--ro ieee802-eth-half-duplex:out-frames-collisions-excessive?   yang:counter64
+       |  |     +--ro ieee802-eth-half-duplex:out-collisions-late?               yang:counter64
+       |  |     +--ro ieee802-eth-half-duplex:out-errors-carrier-sense?          yang:counter64
+       |  |     +--ro ieee802-eth-half-duplex:collision-histogram* [collision-count]
+       |  |        +--ro ieee802-eth-half-duplex:collision-count           yang:counter64
+       |  |        +--ro ieee802-eth-half-duplex:collision-count-frames?   yang:counter64
+       |  +--ro phy
+       |  |  +--ro in-error-symbol?   yang:counter64
+       |  |  +--ro lpi
+       |  |     +--ro in-lpi-transitions?    yang:counter64
+       |  |     +--ro in-lpi-time?           decimal64
+       |  |     +--ro out-lpi-transitions?   yang:counter64
+       |  |     +--ro out-lpi-time?          decimal64
+       |  +--ro mac-control
+       |     +--ro in-frames-mac-control-unknown?      yang:counter64
+       |     +--ro in-frames-mac-control-extension?    yang:counter64
+       |     +--ro out-frames-mac-control-extension?   yang:counter64
+       o--rw ieee802-eth-half-duplex:dynamic-rate-control?          dynamic-rate-control-type {dynamic-rate-control}?
+       +--rw mac-merge:mac-merge {mac-merge}?
+       |  +--rw mac-merge:admin-control
+       |  |  +--rw mac-merge:merge-enable-tx?     enumeration
+       |  |  +--rw mac-merge:verify-disable-tx?   enumeration
+       |  |  +--rw mac-merge:verify-time?         uint16
+       |  |  +--rw mac-merge:frag-size?           uint8
+       |  +--ro mac-merge:admin-status
+       |  |  +--ro mac-merge:merge-support?   enumeration
+       |  |  +--ro mac-merge:verify-status?   enumeration
+       |  |  +--ro mac-merge:status-tx?       enumeration
+       |  +--ro mac-merge:statistics
+       |     +--ro mac-merge:assembly-error-count?   yang:counter64
+       |     +--ro mac-merge:smd-error-count?        yang:counter64
+       |     +--ro mac-merge:assembly-ok-count?      yang:counter64
+       |     +--ro mac-merge:fragment-count-rx?      yang:counter64
+       |     +--ro mac-merge:fragment-count-tx?      yang:counter64
+       |     +--ro mac-merge:hold-count?             yang:counter64
+       +--rw ieee802-eth-pon:fec-mode?                              fec-mode {fec-supported}?
+       +--rw ieee802-eth-pon:mpcp-admin-state?                      mpcp-admin-state
+       +--ro ieee802-eth-pon:mpcp-logical-link-admin-state?         mpcp-logical-link-admin-state
+       +--rw ieee802-eth-pon:trx-transmit-admin-state?              trx-admin-state {trx-power-level-reporting-supported}?
+       +--ro ieee802-eth-pon:capabilities
+       |  +--ro ieee802-eth-pon:mpcp-supported?   mpcp-supported
+       +--ro ieee802-eth-pon:statistics-mpcp
+       |  +--ro ieee802-eth-pon:out-mpcp-mac-ctrl-frames?       yang:counter64
+       |  +--ro ieee802-eth-pon:in-mpcp-mac-ctrl-frames?        yang:counter64
+       |  +--ro ieee802-eth-pon:mpcp-discovery-window-count?    yang:counter64
+       |  +--ro ieee802-eth-pon:mpcp-discovery-timeout-count?   yang:counter64
+       |  +--ro ieee802-eth-pon:out-mpcp-register-req?          yang:counter64
+       |  +--ro ieee802-eth-pon:in-mpcp-register-req?           yang:counter64
+       |  +--ro ieee802-eth-pon:out-mpcp-register-ack?          yang:counter64
+       |  +--ro ieee802-eth-pon:in-mpcp-register-ack?           yang:counter64
+       |  +--ro ieee802-eth-pon:out-mpcp-report?                yang:counter64
+       |  +--ro ieee802-eth-pon:in-mpcp-report?                 yang:counter64
+       |  +--ro ieee802-eth-pon:out-mpcp-gate?                  yang:counter64
+       |  +--ro ieee802-eth-pon:in-mpcp-gate?                   yang:counter64
+       |  +--ro ieee802-eth-pon:out-mpcp-register?              yang:counter64
+       |  +--ro ieee802-eth-pon:in-mpcp-register?               yang:counter64
+       +--rw ieee802-eth-pon:statistics-ompe
+       |  +--ro ieee802-eth-pon:in-ompe-frames-errored-sld?                        yang:counter64
+       |  +--ro ieee802-eth-pon:in-ompe-frames-errored-crc8?                       yang:counter64
+       |  +--ro ieee802-eth-pon:ompe-onu-frames-with-good-llid-good-crc8?          yang:counter64
+       |  +--ro ieee802-eth-pon:ompe-olt-frames-with-good-llid-good-crc8?          yang:counter64
+       |  +--ro ieee802-eth-pon:in-ompe-frames-with-bad-llid?                      yang:counter64
+       |  +--ro ieee802-eth-pon:in-ompe-frames-with-good-llid?                     yang:counter64
+       |  +--ro ieee802-eth-pon:in-ompe-frames?                                    yang:counter64
+       |  +--ro ieee802-eth-pon:in-ompe-frames-not-match-onu-llid-broadcast?       yang:counter64
+       |  +--ro ieee802-eth-pon:in-ompe-frames-match-onu-llid-not-broadcast?       yang:counter64
+       |  +--ro ieee802-eth-pon:in-ompe-frames-match-onu-llid-broadcast?           yang:counter64
+       |  +--ro ieee802-eth-pon:in-ompe-frames-not-match-onu-llid-not-broadcast?   yang:counter64
+       +--rw ieee802-eth-pon:thresholds-trx {trx-power-level-reporting-supported}?
+       |  +--rw ieee802-eth-pon:in-trx-power-low-threshold?     power-level {trx-power-level-reporting-supported}?
+       |  +--rw ieee802-eth-pon:in-trx-power-high-threshold?    power-level {trx-power-level-reporting-supported}?
+       |  +--rw ieee802-eth-pon:out-trx-power-low-threshold?    power-level {trx-power-level-reporting-supported}?
+       |  +--rw ieee802-eth-pon:out-trx-power-high-threshold?   power-level {trx-power-level-reporting-supported}?
+       x--rw ieee802-eth-pon:statistics-trx {trx-power-level-reporting-supported}?
+       |  +--ro ieee802-eth-pon:in-trx-power-signal-detect?          boolean
+       |  +--ro ieee802-eth-pon:in-trx-power?                        power-level
+       |  +--ro ieee802-eth-pon:in-trx-power-low-15-minutes-bin?     power-level
+       |  +--ro ieee802-eth-pon:in-trx-power-high-15-minutes-bin?    power-level
+       |  +--ro ieee802-eth-pon:out-trx-power-signal-detect?         boolean
+       |  +--ro ieee802-eth-pon:out-trx-power?                       power-level
+       |  +--ro ieee802-eth-pon:out-trx-power-low-15-minutes-bin?    power-level
+       |  +--ro ieee802-eth-pon:out-trx-power-high-15-minutes-bin?   power-level
+       |  +--ro ieee802-eth-pon:trx-data-reliable?                   boolean {trx-power-level-reporting-supported}?
+       +--rw ieee802-eth-pon:monitoring-trx {trx-power-level-reporting-supported}?
+       |  +--ro ieee802-eth-pon:in-trx-power-signal-detect?          boolean
+       |  +--ro ieee802-eth-pon:in-trx-power?                        power-level
+       |  +--ro ieee802-eth-pon:in-trx-power-low-15-minutes-bin?     power-level
+       |  +--ro ieee802-eth-pon:in-trx-power-high-15-minutes-bin?    power-level
+       |  +--ro ieee802-eth-pon:out-trx-power-signal-detect?         boolean
+       |  +--ro ieee802-eth-pon:out-trx-power?                       power-level
+       |  +--ro ieee802-eth-pon:out-trx-power-low-15-minutes-bin?    power-level
+       |  +--ro ieee802-eth-pon:out-trx-power-high-15-minutes-bin?   power-level
+       |  +--ro ieee802-eth-pon:trx-data-reliable?                   boolean {trx-power-level-reporting-supported}?
+       +--ro ieee802-eth-pon:statistics-pon-fec {fec-supported}?
+       |  +--ro ieee802-eth-pon:fec-code-group-violations?           yang:counter64
+       |  +--ro ieee802-eth-pon:fec-buffer-head-coding-violations?   yang:counter64
+       |  +--ro ieee802-eth-pon:fec-code-word-corrected-errors?      yang:counter64
+       |  +--ro ieee802-eth-pon:fec-code-word-uncorrected-errors?    yang:counter64
+       +--rw ieee802-eth-pon:mpcp-logical-link-admin-actions
+       |  +---x ieee802-eth-pon:state-change-action-type
+       |  |  +---w ieee802-eth-pon:input
+       |  |     +---w ieee802-eth-pon:state-change-action-type?   identityref
+       |  +---x ieee802-eth-pon:reset-action-type
+       |  |  +---w ieee802-eth-pon:input
+       |  |     +---w ieee802-eth-pon:reset-action-type?   identityref
+       |  +---x ieee802-eth-pon:register-type
+       |     +---w ieee802-eth-pon:input
+       |        +---w ieee802-eth-pon:register-type?   identityref
+       +--rw ieee802-eth-pon:mpcp-queues* [mpcp-queue-index]
+       |  +--rw ieee802-eth-pon:mpcp-queue-index                  uint8
+       |  +--rw ieee802-eth-pon:mpcp-queue-threshold-count?       uint8
+       |  +--ro ieee802-eth-pon:mpcp-queue-threshold-count-max?   uint8
+       |  +--rw ieee802-eth-pon:mpcp-queue-thresholds* [mpcp-queue-set-index]
+       |  |  +--rw ieee802-eth-pon:mpcp-queue-set-index        uint8
+       |  |  +--rw ieee802-eth-pon:mpcp-queue-set-threshold?   uint64
+       |  +--ro ieee802-eth-pon:in-mpcp-queue-frames?             yang:counter64
+       |  +--ro ieee802-eth-pon:out-mpcp-queue-frames?            yang:counter64
+       |  +--ro ieee802-eth-pon:mpcp-queue-frames-drop?           yang:counter64
+       +--rw ieee802-eth-pon:multicast-IDs* [multicast-ID]
+       |  +--rw ieee802-eth-pon:multicast-ID    uint32
+       +--ro ieee802-eth-pon:fec-capability?                        fec-capability
+       +--ro ieee802-eth-pon:mpcp-mode?                             mpcp-mode
+       +--ro ieee802-eth-pon:mpcp-sync-time?                        uint64
+       +--ro ieee802-eth-pon:mpcp-logical-link-id?                  mpcp-supported
+       +--ro ieee802-eth-pon:mpcp-remote-mac-address?               ieee:mac-address
+       +--ro ieee802-eth-pon:mpcp-logical-link-state?               mpcp-logical-link-state
+       +--ro ieee802-eth-pon:mpcp-elapsed-time-out?                 uint64
+       +--ro ieee802-eth-pon:mpcp-elapsed-time-in?                  uint64
+       +--ro ieee802-eth-pon:mpcp-round-trip-time?                  uint16
+       +--ro ieee802-eth-pon:mpcp-maximum-grant-count?              uint8
+       +--ro ieee802-eth-pon:mpcp-logical-link-count?               mpcp-llid-count
+       +--ro ieee802-eth-pon:mpcp-maximum-queue-count-per-report?   mpcp-maximum-queue-count-per-report
+       +--ro ieee802-eth-pon:ompe-mode?                             ompe-mode
+       +--rw ieee802-pse-2024:pse
+       |  +--ro ieee802-pse-2024:supported-pse-type?   pse-support
+       |  +--rw ieee802-pse-2024:multi-pair! {multi-pair-pse}?
+       |  |  +--rw ieee802-pse-2024:pse-enable?                  boolean
+       |  |  +--ro ieee802-pse-2024:pse-state?                   boolean
+       |  |  +--rw ieee802-pse-2024:multi-pair-powering-pairs?   multi-pair-powering-pairs
+       |  |  +--ro ieee802-pse-2024:pairs-control-ability?       boolean
+       |  |  o--ro ieee802-pse-2024:detection-status?            multi-pair-detection-state
+       |  |  +--ro ieee802-pse-2024:classifications?             multi-pair-power-class
+       |  |  +--ro ieee802-pse-2024:statistics
+       |  |  |  +--ro ieee802-pse-2024:power-denied?        yang:counter64
+       |  |  |  +--ro ieee802-pse-2024:invalid-signature?   yang:counter64
+       |  |  |  +--ro ieee802-pse-2024:mps-absent?          yang:counter64
+       |  |  |  x--ro ieee802-pse-2024:overload?            yang:counter64
+       |  |  |  x--ro ieee802-pse-2024:short?               yang:counter64
+       |  |  |  +--ro ieee802-pse-2024:cumulative-energy?   yang:counter64
+       |  |  +--ro ieee802-pse-2024:actual-power?                uint32
+       |  |  +--ro ieee802-pse-2024:power-accuracy?              int64
+       |  +--rw ieee802-pse-2024:single-pair! {single-pair-pse}?
+       |     +--rw ieee802-pse-2024:pse-enable?         boolean
+       |     +--ro ieee802-pse-2024:detection-status?   single-pair-detection-state
+       |     +--ro ieee802-pse-2024:single-pair-type?   single-pair-pse-type
+       |     +--ro ieee802-pse-2024:detected-pd-type?   single-pair-pd-type
+       |     +--ro ieee802-pse-2024:pd-power-class?     single-pair-power-class
+       |     +--ro ieee802-pse-2024:statistics
+       |     |  +--ro ieee802-pse-2024:power-denied?        yang:counter64
+       |     |  +--ro ieee802-pse-2024:invalid-signature?   yang:counter64
+       |     |  +--ro ieee802-pse-2024:invalid-class?       yang:counter64
+       |     |  +--ro ieee802-pse-2024:overload?            yang:counter64
+       |     |  +--ro ieee802-pse-2024:fvs-absence?         yang:counter64
+       |     |  +--ro ieee802-pse-2024:cumulative-energy?   yang:counter64
+       |     +--ro ieee802-pse-2024:actual-power?       uint32
+       |     +--ro ieee802-pse-2024:power-accuracy?     int64
+       +--rw ieee802-pse:pse
+          +--ro ieee802-pse:supported-pse-type?   identityref
+          x--rw ieee802-pse:multi-pair!
+          |  +--rw ieee802-pse:pse-enable?              boolean
+          |  +--rw ieee802-pse:powering-pairs?          identityref
+          |  +--ro ieee802-pse:pairs-control-ability?   boolean
+          |  x--ro ieee802-pse:detection-status?        multi-pair-detection-state
+          |  x--ro ieee802-pse:classifications?         power-class
+          |  x--ro ieee802-pse:statistics
+          |  |  +--ro ieee802-pse:power-denied?        yang:counter64
+          |  |  +--ro ieee802-pse:invalid-signature?   yang:counter64
+          |  |  +--ro ieee802-pse:mps-absent?          yang:counter64
+          |  |  x--ro ieee802-pse:overload?            yang:counter64
+          |  |  x--ro ieee802-pse:short?               yang:counter64
+          |  |  +--ro ieee802-pse:cumulative-energy?   yang:counter64
+          |  +--ro ieee802-pse:actual-power?            decimal64
+          |  +--ro ieee802-pse:power-accuracy?          int64
+          x--rw ieee802-pse:single-pair!
+             x--rw ieee802-pse:pse-enable?         boolean
+             x--ro ieee802-pse:detection-status?   single-pair-detection-state
+             +--ro ieee802-pse:podl-type?          enumeration
+             +--ro ieee802-pse:detected-pd-type?   enumeration
+             x--ro ieee802-pse:pd-power-class?     power-class
+             x--ro ieee802-pse:statistics
+             |  +--ro ieee802-pse:power-denied?        yang:counter64
+             |  +--ro ieee802-pse:invalid-signature?   yang:counter64
+             |  +--ro ieee802-pse:invalid-class?       yang:counter64
+             |  +--ro ieee802-pse:overload?            yang:counter64
+             |  +--ro ieee802-pse:fvs-absence?         yang:counter64
+             |  +--ro ieee802-pse:cumulative-energy?   yang:counter64
+             +--ro ieee802-pse:actual-power?       decimal64
+             +--ro ieee802-pse:power-accuracy?     int64
+
+module: ieee802-ethernet-link-oam
+
+  augment /if:interfaces/if:interface:
+    +--rw link-oam!
+       +---x remote-loopback {remote-loopback-initiate}?
+       |  +---w input
+       |  |  +---w enable    boolean
+       |  +--ro output
+       |     +--ro success          boolean
+       |     +--ro error-message?   string
+       +---x reset-stats
+       |  +--ro output
+       |     +--ro success          boolean
+       |     +--ro error-message?   string
+       +---n non-threshold-event
+       |  +-- oui              vendor-oui
+       |  +-- timestamp        uint64
+       |  +-- location         event-location
+       |  +-- event-type       identityref
+       |  +-- running-total    yang:counter64
+       |  +-- event-total      yang:counter64
+       +---n threshold-event {link-monitoring-local or
+link-monitoring-remote}?
+       |  +-- oui              vendor-oui
+       |  +-- timestamp        uint64
+       |  +-- location         event-location
+       |  +-- event-type       identityref
+       |  +-- running-total    yang:counter64
+       |  +-- event-total      yang:counter64
+       |  +-- threshold {link-monitoring-local or
+link-monitoring-remote}?
+       |     +-- threshold-event-type    threshold-event-enum
+       |     +-- window                  uint64
+       |     +-- threshold               uint64
+       |     +-- value                   uint64
+       +--rw admin?                 admin-state
+       +--rw discovery-info
+       |  +--rw local
+       |  |  +--ro operational-status     operational-state
+       |  |  +--ro loopback-mode          loopback-status {remote-loopback-initiate or
+remote-loopback-respond}?
+       |  |  +--rw mode?                  mode
+       |  |  +--rw functions-supported
+       |  |  |  +--rw uni-directional-link-fault?   boolean {uni-directional-link-fault}?
+       |  |  |  +--rw loopback?                     boolean {remote-loopback-initiate}?
+       |  |  |  +--rw link-monitor {link-monitoring-remote or
+link-monitoring-local}?
+       |  |  |  |  +--rw link-monitoring?   boolean
+       |  |  |  |  +--rw event-type* [threshold-type] {link-monitoring-local}?
+       |  |  |  |     +--rw threshold-type    threshold-event-enum
+       |  |  |  |     +--rw window?           uint64
+       |  |  |  |     +--rw threshold?        uint64
+       |  |  |  x--rw mib-retrieval?                boolean {remote-mib-retrieval-initiate or
+remote-mib-retrieval-respond}?
+       |  |  |  +--rw data-retrieval?               boolean {remote-data-retrieval-initiate or
+remote-mib-retrieval-respond}?
+       |  |  +--ro revision?              uint64
+       |  |  +--ro oammtu?                uint16
+       |  +--ro remote
+       |     +--ro mac-address?           ieee:mac-address
+       |     +--ro vendor-oui?            vendor-oui
+       |     +--ro vendor-info?           uint64
+       |     +--ro loopback-mode          loopback-status
+       |     +--ro mode?                  mode
+       |     +--ro functions-supported
+       |     |  +--ro uni-directional-link-fault?   boolean
+       |     |  +--ro loopback?                     boolean
+       |     |  +--ro link-monitoring?              boolean
+       |     |  +--ro mib-retrieval?                boolean
+       |     +--ro revision?              uint64
+       |     +--ro oammtu?                uint16
+       +--ro event-log
+       |  +--ro event-log-entry* [index]
+       |     +--ro index            uint64
+       |     +--ro oui              vendor-oui
+       |     +--ro timestamp        uint64
+       |     +--ro location         event-location
+       |     +--ro event-type       identityref
+       |     +--ro running-total    yang:counter64
+       |     +--ro event-total      yang:counter64
+       |     +--ro threshold {link-monitoring-local or
+link-monitoring-remote}?
+       |        +--ro threshold-event-type    threshold-event-enum
+       |        +--ro window                  uint64
+       |        +--ro threshold               uint64
+       |        +--ro value                   uint64
+       +--ro statistics
+          +--ro out-information                           yang:counter64
+          +--ro in-information                            yang:counter64
+          +--ro out-unique-event-notification             yang:counter64 {link-monitoring-local}?
+          +--ro in-unique-event-notification              yang:counter64 {link-monitoring-remote}?
+          +--ro out-duplicate-event-notification          yang:counter64 {link-monitoring-local}?
+          +--ro in-duplicate-event-notification           yang:counter64 {link-monitoring-remote}?
+          +--ro out-loopback-control                      yang:counter64 {remote-loopback-initiate}?
+          +--ro in-loopback-control                       yang:counter64 {remote-loopback-respond}?
+          +--ro out-variable-request                      yang:counter64 {remote-data-retrieval-initiate}?
+          +--ro in-variable-request                       yang:counter64 {remote-mib-retrieval-respond}?
+          +--ro out-variable-response                     yang:counter64 {remote-mib-retrieval-respond}?
+          +--ro in-variable-response                      yang:counter64 {remote-data-retrieval-initiate}?
+          +--ro out-org-specific                          yang:counter64
+          +--ro in-org-specific                           yang:counter64
+          +--ro out-unsupported-codes                     yang:counter64
+          +--ro in-unsupported-codes                      yang:counter64
+          +--ro frames-lost-due-to-oam                    yang:counter64
+          +--ro local-error-symbol-period-log-entries     yang:counter64
+          +--ro local-error-frame-log-entries             yang:counter64
+          +--ro local-error-frame-period-log-entries      yang:counter64
+          +--ro local-error-frame-second-log-entries      yang:counter64
+          +--ro remote-error-symbol-period-log-entries    yang:counter64 {link-monitoring-remote}?
+          +--ro remote-error-frame-log-entries            yang:counter64 {link-monitoring-remote}?
+          +--ro remote-error-frame-period-log-entries     yang:counter64 {link-monitoring-remote}?
+          +--ro remote-error-frame-second-log-entries     yang:counter64 {link-monitoring-remote}?
+
+module: ieee802-ethernet-lldp
+
+  augment /lldp:lldp/lldp:port:
+    +--ro auto-negotiation-supported?    boolean
+    +--ro auto-negotiation-enabled?      boolean
+    x--ro auto-negotiation-cap?          binary
+    x--ro operational-mau-type?          int32
+    +--rw auto-negotiation-cap-bits?     ieee802-phy:auto-neg-ability-bits
+    +--rw operational-pmd-type?          identityref
+    +--rw power-port-class?              port-class-type
+    +--rw mdi-power-supported?           boolean
+    +--rw mdi-power-enabled?             boolean
+    +--rw power-pair-controlable?        boolean
+    +--rw power-pairs?                   pse-pinout-type
+    +--rw local-power-class?             pse-power-class-type
+    o--ro link-aggregation-status?       bits
+    o--ro aggregation-port-id?           int32
+    o--ro local-max-frame-size?          int32
+    +--ro power-type?                    bits
+    +--rw power-support?                 bits
+    +--ro power-source?                  power-source-type
+    +--ro pd-requested-power-value?      int32
+    +--ro pd-requested-power-value-a?    int32
+    +--ro pd-requested-power-value-b?    int32
+    +--ro pse-allocated-power-value?     int32
+    +--ro pse-allocated-power-value-a?   int32
+    +--ro pse-allocated-power-value-b?   int32
+    +--ro pse-powering-status?           powering-status-type
+    +--ro pd-powered-status?             powered-status-type
+    +--ro power-pairs-ext?               power-pairs-type
+    +--ro power-class-ext-A?             power-class-ext-AB-type
+    +--ro power-class-ext-B?             power-class-ext-AB-type
+    +--ro power-class-ext?               power-class-ext-type
+    +--ro power-type-ext?                power-type
+    +--ro pd-load?                       boolean
+    +--ro pd-4pid?                       boolean
+    +--ro pse-max-avail-power?           int32
+    +--ro pse-autoclass-support?         boolean
+    +--ro autoclass-completed?           boolean
+    +--ro autoclass-request?             boolean
+    +--rw power-down-request?            int32
+    +--rw power-down-time?               int32
+    +--rw meas-voltage-support?          boolean
+    +--rw meas-current-support?          boolean
+    +--rw meas-power-support?            boolean
+    +--rw meas-energy-support?           boolean
+    o--rw measurement-source?            bits
+    +--ro meas-voltage-request?          boolean
+    +--ro meas-current-request?          boolean
+    +--ro meas-power-request?            boolean
+    +--ro meas-energy-request?           boolean
+    +--ro meas-voltage-valid?            boolean
+    +--ro meas-current-valid?            boolean
+    +--ro meas-power-valid?              boolean
+    +--ro meas-energy-valid?             boolean
+    +--ro meas-voltage-uncertainty?      int32
+    +--ro meas-current-uncertainty?      int32
+    +--ro meas-power-uncertainty?        int32
+    +--ro meas-energy-uncertainty?       int32
+    +--ro voltage-measurement?           int32
+    +--ro current-measurement?           int32
+    +--ro power-measurement?             int32
+    +--ro energy-measurement?            int32
+    +--ro pse-power-price-index?         int32
+    +--ro local-response?                int32
+    +--ro local-system-ready?            boolean
+    +--ro tx-system-value?               int32
+    +--ro tx-system-value-echo?          int32
+    +--ro rx-system-value?               int32
+    +--ro rx-system-value-echo?          int32
+    +--ro fallback-system-value?         int32
+    +--ro tx-dll-ready?                  boolean
+    +--ro rx-dll-ready?                  boolean
+    +--ro dll-enabled?                   boolean
+    +--ro tx-system-fw?                  boolean
+    +--ro tx-system-fw-echo?             boolean
+    +--ro rx-system-fw?                  boolean
+    +--ro rx-system-fw-echo?             boolean
+    +--ro preemption-supported?          boolean
+    +--ro preemption-enabled?            boolean
+    +--ro preemption-active?             boolean
+    +--ro additional-fragment-size?      int32
+  augment /lldp:lldp/lldp:port:
+    +--rw tlvs-port-config-enable?    bits
+    +--rw local-power-priority?       power-priority-type
+    +--rw local-measurement-source?   measurement-source-type
+  augment /lldp:lldp/lldp:port/lldp:remote-systems-data:
+    +--ro auto-negotiation-supported?    boolean
+    +--ro auto-negotiation-enabled?      boolean
+    o--ro auto-negotiation-cap?          binary
+    o--ro operational-mau-type?          int32
+    +--ro auto-negotiation-cap-bits?     ieee802-phy:auto-neg-ability-bits
+    +--ro operational-pmd-type?          identityref
+    +--ro power-port-class?              port-class-type
+    +--ro mdi-power-supported?           boolean
+    +--ro mdi-power-enabled?             boolean
+    +--ro power-pair-controlable?        boolean
+    +--ro power-pairs?                   pse-pinout-type
+    +--ro power-class?                   pse-power-class-type
+    o--ro link-aggregation-status?       bits
+    o--ro aggregation-port-id?           int32
+    o--ro local-max-frame-size?          int32
+    o--ro power-type?                    bits
+    +--ro power-source?                  power-source-type
+    +--ro power-priority?                power-priority-type
+    +--ro pd-requested-power-value?      int32
+    +--ro pd-requested-power-value-a?    int32
+    +--ro pd-requested-power-value-b?    int32
+    +--ro pse-allocated-power-value?     int32
+    +--ro pse-allocated-power-value-a?   int32
+    +--ro pse-allocated-power-value-b?   int32
+    +--ro pse-powering-status?           powering-status-type
+    +--ro pd-powered-status?             powered-status-type
+    +--ro power-pairs-ext?               power-pairs-type
+    +--ro power-class-ext-A?             power-class-ext-AB-type
+    +--ro power-class-ext-B?             power-class-ext-AB-type
+    +--ro power-class-ext?               power-class-ext-type
+    +--ro power-type-ext?                power-type
+    +--ro pd-load?                       boolean
+    +--ro pd-4pid?                       boolean
+    +--ro pse-max-avail-power?           int32
+    +--ro pse-autoclass-support?         boolean
+    +--ro autoclass-completed?           boolean
+    +--ro autoclass-request?             boolean
+    +--ro power-down-request?            int32
+    +--ro power-down-time?               int32
+    +--ro meas-voltage-support?          boolean
+    +--ro meas-current-support?          boolean
+    +--ro meas-power-support?            boolean
+    +--ro meas-energy-support?           boolean
+    o--ro measurement-source?            bits
+    +--ro rem-measurement-source?        measurement-source-type
+    +--ro meas-voltage-request?          boolean
+    +--ro meas-current-request?          boolean
+    +--ro meas-power-request?            boolean
+    +--ro meas-energy-request?           boolean
+    +--ro meas-voltage-valid?            boolean
+    +--ro meas-current-valid?            boolean
+    +--ro meas-power-valid?              boolean
+    +--ro meas-energy-valid?             boolean
+    +--ro meas-voltage-uncertainty?      int32
+    +--ro meas-current-uncertainty?      int32
+    +--ro meas-power-uncertainty?        int32
+    +--ro meas-energy-uncertainty?       int32
+    +--ro voltage-measurement?           int32
+    +--ro current-measurement?           int32
+    +--ro power-measurement?             int32
+    +--ro energy-measurement?            int32
+    +--ro pse-power-price-index?         int32
+    +--ro tx-system-value?               int32
+    +--ro tx-system-value-echo?          int32
+    +--ro rx-system-value?               int32
+    +--ro rx-system-value-echo?          int32
+    +--ro fallback-system-value?         int32
+    +--ro tx-system-fw?                  boolean
+    +--ro tx-system-fw-echo?             boolean
+    +--ro rx-system-fw?                  boolean
+    +--ro rx-system-fw-echo?             boolean
+    +--ro preemption-supported?          boolean
+    +--ro preemption-enabled?            boolean
+    +--ro preemption-active?             boolean
+    +--ro additional-fragement-size?     int32
+
+module: ieee802-ethernet-phy
+
+  augment /if:interfaces/if:interface:
+    +--rw phy-table
+    |  +--rw control
+    |  |  +--rw phy-reset?           boolean
+    |  |  +--rw phy-admin-control?   enumeration
+    |  |  +--rw fec-control! {fec-support}?
+    |  |     +--rw fec-mode-control?        enumeration
+    |  |     +--rw rs-fec-bypass-control?   enabled-state
+    |  +--ro status
+    |  |  +--ro phy-type?                 identityref
+    |  |  +--ro pmd-type?                 identityref
+    |  |  +--ro pmd-type-list?            ieee802-phy:pmd-type-list
+    |  |  +--ro phy-status?               enumeration
+    |  |  +--ro phy-media-available?      ieee802-phy:media-available-type
+    |  |  +--ro jabber-state?             enumeration
+    |  |  +--ro jabbering-state-enters?   yang:counter64
+    |  |  +--ro fec-status! {fec-support}?
+    |  |  |  +--ro fec-ability?                    bits
+    |  |  |  +--ro fec-mode-status?                enumeration
+    |  |  |  +--ro rs-fec-bypass-enabled-status?   enabled-state
+    |  |  +--ro baset-snr! {baset-snr-support}?
+    |  |  |  +--ro snr-op-margin-chnl-a?   snr-value
+    |  |  |  +--ro snr-op-margin-chnl-b?   snr-value
+    |  |  |  +--ro snr-op-margin-chnl-c?   snr-value
+    |  |  |  +--ro snr-op-margin-chnl-d?   snr-value
+    |  |  +--ro time-sync! {time-sync-support}?
+    |  |     +--ro time-sync-ability?        bits
+    |  |     +--ro time-sync-delay-tx-max?   uint32
+    |  |     +--ro time-sync-delay-tx-min?   uint32
+    |  |     +--ro time-sync-delay-rx-max?   int32
+    |  |     +--ro time-sync-delay-rx-min?   int32
+    |  +--ro statistics
+    |  |  +--ro phy-media-losts?            yang:counter64
+    |  |  +--ro jabbering-state-enters?     yang:counter64
+    |  |  +--ro false-carriers?             yang:counter64
+    |  |  +--ro pcs-coding-violations?      yang:counter64
+    |  |  +--ro fast-retrain-count-local?   counter-1000-second
+    |  |  +--ro fast-retrain-count-peer?    counter-1000-second
+    |  +--ro pcs-lane-statistics {pcs-lane-statistics-support}?
+    |     +--ro pcs-lane* [pcs-lane-index]
+    |        +--ro pcs-lane-index            uint32
+    |        +--ro fec-corrected-blocks?     counter-pcs-lane
+    |        +--ro fec-uncorrected-blocks?   counter-pcs-lane
+    +--rw auto-neg-table {auto-negotiation-support}?
+       +--rw control
+       |  +--rw auto-neg-control?   boolean
+       |  +--rw auto-neg-restart?   boolean
+       +--ro status
+          +--ro auto-neg-enabled?               boolean
+          +--ro auto-neg-remote-signaling?      boolean
+          +--ro auto-neg-status?                enumeration
+          +--ro auto-neg-capability-bits?       ieee802-phy:auto-neg-ability-bits
+          +--ro auto-neg-cap-advertised-bits?   ieee802-phy:auto-neg-ability-bits
+          +--ro auto-neg-cap-received-bits?     ieee802-phy:auto-neg-ability-bits
+

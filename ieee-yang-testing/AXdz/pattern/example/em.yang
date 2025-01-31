@@ -1,0 +1,35 @@
+module em {
+    namespace "urn:example:em";
+    prefix "em";
+
+    container test-pattern-container {
+       list test-patterns {
+          key "test-name";
+            
+          leaf test-name {
+             type string;
+                description "Name of test";
+          }
+          leaf org-name {
+             type string {
+                pattern 'IEEE.*';
+             }
+          }
+          leaf range-test-01 {
+             type string {
+                pattern '[0-5]{1,3}';
+             }
+          }
+          leaf range-test-02 {
+             type string {
+                pattern '([0-9]{1}|[1-9]{1}[0-9]{1})';
+             }
+          }
+          leaf range-test-03 {
+             type string {
+                pattern '([0-9]{1}-[0-9]*)';
+             }
+          }
+       }
+    }
+}

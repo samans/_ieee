@@ -1,0 +1,12 @@
+<test-pattern-container xmlns="urn:example:em">
+  <test-patterns>
+    <test-name>0001 OK</test-name>
+    <org-name>IEEE802</org-name>
+  </test-patterns>
+  <test-patterns>
+    <test-name>0002 OK</test-name>
+    <range-test-01>555</range-test-01>
+    <range-test-02>23</range-test-02>
+    <range-test-03>3-22222000</range-test-03>
+  </test-patterns>
+</test-pattern-container>

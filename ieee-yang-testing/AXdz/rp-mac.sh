@@ -1,0 +1,1 @@
+pyang -p ~/gits/yang/standard/ietf/RFC -p ~/gits/yang/standard/ieee/published/802 -p ~/gits/yang/standard/iana -o linkagg-pretty.yang -f yang --yang-canonical --yang-remove-unused-imports --yang-remove-comments --yang-line-length=68 ieee802-dot1ax-linkagg.yang

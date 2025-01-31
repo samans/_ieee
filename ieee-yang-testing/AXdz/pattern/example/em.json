@@ -1,0 +1,16 @@
+{
+  "em:test-pattern-container": {
+    "test-patterns": [
+      {
+         "test-name": "0001 OK",
+         "org-name": "IEEE802"
+      },
+      {
+         "test-name": "0002 OK",
+         "range-test-01": "555",
+         "range-test-02": "23",
+         "range-test-03": "3-22222000"
+      }
+    ]
+  }
+}

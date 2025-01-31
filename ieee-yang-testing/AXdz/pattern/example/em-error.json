@@ -1,0 +1,14 @@
+{
+  "em:test-pattern-container": {
+    "test-patterns": [
+      {
+         "test-name": "0001 OK",
+         "org-name": "IEEE802"
+      },
+      {
+         "test-name": "0002 Error",
+         "org-name": "IEE802"
+      }
+    ]
+  }
+}

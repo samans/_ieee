@@ -1,0 +1,382 @@
+module ieee802-dot1ax-types {
+  yang-version 1.1;
+  namespace "urn:ieee:params:xml:ns:yang:ieee802-dot1ax-types";
+  prefix "dot1ax-types";
+
+  import iana-if-type {
+    prefix "ianaif";
+  }
+
+  organization
+    "IEEE 802.1 Working Group";
+
+  contact
+      "WG-URL: http://www.ieee802.org/1/
+       WG-Email: stds-802-1-l@ieee.org
+
+       Contact: IEEE 802.1 Working Group Chair
+        Postal: C/O IEEE 802.1 Working Group
+                IEEE Standards Association
+                45 Hoes Lane
+                Piscataway, NJ  08854
+                USA
+        E-mail: stds-802-1-chairs@ieee.org";
+
+  description
+    "Common types used within 802.1AX Link Aggregation modules.
+
+    Copyright (C) IEEE (2024).
+
+    This version of this YANG module is part of IEEE Std 802.1AX;
+    see the standard itself for full legal notices.";
+
+
+  revision "2024-11-15" {
+    description
+      "Editor's note: this revision statement will be removed prior
+      to publication. It is only present while the project is
+      running in order to make it easier for the reader to see whar
+      changes have been introduced while the project is running.
+
+      For working group ballot on draft 1.0";
+    reference
+      "IEEE 802.1AX-2020, Link Aggregation.";
+  }
+
+  feature cscd {
+    description
+      "Conversation Sensitive Collection and Distribution (CSCD)
+      is supported.";
+    reference
+      "5.3.2, 6.6 of IEEE Std 802.1AX";
+  }
+
+  feature dwc {
+    description
+      "The Discard Wrong Conversation option in CSCD is
+      supported.";
+    reference
+      "5.3.2, 6.6 of IEEE Std 802.1AX";
+  }
+
+
+  typedef lacp-state {
+    type bits {
+      bit lacp-activity {
+        position 1;
+        description
+          "Provides administrative control over when LACPDUs are
+          transmitted.  A value of '1' indicates Active mode where
+          LACPDUs are sent regardless of partner's lacp-activity
+          value.  A value of '0' indicates Passive mode where
+          LACPDUs are sent only when the partner's lacp-activity
+          value is '1' (partner is in Active mode).";
+      }
+      bit lacp-timeout {
+        position 2;
+        description
+          "Provides administrative control over the frequency of
+          received LACPDUs.  A value of '1' indicates Short Timeout
+          (so partner uses frequent transmission).  A value of '0'
+          indicates Long Timeout (so partner can use infrequent
+          transmission).";
+      }
+      bit aggregation {
+        position 3;
+        description
+          "Provides administrative control over whether this
+          Aggregation Port can be in a LAG with more than one
+          member.  A value of '1' indicates the port can be
+          aggregated with other ports.  A value of '0' indicates
+          the port can only be a solitary link.";
+      }
+      bit synchronization {
+        position 4;
+        description
+          "The Synchronization state of the MUX state machine.";
+      }
+      bit collecting {
+        position 5;
+        description
+          "The Collecting state of the MUX state machine.";
+      }
+      bit distributing {
+        position 6;
+        description
+          "The Distributing state of the MUX state machine.";
+      }
+      bit defaulted {
+        position 7;
+        description
+          "Indicates the port is using the partner-admin values
+          to select an Aggregator.";
+      }
+      bit expired {
+        position 8;
+        description
+          "The Expired state of the Receive state machine.";
+      }
+    }
+    description
+      "LACP state values as transmitted in LACPDUs.
+       Administrative control over the values of lacp-activity,
+       lacp-timeout, aggregation, and (in partner-admin-lacp-state)
+       syncronization is allowed. The remaining bits are read-only.";
+    reference
+      "6.4.1, 6.4.2.3 of IEEE Std 802.1AX";
+  }
+
+  feature sid-map {
+    description
+      "The Service ID to Converstaion ID map is supported for
+      use distribution algorithms.";
+  }
+
+  identity distribution-algorithm {
+    description
+      "Each distribution algorithm is identified by a sequence of
+       4 octets, structured as shown in Figure 8-1. Distribution
+       algorithm identifiers are used by network administrators to
+       select between algorithms and, in Conversation-sensitive
+       LACP and (if supported) Distributed Resilient Network
+       Interconnect (DRNI) operation, to check whether partners
+       and neighbors are using the same algorithm.
+
+       This identity is intended to serve as base identity, not
+       to be directly referenced.
+
+       Vendor specific, combination (ex: multi-layer), and other
+       customized distribution algorithms can be created as
+       their own identities in their own YANG files, derived from
+       this imported base type.";
+     reference
+       "8.1, 8.2 of IEEE Std 802.1AX";
+  }
+  identity unspecified {
+    base distribution-algorithm;
+    description
+      "The 'Unspecified distribution algorithm' identifier has
+       been reserved for use when the algorithm is unknown (or
+       is notadvertised).";
+    reference
+      "Table 8-1 of IEEE Std 802.1AX";
+  }
+
+  feature c-vid-dist-alg {
+    description
+      "Supports distribution based on C-VIDs.";
+  }
+  identity c-vids-nomap {
+    base distribution-algorithm;
+    if-feature "c-vid-dist-alg";
+    description
+      "Distribution based on C-VIDs (8.2.1). No Service ID
+      mapping table is used.";
+    reference
+      "Table 8-1 of IEEE Std 802.1AX";
+  }
+  identity c-vids-map {
+    base distribution-algorithm;
+    if-feature "c-vid-dist-alg and sid-map";
+    description
+      "Distribution based on C-VIDs (8.2.1). A Service ID
+      mapping table is used.";
+    reference
+      "Table 8-1 of IEEE Std 802.1AX";
+  }
+
+  feature s-vid-dist-alg {
+    description
+      "Supports distribution based on S-VIDs.";
+  }
+  identity s-vids-nomap {
+    base distribution-algorithm;
+    if-feature "s-vid-dist-alg";
+    description
+      "Distribution based on S-VIDs (8.2.2). No Service ID
+      mapping table is used.";
+    reference
+      "Table 8-1 of IEEE Std 802.1AX";
+  }
+  identity s-vids-map {
+    base distribution-algorithm;
+    if-feature "s-vid-dist-alg and sid-map";
+    description
+      "Distribution based on S-VIDs (8.2.2). A Service ID
+      mapping table is used.";
+    reference
+      "Table 8-1 of IEEE Std 802.1AX";
+  }
+
+  feature i-sid-dist-alg {
+    description
+      "Supports distribution based on I-SIDs.";
+  }
+  identity i-sids-nomap {
+    base distribution-algorithm;
+    if-feature "i-sid-dist-alg";
+    description
+      "Distribution based on I-SIDs (8.2.3). No Service ID
+      mapping table is used.";
+    reference
+      "Table 8-1 of IEEE Std 802.1AX";
+  }
+  identity i-sids-map {
+    base distribution-algorithm;
+    if-feature "i-sid-dist-alg and sid-map";
+    description
+      "Distribution based on I-SIDs (8.2.3). A Service ID
+      mapping table is used.";
+    reference
+      "Table 8-1 of IEEE Std 802.1AX";
+  }
+
+  feature te-sid-dist-alg {
+    description
+      "Supports distribution based on TE-SIDs.";
+  }
+  identity te-sids-nomap {
+    base distribution-algorithm;
+    if-feature "te-sid-dist-alg";
+    description
+      "Distribution based on TE-SIDs (8.2.4). No Service ID
+      mapping table is used.";
+    reference
+      "Table 8-1 of IEEE Std 802.1AX";
+  }
+  identity te-sids-map {
+    base distribution-algorithm;
+    if-feature "te-sid-dist-alg and sid-map";
+    description
+      "Distribution based on TE-SIDs (8.2.4). A Service ID
+      mapping table is used.";
+    reference
+      "Table 8-1 of IEEE Std 802.1AX";
+  }
+
+  feature flow-hash-dist-alg {
+    description
+      "Supports distribution based on Flow Hash.";
+  }
+  identity flow-hash-nomap {
+    base distribution-algorithm;
+    if-feature "flow-hash-dist-alg";
+    description
+      "Distribution based on Flow Hash (8.2.5). No Service ID
+      mapping table is used.";
+    reference
+      "Table 8-1 of IEEE Std 802.1AX";
+  }
+  identity flow-hash-map {
+    base distribution-algorithm;
+    if-feature "flow-hash-dist-alg and sid-map";
+    description
+      "Distribution based on Flow Hash (8.2.5). A Service ID
+      mapping table is used.";
+    reference
+      "Table 8-1 of IEEE Std 802.1AX";
+  }
+
+  identity link-map-patterns {
+    description
+      "Base identify for patterns filling the admin-conv-link-map.
+      This identity is intended to serve as base identity, not
+      to be directly referenced. Use of the identity allows vendors
+      to augment the module with vendor specified patterns,";
+  }
+  feature basic-link-maps {
+    description
+      "Pre-defined admin-conv-link-map configurations to distribute
+      packets on either one or two active links, with any
+      remaining links available as standby.";
+  }
+  identity one-plus-n {
+    base link-map-patterns;
+    if-feature basic-link-maps;
+    description
+      "Provides active/standby behavior with one active link and
+      up to 63 standby links. All packets are mapped to whichever
+      link that is active in the aggregation has the lowest link
+      number. If that link fails, all packets are mapped to the
+      lowest link number of the remaining links that are active
+      in the aggregation.
+      The map consists of an identical entry for each cid, with a
+      list of numbers from 1 to 64.
+      Supports any number of links in the aggregation (up to 64)
+      with link numbers between 1 and 64. Any links in the
+      aggregation with a link number greater than 64 will never
+      be used.";
+  }
+  identity two-plus-n {
+    if-feature basic-link-maps;
+    base link-map-patterns;
+    description
+      "Provides basic load-balancing on two active links with up
+      to 62 standby links. All packets with an even cid value are
+      mapped to the link with the lowest link number in the
+      aggregation, and all packets with an odd cid value are
+      mapped to the link with the highest link number in the
+      aggregation.
+      The map consists of an identical entry for each even cid
+      containing a list of numbers from 1 to 64, and an identical
+      entry for each odd cid containing a list of numbers from 64
+      to 1.
+      Supports any number of links in the aggregation (up to 64)
+      with link numbers between 1 and 64. Any links in the
+      aggregation with a link number greater than 64 will never
+      be used.";
+  }
+
+  identity service-map-patterns {
+    description
+      "Base identify for patterns filling the admin-conv-service-map.
+      This identity is intended to serve as base identity, not
+      to be directly referenced. Use of the identity allows vendors
+      to augment the module with vendor specified patterns,";
+  }
+  // this is temporary
+  identity service-test-pattern {
+    base service-map-patterns;
+    description
+      "Just to have a pattern for testing";
+  }
+  grouping service-map {
+    description
+      "Specifies the contents of the admin-conv-service-map.";
+    choice method {
+      default cid-list;
+      description
+        "Provides two ways to specify the map contents.";
+      leaf pattern {
+        type identityref {
+          base service-map-patterns;
+        }
+        description
+          "Use a predefined pattern to fill the map.";
+      }
+      list cid-list {
+        key cid;
+        description
+          "Data structure to map service identifiers to
+          conversation identifiers.  Each entry consists of a
+          Conversation ID (CID) and a list of zero or more
+          Service Identifiers (SIDs) that map to it. An empty
+          list of SIDs means there are no SIDs that map to this
+          CID, and results in the same behavior as not having an
+          entry for this CID.";
+        leaf cid {
+          type uint16 {
+            range 0..4095;
+          }
+          description
+           "Port Conversation Identifier";
+        }
+        leaf-list service-ids {
+          type uint32;
+          description
+            "List of zero or more SIDs that map to the CID.";
+        }
+      }
+    }
+  }
+}

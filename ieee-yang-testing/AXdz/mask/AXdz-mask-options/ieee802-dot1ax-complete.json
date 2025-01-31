@@ -1,0 +1,348 @@
+{
+  "ieee802-dot1ax-linkagg:linkagg": {
+    "agg-system": [
+      {
+        "name": "802-linkagg-01",
+        "actor-system": "01-03-05-07-09-11",
+        "actor-system-priority": 65535
+      }
+    ],
+    "key-group": [
+      {
+        "name": "Omaha",
+        "actor-admin-key": 1,
+        "agg-system-name": "802-linkagg-01",
+        "actor-protocol-da": "01-80-c2-00-00-00",
+        "collector-max-delay": 8876,
+        "actor-admin-state": "lacp-activity aggregation",
+        "partner-admin-system": "00-00-00-00-00-01",
+        "lags": [
+          "eth0"
+        ],
+        "aggports": [
+          "eth0"
+        ],
+        "cscd": {
+          "port-algorithm": "ieee802-dot1ax-types:c-vids-nomap",
+          "admin-conv-service-map": {
+            "cid-list": [
+              {
+                "cid": 4095,
+                "service-ids": [
+                  10,
+                  11
+                ]
+              }
+            ]
+          },
+          "admin-conv-service-digest": "AAAAAAAAAAAAAAAAAAAAAA==",
+          "admin-conv-link-map": {
+            "cid-list": [
+              {
+                "cid": 1,
+                "link-numbers": [
+                  0,
+                  1,
+                  2,
+                  3
+                ]
+              }
+            ]
+          },
+          "admin-conv-link-digest": "AAAAAAAAAAAAAAAAAAAAAA==",
+          "admin-discard-wrong-conv": "auto"
+        }
+      }
+    ]
+  },
+  "ietf-interfaces:interfaces": {
+    "interface": [
+      {
+        "name": "eth0",
+        "type": "iana-if-type:ieee8023adLag",
+        "admin-status": "up",
+        "oper-status": "up",
+        "if-index": 1,
+        "statistics": {
+          "discontinuity-time": "2024-02-21T16:59:00-07:00",
+          "ieee802-dot1ax-drni:drni-stats": {
+            "drcpdus-rx": "55",
+            "illegal-rx": "0",
+            "drcpdus-tx": "1"
+          },
+          "ieee802-dot1ax-linkagg:lag-stats": {
+            "unknown-protocol-frames": "10"
+          },
+          "ieee802-dot1ax-linkagg:aggport-stats": {
+            "lacp-pdu-rx": "10",
+            "marker-pdu-rx": "10",
+            "marker-response-pdu-rx": "10",
+            "unknown-rx": "10",
+            "illegal-rx": "0",
+            "lacp-pdu-tx": "0",
+            "marker-pdu-tx": "0",
+            "marker-response-pdu-tx": "0"
+          }
+        },
+        "ieee802-dot1ax-linkagg:lag": {
+          "key-group-name": "Omaha",
+          "mac-address": "01-80-c2-00-00-00",
+          "lacp": {
+            "actor-oper-key": 65535,
+            "partner-system": "01-80-c2-00-00-17",
+            "partner-system-priority": 65530,
+            "partner-oper-key": 65531,
+            "aggregate-or-individual": true
+          },
+          "cscd": {
+            "partner-port-algorithm": "ieee802-dot1ax-types:c-vids-nomap",
+            "partner-conv-service-digest": "qqqqqqqqqqqqqqqqqqqqqg==",
+            "partner-conv-link-digest": "VVVVVVVVVVVVVVVVVVVVVQ==",
+            "discard-wrong-conversation": false,
+            "active-lag-links": [
+              0,
+              1,
+              2,
+              3
+            ]
+          },
+          "ieee802-dot1ax-drni:drni": {
+            "irp-name": "eth0",
+            "drni-aggregator-key": 15,
+            "drni-aggregator-system": "01-80-C2-00-00-01",
+            "drni-aggregator-system-priority": 1,
+            "drcp-protocol-da": "01-80-C2-00-00-0E",
+            "home-admin-irp-state": "short-timeout",
+            "home-oper-irp-state": "synchronization drni",
+            "home-cscd-gateway-control": false,
+            "home-dr-client-gateway-control": false,
+            "home-gateway-algorithm": "ieee802-dot1ax-types:c-vids-nomap",
+            "home-gateway-conv-service-map": {
+              "cid-list": [
+                {
+                  "cid": 55,
+                  "service-ids": [
+                    0,
+                    65535
+                  ]
+                }
+              ]
+            },
+            "home-gateway-conv-service-digest": "qqqqqqqqqqqqqqqqqqqqqg==",
+            "gateway-enable-mask": {
+              "mask-option1": "0000000000000000000000000000000100000000000000000000000000000002000000000000000000000000000000030000000000000000000000000000000400000000000000000000000000000005000000000000000000000000000000060000000000000000000000000000000700000000000000000000000000000008000000000000000000000000000000090000000000000000000000000000000A0000000000000000000000000000000B0000000000000000000000000000000C0000000000000000000000000000000D0000000000000000000000000000000E0000000000000000000000000000000F000000000000000000000000000000100000000000000000000000000000001100000000000000000000000000000012000000000000000000000000000000130000000000000000000000000000001400000000000000000000000000000015000000000000000000000000000000160000000000000000000000000000001700000000000000000000000000000018000000000000000000000000000000190000000000000000000000000000001A0000000000000000000000000000001B0000000000000000000000000000001C0000000000000000000000000000001D0000000000000000000000000000001E0000000000000000000000000000001F00000000000000000000000000000020",
+              "invert-mask": false
+            },
+            "gateway-preference-mask": {
+              "mask-option2": [
+                {
+                  "index": 0,
+                  "mask-str": "0000000000000000000000000000001F00000000000000000000000000000020"
+                },
+                {
+                  "index": 1,
+                  "mask-str": "0000000000000000000000000000001D0000000000000000000000000000001E"
+                },
+                {
+                  "index": 2,
+                  "mask-str": "0000000000000000000000000000001B0000000000000000000000000000001C"
+                },
+                {
+                  "index": 3,
+                  "mask-str": "000000000000000000000000000000190000000000000000000000000000001A"
+                },
+                {
+                  "index": 4,
+                  "mask-str": "0000000000000000000000000000001700000000000000000000000000000018"
+                },
+                {
+                  "index": 5,
+                  "mask-str": "0000000000000000000000000000001500000000000000000000000000000016"
+                },
+                {
+                  "index": 6,
+                  "mask-str": "0000000000000000000000000000001300000000000000000000000000000014"
+                },
+                {
+                  "index": 7,
+                  "mask-str": "0000000000000000000000000000001100000000000000000000000000000012"
+                },
+                {
+                  "index": 8,
+                  "mask-str": "0000000000000000000000000000000F00000000000000000000000000000010"
+                },
+                {
+                  "index": 9,
+                  "mask-str": "0000000000000000000000000000000D0000000000000000000000000000000E"
+                },
+                {
+                  "index": 10,
+                  "mask-str": "0000000000000000000000000000000B0000000000000000000000000000000C"
+                },
+                {
+                  "index": 11,
+                  "mask-str": "000000000000000000000000000000090000000000000000000000000000000A"
+                },
+                {
+                  "index": 12,
+                  "mask-str": "0000000000000000000000000000000700000000000000000000000000000008"
+                },
+                {
+                  "index": 13,
+                  "mask-str": "0000000000000000000000000000000500000000000000000000000000000006"
+                },
+                {
+                  "index": 14,
+                  "mask-str": "0000000000000000000000000000000300000000000000000000000000000004"
+                },
+                {
+                  "index": 15,
+                  "mask-str": "0000000000000000000000000000000100000000000000000000000000000002"
+                }
+              ]
+            },
+            "gateway-available-mask": {
+              "mask-option3": {
+                "cids-4095-3840": "0000000000000000000000000000000100000000000000000000000000000002",
+                "cids-3839-3584": "0000000000000000000000000000000300000000000000000000000000000004",
+                "cids-3583-3328": "0000000000000000000000000000000500000000000000000000000000000006",
+                "cids-3527-3072": "0000000000000000000000000000000700000000000000000000000000000008",
+                "cids-3071-2816": "000000000000000000000000000000090000000000000000000000000000000A",
+                "cids-2815-2560": "0000000000000000000000000000000B0000000000000000000000000000000C",
+                "cids-2559-2304": "0000000000000000000000000000000D0000000000000000000000000000000E",
+                "cids-2303-2048": "0000000000000000000000000000000F00000000000000000000000000000010",
+                "cids-2047-1792": "0000000000000000000000000000001100000000000000000000000000000012",
+                "cids-1791-1536": "0000000000000000000000000000001300000000000000000000000000000014",
+                "cids-1535-1280": "0000000000000000000000000000001500000000000000000000000000000016",
+                "cids-1279-1024": "0000000000000000000000000000001700000000000000000000000000000018",
+                "cids-1023-0768": "000000000000000000000000000000190000000000000000000000000000001A",
+                "cids-0767-0512": "0000000000000000000000000000001B0000000000000000000000000000001C",
+                "cids-0511-0256": "0000000000000000000000000000001D0000000000000000000000000000001E",
+                "cids-0255-0000": "0000000000000000000000000000001F00000000000000000000000000000020"
+              },
+              "invert-mask": false
+            },
+            "gateway-available-mask-2a": {
+              "mask-option2a": [
+                {
+                  "cids-enum": "cids-4095-3840",
+                  "mask-str-2a": "0000000000000000000000000000000100000000000000000000000000000002"
+                },
+                {
+                  "cids-enum": "cids-3839-3584",
+                  "mask-str-2a": "0000000000000000000000000000000300000000000000000000000000000004"
+                }
+              ],
+              "invert-mask": false
+            },
+            "neighbor": {
+              "oper-irp-state": "short-timeout",
+              "system": "01-80-C2-00-00-06",
+              "system-priority": 7,
+              "drni-key": 16650,
+              "aggregator-algorithm": "ieee802-dot1ax-types:c-vids-nomap",
+              "aggregator-conv-service-digest": "qqqqqqqqqqqqqqqqqqqqqg==",
+              "aggregator-conv-link-digest": "VVVVVVVVVVVVVVVVVVVVVQ==",
+              "partner-system-priority": 7,
+              "partner-system": "01-80-C2-00-44-06",
+              "partner-aggregator-key": 65000,
+              "cscd-state": "cscd_gateway_control",
+              "active-links": [
+                0,
+                1,
+                3
+              ],
+              "gateway-algorithm": "ieee802-dot1ax-types:c-vids-nomap",
+              "gateway-conv-service-digest": "qqqqqqqqqqqqqqqqqqqqqg==",
+              "gateway-available-mask": {
+                "cid-list": [
+                  55,
+                  0,
+                  4095
+                ],
+                "invert-mask": true
+              },
+              "gateway-preference-mask": {
+                "pattern": "all-ones",
+                "invert-mask": false
+              }
+            }
+          }
+        },
+        "ieee802-dot1ax-linkagg:aggport": {
+          "key-group-name": "Omaha",
+          "actor-port-number": 7,
+          "partner-admin-key": 77,
+          "partner-admin-port": 11111,
+          "partner-admin-port-priority": 2,
+          "partner-admin-state": "lacp-activity synchronization",
+          "wtr-time": 32,
+          "wtr-revertive": false,
+          "lacp": {
+            "actor-lacp-version": 2,
+            "actor-oper-key": 3210,
+            "actor-oper-state": "lacp-activity aggregation collecting",
+            "partner-lacp-version": 2,
+            "partner-oper-system-priority": 3333,
+            "partner-oper-system": "01-80-C2-00-44-06",
+            "partner-oper-key": 17,
+            "partner-oper-port": 4,
+            "partner-oper-port-priority": 66,
+            "partner-oper-state": "lacp-activity aggregation",
+            "aggregate-or-individual": true,
+            "wtr-waiting": true
+          },
+          "cscd": {
+            "admin-link-number": 77,
+            "partner-link-number": 88,
+            "link-number": 0
+          }
+        }
+      }
+    ]
+  },
+  "ietf-interfaces:interfaces-state": {
+    "interface": [
+      {
+        "name": "eth1",
+        "type": "iana-if-type:ieee8023adLag",
+        "admin-status": "up",
+        "oper-status": "up",
+        "if-index": 1,
+        "statistics": {
+          "discontinuity-time": "2024-02-21T16:59:00-07:00"
+        }
+      },
+      {
+        "name": "eth2",
+        "type": "iana-if-type:ieee8023adLag",
+        "admin-status": "up",
+        "oper-status": "up",
+        "if-index": 2,
+        "statistics": {
+          "discontinuity-time": "2024-02-21T16:59:00-07:00"
+        }
+      },
+      {
+        "name": "eth3",
+        "type": "iana-if-type:ieee8023adLag",
+        "admin-status": "up",
+        "oper-status": "up",
+        "if-index": 3,
+        "statistics": {
+          "discontinuity-time": "2024-02-21T16:59:00-07:00"
+        }
+      },
+      {
+        "name": "eth4",
+        "type": "iana-if-type:ieee8023adLag",
+        "admin-status": "up",
+        "oper-status": "up",
+        "if-index": 4,
+        "statistics": {
+          "discontinuity-time": "2024-02-21T16:59:00-07:00"
+        }
+      }
+    ]
+  }
+}
