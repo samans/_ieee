@@ -1,0 +1,10 @@
+#! /usr/local/bin/expect -f
+#set timeout -1
+spawn /usr/local/bin/yanglint
+expect ">"
+send "load  example-patterns\r"
+expect ">"
+send "data -t data -f xml -o tep.xml tep.json\r"
+expect ">"
+send "quit\r"
+expect eof

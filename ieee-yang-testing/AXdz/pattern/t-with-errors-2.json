@@ -88,6 +88,22 @@
       {
          "name": "0016 OK",
          "my-number-pattern-mod": "0-4095,2-4095"
+      },
+      {
+         "name": "0017 NOT OK",
+         "my-number-pattern-mod": "4995"
+      },
+      {
+         "name": "0018 NOT OK",
+         "my-number-pattern-mod": "0-4995"
+      },
+      {
+         "name": "0019 NOT OK",
+         "my-number-pattern-mod": "0-4095,4995"
+      },
+      {
+         "name": "0020 NOT OK",
+         "my-number-pattern-mod": "0-4095,2-4995"
       }
     ]
   }

@@ -1,0 +1,8 @@
+spawn /usr/local/bin/yanglint
+> load  example-patterns
+> data -t data -f xml -o tep.xml tep.json
+Unsatisfied pattern - "even(2-10),odd(11-19)" does not conform to name='0018 OK']/my-number-pattern-odd-even
+Unsatisfied pattern - "even(2-10),odd(11-19),20-100" does not conform to name='0020 OK']/my-number-pattern-odd-even
+Unsatisfied pattern - "odd(1-11),even(20-30)" does not conform to name='0022 OK']/my-number-pattern-odd-even
+YANGLINT[E]: Failed to parse input data file "tep.json".
+> quit

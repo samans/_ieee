@@ -15,16 +15,12 @@ This repository is for YANG pattern testing
 IMPORTANT FILES
 =====
 
-   * example-module.yang: YANG file with patterns to test
-      * t.in: expect file to run yanglint
-      * t.json: example input
-      * t.xml: generated file from t.json
-      * t-big.json: file with known error (string too large for regex processor)
-   * example-oddeven.yang: YANG file with patterns to test
-      * t-oe.in: expect file to run yanglint
-      * t-oe.json: example input
-      * t-oe.xml: generated file from t.json
+   * example-patterns.yang: YANG file with patterns to test
+      * tep.in: expect file to run yanglint
+      * tep.json: example input
+      * tep.xml: generated file from t.json
    * t-sed.sh: error file formatter to make errors easier to read
+   * NOTE: example-oddeven.yang  and example-module.yang are obsolete
 
 TUTORIAL
 =====

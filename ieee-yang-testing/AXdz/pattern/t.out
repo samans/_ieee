@@ -1,11 +1,9 @@
 spawn /usr/local/bin/yanglint
 > load  example-module
-> data -t data -f xml t.json
-Unsatisfied pattern - "4096" does not conform to name='0006 EXPECTED ERROR']/my-number-pattern-mod
-Unsatisfied pattern - "-1" does not conform to name='0009 EXPECTED ERROR']/my-number-pattern
-Unsatisfied pattern - "-1" does not conform to name='0009 EXPECTED ERROR']/my-number-pattern-mod
-Unsatisfied pattern - "9999" does not conform to name='0010 EXPECTED ERROR']/my-number-pattern-mod
-Unsatisfied pattern - "10001" does not conform to name='0010 EXPECTED ERROR']/my-number-pattern
-Unsatisfied pattern - "10001" does not conform to name='0010 EXPECTED ERROR']/my-number-pattern-mod
+> data -t data -f xml -o t.xml t.json
+Unsatisfied pattern - "4995" does not conform to name='0017 NOT OK']/my-number-pattern-mod
+Unsatisfied pattern - "0-4995" does not conform to name='0018 NOT OK']/my-number-pattern-mod
+Unsatisfied pattern - "0-4095,4995" does not conform to name='0019 NOT OK']/my-number-pattern-mod
+Unsatisfied pattern - "0-4095,2-4995" does not conform to name='0020 NOT OK']/my-number-pattern-mod
 YANGLINT[E]: Failed to parse input data file "t.json".
 > quit

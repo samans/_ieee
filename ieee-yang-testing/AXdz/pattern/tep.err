@@ -1,0 +1,4 @@
+spawn /usr/local/bin/yanglint
+> load  example-patterns
+> data -t data -f xml -o tep.xml tep.json
+> quit
