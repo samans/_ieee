@@ -20,17 +20,18 @@ module ieee802-dot1ax-linkagg {
   }
 
   organization
-    "Institute of Electrical and Electronics Engineers";
+    "IEEE 802.1 Working Group";
   contact
-    "Web URL: http://www.ieee802.org/1/
+    "WG-URL: http://www.ieee802.org/1/
+     WG-Email: stds-802-1-l@ieee.org
 
-     Working Group Chair:
-      Glenn Parsons
-      glenn.parsons@ericsson.com
-
-     Editor:
-       Stephen Haddock
-       shaddock@stanfordalumni.org";
+     Contact: IEEE 802.1 Working Group Chair
+      Postal: C/O IEEE 802.1 Working Group
+              IEEE Standards Association
+              45 Hoes Lane
+              Piscataway, NJ  08854
+              USA
+      E-mail: stds-802-1-chairs@ieee.org";
   description
     "This YANG module describes the configuration model for Link
      Aggregation, as specified in IEEE Std 802.1AX, including Link
@@ -42,17 +43,14 @@ module ieee802-dot1ax-linkagg {
      This version of this YANG module is part of IEEE Std 802.1AX;
      see the standard itself for full legal notices.";
 
-  revision 2024-06-05 {
+  revision 2025-02-07 {
     description
-      "For task group ballot on draft 0.1";
+      "Published as part of IEEE Std 802.1AXdz-202y.
+       The following reference statement identifies each referenced IEEE
+       Standard as updated by applicable amendments.";
     reference
-      "IEEE 802.1AX-2020, Link Aggregation.";
-  }
-  revision 2024-05-04 {
-    description
-      "Initial Version.";
-    reference
-      "IEEE 802.1AX-2020, Link Aggregation.";
+      "IEEE Std 802.1AX-2020 Link Aggregation:
+       IEEE Std 802.1AXdz-202y.";
   }
 
   typedef key-group-ref {
@@ -64,26 +62,34 @@ module ieee802-dot1ax-linkagg {
        reference an entry in the key-group list.";
   }
 
+  typedef agg-system-ref {
+    type leafref {
+      path "/dot1ax:linkagg/dot1ax:agg-system/dot1ax:name";
+    }
+    description
+      "This type is used in the key-group list entries to
+       reference an entry in the agg-system list.";
+  }
+
   augment "/if:interfaces/if:interface" {
     when
       "derived-from-or-self(if:type,'ianaif:ieee8023adLag') or "
-    + "if:type = 'ax:ieee8021axIrp'" {
+    + "derived-from-or-self(if:type,'ianaif:ieee8021axDrni')" {
       description
         "Applies to interfaces representing a LAG or
-         DRNI Intar-Relay Port.";
+         (if supported) DRNI Intra-Relay Port.";
     }
     description
       "Augment Interface with Aggregator parameters.";
     container lag {
       description
-        "Contains the Aggregator configuration information which
-         provides the management controls necessary to allow an
-         instance of an Aggregator to be managed.";
+        "Contains the configuration and status information that
+         allows an instance of an Aggregator to be managed.";
       leaf key-group-name {
         type key-group-ref;
         mandatory true;
         description
-          "Specifies the entry in the link-aggregation key-groups
+          "Specifies the entry in the link-aggregation key-group
            list to which this aggregator is assigned.";
       }
       leaf mac-address {
@@ -92,7 +98,7 @@ module ieee802-dot1ax-linkagg {
         description
           "The MAC address assigned to the Aggregator.";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.1.1.9";
+          "7.3.1.1.9 of IEEE Std 802.1AX";
       }
       container lacp {
         config false;
@@ -102,34 +108,33 @@ module ieee802-dot1ax-linkagg {
           type uint16;
           description
             "The current operational value of the Key for the
-             Aggregator. The administrative Key value may differ
-             from the operational Key value for the reasons
-             discussed in 5.6.2. The meaning of particular Key
+             Aggregator. The meaning of particular Key
              values is of local significance.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.1.1.8";
+            "7.3.1.1.8 of IEEE Std 802.1AX";
         }
-        leaf partner-system-id {
+        leaf partner-system {
           type ieee:mac-address;
           description
-            "Consisting of the unique identifier for the
-             current protocol Partner of this Aggregator. A value
-             of zero indicates that there is no known Partner.
+            "The value of the MAC address portion of the
+             System Identifier for the current
+             protocol partner of this Aggregator. A value
+             of zero indicates that there is no known partner.
              If the aggregation is manually configured, this
-             System ID value will be a value assigned by the
+             System identifer value is assigned by the
              local System.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.1.1.10";
+            "7.3.1.1.10 of IEEE Std 802.1AX";
         }
         leaf partner-system-priority {
           type uint16;
           description
-            "Indicates the priority value associated with the
-             Partners System ID. If the aggregation is manually
-             configured, this System Priority value will be a
-             value assigned by the local System.";
+            "Indicates the priority value portion of the current
+             Partner's System Identifier. If the aggregation is
+             manually configured, this System Priority value is
+             assigned by the local System.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.1.1.11";
+            "7.3.1.1.11 of IEEE Std 802.1AX";
         }
         leaf partner-oper-key {
           type uint16;
@@ -137,9 +142,9 @@ module ieee802-dot1ax-linkagg {
             "The current operational value of the Key for the
              Aggregators current protocol Partner. If the
              aggregation is manually configured, this Key value
-             will be a value assigned by the local System.";
+             is assigned by the local System.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.1.1.12";
+            "7.3.1.1.12 of IEEE Std 802.1AX";
         }
         leaf aggregate-or-individual {
           type boolean;
@@ -147,7 +152,7 @@ module ieee802-dot1ax-linkagg {
             "Indicates whether the Aggregator represents an
              Aggregate (TRUE) or an Individual link (FALSE).";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.1.1.6";
+            "7.3.1.1.6 of IEEE Std 802.1AX";
         }
       }
       container cscd {
@@ -164,7 +169,7 @@ module ieee802-dot1ax-linkagg {
             "Operational value of the distribution algorithm in
              use by the LACP Partner.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.1.1.40";
+            "7.3.1.1.40 of IEEE Std 802.1AX";
         }
         leaf partner-conv-service-digest {
           type binary;
@@ -172,7 +177,7 @@ module ieee802-dot1ax-linkagg {
             "The MD5 Digest of the admin-conv-service-map in use
              by the LACP Partner.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.1.1.42, Clause 6.6.3.1";
+            "7.3.1.1.42, 6.6.3.1 of IEEE Std 802.1AX";
         }
         leaf partner-conv-link-digest {
           type binary;
@@ -180,29 +185,28 @@ module ieee802-dot1ax-linkagg {
             "The MD5 Digest of the admin-conv-link-map in use
              by the LACP Partner.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.1.1.41, Clause 6.6.3.1";
+            "7.3.1.1.41, 6.6.3.1 of IEEE Std 802.1AX";
         }
         leaf discard-wrong-conversation {
           type boolean;
           description
             "The operational value that determines whether an
-             Aggregator should discard a frame that is collected
+             Aggregator discards a frame that is collected
              from an Aggregation Port that is different from the
              Aggregation Port to which the Aggregator would
              distribute a frame with the same Port Conversation
              ID.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.1.1.37, Clause 6.6";
+            "7.3.1.1.37, 6.6 of IEEE Std 802.1AX";
         }
         leaf-list active-lag-links {
           type uint16;
-          config false;
           description
             "A list, possibly empty, of the operational
              link-number of each Aggregation Port active
              (i.e. Collecting) on this Aggregator.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.1.1.43";
+            "7.3.1.1.43 of IEEE Std 802.1AX";
         }
       }
     }
@@ -228,7 +232,7 @@ module ieee802-dot1ax-linkagg {
            aggregation, due to the detection of an unknown Slow
            Protocols PDU (7.3.3.1.5)";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.1.1.29";
+          "7.3.1.1.29 of IEEE Std 802.1AX";
       }
     }
   }
@@ -249,7 +253,7 @@ module ieee802-dot1ax-linkagg {
         type key-group-ref;
         mandatory true;
         description
-          "Specifies the entry in the link-aggregation key-groups
+          "Specifies the entry in the link-aggregation key-group
            list to which this aggregation-port is assigned.";
       }
       leaf actor-port-number {
@@ -259,65 +263,51 @@ module ieee802-dot1ax-linkagg {
         description
           "The port number assigned to the Aggregation Port.
            The port number is communicated in LACPDUs as the
-           Actor_Port.";
+           Actor_Port.
+           This leaf provides the ability to administratively
+           override the initial value provided by the system.";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.2.1.14, 6.4.6";
+          "7.3.2.1.14, 6.4.6 of IEEE Std 802.1AX";
       }
       leaf actor-port-priority {
         type uint16;
-        default "0";
+        default "0x8000";
         description
           "The priority value assigned to this Aggregation Port.";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.2.1.15, 6.4.6";
-      }
-      leaf actor-admin-state {
-        type ax:lacp-state;
-        default "lacp-activity aggregation";
-        description
-          "Corresponding to the administrative values of the
-           first three bits (positions 0, 1, and 2) of Actor_State
-           as transmitted by the Actor in LACPDUs. Provides
-           administrative control over the values of the
-           LACP_Activity, LACP_Timeout, and Aggregation state.
-           Setting the LACP_Activity state to '0' ensures that the
-           transmission of LACPDUs is controlled by the
-           partner-oper-state.LACP_Activity.
-           Setting the LACP_Timeout to '0' ensures that actor uses
-           the Long_Timeout value, allowing the partner to transmit
-           LACPDUs at the Slow_Periodic_Time.
-           Setting the Aggregation state to '0' ensures that this
-           port will not be aggregated with any other ports.
-           The remaining five bits (corresponding to
-           Synchronization, Collecting, Distributing, Expired,
-           and Defaulted) are ignored.";
-        reference
-          "IEEE 802.1AX-2020, Clause 7.3.2.1.20, 6.4.1, 6.4.2.2,
-           6.4.6";
+          "7.3.2.1.15, 6.4.6 of IEEE Std 802.1AX";
       }
       leaf partner-admin-key {
-        type uint16;
+        type uint16 {
+          range "1..65535";
+        }
         description
           "The current administrative value of the Key for the
            protocol Partner. The assigned value is used, along
            with the value of port-partner-admin-system-priority,
-           partner-admin-system-id, partner-admin-port, and
+           partner-admin-system, partner-admin-port, and
            partner-admin-port-priority, in order to achieve
-           manually configured aggregation.;";
+           manually configured aggregation.
+           The default value is the initial value of actor-port-
+           number provided by the system.";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.2.1.10";
+          "7.3.2.1.10 of IEEE Std 802.1AX";
       }
       leaf partner-admin-port {
-        type uint16;
+        type uint16 {
+          range "1..65535";
+        }
         description
           "The current administrative value of the port number for
            the protocol Partner. The assigned value is used, along
            with the value of partner-admin-system-priority,
-           partner-admin-system-id, port-partner-admin-key, and
+           partner-admin-system, port-partner-admin-key, and
            partner-admin-port-priority, in order to achieve
-           manually configured aggregation.";
+           manually configured aggregation.
+           The default value is the initial value of actor-port-
+           number provided by the system.";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.2.1.16";
+          "7.3.2.1.16 of IEEE Std 802.1AX";
       }
       leaf partner-admin-port-priority {
         type uint16;
@@ -326,41 +316,54 @@ module ieee802-dot1ax-linkagg {
           "The current administrative value of the port priority
            for the protocol Partner. The assigned value is used,
            along with the value of partner-admin-system-priority,
-           partner-admin-system-id, partner-admin-key, and
+           partner-admin-system, partner-admin-key, and
            partner-admin-port, in order to achieve manually
            configured aggregation.";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.2.1.18";
+          "7.3.2.1.18 of IEEE Std 802.1AX";
       }
       leaf partner-admin-state {
-        type ax:lacp-state;
+        type ax:lacp-state {
+          bit lacp-activity {
+            position 1;
+            description
+              "When the LACP_Activity state is set to '0', the
+               transmission of LACPDUs is controlled by the
+               actor-admin-state.LACP_Activity.";
+          }
+          bit lacp-timeout {
+            position 2;
+            description
+              "When the LACP_Timeout is set to '0', LACPDUs
+               are transmitted at the Slow_Periodic_Time.";
+          }
+          bit aggregation {
+            position 3;
+            description
+              "When the Aggregation state is set to '0', this
+               port cannot be aggregated with any other port.";
+          }
+          bit synchronization {
+            position 4;
+            description
+              "When the Synchronization state is set to '0', this
+               port cannot become active.";
+          }
+        }
         default "synchronization";
         description
-          "Corresponding to the administrative values of the first
-           four bits (positions 0, 1, 2, and 3) of Partner_State to
-           be used when no LACPDUs are received from LACP partner.
-           Provides administrative control over the partner's
+          "Provides administrative control over the partner's
            LACP_Activity, LACP_Timeout, Aggregation, and
            Synchronization state when the partner's information is
-           unknown (i.e. no LACPDUs are received from the partner).
-           Setting the LACP_Activity state to '0' ensures that the
-           transmission of LACPDUs is controlled by the
-           actor-admin-state.LACP_Activity.
-           Setting the LACP_Timeout to '0' ensures that LACPDUs
-           will be transmitted at the Slow_Periodic_Time.
-           Setting the Aggregation state to '0' ensures that this
-           port will not be aggregated with any other ports.
-           Setting the Synchronization state to '0' prevents this
-           port from becoming active.
-           The remaining four bits (corresponding to Collecting,
-           Distributing, Expired, and Defaulted) are ignored.";
+           unknown (i.e. no LACPDUs are received from the partner).";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.2.1.22, 6.4.1, 6.4.2.2,
-           6.4.6";
+          "7.3.2.1.22, 6.4.1, 6.4.2.3, 6.4.6 of IEEE Std 802.1AX";
       }
       leaf wtr-time {
-        type uint16;
-        default "1";
+        type uint16 {
+          range "0..32767";
+        }
+        default "0";
         description
           "The wait-to-restore (WTR) period, in seconds, that
            needs to elapse between an Aggregation Port on a LAG
@@ -368,7 +371,7 @@ module ieee802-dot1ax-linkagg {
            permitted to become active (transmitting and
            receiving frames) on the LAG.";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.2.1.30";
+          "7.3.2.1.30 of IEEE Std 802.1AX";
       }
       leaf wtr-revertive {
         type boolean;
@@ -382,7 +385,7 @@ module ieee802-dot1ax-linkagg {
            unless there are no other links that can become active
            in the LAG. The default value is TRUE.";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.2.1.31";
+          "7.3.2.1.31 of IEEE Std 802.1AX";
       }
       container lacp {
         config false;
@@ -390,12 +393,12 @@ module ieee802-dot1ax-linkagg {
           "Contains Aggregation port LACP operational related
            nodes.";
         leaf actor-lacp-version {
-          type uint16;
+          type uint8;
           description
             "The version number transmitted in LACPDUs on this
              Aggregation Port";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.2.1.33";
+            "7.3.2.1.33 of IEEE Std 802.1AX";
         }
         leaf actor-oper-key {
           type uint16;
@@ -404,7 +407,7 @@ module ieee802-dot1ax-linkagg {
              Aggregation Port. The meaning of particular Key values
              is of local significance.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.2.1.5";
+            "7.3.2.1.5 of IEEE Std 802.1AX";
         }
         leaf actor-oper-state {
           type ax:lacp-state;
@@ -412,71 +415,71 @@ module ieee802-dot1ax-linkagg {
             "The operational value of the Actor_State as
              transmitted in LACPDUs.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.2.1.21, 6.4.1, 6.4.2.2,
-             6.4.6";
+            "7.3.2.1.21, 6.4.1, 6.4.2.3, 6.4.6 of IEEE Std 802.1AX";
         }
         leaf partner-lacp-version {
-          type uint16;
+          type uint8;
           description
             "The version number in the LACPDU most recently
              received on this Aggregation Port.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.2.1.34";
+            "7.3.2.1.34 of IEEE Std 802.1AX";
         }
         leaf partner-oper-system-priority {
           type uint16;
           description
             "Indicates the operational value of priority associated
              with the Partners System ID. The value of this
-             attribute may contain the manually configured value
+             attribute can contain the manually configured value
              carried in partner-admin-system-priority if there is
              no protocol Partner.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.2.1.7";
+            "7.3.2.1.7 of IEEE Std 802.1AX";
         }
-        leaf partner-oper-system-id {
+        leaf partner-oper-system {
           type ieee:mac-address;
           description
-            "Represents the current value of the Aggregation
-             Ports protocol Partners System ID. A value of zero
-             indicates that there is no known protocol Partner. The
-             value of this attribute may contain the manually
-             configured value carried in partner-admin-system-id if
+            "Represents the MAC address portion of the Aggregation
+             Port's current protocol partner's System Identifier.
+             A value of zero indicates that there is no known
+             protocol Partner.
+             The value of this attribute can contain the manually
+             configured value carried in partner-admin-system if
              there is no protocol Partner.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.2.1.9";
+            "7.3.2.1.9 of IEEE Std 802.1AX";
         }
         leaf partner-oper-key {
           type uint16;
           description
             "The current operational value of the Key for the
-             protocol Partner. The value of this attribute may
+             protocol Partner. The value of this attribute can
              contain the manually configured value carried in
              partner-admin-key if there is no protocol Partner.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.2.1.11";
+            "7.3.2.1.11 of IEEE Std 802.1AX";
         }
         leaf partner-oper-port {
           type uint16;
           description
             "The operational port number assigned by the
              Aggregation Port's protocol Partner. The value of this
-             attribute may contain the administratively configured
+             attribute can contain the administratively configured
              value carried in partner-admin-port if there is no
              protocol Partner.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.2.1.17";
+            "7.3.2.1.17 of IEEE Std 802.1AX";
         }
         leaf partner-oper-port-priority {
           type uint16;
           description
             "The operational priority value assigned by the
              Aggregation Port's protocol Partner. The value of this
-             attribute may contain the administratively configured
+             attribute can contain the administratively configured
              value carried in partner-admin-port-priority if there
              is no protocol Partner.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.2.1.19";
+            "7.3.2.1.19 of IEEE Std 802.1AX";
         }
         leaf partner-oper-state {
           type ax:lacp-state;
@@ -485,8 +488,7 @@ module ieee802-dot1ax-linkagg {
              derived from received LACPDUs or, when Defaulted is
              true, from the partner-admin-state.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.2.1.23, 6.4.1, 6.4.2.2,
-             6.4.6";
+            "7.3.2.1.23, 6.4.1, 6.4.2.3, 6.4.6 of IEEE Std 802.1AX";
         }
         leaf aggregate-or-individual {
           type boolean;
@@ -498,7 +500,7 @@ module ieee802-dot1ax-linkagg {
              Aggregation bit is false in either
              actor-oper-port-state or partner-oper-port-state.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.2.1.24";
+            "7.3.2.1.24 of IEEE Std 802.1AX";
         }
         leaf wtr-waiting {
           type boolean;
@@ -509,7 +511,7 @@ module ieee802-dot1ax-linkagg {
              non-revertive operation is being enforced by the
              Selection Logic.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.2.32";
+            "7.3.2.32 of IEEE Std 802.1AX";
         }
       }
       container cscd {
@@ -520,26 +522,16 @@ module ieee802-dot1ax-linkagg {
           type uint16;
           description
             "The Link_Number value for the Aggregation Port,
-             configured by the System's administrator, which is
-             unique among all Aggregation Ports in the same key
-             group, and selected from the set of Link_Numbers in
-             the admin-conv-link-map of that key group.
-
-             More than one Aggregation Port in a LAG having the same
-             Admin_Link_Number can, if Discard_Wrong_Conversation
-             is TRUE, result in significant frame loss. If the
-             Admin_Link_Number is not in the set of Link_Numbers
-             in the Admin_Conv_Link_Map, then no frames will be
-             distributed to this Aggregation Port. A value of 0
-             will result in no frames are distributed to this
+             that is unique among all Aggregation Ports in the same
+             key group. This leaf provides the ability to
+             administratively override the initial value provided
+             by the system. A value of 0 is allowed, but
+             results in no frames being distributed to this
              Aggregation Port.
-
-             From an implementation standpoint, this can be be
-             automatically determined and set by the system.
-             This optional leaf allows for administrative
-             control over numbering.";
+             The default value is the initial value of actor-port-
+             number provided by the system.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.2.1.27";
+            "7.3.2.1.27, 6.6.3.2 of IEEE Std 802.1AX";
         }
         leaf partner-link-number {
           type uint16;
@@ -550,7 +542,7 @@ module ieee802-dot1ax-linkagg {
              values for the Partner or the Partner LACP Version
              is 1.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.2.1.29";
+            "7.3.2.1.29 of IEEE Std 802.1AX";
         }
         leaf link-number {
           type uint16;
@@ -558,33 +550,9 @@ module ieee802-dot1ax-linkagg {
           description
             "The operational link number for this Aggregation Port.
              The value is either the same as the admin-link-number,
-             or the corresponding value fo the LACP partner.";
+             or the corresponding value of the LACP partner.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.2.1.28";
-        }
-        leaf oper-conversation-passes {
-          type binary;
-          config false;
-          description
-            "A vector of Boolean values, with one value for each
-             possible Port Conversation ID. A 1 indicates that a
-             frame mapping to this Port Conversation ID is
-             distributed to this Aggregation Port, and a 0
-             indicates that it is not";
-          reference
-            "IEEE 802.1AX-2020, Clause 7.3.2.1.25";
-        }
-        leaf oper-conversation-collected {
-          type binary;
-          config false;
-          description
-            "A vector of Boolean values, with one value for each
-             possible Port Conversation ID. A 1 indicates that a
-             frame mapping to this Port Conversation ID can be
-             collected from  this Aggregation Port, and a 0
-             indicates that it cannot";
-          reference
-            "IEEE 802.1AX-2020, Clause 7.3.2.1.26";
+            "7.3.2.1.28 of IEEE Std 802.1AX";
         }
       }
     }
@@ -607,7 +575,7 @@ module ieee802-dot1ax-linkagg {
           "The number of valid LACPDUs received on this
            Aggregation Port.";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.3.1.2";
+          "7.3.3.1.2 of IEEE Std 802.1AX";
       }
       leaf marker-pdu-rx {
         type yang:counter64;
@@ -615,7 +583,7 @@ module ieee802-dot1ax-linkagg {
           "The number of valid Marker PDUs received on this
            Aggregation Port.";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.3.1.3";
+          "7.3.3.1.3 of IEEE Std 802.1AX";
       }
       leaf marker-response-pdu-rx {
         type yang:counter64;
@@ -623,30 +591,28 @@ module ieee802-dot1ax-linkagg {
           "The number of valid Marker Response PDUs received on
            this Aggregation Port.";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.3.1.4";
+          "7.3.3.1.4 of IEEE Std 802.1AX";
       }
       leaf unknown-rx {
         type yang:counter64;
         description
           "The number of frames received that either:
-           a) Carry the Slow Protocols Ethernet Type value (IEEE
-           Std 802.3 Annex 57A.4), but contain an unknown PDU, or
+           a) Carry the Slow Protocols Ethernet Type value,
+           but contain an unknown PDU, or
            b) Are addressed to the Slow Protocols group MAC
-           Address (IEEE Std 802.3 Annex 57A.3), but do not carry
-           the Slow Protocols Ethernet Type.";
+           Address, but do not carry the Slow Protocols
+           Ethernet Type.";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.3.1.5";
+          "7.3.3.1.5 of IEEE Std 802.1AX";
       }
       leaf illegal-rx {
         type yang:counter64;
         description
           "The number of frames received that carry the Slow
-           Protocols Ethernet Type value (IEEE Std 802.3 Annex
-           57A.4), but contain a badly formed PDU or an illegal
-           value of Protocol Subtype (IEEE Std 802.3 Annex
-           57A.3).";
+           Protocols Ethernet Type value, but contain a badly
+           formed PDU or an illegal value of Protocol Subtype.";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.3.1.6";
+          "7.3.3.1.6 of IEEE Std 802.1AX";
       }
       leaf lacp-pdu-tx {
         type yang:counter64;
@@ -654,7 +620,7 @@ module ieee802-dot1ax-linkagg {
           "The number of LACPDUs transmitted on this
            Aggregation Port.";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.3.1.7";
+          "7.3.3.1.7 of IEEE Std 802.1AX";
       }
       leaf marker-pdu-tx {
         type yang:counter64;
@@ -662,7 +628,7 @@ module ieee802-dot1ax-linkagg {
           "The number of Marker PDUs transmitted on this
            Aggregation Port.";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.3.1.8";
+          "7.3.3.1.8 of IEEE Std 802.1AX";
       }
       leaf marker-response-pdu-tx {
         type yang:counter64;
@@ -670,66 +636,83 @@ module ieee802-dot1ax-linkagg {
           "The number of Marker Response PDUs transmitted on
            this Aggregation Port.";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.3.1.9";
+          "7.3.3.1.9 of IEEE Std 802.1AX";
       }
     }
   }
 
   container linkagg {
     description
-      "LAG System specific configuration nodes.";
+      "Link Aaggregation System specific configuration nodes.";
+    list agg-system {
+      key "name";
+      description
+        "List of aggregation systems.";
+      leaf name {
+        type string;
+        description
+          "Name for the aggregation system.";
+      }
+      leaf actor-system {
+        type ieee:mac-address;
+        description
+          "The part of the System Identifier that is a globally
+           unique MAC address.  This leaf provides the ability to
+           administratively override the initial value provided
+           by the system.";
+        reference
+          "7.3.1.1.4, 7.3.2.1.3 of IEEE Std 802.1AX";
+      }
+      leaf actor-system-priority {
+        type uint16;
+        default "0x8000";
+        description
+          "The part of the System Identifier that is the
+           priority of the system.";
+        reference
+          "7.3.1.1.5, 7.3.2.1.2  of IEEE Std 802.1AX";
+      }
+    }
     list key-group {
       key "name";
-      unique "actor-system-id actor-admin-key";
+      unique "actor-admin-key";
       description
         "List of key groups.  A key group is the set of aggregators
          and aggregation ports that share the same system priority,
          system identifier, and aggregation key, and therefore can
          potentially form a Link Aggregation Group.  Each entry in
          the key group list contains the parameters common to all
-         aggregation ports and/or aggregatiors in the key group.";
+         aggregation ports and/or aggregators in the key group.";
+      reference
+        "6.3.5, 6.4.12 of IEEE Std 802.1AX";
       leaf name {
         type string;
         description
           "Name for the key group.";
       }
       leaf actor-admin-key {
-        type uint16;
+        type uint16 {
+          range "1..65535";
+        }
         mandatory true;
         description
-          "The current administrative value of the Key for the
-           Aggregator. The administrative Key value may differ
-           from the operational Key value for the reasons
-           discussed in 5.6.2. The meaning of particular Key
-           values is of local significance.";
+          "The administrative value of the key used by the
+           Aggregators and Aggregation Ports in this key-group.";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.1.1.7
-           IEEE 802.1AX-2020, Clause 7.3.2.1.4";
+          "7.3.1.1.7, 7.3.2.1.4 of IEEE Std 802.1AX";
       }
-      leaf actor-system-id {
-        type ieee:mac-address;
+      leaf agg-system-name {
+        type agg-system-ref;
         mandatory true;
         description
-          "The unique identifier for the aggregating system.";
-        reference
-          "IEEE 8021AX-2020, Clause 7.3.1.1.4
-           IEEE 8021AX-2020, Clause 7.3.2.1.3";
-      }
-      leaf actor-system-priority {
-        type uint16;
-        default "1";
-        description
-          "The priority of the aggregating system.";
-        reference
-          "IEEE 802.1AX-2020, Clause 7.3.1.1.5
-           IEEE 802.1AX-2020, Clause 7.3.2.1.2";
+          "Specifies the aggregation system for this key
+           group.";
       }
       leaf actor-protocol-da {
         type ieee:mac-address;
-        must
-          ". = \"01-80-c2-00-00-00\" or . = \"01-80-C2-00-00-00\" or
-                      . = \"01-80-c2-00-00-02\" or . = \"01-80-C2-00-00-02\" or
-                      . = \"01-80-c2-00-00-03\" or . = \"01-80-C2-00-00-03\"" {
+        must ". = '01-80-c2-00-00-00' or . = '01-80-C2-00-00-00' or
+              . = '01-80-c2-00-00-02' or . = '01-80-C2-00-00-02' or
+              . = '01-80-c2-00-00-03' or . = '01-80-C2-00-00-03'" {
           error-message "Invalid protocol address";
         }
         default "01-80-c2-00-00-02";
@@ -739,54 +722,100 @@ module ieee802-dot1ax-linkagg {
            Marker PDUs.  Valid addresses are the Nearest Customer
            Bridge, Slow_Protocols_Multicast, and Nearest non-TPMR
            Bridge group addresses.  The default value
-           shall be the Slow_Protocols_Multicast address.";
+           is the Slow_Protocols_Multicast address.";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.2.2.1, Clause 6.2.10.2";
+          "7.3.2.2.1, 6.2.10.2 of IEEE Std 802.1AX";
       }
       leaf collector-max-delay {
         type uint16;
         description
-          "Defines the maximum delay, in tens of microseconds,
-           that may be imposed by the Frame Collector between
-           receiving a frame from an Aggregator Parser, and
-           either delivering the frame to its MAC Client or
-           discarding the frame (see 5.2.3.1.1).
-           Used to determine the maximum delay for the Marker
-           Protocol to wait for a Marker Response.";
+          "Specifies the maximum delay, in tens of microseconds,
+           between receiving a frame from an Aggregator Port, and
+           either delivering the frame to the Aggregator Client or
+           discarding the frame. A value of zero means the delay
+           is less than the minimum increment (< 10us).
+           This leaf provides the ability to administratively
+           override the initial value provided by the system.";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.1.1.32, Clause 6.2.3.1.1,
-           Clause B.3";
+          "7.3.1.1.32, 6.2.3.1.1, B.3 of IEEE Std 802.1AX";
       }
-      leaf partner-admin-system-id {
+      leaf actor-admin-state {
+        type ax:lacp-state {
+          bit lacp-activity {
+            position 1;
+            description
+              "Setting the LACP_Activity state to '0' means that the
+               transmission of LACPDUs is controlled by the value of
+               partner-oper-state.LACP_Activity.";
+          }
+          bit lacp-timeout {
+            position 2;
+            description
+              "Setting the LACP_Timeout to '0' means that actor uses
+               the Long_Timeout value, allowing the partner to transmit
+               LACPDUs at the Slow_Periodic_Time.";
+          }
+          bit aggregation {
+            position 3;
+            description
+              "Setting the Aggregation state to '0' prevents this
+               port from being aggregated with any other ports.";
+          }
+        }
+        default "lacp-activity lacp-timeout aggregation";
+        description
+          "Provides administrative control over the values of the
+           LACP_Activity, LACP_Timeout, and Aggregation state.";
+        reference
+          "7.3.2.1.20, 6.4.1, 6.4.2.3, 6.4.6 of IEEE Std 802.1AX";
+      }
+      leaf partner-admin-system {
         type ieee:mac-address;
         default "00-00-00-00-00-00";
         description
-          "The administrative value of the Partners System ID.
+          "The administrative value of the MAC address portion of
+           the Partner's System Identifier.
            The assigned value is used, along with the value of
-           port-partner-admin-system-id, partner-admin-key,
+           port-partner-admin-system, partner-admin-key,
            partner-admin-port, and partner-admin-port-priority,
            to achieve administratively configured Link
-           Aaggregation Groups with a partner that does not run
+           Aggregation Groups with a partner that does not run
            LACP.";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.1.1.10
-           IEEE 802.1AX-2020, Clause 7.3.2.1.8";
+          "7.3.2.1.8 of IEEE Std 802.1AX";
       }
       leaf partner-admin-system-priority {
         type uint16;
         default "0";
         description
-          "The administrative value of priority associated
-           with the Partners System ID. The assigned
+          "The administrative value of priority portion of the
+           the Partner's System Identifier. The assigned
            value is used, along with the value of
-           port-partner-admin-system-id, partner-admin-key,
+           port-partner-admin-system, partner-admin-key,
            partner-admin-port, and partner-admin-port-priority,
            to achieve administratively configured Link
-           Aaggregation Groups with a partner that does not run
+           Aggregation Groups with a partner that does not run
            LACP.";
         reference
-          "IEEE 802.1AX-2020, Clause 7.3.1.1.11
-           IEEE 802.1AX-2020, Clause 7.3.2.1.6";
+          "7.3.2.1.6 of IEEE Std 802.1AX";
+      }
+      leaf port-algorithm {
+        type identityref {
+          base ax:distribution-algorithm;
+        }
+        default "ax:unspecified";
+        description
+          "Identifies the algorithm used by the Aggregator to
+           assign frames to a Port Conversation ID.  Default is
+           the value for an unspecified distribution algorithm.
+           When the identity description specifies a 4 octet value,
+           this value will be used for cscd purposes, and included
+           in LACPDUs. Otherwise this leaf is used purely for
+           local selection of a distribution algorithm, and the
+           unspecified distribution algorithm is used for cscd
+           purposes.";
+        reference
+          "7.3.1.1.33, Table 8-1 of IEEE Std 802.1AX";
       }
       leaf-list lags {
         type if:interface-ref;
@@ -795,7 +824,7 @@ module ieee802-dot1ax-linkagg {
           "A list of the if:name of aggregators assigned to this
            key group.";
         reference
-          "link-aggregation:key-groups";
+          "linkagg:key-group";
       }
       leaf-list aggports {
         type if:interface-ref;
@@ -804,93 +833,61 @@ module ieee802-dot1ax-linkagg {
           "A list of the if:name of aggregation ports assigned to
            this key group.";
         reference
-          "link-aggregation:key-groups";
+          "linkagg:key-group";
       }
       container cscd {
         if-feature "ax:cscd";
         description
           "Contains CSCD parameters that need to be consistent for
            all aggregation ports and aggregators in the key group.";
-        leaf port-algorithm {
-          type identityref {
-            base ax:distribution-algorithm;
-          }
-          default "ax:unspecified";
-          description
-            "Identifies the algorithm used by the Aggregator to
-             assign frames to a Port Conversation ID.  Default is
-             the value for an unspecified distribution algorithm.";
-          reference
-            "IEEE 802.1AX-2020, Clause 7.3.1.1.33";
-        }
-        list admin-conv-service-map {
-          key "cid";
+        container admin-conv-service-map {
+          if-feature "ax:sid-map";
           description
             "Data structure to map service identifiers to
              conversation identifiers.  Each entry consists of a
              Conversation ID (CID) and a list of zero or more
-             Service Identifiers (SIDs) that map to it.";
+             Service Identifiers (SIDs) that map to it. An empty
+             list of SIDs means there are no SIDs that map to this
+             CID, and results in the same behavior as not having an
+             entry for this CID.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.1.1.36, 6.6.3.1";
-          leaf cid {
-            type uint16 {
-              range "0..4095";
-            }
-            description
-              "Port Conversation Identifier";
-          }
-          leaf-list service-ids {
-            type uint32;
-            description
-              "List of SIDs that are associated with the CID.";
-          }
+            "7.3.1.1.36, 6.6.3.1 of IEEE Std 802.1AX";
+          uses ax:service-map;
         }
         leaf admin-conv-service-digest {
           type binary;
           config false;
           description
             "The MD5 Digest of the admin-conv-service-map. The
-             value is NULL when the distribution algorithm
+             value is NULL (AAAAAAAAAAAAAAAAAAAAAA== in base64) when
+             the distribution algorithm specified
              specified by agg-port-algorithm does not use the
              admin-conv-service-map.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.1.1.39, 6.6.3.1";
+            "7.3.1.1.39, 6.6.3.1 of IEEE Std 802.1AX";
         }
-        list admin-conv-link-map {
-          key "cid";
+        container admin-conv-link-map {
           description
-            "Data structure to map Conversation Identifiers to a
-             Link Number. Each entry consists of a Conversation ID
-             (CID) and a list of link numbers that can potentially
-             be selected for that CID. The value selected will be
-             the first link number in the list that is currently
-             operational.";
+            "Data structure to map a Conversation Identifier
+             (CID) to a Link Number. Each entry consists of a CID
+             and a list of link numbers that can potentially be
+             selected for that CID. An empty list of link-numbers
+             means that no links are selected for the CID.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.1.1.34, 6.6.3.1";
-          leaf cid {
-            type uint16 {
-              range "0..4095";
-            }
-            description
-              "Port Conversation Identifier";
-          }
-          leaf-list link-numbers {
-            type uint16;
-            description
-              "Ordered list of Link Numbers to carry packets with
-               this CID.";
-          }
+            "7.3.1.1.34, 6.6.3.1 of IEEE Std 802.1AX";
+          uses ax:link-map;
         }
         leaf admin-conv-link-digest {
           type binary;
           config false;
           description
             "The MD5 Digest of the admin-conv-link-map. The value
-             is NULL when the distribution algorithm specified by
+             value is NULL (AAAAAAAAAAAAAAAAAAAAAA== in base64) when
+             the distribution algorithm specified
              agg-port-algorithm does not use the
              admin-conv-link-map.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.1.1.38, 6.6.3.1";
+            "7.3.1.1.38, 6.6.3.1 of IEEE Std 802.1AX";
         }
         leaf admin-discard-wrong-conv {
           if-feature "ax:dwc";
@@ -898,42 +895,42 @@ module ieee802-dot1ax-linkagg {
             enum force-true {
               value 1;
               description
-                "Indicates that an Aggregator should discard a
+                "Indicates that an Aggregator discards a
                  frame that is collected from an Aggregation Port
                  that is different from the Aggregation Port to
                  which the Aggregator would distribute a frame
-                 with the same Port Converstion ID.";
+                 with the same Port Conversation ID.";
             }
             enum force-false {
               value 2;
               description
-                "Indicates that an Aggregator should not discard
+                "Indicates that an Aggregator does not discard
                  a frame that is collected from an Aggregation Port
                  that is different from the Aggregation Port to
                  which the Aggregator would distribute a frame with
-                 the same Port Converstion ID. This is the behavior
+                 the same Port Conversation ID. This is the behavior
                  of the Aggregator when DWC is not supported";
             }
             enum auto {
               value 3;
               description
-                "Indicates that the Aggregator should behave as
+                "Indicates that the Aggregator behaves as
                  if the value was force-true only when the actor
                  and partner agree on the algorithms (other than
                  unspecified) and mapping tables used to map frames
-                 to Aggregation Ports, and behave as if the value
+                 to Aggregation Ports, and behaves as if the value
                  was force-false otherwise.";
             }
           }
           default "force-false";
           description
-            "Indicates whether an Aggregator should discard a
+            "Indicates whether an Aggregator discards a
              frame that is collected from an Aggregation Port
              that is different from the Aggregation Port to which
              the Aggregator would distribute a frame with the
-             same Port Converstion ID.";
+             same Port Conversation ID.";
           reference
-            "IEEE 802.1AX-2020, Clause 7.3.1.1.35, 6.6";
+            "7.3.1.1.35, 6.6 of IEEE Std 802.1AX";
         }
       }
     }

@@ -1,2270 +1,790 @@
-diff -r -w ulf-1.0/ieee802-ethernet-interface-half-duplex.yang scott-1.0/ieee802-ethernet-interface-half-duplex.yang
-10,13d9
-< revision 2019-06-21 {
-<     description "Initial revision.";
-<   }
-< 
-27c23
-<       iana-if-type@2018-07-03.yang";
----
->       iana-if-type@2023-01-26.yang";
-47,48c43,46
-<   reference 
-<     "IEEE Std 802.3-2018, unless dated explicitly";
----
->   revision 2024-02-12 {
->     description "Updates under IEEE Std 802.3.2-202x, Draft 1.1";
->     reference "IEEE Std 802.3-2022, unless dated explicitly"; 
->   }
-57,58c55,56
-<        Only valid for Ethernet interfaces operating at speeds (data rates)
-<        above 1000 Mb/s.";
----
->        Only valid for Ethernet interfaces operating at speeds
->        (data rates)above 1000 Mb/s.";
-156,158c154,159
-<          Discontinuities in the values of the counters in this
-<          container can occur at re-initialization of the management
-<          system, and at other times as indicated by the value of the
----
->          This counter does not increment on Ethernet interfaces
->          operating at speeds (data rates) greater than 10 Mb/s, or on 
->          Ethernet interfaces operating in full-duplex mode.
->          Discontinuities in the value of this counter can occur at
->          re-initialization of the management system, and at other
->          times as indicated by the value of the
-170,178c171
-<            described in IEEE Std 802.3, 7.2.4.6.
-<            This counter does not increment on Ethernet interfaces
-<            operating at speeds (data rates) greater than 10 Mb/s, or on 
-<            Ethernet interfaces operating in full-duplex mode.
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other
-<            times as indicated by the value of the
-<            'discontinuity-time' leaf defined in the ietf-interfaces
-<            YANG module (IETF RFC 8343).";
----
->            described in IEEE Std 802.3, 7.2.4.6.";
-194,202c187
-<            'out-frames-collision-multiple'.
-< 
-<            This counter does not increment when the Ethernet
-<            interface is operating in full-duplex mode.
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other
-<            times as indicated by the value of the
-<            'discontinuity-time' leaf defined in the ietf-interfaces
-<            YANG module (IETF RFC 8343).";
----
->            'out-frames-collision-multiple'.";
-217,224c202
-<            corresponding instance of the 'out-frames-collision-single'.
-<            This counter does not increment when the Ethernet
-<            interface is operating in full-duplex mode.
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other
-<            times as indicated by the value of the
-<            'discontinuity-time' leaf defined in the ietf-interfaces
-<            YANG module (IETF RFC 8343).";
----
->            corresponding instance of the 'out-frames-collision-single'.";
-239,246c217
-<            'out-frames-collision-multiple' objects.
-<            This counter does not increment when the Ethernet
-<            interface is operating in full-duplex mode.
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other
-<            times as indicated by the value of the
-<            'discontinuity-time' leaf defined in the ietf-interfaces
-<            YANG module (IETF RFC 8343).";
----
->            'out-frames-collision-multiple' objects.";
-256,264c227
-<            Ethernet interface fails due to excessive collisions.
-< 
-<            This counter does not increment when the Ethernet
-<            interface is operating in full-duplex mode.
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other
-<            times as indicated by the value of the
-<            'discontinuity-time' leaf defined in the ietf-interfaces
-<            YANG module (IETF RFC 8343).";
----
->            Ethernet interface fails due to excessive collisions.";
-279,286c242
-<            statistics.
-<            This counter does not increment when the Ethernet
-<            interface is operating in full-duplex mode.
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other
-<            times as indicated by the value of the
-<            'discontinuity-time' leaf defined in the ietf-interfaces
-<            YANG module (IETF RFC 8343).";
----
->            statistics.";
-301,308c257
-<            transmission attempt.
-<            This counter does not increment when the Ethernet
-<            interface is operating in full-duplex mode.
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other
-<            times as indicated by the value of the
-<            'discontinuity-time' leaf defined in the ietf-interfaces
-<            YANG module (IETF RFC 8343).";
----
->            transmission attempt.";
-342,349c291
-<              incremented in this example.
-<              This counter does not increment when the interface is
-<              operating in full-duplex mode.
-<              Discontinuities in the value of this counter can occur
-<              at re-initialization of the management system, and at
-<              other times as indicated by the value of the
-<              'discontinuity-time' leaf defined in the ietf-interfaces
-<              YANG module (IETF RFC 8343).";
----
->              incremented in this example.";
-diff -r -w ulf-1.0/ieee802-ethernet-interface.yang scott-1.0/ieee802-ethernet-interface.yang
-9,12d8
-<   revision 2019-06-21 {
-<     description "Initial revision.";
-<   }
-< 
-26c22
-<       iana-if-type@2018-07-03.yang";
----
->       iana-if-type@2023-01-26.yang";
-43c39,42
-<   reference "IEEE Std 802.3-2018, unless dated explicitly";
----
->   revision 2024-02-12 {
->     description "Updates under IEEE Std 802.3.2-202x, Draft 1.1";
->     reference "IEEE Std 802.3-2022 and IEEE Std 802.3.1-202X, unless dated explicitly"; 
-> }
-273,279c272
-<                transmitted.";
-<             leaf in-frames-pause {
-<               type yang:counter64;
-<               units frames;
-<               description
-<                 "A count of PAUSE MAC Control frames transmitted on
-<                  this Ethernet interface.
----
->                transmitted.
-286a280,285
->             leaf in-frames-pause {
->               type yang:counter64;
->               units frames;
->               description
->                 "A count of PAUSE MAC Control frames transmitted on
->                  this Ethernet interface.";
-295,302c294
-<                  this Ethernet interface.
-< 
-<                  Discontinuities in the values of counters in
-<                  this container can occur at re-initialization of the
-<                  management system, and at other times as indicated
-<                  by the value of the 'discontinuity-time' leaf
-<                  defined in the ietf-interfaces YANG module 
-<                  (IETF RFC 8343).";
----
->                  this Ethernet interface.";
-332,339c324
-<                Ethernet interfaces.";
-< 
-<             leaf in-frames-pfc {
-<               type yang:counter64;
-<               units frames;
-<               description
-<                 "A count of PFC MAC Control frames received on this
-<                  Ethernet interface.
----
->                Ethernet interfaces.
-346a332,339
-> 
->             leaf in-frames-pfc {
->               type yang:counter64;
->               units frames;
->               description
->                 "Deprecated in-frames-pfc as not defined in base standard.
->                  A count of PFC MAC Control frames received on this
->                  Ethernet interface.";
-355,363c348,349
-<                 "A count of PFC MAC Control frames transmitted on
-<                  this interface.
-< 
-<                  Discontinuities in the values of counters in
-<                  this container can occur at re-initialization of the
-<                  management system, and at other times as indicated
-<                  by the value of the 'discontinuity-time' leaf
-<                  defined in the ietf-interfaces YANG module 
-<                  (IETF RFC 8343).";
----
->                 "Deprecated out-frames-pfc as not defined in base standard.A count of PFC MAC Control frames transmitted on
->                  this interface.";
-460c446
-<              Error counters are only reported once ... The count
----
->              Error counters are only reported once. The count
-463c449
-<              service to the LLC (or other MAC user). Received frames
----
->              service to the MAC Client. Received frames
-467c453
-<              status presented to the LLC.
----
->              status presented to the MAC Client.
-493,497c479
-<                aFramesLostDueToIntMACRcvError
-< 
-<                Also see the 'description' statement associated with
-<                the parent 'statistics' container for additional
-<                common semantics related to this counter.";
----
->                aFramesLostDueToIntMACRcvError";
-511,515c493
-<                Includes the 4-octet FCS.
-< 
-<                Also see the 'description' statement associated with
-<                the parent 'statistics' container for additional
-<                common semantics related to this counter.";
----
->                Includes the 4-octet FCS.";
-531,535c509
-<                frames lost due to internal MAC sublayer error.
-< 
-<                Also see the 'description' statement associated with
-<                the parent 'statistics' container for additional
-<                common semantics related to this counter.";
----
->                frames lost due to internal MAC sublayer error.";
-553,557c527
-<                frames lost due to internal MAC sublayer error.
-< 
-<                Also see the 'description' statement associated with
-<                the parent 'statistics' container for additional
-<                common semantics related to this counter.";
----
->                frames lost due to internal MAC sublayer error.";
-575,579c545
-<                frames lost due to internal MAC sublayer error.
-< 
-<                Also see the 'description' statement associated with
-<                the parent 'statistics' container for additional
-<                common semantics related to this counter.";
----
->                frames lost due to internal MAC sublayer error.";
-594,600c560,563
-<                This count effectively comprises
-<                aFrameCheckSequenceErrors and aAlignmentErrors added
-<                together.
-< 
-<                Also see the 'description' statement associated with
-<                the parent 'statistics' container for additional
-<                common semantics related to this counter.";
----
->                This counter is calculated by summing the following 
-> 		   counters:
->                aFrameCheckSequenceErrors +
->                aAlignmentErrors";
-611c574,575
-<               "A count of frames received on a particular Ethernet
----
->               "Function is deprecated.
->                A count of frames received on a particular Ethernet
-616,620c580
-<                frame passes the FCS check.
-< 
-<                Also see the 'description' statement associated with
-<                the parent 'statistics' container for additional
-<                common semantics related to this counter.";
----
->                frame passes the FCS check.";
-637,641c597
-<                frame passes the FCS check.
-< 
-<                Also see the 'description' statement associated with
-<                the parent 'statistics' container for additional
-<                common semantics related to this counter.";
----
->                frame passes the FCS check.";
-663,667c619
-<                Ethernet interface that are not otherwise counted.
-< 
-<                Also see the 'description' statement associated with
-<                the parent 'statistics' container for additional
-<                common semantics related to this counter.";
----
->                Ethernet interface that are not otherwise counted.";
-680,684c632
-<                the Ethernet interface.
-< 
-<                Also see the 'description' statement associated with
-<                the parent 'statistics' container for additional
-<                common semantics related to this counter.";
----
->                the Ethernet interface.";
-698,702c646
-<                by out-frames.
-< 
-<                Also see the 'description' statement associated with
-<                the parent 'statistics' container for additional
-<                common semantics related to this counter.";
----
->                by out-frames.";
-716,720c660
-<                by out-frames.
-< 
-<                Also see the 'description' statement associated with
-<                the parent 'statistics' container for additional
-<                common semantics related to this counter.";
----
->                by out-frames.";
-738,742c678
-<                interface that are not otherwise counted.
-< 
-<                Also see the 'description' statement associated with
-<                the parent 'statistics' container for additional
-<                common semantics related to this counter.";
----
->                interface that are not otherwise counted.";
-770,774c706
-<                specified in IEEE Std 802.3, 30.3.2.1.5.
-< 
-<                Also see the 'description' statement associated with
-<                the parent 'phy-statistics' container for additional
-<                common semantics related to this counter.";
----
->                specified in IEEE Std 802.3, 30.3.2.1.5.";
-792,796c724
-<                  IEEE Std 802.3, 22.7, 35.4, and 46.4).
-< 
-<                  Also see the 'description' statement associated with
-<                  the parent 'phy-statistics' container for additional
-<                  common semantics related to this counter.";
----
->                  IEEE Std 802.3, 22.7, 35.4, and 46.4).";
-812,816c740
-<                  802.3, 22.7, 35.4, and 46.4).
-< 
-<                  Also see the 'description' statement associated with
-<                  the parent 'phy-statistics' container for additional
-<                  common semantics related to this counter.";
----
->                  802.3, 22.7, 35.4, and 46.4).";
-832,836c756
-<                  IEEE Std 802.3, 22.7, 35.4, 46.4.)
-< 
-<                  Also see the 'description' statement associated with
-<                  the parent 'phy-statistics' container for additional
-<                  common semantics related to this counter.";
----
->                  IEEE Std 802.3, 22.7, 35.4, 46.4.)";
-852,856c772
-<                  802.3, 22.7, 35.4, and 46.4).
-< 
-<                  Also see the 'description' statement associated with
-<                  the parent 'phy-statistics' container for additional
-<                  common semantics related to this counter.";
----
->                  802.3, 22.7, 35.4, and 46.4).";
-887,891c803
-<                YANG module (IETF RFC 8343).
-< 
-<                Also see the 'description' statement associated with
-<                the parent 'mac-control-statistics' container for
-<                additional semantics.";
----
->                YANG module (IETF RFC 8343).";
-901,905c813
-<                this Ethernet interface.
-< 
-<                Also see the 'description' statement associated with
-<                the parent 'mac-control-statistics' container for
-<                additional semantics.";
----
->                this Ethernet interface.";
-916,920c824
-<                on this Ethernet interface.
-< 
-<                Also see the 'description' statement associated with
-<                the parent 'mac-control-statistics' container for
-<                additional semantics.";
----
->                on this Ethernet interface.";
-diff -r -w ulf-1.0/ieee802-ethernet-link-oam.yang scott-1.0/ieee802-ethernet-link-oam.yang
-9,10c9,13
-<   revision 2019-06-21 {
-<     description "Initial revision.";
----
-> 
-> 
->   import ieee802-types { 
->     prefix ieee; 
->     reference "IEEE 802 types";
-21c24
-<       iana-if-type@2018-07-03.yang";
----
->       iana-if-type@2023-01-26.yang";
-41,42c44,47
-<   reference 
-<     "IEEE Std 802.3-2018, unless dated explicitly";
----
->   revision 2024-02-12 {
->     description "Updates under IEEE Std 802.3.2-202x, Draft 1.1";
->     reference "IEEE Std 802.3-2022, unless dated explicitly"; 
->   }
-297c302
-<       "IETF RFC 4878, dot3OamOperStatus; IEEE Std 802.3, 30.3.6.1.4,
----
->       "IEEE Std 802.3, 30.3.6.1.4,
-306c311,312
-<       "24-bit Organizationally Unique Identifier.";
----
->       "24-bit  MAC addresses – large(MA–L). Previously know as 
->        Organizationally Unique Identifier (OUI).";
-308c314
-<       "IEEE Std 802-2014, Clause 9";
----
->       "IEEE Std 802-2014, Clause 8.2.2";
-652c658,661
-<       description "The maximum OAMPDU size.";
----
->       description "The maximum OAMPDU size for the remote node. 
->       The peer OAM entities exchange the maximum size they can 
->       support and negotiate to use the smaller of the two maximum 
->       OAMPDU sizes.";
-664,665c673,682
-<         "Mode (passive/active)
-<          The default value is implementation-dependent.";
----
->         "This object configures the mode of OAM operation as active 
->         or passive. Active mode provides capabilities to initiate 
->         monitoring activities with the remote OAM peer eneity, 
->         while passive mode waits for the peer to initiate actions 
->         with it. Changing this value results in incrementing the 
->         revision field of locally generated OAMPDUs 
->        (see IEEE Std 802.3, 30.3.6.1.12) and triggers the 
->         OAM discovery process if the operational state was 
->         already 'operational'.  The default value is 
->         implementation-dependent.";
-821c838,840
-<         "The maximum OAMPDU size.";
----
->         "The maximum OAMPDU size for the local node. The peer OAM 
->          entities exchange the maximum size they can support and 
->          negotiate to use the smaller of the two maximum OAMPDU sizes.";
-1104,1117d1122
-< 
-< 
-< 
-< 
-< 
-< 
-< 
-< 
-< 
-< 
-< 
-< 
-< 
-< 
-diff -r -w ulf-1.0/ieee802-ethernet-lldp.yang scott-1.0/ieee802-ethernet-lldp.yang
-24,28c24,26
-<   revision 2023-10-17 {
-<     description
-<       "Initial revision.";
-<     reference
-<       "IEEE Std 802.3.2a, unless dated explicitly";
----
->   revision 2024-02-12 {
->     description "Updates under IEEE Std 802.3.2-202x, Draft 1.1";
->     reference "IEEE Std 802.3-2022, unless dated explicitly"; 
-47c45
-<       "30.12.2.1.5 of IEEE Std IEEE Std 802.3-2022";
----
->       "IEEE Std 802.3, 30.12.2.1.5";
-66c64
-<       "30.12.2.1.9 of IEEE Std IEEE Std 802.3-2022";
----
->       "IEEE Std 802.3, 30.12.2.1.9";
-100c98
-<       "30.12.2.1.10 of IEEE Std IEEE Std 802.3-2022";
----
->       "IEEE Std 802.3, 30.12.2.1.10";
-138c136
-<       "30.12.3.1.26 of IEEE Std IEEE Std 802.3-2022";
----
->       "IEEE Std 802.3, 30.12.3.1.26";
-191c189
-<       "30.12.3.1.28 of IEEE Std IEEE Std 802.3-2022";
----
->       "IEEE Std 802.3, 30.12.3.1.28";
-229c227
-<       "30.12.2.1.29 of IEEE Std IEEE Std 802.3-2022";
----
->       "IEEE Std 802.3, 30.12.2.1.29";
-257c255
-<       "30.12.2.1.16 of IEEE Std IEEE Std 802.3-2022";
----
->       "IEEE Std 802.3, 30.12.2.1.16";
-306c304
-<       "30.12.2.1.15 of IEEE Std IEEE Std 802.3-2022";
----
->       "IEEE Std 802.3, 30.12.2.1.15";
-329c327
-<       "30.12.2.1.23 of IEEE Std IEEE Std 802.3-2022";
----
->       "IEEE Std 802.3, 30.12.2.1.23";
-352c350
-<       "30.12.2.1.24 of IEEE Std IEEE Std 802.3-2022";
----
->       "IEEE Std 802.3, 30.12.2.1.24";
-375c373
-<       "30.12.2.1.25 of IEEE Std IEEE Std 802.3-2022";
----
->       "IEEE Std 802.3, 30.12.2.1.25";
-385c383
-<             "30.12.1.1.1 of IEEE Std 802.3-2022";
----
->             "IEEE Std 802.3, 30.12.1.1.1";
-390c388
-<             "30.12.1.1.1 of IEEE Std 802.3-2022";
----
->             "IEEE Std 802.3, 30.12.1.1.1";
-395c393
-<             "30.12.1.1.1 of IEEE Std 802.3-2022";
----
->             "IEEE Std 802.3, 30.12.1.1.1";
-400c398
-<             "30.12.1.1.1 of IEEE Std 802.3-2022";
----
->             "IEEE Std 802.3, 30.12.1.1.1";
-405c403
-<             "30.12.1.1.1 of IEEE Std 802.3-2022";
----
->             "IEEE Std 802.3, 30.12.1.1.1";
-410c408
-<             "30.12.1.1.1 of IEEE Std 802.3-2022";
----
->             "IEEE Std 802.3, 30.12.1.1.1";
-415c413
-<             "30.12.1.1.1 of IEEE Std 802.3-2022";
----
->             "IEEE Std 802.3, 30.12.1.1.1";
-422c420
-<         "30.12.1.1.1 of IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.1.1.1";
-430c428
-<         "30.12.2.1.1 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.1";
-438c436
-<         "30.12.2.1.2 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.2";
-449c447
-<         "30.12.2.1.3 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std802.3, 30.12.2.1.3";
-457c455
-<         "30.12.2.1.4 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.4";
-465c463
-<         "30.12.2.1.5 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.5";
-473c471
-<         "30.12.2.1.6 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.6";
-481c479
-<         "30.12.2.1.7 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.7";
-489c487
-<         "30.12.2.1.8 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.8";
-497c495
-<         "30.12.2.1.9 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.9";
-505c503
-<         "30.12.2.1.10 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.10";
-512c510
-<             "79.3.3.1 of IEEE Std 802.3-2022";
----
->             "IEEE Std 802.3, 79.3.3.1";
-517c515
-<             "79.3.3.1 of IEEE Std 802.3-2022";
----
->             "IEEE Std 802.3, 79.3.3.1";
-525c523
-<         "30.12.2.1.11 of IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.11";
-533c531
-<         "30.12.2.1.12 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.12";
-541c539
-<         "30.12.2.1.13 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.13";
-558c556
-<         "A GET attribute that returns a bit string indicating whether the local system is a PSE or a PD and 
----
->         "A read-only attribute that returns a bit string indicating whether the local system is a PSE or a PD and 
-563c561
-<         "30.12.2.1.14 of IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.14";
-572c570
-<         "30.12.2.1.15 of IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.15";
-580c578
-<         "30.12.2.1.16 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.16";
-589c587
-<         "30.12.2.1.17 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.17";
-595c593
-<         "A GET attribute that returns the PD requested power value for the Mode A pairset in units of 0.1 W.
----
->         "A read-only attribute that returns the PD requested power value for the Mode A pairset in units of 0.1 W.
-600c598
-<         "30.12.2.1.18 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.18";
-606c604
-<         "A GET attribute that returns the PD requested power value for the Mode B pairset in units of 0.1 W.
----
->         "A read-only attribute that returns the PD requested power value for the Mode B pairset in units of 0.1 W.
-611c609
-<         "30.12.2.1.19 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.19";
-620c618
-<         "30.12.2.1.20 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.20";
-631c629
-<         "30.12.2.1.21 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.21";
-642c640
-<         "30.12.2.1.22 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.22";
-651c649
-<         "30.12.2.1.23 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.23";
-659c657
-<         "30.12.2.1.24 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.24";
-669c667
-<         "30.12.2.1.25 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.25";
-681c679
-<         "30.12.2.1.26 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.26";
-693c691
-<         "30.12.2.1.27 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.27";
-705c703
-<         "30.12.2.1.28 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.28";
-715c713
-<         "30.12.2.1.29 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.29";
-721c719
-<         "For a dual-signature PD, a GET attribute that returns whether the load of a dual-signature PD is 
----
->         "For a dual-signature PD, a read-only attribute that returns whether the load of a dual-signature PD is 
-725c723
-<         "30.12.2.1.30 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.30";
-734c732
-<         "30.12.2.1.31 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.31";
-740c738
-<         "A GET attribute that returns the local PSE maximum available power value in units of 0.1 W";
----
->         "A read-only attribute that returns the local PSE maximum available power value in units of 0.1 W";
-742c740
-<         "30.12.2.1.32 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.32";
-750c748
-<         "30.12.2.1.33 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.33";
-758c756
-<         "30.12.2.1.34 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.34";
-766c764
-<         "30.12.2.1.35 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.35";
-771c769
-<         "A SET attribute that indicates the local PD system is requesting a power down when the value is  0x1D.;";
----
->         "A read-write attribute that indicates the local PD system is requesting a power down when the value is  0x1D.;";
-773c771
-<         "30.12.2.1.36 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.36";
-778c776
-<         "A SET attribute that indicates the number of seconds the PD requests to stay powered off. A value of zero indicates an indefinite amount of time;";
----
->         "A read-write attribute that indicates the number of seconds the PD requests to stay powered off. A value of zero indicates an indefinite amount of time;";
-780c778
-<         "30.12.2.1.37 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.37";
-786c784
-<         "A GET attribute that indicates the local device is capable of providing a voltage measurement.;";
----
->         "A read-only attribute that indicates the local device is capable of providing a voltage measurement.;";
-788c786
-<         "30.12.2.1.38 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.38";
-794c792
-<         "A GET attribute that indicates the local device is capable of providing a current measurement.;";
----
->         "A read-only attribute that indicates the local device is capable of providing a current measurement.;";
-796c794
-<         "30.12.2.1.39 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.39";
-802c800
-<         "A GET attribute that indicates the local device is capable of providing a power measurement.;";
----
->         "A read-only attribute that indicates the local device is capable of providing a power measurement.;";
-804c802
-<         "30.12.2.1.40 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.40";
-810c808
-<         "A GET attribute that indicates the local device is capable of providing a energy measurement.;";
----
->         "A read-only attribute that indicates the local device is capable of providing a energy measurement.;";
-812c810
-<         "30.12.2.1.41 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.41";
-828c826
-<         "A SET attribute value that indicates to local device on which Alternative or Mode the measurement 
----
->         "A read-write attribute value that indicates to local device on which Alternative or Mode the measurement 
-831c829
-<         "30.12.2.1.42 of IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.42";
-837c835
-<         "A GET attribute that indicates the local device is requesting a voltage measurement from the remote device.;";
----
->         "A read-only attribute that indicates the local device is requesting a voltage measurement from the remote device.;";
-839c837
-<         "30.12.2.1.43 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.43";
-845c843
-<         "A GET attribute that indicates the local device is requesting a current measurement from the remote device.;";
----
->         "A read-only attribute that indicates the local device is requesting a current measurement from the remote device.;";
-847c845
-<         "30.12.2.1.44 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.44";
-853c851
-<         "A GET attribute that indicates the local device is requesting a power measurement from the remote device.;";
----
->         "A read-only attribute that indicates the local device is requesting a power measurement from the remote device.;";
-855c853
-<         "30.12.2.1.45 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.45";
-861c859
-<         "A GET attribute that indicates the local device is requesting an energy measurement from the remote device.;";
----
->         "A read-only attribute that indicates the local device is requesting an energy measurement from the remote device.;";
-863c861
-<         "30.12.2.1.46 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.46";
-869c867
-<         "A GET attribute that indicates the local device’s voltage measurement is valid.";
----
->         "A read-only attribute that indicates the local device’s voltage measurement is valid.";
-871c869
-<         "30.12.2.1.47 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.47";
-877c875
-<         "A GET attribute that indicates the local device’s current measurement is valid.";
----
->         "A read-only attribute that indicates the local device’s current measurement is valid.";
-879c877
-<         "30.12.2.1.48 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.48";
-885c883
-<         "A GET attribute that indicates the local device’s power measurement is valid.";
----
->         "A read-only attribute that indicates the local device’s power measurement is valid.";
-887c885
-<         "30.12.2.1.49 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.49";
-893c891
-<         "A GET attribute that indicates the local device’s energy measurement is valid.";
----
->         "A read-only attribute that indicates the local device’s energy measurement is valid.";
-895c893
-<         "30.12.2.1.50 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.50";
-901c899
-<         "A GET attribute that indicates the expanded uncertainty (coverage factor k = 2) for the device’s voltage measurement.";
----
->         "A read-only attribute that indicates the expanded uncertainty (coverage factor k = 2) for the device’s voltage measurement.";
-903c901
-<         "30.12.2.1.51 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.51";
-909c907
-<         "A GET attribute that indicates the expanded uncertainty (coverage factor k = 2) for the device’s current measurement.";
----
->         "A read-only attribute that indicates the expanded uncertainty (coverage factor k = 2) for the device’s current measurement.";
-911c909
-<         "30.12.2.1.52 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.52";
-917c915
-<         "A GET attribute that indicates the expanded uncertainty (coverage factor k = 2) for the device’s power measurement.";
----
->         "A read-only attribute that indicates the expanded uncertainty (coverage factor k = 2) for the device’s power measurement.";
-919c917
-<         "30.12.2.1.53 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.53";
-925c923
-<         "A GET attribute that indicates the expanded uncertainty (coverage factor k = 2) for the device’s energy measurement.";
----
->         "A read-only attribute that indicates the expanded uncertainty (coverage factor k = 2) for the device’s energy measurement.";
-927c925
-<         "30.12.2.1.54 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.54";
-933c931
-<         "A GET attribute that returns the measured device voltage.";
----
->         "A read-only attribute that returns the measured device voltage.";
-935c933
-<         "30.12.2.1.55 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.55";
-941c939
-<         "A GET attribute that returns the measured device current.";
----
->         "A read-only attribute that returns the measured device current.";
-943c941
-<         "30.12.2.1.56 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.56";
-949c947
-<         "A GET attribute that returns the measured device power.";
----
->         "A read-only attribute that returns the measured device power.";
-951c949
-<         "30.12.2.1.57 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.57";
-957c955
-<         "A GET attribute that returns the measured device energy.";
----
->         "A read-only attribute that returns the measured device energy.";
-959c957
-<         "30.12.2.1.58 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.58";
-965c963
-<         "A GET attribute that returns an index of the price of power being sourced by the PSE. For a PD, this value is undefined";
----
->         "A read-only attribute that returns an index of the price of power being sourced by the PSE. For a PD, this value is undefined";
-967c965
-<         "30.12.2.1.59 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.59";
-975c973
-<         "30.12.2.1.60 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.60";
-983c981
-<         "30.12.2.1.61 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.61";
-991c989
-<         "30.12.2.1.62 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.62";
-999c997
-<         "30.12.2.1.63 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.63";
-1007c1005
-<         "30.12.2.1.64 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.64";
-1015c1013
-<         "30.12.2.1.65 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.65";
-1023c1021
-<         "30.12.2.1.66 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.66";
-1031c1029
-<         "30.12.2.1.67 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.67";
-1039c1037
-<         "30.12.2.1.68 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.68";
-1047c1045
-<         "30.12.2.1.69 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.69";
-1055c1053
-<         "30.12.2.1.70 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.70";
-1063c1061
-<         "30.12.2.1.71 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.71";
-1071c1069
-<         "30.12.2.1.72 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.72";
-1079c1077
-<         "30.12.2.1.73 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.73";
-1087c1085
-<         "30.12.2.1.74 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.74";
-1095c1093
-<         "30.12.2.1.75 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.75";
-1103c1101
-<         "30.12.2.1.76 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.76";
-1111c1109
-<         "30.12.2.1.77 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.2.1.77";
-1123c1121
-<         "30.12.3.1.1 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.1";
-1131c1129
-<         "30.12.3.1.2 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.2";
-1142c1140
-<         "30.12.3.1.3 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.3";
-1150c1148
-<         "30.12.3.1.4 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.4";
-1158c1156
-<         "30.12.3.1.5 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.5";
-1166c1164
-<         "30.12.3.1.6 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.6";
-1174c1172
-<         "30.12.3.1.7 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.7";
-1182c1180
-<         "30.12.3.1.8 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.8";
-1190c1188
-<         "30.12.3.1.9 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.9";
-1198c1196
-<         "30.12.3.1.10 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.10";
-1205c1203
-<             "79.3.3.1 of IEEE Std 802.3-2022";
----
->             "IEEE Std 802.3, 79.3.3.1";
-1210c1208
-<             "79.3.3.1 of IEEE Std 802.3-2022";
----
->             "IEEE Std 802.3, 79.3.3.1";
-1215c1213
-<             "79.3.3.1 of IEEE Std 802.3-2022";
----
->             "IEEE Std 802.3, 79.3.3.1";
-1220c1218
-<             "79.3.3.1 of IEEE Std 802.3-2022";
----
->             "IEEE Std 802.3, 79.3.3.1";
-1225c1223
-<             "79.3.3.1 of IEEE Std 802.3-2022";
----
->             "IEEE Std 802.3, 79.3.3.1";
-1230c1228
-<             "79.3.3.1 of IEEE Std 802.3-2022";
----
->             "IEEE Std 802.3, 79.3.3.1";
-1235c1233
-<             "79.3.3.1 of IEEE Std 802.3-2022";
----
->             "IEEE Std 802.3, 79.3.3.1";
-1240c1238
-<             "79.3.3.1 of IEEE Std 802.3-2022";
----
->             "IEEE Std 802.3, 79.3.3.1";
-1248c1246
-<         "30.12.3.1.11 of IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.11";
-1256c1254
-<         "30.12.3.1.12 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.12";
-1264c1262
-<         "30.12.3.1.13 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.13";
-1281c1279
-<         "A GET attribute that returns a bit string indicating whether the local system is a PSE or a PD and 
----
->         "A read-only attribute that returns a bit string indicating whether the local system is a PSE or a PD and 
-1286c1284
-<         "30.12.3.1.14 of IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.14";
-1295c1293
-<         "30.12.3.1.15 of IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.15";
-1302c1300
-<         "30.12.3.1.16 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.16";
-1310c1308
-<         "30.12.3.1.17 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.17";
-1316c1314
-<         "A GET attribute that returns the PD requested power value for the Mode A pairset that was used 
----
->         "A read-only attribute that returns the PD requested power value for the Mode A pairset that was used 
-1323c1321
-<         "30.12.3.1.18 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.18";
-1329c1327
-<         "A GET attribute that returns the PD requested power value for the Mode B pairset that was used 
----
->         "A read-only attribute that returns the PD requested power value for the Mode B pairset that was used 
-1336c1334
-<         "30.12.3.1.19 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.19";
-1345c1343
-<         "30.12.3.1.20 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.20";
-1351c1349
-<         "A GET attribute that returns the PSE allocated power value for the Alternative A pairset received 
----
->         "A read-only attribute that returns the PSE allocated power value for the Alternative A pairset received 
-1358c1356
-<         "30.12.3.1.21 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.21";
-1364c1362
-<         "A GET attribute that returns the PSE allocated power value for the Alternative B pairset received 
----
->         "A read-only attribute that returns the PSE allocated power value for the Alternative B pairset received 
-1371c1369
-<         "30.12.3.1.22 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.22";
-1380c1378
-<         "30.12.3.1.23 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.23";
-1388c1386
-<         "30.12.3.1.24 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.24";
-1398c1396
-<         "30.12.3.1.25 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.25";
-1411c1409
-<         "30.12.3.1.26 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.26";
-1424c1422
-<         "30.12.3.1.27 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.27";
-1437c1435
-<         "30.12.3.1.28 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.28";
-1446c1444
-<         "30.12.3.1.29 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.29";
-1452c1450
-<         "For a PSE, a GET attribute that returns whether the load of the remote dual-signature PD is 
----
->         "For a PSE, a read-only attribute that returns whether the load of the remote dual-signature PD is 
-1455c1453
-<         "30.12.3.1.30 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.30";
-1464c1462
-<         "30.12.3.1.31 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.31";
-1470c1468
-<         "A GET attribute that returns the remote PSE maximum available power value in units of 0.1 W";
----
->         "A read-only attribute that returns the remote PSE maximum available power value in units of 0.1 W";
-1472c1470
-<         "30.12.3.1.32 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.32";
-1480c1478
-<         "30.12.3.1.33 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.33";
-1488c1486
-<         "30.12.3.1.34 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.34";
-1496c1494
-<         "30.12.3.1.35 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.35";
-1501c1499
-<         "A SET attribute that indicates the remote PD system is requesting a power down when the value is  0x1D.;";
----
->         "A read-write attribute that indicates the remote PD system is requesting a power down when the value is  0x1D.;";
-1503c1501
-<         "30.12.3.1.36 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.36";
-1508c1506
-<         "A GET attribute that indicates the number of seconds the remote PD requests to stay powered off. 
----
->         "A read-only attribute that indicates the number of seconds the remote PD requests to stay powered off. 
-1511c1509
-<         "30.12.3.1.37 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.37";
-1517c1515
-<         "A GET attribute that indicates the remote device is capable of providing a voltage measurement.;";
----
->         "A read-only attribute that indicates the remote device is capable of providing a voltage measurement.;";
-1519c1517
-<         "30.12.3.1.38 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.38";
-1525c1523
-<         "A GET attribute that indicates the remote device is capable of providing a current measurement.;";
----
->         "A read-only attribute that indicates the remote device is capable of providing a current measurement.;";
-1527c1525
-<         "30.12.3.1.39 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.39";
-1533c1531
-<         "A GET attribute that indicates the remote device is capable of providing a power measurement.;";
----
->         "A read-only attribute that indicates the remote device is capable of providing a power measurement.;";
-1535c1533
-<         "30.12.3.1.40 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.40";
-1541c1539
-<         "A GET attribute that indicates the remote device is capable of providing a energy measurement.;";
----
->         "A read-only attribute that indicates the remote device is capable of providing a energy measurement.;";
-1543c1541
-<         "30.12.3.1.41 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.41 ";
-1559c1557
-<         "A SET attribute value that indicates on which Alternative or Mode the measurement was taken by the remote device.";
----
->         "A read-write attribute value that indicates on which Alternative or Mode the measurement was taken by the remote device.";
-1561c1559
-<         "30.12.3.1.42 of IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.42";
-1567c1565
-<         "A GET attribute that indicates the rmote device is requesting a voltage measurement from the local device.;";
----
->         "A read-only attribute that indicates the rmote device is requesting a voltage measurement from the local device.;";
-1569c1567
-<         "30.12.3.1.43 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.43";
-1575c1573
-<         "A GET attribute that indicates the remote device is requesting a current measurement from the local device.;";
----
->         "A read-only attribute that indicates the remote device is requesting a current measurement from the local device.;";
-1577c1575
-<         "30.12.3.1.44 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.44";
-1583c1581
-<         "A GET attribute that indicates the remote device is requesting a power measurement from the local device.;";
----
->         "A read-only attribute that indicates the remote device is requesting a power measurement from the local device.;";
-1585c1583
-<         "30.12.3.1.45 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.45";
-1591c1589
-<         "A GET attribute that indicates the remote device is requesting an energy measurement from the local device.;";
----
->         "A read-only attribute that indicates the remote device is requesting an energy measurement from the local device.;";
-1593c1591
-<         "30.12.3.1.46 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.46";
-1599c1597
-<         "A GET attribute that indicates the remote device’s voltage measurement is valid.";
----
->         "A read-only attribute that indicates the remote device’s voltage measurement is valid.";
-1601c1599
-<         "30.12.3.1.47 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.47";
-1607c1605
-<         "A GET attribute that indicates the remote device’s current measurement is valid.";
----
->         "A read-only attribute that indicates the remote device’s current measurement is valid.";
-1609c1607
-<         "30.12.3.1.48 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.48";
-1615c1613
-<         "A GET attribute that indicates the remote device’s power measurement is valid.";
----
->         "A read-only attribute that indicates the remote device’s power measurement is valid.";
-1617c1615
-<         "30.12.3.1.49 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.49";
-1623c1621
-<         "A GET attribute that indicates the remote device’s energy measurement is valid.";
----
->         "A read-only attribute that indicates the remote device’s energy measurement is valid.";
-1625c1623
-<         "30.12.3.1.50 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.50";
-1631c1629
-<         "A GET attribute that indicates the expanded uncertainty (coverage factor k = 2) for the remote device’s voltage measurement.";
----
->         "A read-only attribute that indicates the expanded uncertainty (coverage factor k = 2) for the remote device’s voltage measurement.";
-1633c1631
-<         "30.12.3.1.51 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.51";
-1639c1637
-<         "A GET attribute that indicates the expanded uncertainty (coverage factor k = 2) for the remote device’s current measurement.";
----
->         "A read-only attribute that indicates the expanded uncertainty (coverage factor k = 2) for the remote device’s current measurement.";
-1641c1639
-<         "30.12.3.1.52 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.52";
-1647c1645
-<         "A GET attribute that indicates the expanded uncertainty (coverage factor k = 2) for the remote device’s power measurement.";
----
->         "A read-only attribute that indicates the expanded uncertainty (coverage factor k = 2) for the remote device’s power measurement.";
-1649c1647
-<         "30.12.3.1.53 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.53";
-1655c1653
-<         "A GET attribute that indicates the expanded uncertainty (coverage factor k = 2) for the remote device’s energy measurement.";
----
->         "A read-only attribute that indicates the expanded uncertainty (coverage factor k = 2) for the remote device’s energy measurement.";
-1657c1655
-<         "30.12.3.1.54 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.54";
-1663c1661
-<         "A GET attribute that returns the measured remote device voltage.";
----
->         "A read-only attribute that returns the measured remote device voltage.";
-1665c1663
-<         "30.12.3.1.55 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.55";
-1671c1669
-<         "A GET attribute that returns the measured remote device current.";
----
->         "A read-only attribute that returns the measured remote device current.";
-1673c1671
-<         "30.12.3.1.56 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.56";
-1679c1677
-<         "A GET attribute that returns the measured remote device power.";
----
->         "A read-only attribute that returns the measured remote device power.";
-1681c1679
-<         "30.12.3.1.57 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.57";
-1687c1685
-<         "A GET attribute that returns the measured remote device energy.";
----
->         "A read-only attribute that returns the measured remote device energy.";
-1689c1687
-<         "30.12.3.1.58 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.58";
-1695c1693
-<         "A GET attribute that returns an index of the price of power being sourced by the remote PSE. For a PSE, this value is undefined.";
----
->         "A read-only attribute that returns an index of the price of power being sourced by the remote PSE. For a PSE, this value is undefined.";
-1697c1695
-<         "30.12.3.1.59 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.59";
-1705c1703
-<         "30.12.3.1.60 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.60";
-1713c1711
-<         "30.12.3.1.61 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.61";
-1721c1719
-<         "30.12.3.1.62 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.62";
-1729c1727
-<         "30.12.3.1.63 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.63 ";
-1737c1735
-<         "30.12.3.1.64 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.64";
-1745c1743
-<         "30.12.3.1.65 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.65";
-1753c1751
-<         "30.12.3.1.66 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.66";
-1761c1759
-<         "30.12.3.1.67 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.67";
-1769c1767
-<         "30.12.3.1.68 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.68";
-1777c1775
-<         "30.12.3.1.69 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.69";
-1785c1783
-<         "30.12.3.1.70 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.70";
-1793c1791
-<         "30.12.3.1.72 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.72";
-1801c1799
-<         "30.12.3.1.72 of IEEE Std IEEE Std 802.3-2022";
----
->         "IEEE Std 802.3, 30.12.3.1.72 ";
-diff -r -w ulf-1.0/ieee802-ethernet-mac-merge.yang scott-1.0/ieee802-ethernet-mac-merge.yang
-30c30
-<     Unless otherwise indicated, the references in this model module are to IEEE Std 802.3-2018.";
----
->     Unless otherwise indicated, the references in this model module are to IEEE Std 802.3-2022.";
-32,36c32,34
-<   revision 2023-04-29 {
-<     description
-<      "Initial version.";
-<     reference
-<      "IEEE Std 802.3-2018";
----
->   revision 2024-02-12 {
->     description "Updates under IEEE Std 802.3.2-202x, Draft 1.1";
->     reference "IEEE Std 802.3-2022, unless dated explicitly"; 
-43c41
-<        "IEEE Std 802.3-2018";
----
->        "IEEE Std 802.3-2022";
-65c63
-<  MAC Merge sublayer may be modified to the indicated value via a SET operation. 
----
->  MAC Merge sublayer may be modified to the indicated value via a read-write operation. 
-68c66
-<                         "30.14.1.3";
----
->                         "IEEE Std 802.3, 30.14.1.3";
-84c82
-<   Verify function of MAC Merge sublayer on the given device in the transmit direction. The status of the Verify function may be modified to the indicated value  via a SET operation. This attribute maps to the variable disableVerify (see 99.4.7.3).;";
----
->   Verify function of MAC Merge sublayer on the given device in the transmit direction. The status of the Verify function may be modified to the indicated value  via a read-write operation. This attribute maps to the variable disableVerify (see 99.4.7.3).;";
-86c84
-<                          "30.14.1.4";
----
->                          "IEEE Std 802.3, 30.14.1.4";
-99c97
-<                          "30.14.1.6";
----
->                          "IEEE Std 802.3, 30.14.1.6";
-108c106
-<   the Transmit Processing State Diagram (see Figure 99?).";
----
->   the Transmit Processing State Diagram (see Figure IEEE Std 802.3, 99-5).";
-110c108
-<                          "30.14.1.7";   
----
->                          "IEEE Std 802.3, 30.14.1.7";   
-132c130
-<                          "30.14.1.1";
----
->                          "IEEE Std 802.3, 30.14.1.1";
-142c140
-<                                  "The Verify State diagram (Figure 99?) is in the state
----
->                                  "The Verify State diagram Figure 99-8 IEEE Std 802.3 is in the state
-167c165
-<                          "30.14.1.2";
----
->                          "IEEE Std 802.3, 30.14.1.2";
-190c188
-<                          "30.14.1.5";
----
->                          "IEEE Std 802.3, 30.14.1.5";
-203c201
-<                          "30.14.1.8";
----
->                          "IEEE Std 802.3, 30.14.1.8";
-214c212
-<                          "30.14.1.9";                
----
->                          "IEEE Std 802.3, 30.14.1.9";                
-224c222
-<                          "30.14.1.10";
----
->                          "IEEE Std 802.3, 30.14.1.10";
-233c231
-<                          "30.14.1.11";
----
->                          "IEEE Std 802.3, 30.14.1.11";
-242c240
-<                          "30.14.1.12";
----
->                          "IEEE Std 802.3, 30.14.1.12";
-250c248
-<                          "30.14.1.13";
----
->                          "IEEE Std 802.3, 30.14.1.13";
-diff -r -w ulf-1.0/ieee802-ethernet-pon.yang scott-1.0/ieee802-ethernet-pon.yang
-8,11d7
-<   revision 2019-06-21 {
-<     description "Initial revision.";
-<   }
-< 
-45,47c41,45
-<   reference
-<     "IEEE Std 802.3-2018, Clause 64 and Clause 77, unless dated explicitly
-<      IEEE Std 802.3.1-2013, Clause 9, unless dated explicitly";
----
->   revision 2024-02-12 {
->     description "Updates under IEEE Std 802.3.2-202x, Draft 1.1";
->     reference "IEEE Std 802.3-2022, unless dated explicitly"; 
->   }
-> 
-305a304,311
->   typedef power-level {
->     type int32;
->       units "0.1 dBm";
->     description
->      "Power level reflects the value of power, as measured at the optical 
->       transceiver, expressed in units of 0.1 dBm.";
->   }
-> 
-574c580,585
-<          IEEE Std 802.3, Clause 64 and Clause 77.";
----
->          IEEE Std 802.3, Clause 64 and Clause 77.
-> 
->          Discontinuities in the values of counters in this container can occur 
->          at re-initialization of the  management system, and at other times 
->          as indicated by the value of the 'discontinuity-time' leaf  
->          defined in the ietf-interfaces YANG module (IETF RFC 8343).";
-592,597c603
-<            distinct value for each logical link.
-< 
-<            Discontinuities of this counter can occur at
-<            re-initialization of the management system, and at other
-<            times, as indicated by the value of the 'discontinuity-time' 
-<            leaf defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            distinct value for each logical link.";
-620,625c626
-<            distinct value for each logical link.
-< 
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other times
-<            as indicated by the value of the 'discontinuity-time' leaf
-<            defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            distinct value for each logical link.";
-646,651c647
-<            for each logical link.
-< 
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other times
-<            as indicated by the value of the 'discontinuity-time' leaf
-<            defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            for each logical link.";
-673,678c669
-<            for each logical link.
-< 
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other times
-<            as indicated by the value of the 'discontinuity-time' leaf
-<            defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            for each logical link.";
-701,706c692
-<            for each logical link.
-< 
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other times
-<            as indicated by the value of the 'discontinuity-time' leaf
-<            defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            for each logical link.";
-729,734c715
-<            for each logical link.
-< 
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other times
-<            as indicated by the value of the 'discontinuity-time' leaf
-<            defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            for each logical link.";
-757,762c738
-<            for each logical link.
-< 
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other times
-<            as indicated by the value of the 'discontinuity-time' leaf
-<            defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            for each logical link.";
-785,790c761
-<            value for each logical link.
-< 
-<            Discontinuities of this counter can occur at
-<            re-initialization of the management system and at other
-<            times, as indicated by the value of the 'discontinuity-time' 
-<            leaf defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            value for each logical link.";
-813,818c784
-<            each logical link.
-< 
-<            Discontinuities of this counter can occur at
-<            re-initialization of the management system and at other
-<            times, as indicated by the value of the 'discontinuity-time' 
-<            leaf defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            each logical link.";
-841,846c807
-<            value for each logical link.
-< 
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other times
-<            as indicated by the value of the 'discontinuity-time' leaf
-<            defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            value for each logical link.";
-869,874c830
-<            value for each logical link.
-< 
-<            Discontinuities of this counter can occur at
-<            re-initialization of the management system and at other
-<            times, as indicated by the value of the 'discontinuity-time' 
-<            leaf defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            value for each logical link.";
-897,902c853
-<            for each logical link.
-< 
-<            Discontinuities of this counter can occur at
-<            re-initialization of the management system and at other
-<            times, as indicated by the value of the 'discontinuity-time' 
-<            leaf defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            for each logical link.";
-925,930c876
-<            value for each logical link.
-< 
-<            Discontinuities of this counter can occur at
-<            re-initialization of the management system and at other
-<            times, as indicated by the value of the 'discontinuity-time' 
-<            leaf defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            value for each logical link.";
-953,958c899
-<            for each logical link.
-< 
-<            Discontinuities of this counter can occur at
-<            re-initialization of the management system and at other
-<            times, as indicated by the value of the 'discontinuity-time' 
-<            leaf defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            for each logical link.";
-969c910,915
-<          IEEE Std 802.3, Clause 65 and Clause 76.";
----
->          IEEE Std 802.3, Clause 65 and Clause 76.
-> 
->          Discontinuities in the values of counters in this container can occur 
->          at re-initialization of the  management system, and at other times 
->          as indicated by the value of the 'discontinuity-time' leaf  
->          defined in the ietf-interfaces YANG module (IETF RFC 8343).";
-987,992c933
-<            distinct value for each logical link.
-< 
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other times
-<            as indicated by the value of the 'discontinuity-time' leaf
-<            defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            distinct value for each logical link.";
-1012,1017c953
-<            distinct value for each logical link.
-< 
-<            Discontinuities of this counter can occur at
-<            re-initialization of the management system and at other
-<            times, as indicated by the value of the 'discontinuity-time' 
-<            leaf defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            distinct value for each logical link.";
-1043,1049c979
-<            for each logical link.
-<            
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other 
-<            times as indicated by the value of the 
-<            'discontinuity-time' leaf defined in the ietf-interfaces 
-<            YANG module (IETF RFC 8343).";
----
->            for each logical link.";
-1073,1079c1003
-<            value for each logical link. 
-<            
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other 
-<            times as indicated by the value of the 
-<            'discontinuity-time' leaf defined in the ietf-interfaces 
-<            YANG module (IETF RFC 8343).";
----
->            value for each logical link.";
-1101,1106c1025
-<            for each logical link.
-< 
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other times
-<            as indicated by the value of the 'discontinuity-time' leaf
-<            defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            for each logical link.";
-1126,1131c1045
-<            distinct value for each logical link.
-< 
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other times
-<            as indicated by the value of the 'discontinuity-time' leaf
-<            defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            distinct value for each logical link.";
-1151,1156c1065
-<            distinct value for each logical link.
-< 
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other times
-<            as indicated by the value of the 'discontinuity-time' leaf
-<            defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            distinct value for each logical link.";
-1180,1185c1089
-<            This object is applicable for an ONU only.
-< 
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other times
-<            as indicated by the value of the 'discontinuity-time' leaf
-<            defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            This object is applicable for an ONU only.";
-1208,1213c1112
-<            This object is applicable for an ONU only.
-< 
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other times
-<            as indicated by the value of the 'discontinuity-time' leaf
-<            defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            This object is applicable for an ONU only.";
-1237,1242c1136
-<            This object is applicable for an ONU only.
-< 
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other times
-<            as indicated by the value of the 'discontinuity-time' leaf
-<            defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            This object is applicable for an ONU only.";
-1266,1271c1160
-<            This object is applicable for an ONU only.
-< 
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other times
-<            as indicated by the value of the 'discontinuity-time' leaf
-<            defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            This object is applicable for an ONU only.";
-1291,1293c1180
-<         type int32;
-< 
-<         units "0.1 dBm";
----
->         type power-level;
-1312,1314c1199
-<         type int32;
-< 
-<         units "0.1 dBm";
----
->         type power-level;
-1333,1335c1218
-<         type int32;
-< 
-<         units "0.1 dBm";
----
->         type power-level;
-1354,1356c1237
-<         type int32;
-< 
-<         units "0.1 dBm";
----
->         type power-level;
-1374a1256
->       status deprecated;
-1401,1403c1283
-<         type int32;
-< 
-<         units "0.1 dBm";
----
->         type power-level;
-1426,1428c1306
-<         type int32;
-< 
-<         units "0.1 dBm";
----
->         type power-level;
-1453,1455c1331
-<         type int32;
-< 
-<         units "0.1 dBm";
----
->         type power-level;
-1497,1499c1373
-<         type int32;
-< 
-<         units "0.1 dBm";
----
->         type power-level;
-1522,1524c1396
-<         type int32;
-< 
-<         units "0.1 dBm";
----
->         type power-level;
-1549c1421
-<         type int32;
----
->         type power-level;
-1551c1423,1633
-<         units "0.1 dBm";
----
->         config false;
-> 
->         description
->           "This object reflects the highest value of the output power
->            during the period of the last 15 minutes, as measured at the
->            optical transceiver, and expressed in units of 0.1 dBm.
-> 
->            At the ONU, the measurement is performed in a burst-mode
->            manner and stored in a rolling 15-minutes' long observation
->            bin.
-> 
->            At the OLT, the measurement is the average power for each 
->            incoming data burst, and stored in a rolling 15-minutes' 
->            long observation bin.
-> 
->            This object is applicable for an OLT and an ONU. It has a 
->            distinct value for each logical link.";
-> 
->         reference
->           "IEEE Std 802.3.1, dot3ExtPkgOptIfHighOutputPower";
->       }
-> 
->       leaf trx-data-reliable {
->         if-feature "trx-power-level-reporting-supported";
-> 
->         type boolean;
-> 
->         config false;
-> 
->         description
->           "This object indicates whether data contained in individual
->            counters in 'statistics-trx' container are reliable 
->            (when read as 'true') or not (when read as 'false').
-> 
->            This object is applicable for an OLT and an ONU. It has a 
->            distinct value for each logical link.";
-> 
->         reference
->           "IEEE Std 802.3.1, dot3ExtPkgOptIfSuspectedFlag";
->       }
-> 
->     }
-> 
->     container monitoring-trx {
->       if-feature "trx-power-level-reporting-supported";
-> 
->       description
->         "This container defines a set of optical transceiver
->          statistics counters of an EPON interface as defined in 
->          IEEE Std 802.3, Clause 60 and Clause 75.";
-> 
->       reference
->         "IEEE Std 802.3.1, dot3ExtPkgOptIfEntry";
-> 
->       leaf in-trx-power-signal-detect {
->         type boolean;
-> 
->         config false;
-> 
->         description
->           "This object indicates whether a valid optical signal was
->            detected (when read as 'true') or not (when read as 'false')
->            at the input to the optical transceiver.
-> 
->            This object is applicable for an OLT and an ONU. It has a 
->            distinct value for each logical link.";
-> 
->         reference
->           "IEEE Std 802.3.1, dot3ExtPkgOptIfSignalDetect";
->       }
-> 
->       leaf in-trx-power {
->         type power-level;
-> 
->         config false;
-> 
->         description
->           "This object reflects the value of the input power, as
->            measured at the optical transceiver, expressed in units of
->            0.1 dBm.
-> 
->            At the ONU, the measurement is performed in a continuous
->            manner.
-> 
->            At the OLT, the measurement is performed in a burst-mode
->            manner, for each incoming data burst.
-> 
->            This object is applicable for an OLT and an ONU. It has a 
->            distinct value for each logical link.";
-> 
->         reference
->           "IEEE Std 802.3.1, dot3ExtPkgOptIfInputPower";
->       }
-> 
->       leaf in-trx-power-low-15-minutes-bin {
->         type power-level;
-> 
->         config false;
-> 
->         description
->           "This object reflects the lowest value of the input power
->            during the period of the last 15 minutes, as measured at the
->            optical transceiver, and expressed in units of 0.1 dBm.
-> 
->            At the ONU, the measurement is performed in a continuous
->            manner and stored in a rolling 15-minutes' long observation
->            bin.
-> 
->            At the OLT, the measurement is the average power for each 
->            incoming data burst, and stored in a rolling 15-minutes' 
->            long observation bin.
-> 
->            This object is applicable for an OLT and an ONU. It has a 
->            distinct value for each logical link.";
-> 
->         reference
->           "IEEE Std 802.3.1, dot3ExtPkgOptIfLowInputPower";
->       }
-> 
->       leaf in-trx-power-high-15-minutes-bin {
->         type power-level;
-> 
->         config false;
-> 
->         description
->           "This object reflects the highest value of the input power
->            during the period of the last 15 minutes, as measured at the
->            optical transceiver, and expressed in units of 0.1 dBm.
-> 
->            At the ONU, the measurement is performed in a continuous
->            manner and stored in a rolling 15-minutes' long observation
->            bin.
-> 
->            At the OLT, the measurement is the average power for each 
->            incoming data burst, and stored in a rolling 15-minutes' 
->            long observation bin.
-> 
->            This object is applicable for an OLT and an ONU. It has a 
->            distinct value for each logical link.";
-> 
->         reference
->           "IEEE Std 802.3.1, dot3ExtPkgOptIfHighInputPower";
->       }
-> 
->       leaf out-trx-power-signal-detect {
->         type boolean;
-> 
->         config false;
-> 
->         description
->           "This object indicates whether a valid optical signal was
->            detected (when read as 'true') or not (when read as 'false')
->            at the output from the optical transceiver.
-> 
->            This object is applicable for an OLT and an ONU. It has a 
->            distinct value for each logical link.";
-> 
->         reference
->           "IEEE Std 802.3.1, dot3ExtPkgOptIfTransmitAlarm";
->       }
-> 
->       leaf out-trx-power {
->         type power-level;
-> 
->         config false;
-> 
->         description
->           "This object reflects the value of the output power, as
->            measured at the optical transceiver, expressed in units of
->            0.1 dBm.
-> 
->            At the ONU, the measurement is performed in a burst-mode 
->            manner for each outgoing data burst.
-> 
->            At the OLT, the measurement is performed in a continuous 
->            manner.
-> 
->            This object is applicable for an OLT and an ONU. It has a 
->            distinct value for each logical link.";
-> 
->         reference
->           "IEEE Std 802.3.1, dot3ExtPkgOptIfOutputPower";
->       }
-> 
->       leaf out-trx-power-low-15-minutes-bin {
->         type power-level;
-> 
->         config false;
-> 
->         description
->           "This object reflects the lowest value of the output power
->            during the period of the last 15 minutes, as measured at the
->            optical transceiver, and expressed in units of 0.1 dBm.
-> 
->            At the ONU, the measurement is performed in a burst-mode
->            manner and stored in a rolling 15-minutes' long observation
->            bin.
-> 
->            At the OLT, the measurement is the average power for each 
->            incoming data burst, and stored in a rolling 15-minutes' 
->            long observation bin.
-> 
->            This object is applicable for an OLT and an ONU. It has a 
->            distinct value for each logical link.";
-> 
->         reference
->           "IEEE Std 802.3.1, dot3ExtPkgOptIfLowOutputPower";
->       }
-> 
->       leaf out-trx-power-high-15-minutes-bin {
->         type power-level;
-1608c1690,1695
-<          IEEE Std 802.3, Clause 65 and Clause 76.";
----
->          IEEE Std 802.3, Clause 65 and Clause 76.
-> 
->          Discontinuities in the value of this counter can occur at
->          re-initialization of the management system, and at other times
->          as indicated by the value of the 'discontinuity-time' leaf
->          defined in the ietf-interfaces YANG module (IETF RFC 8343).";
-1628,1633c1715
-<            OLT, it has a distinct value for each logical link.
-< 
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other times
-<            as indicated by the value of the 'discontinuity-time' leaf
-<            defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            OLT, it has a distinct value for each logical link.";
-1655,1660c1737
-<            distinct value for each logical link.
-< 
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other times
-<            as indicated by the value of the 'discontinuity-time' leaf
-<            defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            distinct value for each logical link.";
-1682,1687c1759
-<            distinct value for each logical link.
-< 
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other times
-<            as indicated by the value of the 'discontinuity-time' leaf
-<            defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            distinct value for each logical link.";
-1709,1714c1781
-<            distinct value for each logical link.
-< 
-<            Discontinuities in the value of this counter can occur at
-<            re-initialization of the management system, and at other times
-<            as indicated by the value of the 'discontinuity-time' leaf
-<            defined in the ietf-interfaces YANG module (IETF RFC 8343).";
----
->            distinct value for each logical link.";
-2430c2497
-<       when "../ompe-mode = olt'";
----
->       when "../ompe-mode = 'olt'";
-2474,2479d2540
-< 
-< 
-< 
-< 
-< 
-< 
-diff -r -w ulf-1.0/ieee802-ethernet-pse.yang scott-1.0/ieee802-ethernet-pse.yang
-6,9d5
-<   revision 2019-06-21 {
-<     description "Initial revision.";
-<   }
-< 
-37,38c33,37
-<   reference 
-<     "IEEE Std 802.3-2018, unless dated explicitly";
----
->   revision 2024-02-12 {
->     description "Updates under IEEE Std 802.3.2-202x, Draft 1.1";
->     reference "IEEE Std 802.3-2022, unless dated explicitly"; 
->   }
-> 
-162c161
-<       "IEEE Std 802.3, 30.9.1.1.6 aPSEPowerClassification and 
----
->       "IEEE Std 802.3, 30.9.1.1.8 aPSEPowerClassification and 
-169,170c168,176
-< 
-<   identity multi-pair {
----
->   identity all {
->      base powering-pairs;
->      description "All pairs are in use.";
->   }
->   identity four-pair {
->     base pse-type;
->     description "PSE support IEEE Std 802.3, Clause 145.";
->   }
->   identity two-pair {
-174d179
-< 
-179d183
-<  
-185c189
-<     description "The signal pair is in use.";
----
->     description "The signal pairs are in use.";
-189c193
-<     description "The spare pair is in use.";
----
->     description "The spare pairs are in use.";
-210,211c214
-<           "PSE may support IEEE Std 802.3, Clause 33 or 
-<            IEEE Std 802.3, Clause 104.";
----
->           "PSE supports one or more of IEEE Std 802.3 Clause 33, Clause      104, or Clause 145.";
-290c293
-<               "IEEE Std 802.3, 30.9.1.1.8 aPSEPowerDeniedCounter";
----
->               "IEEE Std 802.3, 30.9.1.1.14";
-300c303
-<               "IEEE Std 802.3, 30.9.1.1.7 aPSEInvalidSignatureCounter";
----
->               "IEEE Std 802.3, 30.9.1.1.11";
-311c314
-<               "IEEE Std 802.3, 30.9.1.1.11 aPSEMPSAbsentCounter";
----
->               "IEEE Std 802.3, 30.9.1.1.20";
-314a318
->             status deprecated;
-321c325
-<               "IEEE Std 802.3, 30.9.1.1.9 aPSEOverLoadCounter";
----
->               "IEEE Std 802.3, 30.9.1.1.17";
-327c331,333
-<               "This counter is incremented when the PSE state diagram
----
->               "This Yang object is deprecated as its not defined in base
->                standard.
->                This counter is incremented when the PSE state diagram
-342c348
-<               "IEEE Std 802.3, 30.9.1.1.14 aPSECumulativeEnergy";
----
->               "IEEE Std 802.3, 30.9.1.1.25";
-357c363
-<             "IEEE Std 802.3, 30.9.1.1.12 aPSEActualPower";
----
->             "IEEE Std 802.3, 30.9.1.1.23";
-368c374
-<             "IEEE Std 802.3, 30.9.1.1.13 aPSEPowerAccuracy";
----
->             "IEEE Std 802.3, 30.9.1.1.24";
-405c411
-<               description "TypeA";
----
->               description "TypeA PSE";
-408c414
-<               description "TypeB";
----
->               description "TypeB PSE";
-411c417
-<               description "TypeC";
----
->               description "Type PSEC";
-414c420,426
-<               description "TypeD";
----
->               description "TypeD PSE";
->             }
->             enum typeE {
->               description "TypeE PSE";
->             }
->             enum typeF {
->               description "TypeF PSE";
-418c430,431
-<           description "PSE type specified in IEEE Std 802.3, 104.4.1.";
----
->           description "PSE type specified in and 
->           IEEE Std 802.3,  30.15.1.1.4.";
-430c443
-<               description "Unknown";
----
->               description "Unknown PD type";
-433c446
-<               description "TypeA";
----
->               description "TypeA PD";
-436c449
-<               description "TypeB";
----
->               description "TypeB PD";
-439c452
-<               description "TypeC";
----
->               description "TypeC PD";
-442c455,458
-<               description "TypeD";
----
->               description "TypeD PD";
->             }
->             enum typeE {
->               description "TypeE PD";
-443a460,463
->             enum typeF {
->               description "TypeF PD";
->             }
-> 
-472c492,497
-<           description "Statistics information of the single-pair PSE";
----
->           description "Statistics information of the single-pair PSE
->           Discontinuities in the values of counters in this container 
->           can occur at re-initialization of the  management system, 
->           and at other times as indicated by the value of the 
->           'discontinuity-time' leaf  defined in the ietf-interfaces 
->           YANG module (IETF RFC 8343).";
+module: ieee802-dot1ab-lldp
+  +--rw lldp
+     +--rw message-fast-tx?              uint32
+     +--rw message-tx-hold-multiplier?   uint32
+     +--rw message-tx-interval?          uint32
+     +--rw reinit-delay?                 uint32
+     +--rw tx-credit-max?                uint32
+     +--rw tx-fast-init?                 uint32
+     +--rw notification-interval?        uint32
+     +--ro remote-statistics
+     |  +--ro last-change-time?   yang:timestamp
+     |  +--ro remote-inserts?     yang:zero-based-counter32
+     |  +--ro remote-deletes?     yang:zero-based-counter32
+     |  +--ro remote-drops?       yang:zero-based-counter32
+     |  +--ro remote-ageouts?     yang:zero-based-counter32
+     +--ro local-system-data
+     |  +--ro chassis-id-subtype?              ieee:chassis-id-subtype-type
+     |  +--ro chassis-id?                      ieee:chassis-id-type
+     |  +--ro system-name?                     string
+     |  +--ro system-description?              string
+     |  +--ro system-capabilities-supported?   lldp-types:system-capabilities-map
+     |  +--ro system-capabilities-enabled?     lldp-types:system-capabilities-map
+     +--rw port* [name dest-mac-address]
+        +--rw name                                            if:interface-ref
+        +--rw dest-mac-address                                ieee:mac-address
+        +--rw admin-status?                                   enumeration
+        +--rw notification-enable?                            boolean
+        +--rw tlvs-tx-enable?                                 bits
+        +--rw message-fast-tx?                                uint32
+        +--rw message-tx-hold-multiplier?                     uint32
+        +--rw message-tx-interval?                            uint32
+        +--rw reinit-delay?                                   uint32
+        +--rw tx-credit-max?                                  uint32
+        +--rw tx-fast-init?                                   uint32
+        +--rw notification-interval?                          uint32
+        +--rw management-address-tx-port* [address-subtype man-address]
+        |  +--rw address-subtype    identityref
+        |  +--rw man-address        lldp-types:man-addr-type
+        |  +--rw tx-enable?         boolean
+        |  +--ro addr-len?          uint32
+        |  +--ro if-subtype?        lldp-types:man-addr-if-subtype
+        |  +--ro if-id?             uint32
+        +--ro port-id-subtype?                                ieee:port-id-subtype-type
+        +--ro port-id?                                        ieee:port-id-type
+        +--ro port-desc?                                      string
+        +--ro tx-statistics
+        |  +--ro total-frames?          yang:counter32
+        |  +--ro total-length-errors?   yang:counter32
+        +--ro rx-statistics
+        |  +--ro total-ageouts?             yang:zero-based-counter32
+        |  +--ro total-discarded-frames?    yang:counter32
+        |  +--ro error-frames?              yang:counter32
+        |  +--ro total-frames?              yang:counter32
+        |  +--ro total-discarded-tlvs?      yang:counter32
+        |  +--ro total-unrecognized-tlvs?   yang:counter32
+        +--ro remote-systems-data* [time-mark remote-index]
+        |  +--ro time-mark                                       yang:timeticks
+        |  +--ro remote-index                                    uint32
+        |  +--ro remote-too-many-neighbors?                      boolean
+        |  +--ro remote-changes?                                 boolean
+        |  +--ro chassis-id-subtype?                             ieee:chassis-id-subtype-type
+        |  +--ro chassis-id?                                     ieee:chassis-id-type
+        |  +--ro port-id-subtype?                                ieee:port-id-subtype-type
+        |  +--ro port-id?                                        ieee:port-id-type
+        |  +--ro port-desc?                                      string
+        |  +--ro system-name?                                    string
+        |  +--ro system-description?                             string
+        |  +--ro system-capabilities-supported?                  lldp-types:system-capabilities-map
+        |  +--ro system-capabilities-enabled?                    lldp-types:system-capabilities-map
+        |  +--ro management-address* [address-subtype address]
+        |  |  +--ro address-subtype    identityref
+        |  |  +--ro address            lldp-types:man-addr-type
+        |  |  +--ro if-subtype?        lldp-types:man-addr-if-subtype
+        |  |  +--ro if-id?             uint32
+        |  +--ro remote-unknown-tlv* [tlv-type]
+        |  |  +--ro tlv-type    uint32
+        |  |  +--ro tlv-info?   binary
+        |  +--ro remote-org-defined-info* [info-identifier info-subtype info-index]
+        |  |  +--ro info-identifier    uint32
+        |  |  +--ro info-subtype       uint32
+        |  |  +--ro info-index         uint32
+        |  |  +--ro remote-info?       binary
+        |  +--ro ieee802-eth-lldp:auto-negotiation-supported?    boolean
+        |  +--ro ieee802-eth-lldp:auto-negotiation-enabled?      boolean
+        |  o--ro ieee802-eth-lldp:auto-negotiation-cap?          binary
+        |  o--ro ieee802-eth-lldp:operational-mau-type?          int32
+        |  +--ro ieee802-eth-lldp:auto-negotiation-cap-bits?     ieee802-phy:auto-neg-ability-bits
+        |  +--ro ieee802-eth-lldp:operational-pmd-type?          identityref
+        |  +--ro ieee802-eth-lldp:power-port-class?              port-class-type
+        |  +--ro ieee802-eth-lldp:mdi-power-supported?           boolean
+        |  +--ro ieee802-eth-lldp:mdi-power-enabled?             boolean
+        |  +--ro ieee802-eth-lldp:power-pair-controlable?        boolean
+        |  +--ro ieee802-eth-lldp:power-pairs?                   pse-pinout-type
+        |  +--ro ieee802-eth-lldp:power-class?                   pse-power-class-type
+        |  o--ro ieee802-eth-lldp:link-aggregation-status?       bits
+        |  o--ro ieee802-eth-lldp:aggregation-port-id?           int32
+        |  o--ro ieee802-eth-lldp:local-max-frame-size?          int32
+        |  o--ro ieee802-eth-lldp:power-type?                    bits
+        |  +--ro ieee802-eth-lldp:power-source?                  power-source-type
+        |  +--ro ieee802-eth-lldp:power-priority?                power-priority-type
+        |  +--ro ieee802-eth-lldp:pd-requested-power-value?      int32
+        |  +--ro ieee802-eth-lldp:pd-requested-power-value-a?    int32
+        |  +--ro ieee802-eth-lldp:pd-requested-power-value-b?    int32
+        |  +--ro ieee802-eth-lldp:pse-allocated-power-value?     int32
+        |  +--ro ieee802-eth-lldp:pse-allocated-power-value-a?   int32
+        |  +--ro ieee802-eth-lldp:pse-allocated-power-value-b?   int32
+        |  +--ro ieee802-eth-lldp:pse-powering-status?           powering-status-type
+        |  +--ro ieee802-eth-lldp:pd-powered-status?             powered-status-type
+        |  +--ro ieee802-eth-lldp:power-pairs-ext?               power-pairs-type
+        |  +--ro ieee802-eth-lldp:power-class-ext-A?             power-class-ext-AB-type
+        |  +--ro ieee802-eth-lldp:power-class-ext-B?             power-class-ext-AB-type
+        |  +--ro ieee802-eth-lldp:power-class-ext?               power-class-ext-type
+        |  +--ro ieee802-eth-lldp:power-type-ext?                power-type
+        |  +--ro ieee802-eth-lldp:pd-load?                       boolean
+        |  +--ro ieee802-eth-lldp:pd-4pid?                       boolean
+        |  +--ro ieee802-eth-lldp:pse-max-avail-power?           int32
+        |  +--ro ieee802-eth-lldp:pse-autoclass-support?         boolean
+        |  +--ro ieee802-eth-lldp:autoclass-completed?           boolean
+        |  +--ro ieee802-eth-lldp:autoclass-request?             boolean
+        |  +--ro ieee802-eth-lldp:power-down-request?            int32
+        |  +--ro ieee802-eth-lldp:power-down-time?               int32
+        |  +--ro ieee802-eth-lldp:meas-voltage-support?          boolean
+        |  +--ro ieee802-eth-lldp:meas-current-support?          boolean
+        |  +--ro ieee802-eth-lldp:meas-power-support?            boolean
+        |  +--ro ieee802-eth-lldp:meas-energy-support?           boolean
+        |  o--ro ieee802-eth-lldp:measurement-source?            bits
+        |  +--ro ieee802-eth-lldp:rem-measurement-source?        measurement-source-type
+        |  +--ro ieee802-eth-lldp:meas-voltage-request?          boolean
+        |  +--ro ieee802-eth-lldp:meas-current-request?          boolean
+        |  +--ro ieee802-eth-lldp:meas-power-request?            boolean
+        |  +--ro ieee802-eth-lldp:meas-energy-request?           boolean
+        |  +--ro ieee802-eth-lldp:meas-voltage-valid?            boolean
+        |  +--ro ieee802-eth-lldp:meas-current-valid?            boolean
+        |  +--ro ieee802-eth-lldp:meas-power-valid?              boolean
+        |  +--ro ieee802-eth-lldp:meas-energy-valid?             boolean
+        |  +--ro ieee802-eth-lldp:meas-voltage-uncertainty?      int32
+        |  +--ro ieee802-eth-lldp:meas-current-uncertainty?      int32
+        |  +--ro ieee802-eth-lldp:meas-power-uncertainty?        int32
+        |  +--ro ieee802-eth-lldp:meas-energy-uncertainty?       int32
+        |  +--ro ieee802-eth-lldp:voltage-measurement?           int32
+        |  +--ro ieee802-eth-lldp:current-measurement?           int32
+        |  +--ro ieee802-eth-lldp:power-measurement?             int32
+        |  +--ro ieee802-eth-lldp:energy-measurement?            int32
+        |  +--ro ieee802-eth-lldp:pse-power-price-index?         int32
+        |  +--ro ieee802-eth-lldp:tx-system-value?               int32
+        |  +--ro ieee802-eth-lldp:tx-system-value-echo?          int32
+        |  +--ro ieee802-eth-lldp:rx-system-value?               int32
+        |  +--ro ieee802-eth-lldp:rx-system-value-echo?          int32
+        |  +--ro ieee802-eth-lldp:fallback-system-value?         int32
+        |  +--ro ieee802-eth-lldp:tx-system-fw?                  boolean
+        |  +--ro ieee802-eth-lldp:tx-system-fw-echo?             boolean
+        |  +--ro ieee802-eth-lldp:rx-system-fw?                  boolean
+        |  +--ro ieee802-eth-lldp:rx-system-fw-echo?             boolean
+        |  +--ro ieee802-eth-lldp:preemption-supported?          boolean
+        |  +--ro ieee802-eth-lldp:preemption-enabled?            boolean
+        |  +--ro ieee802-eth-lldp:preemption-active?             boolean
+        |  +--ro ieee802-eth-lldp:additional-fragement-size?     int32
+        +--ro ieee802-eth-lldp:auto-negotiation-supported?    boolean
+        +--ro ieee802-eth-lldp:auto-negotiation-enabled?      boolean
+        x--ro ieee802-eth-lldp:auto-negotiation-cap?          binary
+        x--ro ieee802-eth-lldp:operational-mau-type?          int32
+        +--rw ieee802-eth-lldp:auto-negotiation-cap-bits?     ieee802-phy:auto-neg-ability-bits
+        +--rw ieee802-eth-lldp:operational-pmd-type?          identityref
+        +--rw ieee802-eth-lldp:power-port-class?              port-class-type
+        +--rw ieee802-eth-lldp:mdi-power-supported?           boolean
+        +--rw ieee802-eth-lldp:mdi-power-enabled?             boolean
+        +--rw ieee802-eth-lldp:power-pair-controlable?        boolean
+        +--rw ieee802-eth-lldp:power-pairs?                   pse-pinout-type
+        +--rw ieee802-eth-lldp:local-power-class?             pse-power-class-type
+        o--ro ieee802-eth-lldp:link-aggregation-status?       bits
+        o--ro ieee802-eth-lldp:aggregation-port-id?           int32
+        o--ro ieee802-eth-lldp:local-max-frame-size?          int32
+        +--ro ieee802-eth-lldp:power-type?                    bits
+        +--rw ieee802-eth-lldp:power-support?                 bits
+        +--ro ieee802-eth-lldp:power-source?                  power-source-type
+        +--ro ieee802-eth-lldp:pd-requested-power-value?      int32
+        +--ro ieee802-eth-lldp:pd-requested-power-value-a?    int32
+        +--ro ieee802-eth-lldp:pd-requested-power-value-b?    int32
+        +--ro ieee802-eth-lldp:pse-allocated-power-value?     int32
+        +--ro ieee802-eth-lldp:pse-allocated-power-value-a?   int32
+        +--ro ieee802-eth-lldp:pse-allocated-power-value-b?   int32
+        +--ro ieee802-eth-lldp:pse-powering-status?           powering-status-type
+        +--ro ieee802-eth-lldp:pd-powered-status?             powered-status-type
+        +--ro ieee802-eth-lldp:power-pairs-ext?               power-pairs-type
+        +--ro ieee802-eth-lldp:power-class-ext-A?             power-class-ext-AB-type
+        +--ro ieee802-eth-lldp:power-class-ext-B?             power-class-ext-AB-type
+        +--ro ieee802-eth-lldp:power-class-ext?               power-class-ext-type
+        +--ro ieee802-eth-lldp:power-type-ext?                power-type
+        +--ro ieee802-eth-lldp:pd-load?                       boolean
+        +--ro ieee802-eth-lldp:pd-4pid?                       boolean
+        +--ro ieee802-eth-lldp:pse-max-avail-power?           int32
+        +--ro ieee802-eth-lldp:pse-autoclass-support?         boolean
+        +--ro ieee802-eth-lldp:autoclass-completed?           boolean
+        +--ro ieee802-eth-lldp:autoclass-request?             boolean
+        +--rw ieee802-eth-lldp:power-down-request?            int32
+        +--rw ieee802-eth-lldp:power-down-time?               int32
+        +--rw ieee802-eth-lldp:meas-voltage-support?          boolean
+        +--rw ieee802-eth-lldp:meas-current-support?          boolean
+        +--rw ieee802-eth-lldp:meas-power-support?            boolean
+        +--rw ieee802-eth-lldp:meas-energy-support?           boolean
+        o--rw ieee802-eth-lldp:measurement-source?            bits
+        +--ro ieee802-eth-lldp:meas-voltage-request?          boolean
+        +--ro ieee802-eth-lldp:meas-current-request?          boolean
+        +--ro ieee802-eth-lldp:meas-power-request?            boolean
+        +--ro ieee802-eth-lldp:meas-energy-request?           boolean
+        +--ro ieee802-eth-lldp:meas-voltage-valid?            boolean
+        +--ro ieee802-eth-lldp:meas-current-valid?            boolean
+        +--ro ieee802-eth-lldp:meas-power-valid?              boolean
+        +--ro ieee802-eth-lldp:meas-energy-valid?             boolean
+        +--ro ieee802-eth-lldp:meas-voltage-uncertainty?      int32
+        +--ro ieee802-eth-lldp:meas-current-uncertainty?      int32
+        +--ro ieee802-eth-lldp:meas-power-uncertainty?        int32
+        +--ro ieee802-eth-lldp:meas-energy-uncertainty?       int32
+        +--ro ieee802-eth-lldp:voltage-measurement?           int32
+        +--ro ieee802-eth-lldp:current-measurement?           int32
+        +--ro ieee802-eth-lldp:power-measurement?             int32
+        +--ro ieee802-eth-lldp:energy-measurement?            int32
+        +--ro ieee802-eth-lldp:pse-power-price-index?         int32
+        +--ro ieee802-eth-lldp:local-response?                int32
+        +--ro ieee802-eth-lldp:local-system-ready?            boolean
+        +--ro ieee802-eth-lldp:tx-system-value?               int32
+        +--ro ieee802-eth-lldp:tx-system-value-echo?          int32
+        +--ro ieee802-eth-lldp:rx-system-value?               int32
+        +--ro ieee802-eth-lldp:rx-system-value-echo?          int32
+        +--ro ieee802-eth-lldp:fallback-system-value?         int32
+        +--ro ieee802-eth-lldp:tx-dll-ready?                  boolean
+        +--ro ieee802-eth-lldp:rx-dll-ready?                  boolean
+        +--ro ieee802-eth-lldp:dll-enabled?                   boolean
+        +--ro ieee802-eth-lldp:tx-system-fw?                  boolean
+        +--ro ieee802-eth-lldp:tx-system-fw-echo?             boolean
+        +--ro ieee802-eth-lldp:rx-system-fw?                  boolean
+        +--ro ieee802-eth-lldp:rx-system-fw-echo?             boolean
+        +--ro ieee802-eth-lldp:preemption-supported?          boolean
+        +--ro ieee802-eth-lldp:preemption-enabled?            boolean
+        +--ro ieee802-eth-lldp:preemption-active?             boolean
+        +--ro ieee802-eth-lldp:additional-fragment-size?      int32
+        +--rw ieee802-eth-lldp:tlvs-port-config-enable?       bits
+        +--rw ieee802-eth-lldp:local-power-priority?          power-priority-type
+        +--rw ieee802-eth-lldp:local-measurement-source?      measurement-source-type
+
+  notifications:
+    +---n remote-table-change
+       +---- remote-insert?    -> /lldp:lldp/lldp:remote-statistics/lldp:remote-inserts
+       +---- remote-delete?    -> /lldp:lldp/lldp:remote-statistics/lldp:remote-deletes
+       +---- remote-drops?     -> /lldp:lldp/lldp:remote-statistics/lldp:remote-drops
+       +---- remote-ageouts?   -> /lldp:lldp/lldp:remote-statistics/lldp:remote-ageouts
+
+module: ieee802-dot1ab-types
+
+module: ieee802-ethernet-interface-half-duplex
+
+  augment /if:interfaces/if:interface/ieee802-eth-if:ethernet:
+    o--rw dynamic-rate-control?   dynamic-rate-control-type {dynamic-rate-control}?
+  augment /if:interfaces/if:interface/ieee802-eth-if:ethernet/ieee802-eth-if:capabilities:
+    o--rw dynamic-rate-control-supported?   boolean {dynamic-rate-control}?
+  augment /if:interfaces/if:interface/ieee802-eth-if:ethernet/ieee802-eth-if:statistics/ieee802-eth-if:frame:
+    +--rw csma-cd {csma-cd}?
+       +--rw in-errors-sqe-test?                yang:counter64
+       +--rw out-frames-collision-single?       yang:counter64
+       +--rw out-frames-collision-multiple?     yang:counter64
+       +--rw out-frames-deferred?               yang:counter64
+       +--rw out-frames-collisions-excessive?   yang:counter64
+       +--rw out-collisions-late?               yang:counter64
+       +--rw out-errors-carrier-sense?          yang:counter64
+       +--rw collision-histogram* [collision-count]
+          +--rw collision-count           yang:counter64
+          +--rw collision-count-frames?   yang:counter64
+
+module: ieee802-ethernet-interface
+
+  augment /if:interfaces/if:interface:
+    +--rw ethernet
+       +--rw auto-negotiation!
+       |  +--rw enable?               boolean
+       |  +--ro negotiation-status?   enumeration
+       +--ro phy-type?                        identityref
+       +--ro pmd-type?                        identityref
+       +--rw duplex?                          duplex-type
+       o--rw speed?                           eth-if-speed-type
+       x--rw flow-control
+       |  x--rw pause {ethernet-pause}?
+       |  |  x--rw direction?    pause-fc-direction-type
+       |  |  x--ro statistics
+       |  |     x--ro in-frames-pause?    yang:counter64
+       |  |     x--ro out-frames-pause?   yang:counter64
+       |  x--rw pfc {ethernet-pfc}?
+       |  |  x--rw enable?       boolean
+       |  |  x--ro statistics
+       |  |     x--ro in-frames-pfc?    yang:counter64
+       |  |     x--ro out-frames-pfc?   yang:counter64
+       |  x--rw force-flow-control?   boolean
+       +--ro max-frame-length?                uint16
+       +--ro mac-control-extension-control?   boolean
+       +--ro frame-limit-slow-protocol?       uint64
+       +--ro capabilities
+       |  +--ro auto-negotiation?   boolean
+       +--rw ethernet-pause {ethernet-pause}?
+       |  +--rw control-and-status
+       |  |  +--rw pause-admin-control?    pause-fc-direction-type
+       |  |  +--ro pause-oper-status?      pause-fc-direction-type
+       |  |  +--rw link-delay-allowance?   uint32
+       |  |  +--ro pfc-enable-status?      boolean
+       |  +--ro statistics
+       |     +--ro in-frames-pause?    yang:counter64
+       |     +--ro out-frames-pause?   yang:counter64
+       +--ro statistics
+          +--ro frame
+          |  +--ro in-total-frames?                 yang:counter64
+          |  +--ro in-total-octets?                 yang:counter64
+          |  +--ro in-frames?                       yang:counter64
+          |  +--ro in-multicast-frames?             yang:counter64
+          |  +--ro in-broadcast-frames?             yang:counter64
+          |  +--ro in-error-fcs-frames?             yang:counter64
+          |  x--ro in-error-undersize-frames?       yang:counter64
+          |  +--ro in-error-oversize-frames?        yang:counter64
+          |  +--ro in-error-mac-internal-frames?    yang:counter64
+          |  +--ro out-frames?                      yang:counter64
+          |  +--ro out-multicast-frames?            yang:counter64
+          |  +--ro out-broadcast-frames?            yang:counter64
+          |  +--ro out-error-mac-internal-frames?   yang:counter64
+          +--ro phy
+          |  +--ro in-error-symbol?   yang:counter64
+          |  +--ro lpi
+          |     +--ro in-lpi-transitions?    yang:counter64
+          |     +--ro in-lpi-time?           decimal64
+          |     +--ro out-lpi-transitions?   yang:counter64
+          |     +--ro out-lpi-time?          decimal64
+          +--ro mac-control
+             +--ro in-frames-mac-control-unknown?      yang:counter64
+             +--ro in-frames-mac-control-extension?    yang:counter64
+             +--ro out-frames-mac-control-extension?   yang:counter64
+
+module: ieee802-ethernet-link-oam
+
+  augment /if:interfaces/if:interface:
+    +--rw link-oam!
+       +--rw admin?                 admin-state
+       +--rw discovery-info
+       |  +---u discovery-info
+       +--ro event-log
+       |  +--ro event-log-entry* [index]
+       |     +--ro index                      uint64
+       |     +---u event-details
+       |     +---u threshold-event-details
+       +--ro statistics
+       |  +---u statistics-common
+       |  +--ro local-error-symbol-period-log-entries     yang:counter64
+       |  +--ro local-error-frame-log-entries             yang:counter64
+       |  +--ro local-error-frame-period-log-entries      yang:counter64
+       |  +--ro local-error-frame-second-log-entries      yang:counter64
+       |  +--ro remote-error-symbol-period-log-entries    yang:counter64 {link-monitoring-remote}?
+       |  +--ro remote-error-frame-log-entries            yang:counter64 {link-monitoring-remote}?
+       |  +--ro remote-error-frame-period-log-entries     yang:counter64 {link-monitoring-remote}?
+       |  +--ro remote-error-frame-second-log-entries     yang:counter64 {link-monitoring-remote}?
+       +---x remote-loopback {remote-loopback-initiate}?
+       |  +---w input
+       |  |  +---w enable    boolean
+       |  +--ro output
+       |     +--ro success          boolean
+       |     +--ro error-message?   string
+       +---x reset-stats
+       |  +--ro output
+       |     +--ro success          boolean
+       |     +--ro error-message?   string
+       +---n non-threshold-event
+       |  +--ro event-details
+       +---n threshold-event {link-monitoring-local or
+link-monitoring-remote}?
+          +--ro event-details
+          +--ro threshold-event-details
+
+module: ieee802-ethernet-lldp
+
+  augment /lldp:lldp/lldp:port:
+    +--ro auto-negotiation-supported?    boolean
+    +--ro auto-negotiation-enabled?      boolean
+    x--ro auto-negotiation-cap?          binary
+    x--ro operational-mau-type?          int32
+    +--rw auto-negotiation-cap-bits?     ieee802-phy:auto-neg-ability-bits
+    +--rw operational-pmd-type?          identityref
+    +--rw power-port-class?              port-class-type
+    +--rw mdi-power-supported?           boolean
+    +--rw mdi-power-enabled?             boolean
+    +--rw power-pair-controlable?        boolean
+    +--rw power-pairs?                   pse-pinout-type
+    +--rw local-power-class?             pse-power-class-type
+    o--ro link-aggregation-status?       bits
+    o--ro aggregation-port-id?           int32
+    o--ro local-max-frame-size?          int32
+    +--ro power-type?                    bits
+    +--rw power-support?                 bits
+    +--ro power-source?                  power-source-type
+    +--ro pd-requested-power-value?      int32
+    +--ro pd-requested-power-value-a?    int32
+    +--ro pd-requested-power-value-b?    int32
+    +--ro pse-allocated-power-value?     int32
+    +--ro pse-allocated-power-value-a?   int32
+    +--ro pse-allocated-power-value-b?   int32
+    +--ro pse-powering-status?           powering-status-type
+    +--ro pd-powered-status?             powered-status-type
+    +--ro power-pairs-ext?               power-pairs-type
+    +--ro power-class-ext-A?             power-class-ext-AB-type
+    +--ro power-class-ext-B?             power-class-ext-AB-type
+    +--ro power-class-ext?               power-class-ext-type
+    +--ro power-type-ext?                power-type
+    +--ro pd-load?                       boolean
+    +--ro pd-4pid?                       boolean
+    +--ro pse-max-avail-power?           int32
+    +--ro pse-autoclass-support?         boolean
+    +--ro autoclass-completed?           boolean
+    +--ro autoclass-request?             boolean
+    +--rw power-down-request?            int32
+    +--rw power-down-time?               int32
+    +--rw meas-voltage-support?          boolean
+    +--rw meas-current-support?          boolean
+    +--rw meas-power-support?            boolean
+    +--rw meas-energy-support?           boolean
+    o--rw measurement-source?            bits
+    +--ro meas-voltage-request?          boolean
+    +--ro meas-current-request?          boolean
+    +--ro meas-power-request?            boolean
+    +--ro meas-energy-request?           boolean
+    +--ro meas-voltage-valid?            boolean
+    +--ro meas-current-valid?            boolean
+    +--ro meas-power-valid?              boolean
+    +--ro meas-energy-valid?             boolean
+    +--ro meas-voltage-uncertainty?      int32
+    +--ro meas-current-uncertainty?      int32
+    +--ro meas-power-uncertainty?        int32
+    +--ro meas-energy-uncertainty?       int32
+    +--ro voltage-measurement?           int32
+    +--ro current-measurement?           int32
+    +--ro power-measurement?             int32
+    +--ro energy-measurement?            int32
+    +--ro pse-power-price-index?         int32
+    +--ro local-response?                int32
+    +--ro local-system-ready?            boolean
+    +--ro tx-system-value?               int32
+    +--ro tx-system-value-echo?          int32
+    +--ro rx-system-value?               int32
+    +--ro rx-system-value-echo?          int32
+    +--ro fallback-system-value?         int32
+    +--ro tx-dll-ready?                  boolean
+    +--ro rx-dll-ready?                  boolean
+    +--ro dll-enabled?                   boolean
+    +--ro tx-system-fw?                  boolean
+    +--ro tx-system-fw-echo?             boolean
+    +--ro rx-system-fw?                  boolean
+    +--ro rx-system-fw-echo?             boolean
+    +--ro preemption-supported?          boolean
+    +--ro preemption-enabled?            boolean
+    +--ro preemption-active?             boolean
+    +--ro additional-fragment-size?      int32
+  augment /lldp:lldp/lldp:port:
+    +--rw tlvs-port-config-enable?    bits
+    +--rw local-power-priority?       power-priority-type
+    +--rw local-measurement-source?   measurement-source-type
+  augment /lldp:lldp/lldp:port/lldp:remote-systems-data:
+    +--rw auto-negotiation-supported?    boolean
+    +--rw auto-negotiation-enabled?      boolean
+    o--rw auto-negotiation-cap?          binary
+    o--rw operational-mau-type?          int32
+    +--rw auto-negotiation-cap-bits?     ieee802-phy:auto-neg-ability-bits
+    +--rw operational-pmd-type?          identityref
+    +--rw power-port-class?              port-class-type
+    +--rw mdi-power-supported?           boolean
+    +--rw mdi-power-enabled?             boolean
+    +--rw power-pair-controlable?        boolean
+    +--rw power-pairs?                   pse-pinout-type
+    +--rw power-class?                   pse-power-class-type
+    o--rw link-aggregation-status?       bits
+    o--rw aggregation-port-id?           int32
+    o--rw local-max-frame-size?          int32
+    o--rw power-type?                    bits
+    +--rw power-source?                  power-source-type
+    +--rw power-priority?                power-priority-type
+    +--rw pd-requested-power-value?      int32
+    +--rw pd-requested-power-value-a?    int32
+    +--rw pd-requested-power-value-b?    int32
+    +--rw pse-allocated-power-value?     int32
+    +--rw pse-allocated-power-value-a?   int32
+    +--rw pse-allocated-power-value-b?   int32
+    +--rw pse-powering-status?           powering-status-type
+    +--rw pd-powered-status?             powered-status-type
+    +--rw power-pairs-ext?               power-pairs-type
+    +--rw power-class-ext-A?             power-class-ext-AB-type
+    +--rw power-class-ext-B?             power-class-ext-AB-type
+    +--rw power-class-ext?               power-class-ext-type
+    +--rw power-type-ext?                power-type
+    +--rw pd-load?                       boolean
+    +--rw pd-4pid?                       boolean
+    +--rw pse-max-avail-power?           int32
+    +--rw pse-autoclass-support?         boolean
+    +--rw autoclass-completed?           boolean
+    +--rw autoclass-request?             boolean
+    +--rw power-down-request?            int32
+    +--rw power-down-time?               int32
+    +--rw meas-voltage-support?          boolean
+    +--rw meas-current-support?          boolean
+    +--rw meas-power-support?            boolean
+    +--rw meas-energy-support?           boolean
+    o--rw measurement-source?            bits
+    +--rw rem-measurement-source?        measurement-source-type
+    +--rw meas-voltage-request?          boolean
+    +--rw meas-current-request?          boolean
+    +--rw meas-power-request?            boolean
+    +--rw meas-energy-request?           boolean
+    +--rw meas-voltage-valid?            boolean
+    +--rw meas-current-valid?            boolean
+    +--rw meas-power-valid?              boolean
+    +--rw meas-energy-valid?             boolean
+    +--rw meas-voltage-uncertainty?      int32
+    +--rw meas-current-uncertainty?      int32
+    +--rw meas-power-uncertainty?        int32
+    +--rw meas-energy-uncertainty?       int32
+    +--rw voltage-measurement?           int32
+    +--rw current-measurement?           int32
+    +--rw power-measurement?             int32
+    +--rw energy-measurement?            int32
+    +--rw pse-power-price-index?         int32
+    +--rw tx-system-value?               int32
+    +--rw tx-system-value-echo?          int32
+    +--rw rx-system-value?               int32
+    +--rw rx-system-value-echo?          int32
+    +--rw fallback-system-value?         int32
+    +--rw tx-system-fw?                  boolean
+    +--rw tx-system-fw-echo?             boolean
+    +--rw rx-system-fw?                  boolean
+    +--rw rx-system-fw-echo?             boolean
+    +--rw preemption-supported?          boolean
+    +--rw preemption-enabled?            boolean
+    +--rw preemption-active?             boolean
+    +--rw additional-fragement-size?     int32
+
+module: ieee802-ethernet-mac-merge
+
+  augment /if:interfaces/if:interface/ieee802-eth-if:ethernet:
+    +--rw mac-merge
+       +--rw admin-control
+       |  +--rw merge-enable-tx?     enumeration
+       |  +--rw verify-disable-tx?   enumeration
+       |  +--rw verify-time?         uint16
+       |  +--rw frag-size?           uint8
+       +--ro admin-status
+       |  +--ro merge-support?   enumeration
+       |  +--ro verify-status?   enumeration
+       |  +--ro status-tx?       enumeration
+       +--ro statistics
+          +--ro assembly-error-count?   yang:counter64
+          +--ro smd-error-count?        yang:counter64
+          +--ro assembly-ok-count?      yang:counter64
+          +--ro fragment-count-rx?      yang:counter64
+          +--ro fragment-count-tx?      yang:counter64
+          +--ro hold-count?             yang:counter64
+
+module: ieee802-ethernet-phy-type
+
+module: ieee802-ethernet-phy
+
+  augment /if:interfaces/if:interface:
+    +--rw phy-table
+    |  +--rw control
+    |  |  +--rw phy-reset?           boolean
+    |  |  +--rw phy-admin-control?   enumeration
+    |  |  +--rw fec-control! {fec-support}?
+    |  |     +--rw fec-mode-control?        enumeration
+    |  |     +--rw rs-fec-bypass-control?   enabled-state
+    |  +--ro status
+    |  |  +--ro phy-type?                 identityref
+    |  |  +--ro pmd-type?                 identityref
+    |  |  +--ro pmd-type-list?            ieee802-phy:pmd-type-list
+    |  |  +--ro phy-status?               enumeration
+    |  |  +--ro phy-media-available?      ieee802-phy:media-available-type
+    |  |  +--ro jabber-state?             enumeration
+    |  |  +--ro jabbering-state-enters?   yang:counter64
+    |  |  +--ro fec-status! {fec-support}?
+    |  |  |  +--ro fec-ability?                    bits
+    |  |  |  +--ro fec-mode-status?                enumeration
+    |  |  |  +--ro rs-fec-bypass-enabled-status?   enabled-state
+    |  |  +--ro baset-snr! {baset-snr-support}?
+    |  |  |  +--ro snr-op-margin-chnl-a?   snr-value
+    |  |  |  +--ro snr-op-margin-chnl-b?   snr-value
+    |  |  |  +--ro snr-op-margin-chnl-c?   snr-value
+    |  |  |  +--ro snr-op-margin-chnl-d?   snr-value
+    |  |  +--ro time-sync! {time-sync-support}?
+    |  |     +--ro time-sync-ability?        bits
+    |  |     +--ro time-sync-delay-tx-max?   uint32
+    |  |     +--ro time-sync-delay-tx-min?   uint32
+    |  |     +--ro time-sync-delay-rx-max?   int32
+    |  |     +--ro time-sync-delay-rx-min?   int32
+    |  +--ro statistics
+    |  |  +--ro phy-media-losts?            yang:counter64
+    |  |  +--ro jabbering-state-enters?     yang:counter64
+    |  |  +--ro false-carriers?             yang:counter64
+    |  |  +--ro pcs-coding-violations?      yang:counter64
+    |  |  +--ro fast-retrain-count-local?   counter-1000-second
+    |  |  +--ro fast-retrain-count-peer?    counter-1000-second
+    |  +--ro pcs-lane-statistics {pcs-lane-statistics-support}?
+    |     +--ro pcs-lane* [pcs-lane-index]
+    |        +--ro pcs-lane-index            uint32
+    |        +--ro fec-corrected-blocks?     counter-pcs-lane
+    |        +--ro fec-uncorrected-blocks?   counter-pcs-lane
+    +--rw auto-neg-table {auto-negotiation-support}?
+       +--rw control
+       |  +--rw auto-neg-control?   boolean
+       |  +--rw auto-neg-restart?   boolean
+       +--ro status
+          +--ro auto-neg-enabled?               boolean
+          +--ro auto-neg-remote-signaling?      boolean
+          +--ro auto-neg-status?                enumeration
+          +--ro auto-neg-capability-bits?       ieee802-phy:auto-neg-ability-bits
+          +--ro auto-neg-cap-advertised-bits?   ieee802-phy:auto-neg-ability-bits
+          +--ro auto-neg-cap-received-bits?     ieee802-phy:auto-neg-ability-bits
+
+module: ieee802-ethernet-pon
+
+  augment /if:interfaces/if:interface/ieee802-eth-if:ethernet:
+    +--rw fec-mode?                              fec-mode {fec-supported}?
+    +--rw mpcp-admin-state?                      mpcp-admin-state
+    +--ro mpcp-logical-link-admin-state?         mpcp-logical-link-admin-state
+    +--rw trx-transmit-admin-state?              trx-admin-state {trx-power-level-reporting-supported}?
+    +--ro capabilities
+    |  +--ro mpcp-supported?   mpcp-supported
+    +--ro statistics-mpcp
+    |  +--ro out-mpcp-mac-ctrl-frames?       yang:counter64
+    |  +--ro in-mpcp-mac-ctrl-frames?        yang:counter64
+    |  +--ro mpcp-discovery-window-count?    yang:counter64
+    |  +--ro mpcp-discovery-timeout-count?   yang:counter64
+    |  +--ro out-mpcp-register-req?          yang:counter64
+    |  +--ro in-mpcp-register-req?           yang:counter64
+    |  +--ro out-mpcp-register-ack?          yang:counter64
+    |  +--ro in-mpcp-register-ack?           yang:counter64
+    |  +--ro out-mpcp-report?                yang:counter64
+    |  +--ro in-mpcp-report?                 yang:counter64
+    |  +--ro out-mpcp-gate?                  yang:counter64
+    |  +--ro in-mpcp-gate?                   yang:counter64
+    |  +--ro out-mpcp-register?              yang:counter64
+    |  +--ro in-mpcp-register?               yang:counter64
+    +--rw statistics-ompe
+    |  +--ro in-ompe-frames-errored-sld?                        yang:counter64
+    |  +--ro in-ompe-frames-errored-crc8?                       yang:counter64
+    |  +--ro ompe-onu-frames-with-good-llid-good-crc8?          yang:counter64
+    |  +--ro ompe-olt-frames-with-good-llid-good-crc8?          yang:counter64
+    |  +--ro in-ompe-frames-with-bad-llid?                      yang:counter64
+    |  +--ro in-ompe-frames-with-good-llid?                     yang:counter64
+    |  +--ro in-ompe-frames?                                    yang:counter64
+    |  +--ro in-ompe-frames-not-match-onu-llid-broadcast?       yang:counter64
+    |  +--ro in-ompe-frames-match-onu-llid-not-broadcast?       yang:counter64
+    |  +--ro in-ompe-frames-match-onu-llid-broadcast?           yang:counter64
+    |  +--ro in-ompe-frames-not-match-onu-llid-not-broadcast?   yang:counter64
+    +--rw thresholds-trx {trx-power-level-reporting-supported}?
+    |  +--rw in-trx-power-low-threshold?     power-level {trx-power-level-reporting-supported}?
+    |  +--rw in-trx-power-high-threshold?    power-level {trx-power-level-reporting-supported}?
+    |  +--rw out-trx-power-low-threshold?    power-level {trx-power-level-reporting-supported}?
+    |  +--rw out-trx-power-high-threshold?   power-level {trx-power-level-reporting-supported}?
+    x--rw statistics-trx {trx-power-level-reporting-supported}?
+    |  x--ro in-trx-power-signal-detect?          boolean
+    |  x--ro in-trx-power?                        power-level
+    |  x--ro in-trx-power-low-15-minutes-bin?     power-level
+    |  x--ro in-trx-power-high-15-minutes-bin?    power-level
+    |  x--ro out-trx-power-signal-detect?         boolean
+    |  x--ro out-trx-power?                       power-level
+    |  x--ro out-trx-power-low-15-minutes-bin?    power-level
+    |  x--ro out-trx-power-high-15-minutes-bin?   power-level
+    |  x--ro trx-data-reliable?                   boolean {trx-power-level-reporting-supported}?
+    +--rw monitoring-trx {trx-power-level-reporting-supported}?
+    |  +--ro in-trx-power-signal-detect?          boolean
+    |  +--ro in-trx-power?                        power-level
+    |  +--ro in-trx-power-low-15-minutes-bin?     power-level
+    |  +--ro in-trx-power-high-15-minutes-bin?    power-level
+    |  +--ro out-trx-power-signal-detect?         boolean
+    |  +--ro out-trx-power?                       power-level
+    |  +--ro out-trx-power-low-15-minutes-bin?    power-level
+    |  +--ro out-trx-power-high-15-minutes-bin?   power-level
+    |  +--ro trx-data-reliable?                   boolean {trx-power-level-reporting-supported}?
+    +--ro statistics-pon-fec {fec-supported}?
+    |  +--ro fec-code-group-violations?           yang:counter64
+    |  +--ro fec-buffer-head-coding-violations?   yang:counter64
+    |  +--ro fec-code-word-corrected-errors?      yang:counter64
+    |  +--ro fec-code-word-uncorrected-errors?    yang:counter64
+    +--rw mpcp-logical-link-admin-actions
+    |  +---x state-change-action-type
+    |  |  +---w input
+    |  |     +---w state-change-action-type?   identityref
+    |  +---x reset-action-type
+    |  |  +---w input
+    |  |     +---w reset-action-type?   identityref
+    |  +---x register-type
+    |     +---w input
+    |        +---w register-type?   identityref
+    +--rw mpcp-queues* [mpcp-queue-index]
+    |  +--rw mpcp-queue-index                  uint8
+    |  +--rw mpcp-queue-threshold-count?       uint8
+    |  +--ro mpcp-queue-threshold-count-max?   uint8
+    |  +--rw mpcp-queue-thresholds* [mpcp-queue-set-index]
+    |  |  +--rw mpcp-queue-set-index        uint8
+    |  |  +--rw mpcp-queue-set-threshold?   uint64
+    |  +--ro in-mpcp-queue-frames?             yang:counter64
+    |  +--ro out-mpcp-queue-frames?            yang:counter64
+    |  +--ro mpcp-queue-frames-drop?           yang:counter64
+    +--rw multicast-IDs* [multicast-ID]
+    |  +--rw multicast-ID    uint32
+    +--ro fec-capability?                        fec-capability
+    +--ro mpcp-mode?                             mpcp-mode
+    +--ro mpcp-sync-time?                        uint64
+    +--ro mpcp-logical-link-id?                  mpcp-supported
+    +--ro mpcp-remote-mac-address?               ieee:mac-address
+    +--ro mpcp-logical-link-state?               mpcp-logical-link-state
+    +--ro mpcp-elapsed-time-out?                 uint64
+    +--ro mpcp-elapsed-time-in?                  uint64
+    +--ro mpcp-round-trip-time?                  uint16
+    +--ro mpcp-maximum-grant-count?              uint8
+    +--ro mpcp-logical-link-count?               mpcp-llid-count
+    +--ro mpcp-maximum-queue-count-per-report?   mpcp-maximum-queue-count-per-report
+    +--ro ompe-mode?                             ompe-mode
+
+module: ieee802-ethernet-pse-2
+
+  augment /if:interfaces/if:interface/ieee802-eth-if:ethernet:
+    +--rw pse
+       +--ro supported-pse-type?   pse-support
+       +--rw multi-pair! {multi-pair-pse}?
+       |  +--rw pse-enable?                  boolean
+       |  +--ro pse-state?                   boolean
+       |  +--rw multi-pair-powering-pairs?   multi-pair-powering-pairs
+       |  +--ro pairs-control-ability?       boolean
+       |  o--ro detection-status?            multi-pair-detection-state
+       |  o--ro classifications?             multi-pair-power-class
+       |  +--ro statistics
+       |  |  +--ro power-denied?        yang:counter64
+       |  |  +--ro invalid-signature?   yang:counter64
+       |  |  +--ro mps-absent?          yang:counter64
+       |  |  x--ro overload?            yang:counter64
+       |  |  x--ro short?               yang:counter64
+       |  |  +--ro cumulative-energy?   yang:counter64
+       |  +--ro actual-power?                uint32
+       |  +--ro power-accuracy?              int64
+       +--rw single-pair! {single-pair-pse}?
+          +--rw pse-enable?         boolean
+          +--ro detection-status?   single-pair-detection-state
+          +--ro single-pair-type?   single-pair-pse-type
+          +--ro detected-pd-type?   single-pair-pd-type
+          +--ro pd-power-class?     single-pair-power-class
+          +--ro statistics
+          |  +--ro power-denied?        yang:counter64
+          |  +--ro invalid-signature?   yang:counter64
+          |  +--ro invalid-class?       yang:counter64
+          |  +--ro overload?            yang:counter64
+          |  +--ro fvs-absence?         yang:counter64
+          |  +--ro cumulative-energy?   yang:counter64
+          +--ro actual-power?       uint32
+          +--ro power-accuracy?     int64
+
+module: ieee802-ethernet-pse
+
+  augment /if:interfaces/if:interface/ieee802-eth-if:ethernet:
+    +--rw pse
+       +--ro supported-pse-type?   identityref
+       x--rw multi-pair!
+       |  x--rw pse-enable?              boolean
+       |  x--rw powering-pairs?          identityref
+       |  x--ro pairs-control-ability?   boolean
+       |  x--ro detection-status?        multi-pair-detection-state
+       |  x--ro classifications?         power-class
+       |  x--ro statistics
+       |  |  x--ro power-denied?        yang:counter64
+       |  |  x--ro invalid-signature?   yang:counter64
+       |  |  x--ro mps-absent?          yang:counter64
+       |  |  x--ro overload?            yang:counter64
+       |  |  x--ro short?               yang:counter64
+       |  |  x--ro cumulative-energy?   yang:counter64
+       |  x--ro actual-power?            decimal64
+       |  x--ro power-accuracy?          int64
+       x--rw single-pair!
+          x--rw pse-enable?         boolean
+          x--ro detection-status?   single-pair-detection-state
+          x--ro podl-type?          enumeration
+          x--ro detected-pd-type?   enumeration
+          x--ro pd-power-class?     power-class
+          x--ro statistics
+          |  x--ro power-denied?        yang:counter64
+          |  x--ro invalid-signature?   yang:counter64
+          |  x--ro invalid-class?       yang:counter64
+          |  x--ro overload?            yang:counter64
+          |  x--ro fvs-absence?         yang:counter64
+          |  x--ro cumulative-energy?   yang:counter64
+          x--ro actual-power?       decimal64
+          x--ro power-accuracy?     int64
+
+module: ieee802-types

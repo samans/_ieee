@@ -80,6 +80,10 @@
       {
          "name": "0022 OK",
          "my-number-pattern-odd-even": "odd(1-11),even(20-30)"
+      },
+      {
+         "name": "0023 OK",
+         "my-number-pattern-odd-even": "odd(5),odd(11-13),odd(15)"
       }
     ]
   }
