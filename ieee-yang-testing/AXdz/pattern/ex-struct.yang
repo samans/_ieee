@@ -1,0 +1,34 @@
+module ex-struct {
+  namespace "urn:example:ex-struct";
+  prefix ex;
+
+  container example-container {
+    list example-collection {
+      key "name";
+      leaf name {
+        type string;
+        description
+          "example";
+      }
+      list mask {
+        key "lower-range";
+        leaf lower-range {
+          type int16 {
+            range "0..4095";
+          }
+        }
+        leaf upper-range {
+          type int16 {
+            range "0..4095";
+          }
+        }
+        leaf increment-range {
+          type int16 {
+            range "0..4095";
+          }
+          default 0;
+        }
+      }
+    }
+  }
+}

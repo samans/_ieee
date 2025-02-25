@@ -1,0 +1,6 @@
+   'num(-num)?' +
+   '|even\(num(-num)?(,(num(-num)?))*\)" +
+   '|odd\(num(-num)?(,(num(-num)?))*\)' +
+'(,(num(-num)? +
+   '|even\(num(-num)?(,(num(-num)?))*\)" +  
+   '|odd\(num(-num)?(,(num(-num)?))*\)))*'

@@ -1,0 +1,48 @@
+{
+  "ex-struct:example-container": {
+    "example-collection": [
+      {
+        "name": "All Odd between 1 and 11",
+        "mask": [
+          {
+            "lower-range": 1,
+            "upper-range": 11,
+            "increment-range": 2
+          }
+        ]
+      },
+      {
+        "name": "Mix of Even 0-10 and Odd 21-31",
+        "mask": [
+          {
+            "lower-range": 0,
+            "upper-range": 10,
+            "increment-range": 2
+          },
+          {
+            "lower-range": 21,
+            "upper-range": 31,
+            "increment-range": 2
+          }
+        ]
+      },
+      {
+        "name": "Ranges and individual numbers: 0-10, 21-31, 55",
+        "mask": [
+          {
+            "lower-range": 0,
+            "upper-range": 10
+          },
+          {
+            "lower-range": 21,
+            "upper-range": 31
+          },
+          {
+            "lower-range": 55,
+            "upper-range": 55
+          }
+        ]
+      }
+    ]
+  }
+}

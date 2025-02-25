@@ -1,0 +1,10 @@
+#! /usr/local/bin/expect -f
+#set timeout -1
+spawn /usr/local/bin/yanglint
+expect ">"
+send "load  ex-struct\r"
+expect ">"
+send "data -t data -f xml -o exs.xml exs.json\r"
+expect ">"
+send "quit\r"
+expect eof

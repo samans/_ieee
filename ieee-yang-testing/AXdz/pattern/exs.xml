@@ -1,0 +1,38 @@
+<example-container xmlns="urn:example:ex-struct">
+  <example-collection>
+    <name>All Odd between 1 and 11</name>
+    <mask>
+      <lower-range>1</lower-range>
+      <upper-range>11</upper-range>
+      <increment-range>2</increment-range>
+    </mask>
+  </example-collection>
+  <example-collection>
+    <name>Mix of Even 0-10 and Odd 21-31</name>
+    <mask>
+      <lower-range>0</lower-range>
+      <upper-range>10</upper-range>
+      <increment-range>2</increment-range>
+    </mask>
+    <mask>
+      <lower-range>21</lower-range>
+      <upper-range>31</upper-range>
+      <increment-range>2</increment-range>
+    </mask>
+  </example-collection>
+  <example-collection>
+    <name>Ranges and individual numbers: 0-10, 21-31, 55</name>
+    <mask>
+      <lower-range>0</lower-range>
+      <upper-range>10</upper-range>
+    </mask>
+    <mask>
+      <lower-range>21</lower-range>
+      <upper-range>31</upper-range>
+    </mask>
+    <mask>
+      <lower-range>55</lower-range>
+      <upper-range>55</upper-range>
+    </mask>
+  </example-collection>
+</example-container>
