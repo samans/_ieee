@@ -1,0 +1,23 @@
+  description
+    "This module provides management of IEEE Std 802.1Q Bridge
+    components that support Per-Stream Filtering and Policing (PSFP).
+    
+    Copyright (C) IEEE (2023).
+    
+    This version of this YANG module is part of IEEE Std 802.1Q; see the
+    standard itself for full legal notices.";
+  revision 2024-06-17 {
+    description
+      "TODO add proper revision description";
+  }
+  revision 2023-10-26 {
+    description
+      "Published as part of IEEE Std 802.1Qcw-2023.
+      
+      The following reference statement identifies each referenced IEEE
+      Standard as updated by applicable amendments.";
+    reference
+      "IEEE Std 802.1Q Bridges and Bridged Networks: 
+      IEEE Std 802.1Q-2022, IEEE Std 802.1Qcz-2023, IEEE Std 802.1Qcw-2023."; 
+  }
+ieee802
