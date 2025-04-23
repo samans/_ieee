@@ -1,2 +1,2 @@
 
-yanglint --verbose -f tree -p common d3.2/802.3.2.D3.2YANG/*.yang 
+yanglint --verbose -f tree -p common D3.3/*.yang 
