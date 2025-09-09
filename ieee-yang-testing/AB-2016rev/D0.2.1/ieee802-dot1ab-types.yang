@@ -17,8 +17,18 @@ module ieee802-dot1ab-types {
     E-mail: stds-802-1-chairs@ieee.org";
   description
     "Common types used within ieee802-dot1ab-lldp modules. Copyright(C) IEEE
-    (2022). All rights reserved. This version of this YANG module is part of
-    IEEE Std 802.1ABcu; see the standard itself for full legal notices.";
+    (2026). All rights reserved. This version of this YANG module is part of
+    IEEE Std 802.1AB-2026; see the standard itself for full legal notices.";
+  revision 2025-08-12 {
+    description
+      "Published as part of IEEE Std 802.1QAB-2026.
+
+      The following reference statement identifies each referenced IEEE
+      Standard as updated by applicable amendments.";
+    reference
+      "IEEE Std 802.1AB Station and Media Access Control Connectivity Discovery:
+	  IEEE Std 802.1AB-2026.";
+  }
   revision 2022-03-15 {
     description
       "Published as part of IEEE Std 802.1ABcu.";
@@ -46,7 +56,7 @@ module ieee802-dot1ab-types {
     description
       "Management address interface subtype.";
     reference
-      "8.5.9.5 of IEEE Std 802.1AB-2016";
+      "8.5.9.3 of IEEE Std 802.1AB";
   }
   typedef man-addr-type {
     type string {
@@ -55,7 +65,7 @@ module ieee802-dot1ab-types {
     description
       "Management address associated with the LLDP agent.";
     reference
-      "8.5.9.4 of IEEE Std 802.1AB-2016";
+      "8.5.9.4 of IEEE Std 802.1AB";
   }
   typedef system-capabilities-map {
     type bits {
@@ -120,7 +130,7 @@ module ieee802-dot1ab-types {
     description
       "This describes system capabilities.";
     reference
-      "8.5.8.1 of IEEE Std 802.1AB-2016";
+      "8.5.8.1 of IEEE Std 802.1AB";
   }
   typedef port-list {
     type binary {
