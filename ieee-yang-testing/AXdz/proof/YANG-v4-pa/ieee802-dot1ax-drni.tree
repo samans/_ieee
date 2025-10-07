@@ -1,0 +1,58 @@
+module: ieee802-dot1ax-drni
+
+  augment /if:interfaces/if:interface/dot1ax:lag:
+    +--rw drni!
+       +--rw irp-name                            if:interface-ref
+       +--rw drni-aggregator-key?                uint16
+       +--rw drni-aggregator-system?             ieee:mac-address
+       +--rw drni-aggregator-system-priority?    uint16
+       +--rw drcp-protocol-da?                   ax:bridge-reserved-addresses
+       +--rw home-admin-irp-state?               irp-state
+       +--ro home-oper-irp-state?                irp-state
+       +--rw home-cscd-gateway-control?          boolean
+       +--rw home-dr-client-gateway-control?     boolean
+       +--rw home-gateway-algorithm?             identityref
+       +--rw home-gateway-conv-service-map {ax:sid-map}?
+       |  +--rw (method)?
+       |     +--:(pattern)
+       |     |  +--rw pattern?    identityref
+       |     +--:(cid-list)
+       |        +--rw cid-list* [cid]
+       |           +--rw cid            uint16
+       |           +--rw service-ids*   uint32
+       +--ro home-gateway-conv-service-digest?   binary
+       +--rw gateway-enable-mask
+       |  +--rw cid-str*       string
+       |  +--rw invert-mask?   boolean
+       +--rw gateway-preference-mask
+       |  +--rw cid-str*       string
+       |  +--rw invert-mask?   boolean
+       +--ro gateway-available-mask
+       |  +--ro cid-str*       string
+       |  +--ro invert-mask?   boolean
+       +--ro neighbor
+          +--ro oper-irp-state?                   irp-state
+          +--ro system?                           ieee:mac-address
+          +--ro system-priority?                  uint16
+          +--ro drni-key?                         uint16
+          +--ro aggregator-algorithm?             identityref
+          +--ro aggregator-conv-service-digest?   binary
+          +--ro aggregator-conv-link-digest?      binary
+          +--ro partner-system-priority?          uint16
+          +--ro partner-system?                   ieee:mac-address
+          +--ro partner-aggregator-key?           uint16
+          +--ro cscd-state?                       bits
+          +--ro active-links*                     uint16
+          +--ro gateway-algorithm?                identityref
+          +--ro gateway-conv-service-digest?      binary
+          +--ro gateway-available-mask
+          |  +--ro cid-str*       string
+          |  +--ro invert-mask?   boolean
+          +--ro gateway-preference-mask
+             +--ro cid-str*       string
+             +--ro invert-mask?   boolean
+  augment /if:interfaces/if:interface/if:statistics/dot1ax:lag-stats:
+    +--ro drni-stats
+       +--ro drcpdus-rx?   yang:counter64
+       +--ro illegal-rx?   yang:counter64
+       +--ro drcpdus-tx?   yang:counter64

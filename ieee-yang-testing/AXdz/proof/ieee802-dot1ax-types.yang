@@ -1,6 +1,6 @@
 module ieee802-dot1ax-types {
   yang-version 1.1;
-  namespace "urn:ieee:params:xml:ns:yang:ieee802-dot1ax-types";
+  namespace "urn:ieee:std:802.1AX:yang:ieee802-dot1ax-types";
   prefix dot1ax-types;
 
   organization
@@ -19,24 +19,24 @@ module ieee802-dot1ax-types {
   description
     "Common types used within 802.1AX Link Aggregation modules.
 
-     Copyright (C) IEEE (2024).
+     Copyright (C) IEEE (2025).
 
      This version of this YANG module is part of IEEE Std 802.1AX;
      see the standard itself for full legal notices.";
 
-  revision 2025-02-07 {
+  revision 2025-09-30 {
     description
-      "Published as part of IEEE Std 802.1AXdz-202y.
-       The following reference statement identifies each referenced IEEE
-       Standard as updated by applicable amendments.";
+      "Published as part of IEEE Std 802.1AXdz-2025.
+       The following reference statement identifies each referenced
+       IEEE Standard as updated by applicable amendments.";
     reference
       "IEEE Std 802.1AX-2020 Link Aggregation:
-       IEEE Std 802.1AXdz-202y.";
+       IEEE Std 802.1AXdz-2025.";
   }
 
   feature cscd {
     description
-      "Conversation Sensitive Collection and Distribution (CSCD)
+      "Conversation-Sensitive Collection and Distribution (CSCD)
        is supported.";
     reference
       "5.3.2, 6.6 of IEEE Std 802.1AX";
@@ -105,11 +105,11 @@ module ieee802-dot1ax-types {
        customized distribution algorithms can be created as
        their own identities in their own YANG files, derived from
        this imported base type.  When the identity description
-       specifies a 4 octet value, this value is used for cscd
+       specifies a 4-octet value, this value is used for CSCD
        purposes, and included in LACPDUs. Otherwise the identity
        is used purely for local selection of a distribution
        algorithm, and the unspecified distribution algorithm is
-       used for cscd purposes.";
+       used for CSCD purposes.";
     reference
       "8.1, 8.2 of IEEE Std 802.1AX";
   }
@@ -240,53 +240,64 @@ module ieee802-dot1ax-types {
       "Base identity for patterns filling the admin-conv-link-map.
        This identity is intended to serve as base identity, not
        to be directly referenced. Use of the identity allows vendors
-       to augment the module with vendor specified patterns,";
+       to augment the module with vendor specified patterns.";
+    reference
+      "7.3.1.1.34, 6.6.3.1 of IEEE Std 802.1AX";
   }
 
   identity one-plus-n {
     if-feature "basic-link-maps";
     base link-map-patterns;
     description
-      "Provides active/standby behavior with one active link and
-       up to 63 standby links. All packets are mapped to whichever
-       link that is active in the aggregation has the lowest link
-       number. If that link fails, all packets are mapped to the
-       lowest link number of the remaining links that are active
-       in the aggregation.
-       The map consists of an identical entry for each CID, with a
-       list of numbers from 1 to 64.
-       Supports any number of links in the aggregation (up to 64)
-       with link numbers between 1 and 64. Any links in the
-       aggregation with a link number greater than 64  are not
-       used.";
+      "Provides active/standby behavior with one link carrying
+       all traffic and any other links in the LAG are standby.
+       All packets are mapped to the lowest link number that is
+       active in the aggregation. This is updated whenever a link
+       becomes active or inactive in the aggregation. The pattern
+       supports any number of links with link numbers between 1
+       and 4095. Any links in the aggregation with a link number
+       greater than 4095 are not used.
+       The map consists of an identical entry for each CID, with
+       a list of numbers from 1 to 4095, followed by the number 0.
+       The MD5 digest calculated for this map is
+       0xd2dc4cf241740239408945bd87391286 (hex) or
+       0txM8kF0AjlAiUW9hzkShg== (base64).";
   }
 
   identity two-plus-n {
     if-feature "basic-link-maps";
     base link-map-patterns;
     description
-      "Provides basic load-balancing on two active links with up
-       to 62 standby links. All packets with an even CID value are
-       mapped to the link with the lowest link number in the
-       aggregation, and all packets with an odd CID value are
-       mapped to the link with the highest link number in the
-       aggregation.
+      "Provides basic load-balancing on two links and any other
+       links in the aggregation are standby. All packets with an
+       even CID value are mapped to the link with the lowest link
+       number that is active in the aggregation, and all packets
+       with an odd CID value are mapped to the link with the
+       highest link number that is active in the aggregation.
+       This is updated whenever a link becomes active or inactive
+       in the aggregation. The pattern supports any number of
+       links with link numbers between 1 and 4095. Any links in
+       the aggregation with a link number greater than 4095 are
+       not used.
        The map consists of an identical entry for each even CID
-       containing a list of numbers from 1 to 64, and an identical
-       entry for each odd CID containing a list of numbers from 64
-       to 1.
-       Supports any number of links in the aggregation (up to 64)
-       with link numbers between 1 and 64. Any links in the
-       aggregation with a link number greater than 64 are not
-       used.";
+       containing a list of numbers from 1 to 4095, followed by
+       the number 0, and an identical entry for each odd CID
+       containing a list of numbers from 4095 to 1, followed by
+       the number 0.
+       The MD5 digest calculated for this map is
+       0xfe8fec2effe6cd1cbd78c2a968aa5d20 (hex) or
+       /o/sLv/mzRy9eMKpaKpdIA== (base64).";
   }
 
   identity service-map-patterns {
     description
-      "Base identity for patterns filling the admin-conv-service-map.
-       This identity is intended to serve as base identity, not
-       to be directly referenced. Use of the identity allows vendors
-       to augment the module with vendor specified patterns,";
+      "Base identity for patterns filling the
+       admin-conv-service-map. This identity is intended to serve
+       as base identity, not to be directly referenced. Use of the
+       identity allows vendors to augment the module with vendor
+       specified patterns.";
+    reference
+      "7.3.1.1.36, 6.6.3.1 of IEEE Std 802.1AX";
   }
 
   typedef lacp-state {
@@ -356,9 +367,38 @@ module ieee802-dot1ax-types {
       "6.4.1, 6.4.2.3 of IEEE Std 802.1AX";
   }
 
+  typedef bridge-reserved-addresses {
+    type enumeration {
+      enum nearest-customer-bridge {
+        description
+          "Reserved MAC address 01-80-C2-00-00-00";
+      }
+      enum slow-protocols-multicast {
+        description
+          "Reserved MAC address 01-80-C2-00-00-02";
+      }
+      enum nearest-non-tpmr-bridge {
+        description
+          "Reserved MAC address 01-80-C2-00-00-03";
+      }
+      enum nearest-bridge {
+        description
+          "Reserved MAC address 01-80-C2-00-00-0E";
+      }
+    }
+    description
+      "Group addresses that are filtered by some or all types of
+       Bridges in order to limit the scope of propagation of PDUs
+       in a Bridged Network.";
+    reference
+      "8.6.3 of IEEE Std 802.1Q";
+  }
+
   grouping link-map {
     description
       "Specifies the contents of the admin-conv-link-map.";
+    reference
+      "7.3.1.1.34, 6.6.3.1 of IEEE Std 802.1AX";
     choice method {
       default "cid-list";
       description
@@ -399,6 +439,8 @@ module ieee802-dot1ax-types {
   grouping service-map {
     description
       "Specifies the contents of the admin-conv-service-map.";
+    reference
+      "7.3.1.1.36, 6.6.3.1 of IEEE Std 802.1AX";
     choice method {
       default "cid-list";
       description
@@ -413,8 +455,8 @@ module ieee802-dot1ax-types {
       list cid-list {
         key "cid";
         description
-          "Data structure to map service identifiers to
-           conversation identifiers.  Each entry consists of a
+          "Data structure to map Service Identifiers to
+           Conversation Identifiers.  Each entry consists of a
            Conversation ID (CID) and a list of zero or more
            Service Identifiers (SIDs) that map to it. An empty
            list of SIDs means there are no SIDs that map to this
