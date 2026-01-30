@@ -1,0 +1,94 @@
+*** v1.4/ieee802-dot1dd-rap.yang	2026-01-14 07:34:31.056879500 -0500
+--- v1.4.1/ieee802-dot1dd-rap.yang	2026-01-14 07:42:13.316240500 -0500
+***************
+*** 288,306 ****
+      leaf listener-attach-status {
+        type enumeration {
+          enum attach-ready {
+            description
+              "listener-attach-status is ATTACH_READY";
+-           value 1;
+          }
+          enum attach-fail {
+            description
+              "listener-attach-status is ATTACH_FAIL";
+-           value 2;
+          }
+          enum attach-partial-fail {
+            description
+              "listener-attach-status is ATTACH_PARTIAL_FAIL";
+-           value 3;
+          }
+        }
+        description
+--- 288,306 ----
+      leaf listener-attach-status {
+        type enumeration {
+          enum attach-ready {
++           value 1;
+            description
+              "listener-attach-status is ATTACH_READY";
+          }
+          enum attach-fail {
++           value 2;
+            description
+              "listener-attach-status is ATTACH_FAIL";
+          }
+          enum attach-partial-fail {
++           value 3;
+            description
+              "listener-attach-status is ATTACH_PARTIAL_FAIL";
+          }
+        }
+        description
+***************
+*** 674,697 ****
+        leaf ingress-status {
+          type enumeration {
+            enum not-propagated {
+              description
+                "ingress-status is NOT_PROPAGATED";
+-             value 0;
+            }
+            enum attach-ready {
+              description
+                "ingress-status is ATTACH_READY";
+-             value 1;
+            }
+            enum attach-fail {
+              description
+                "ingress-status is ATTACH_FAIL";
+-             value 2;
+            }
+            enum attach-partial-fail {
+              description
+                "ingress-status is ATTACH_PARTIAL_FAIL";
+-             value 3;
+            }
+          }
+          description
+--- 674,697 ----
+        leaf ingress-status {
+          type enumeration {
+            enum not-propagated {
++             value 0;
+              description
+                "ingress-status is NOT_PROPAGATED";
+            }
+            enum attach-ready {
++             value 1;
+              description
+                "ingress-status is ATTACH_READY";
+            }
+            enum attach-fail {
++             value 2;
+              description
+                "ingress-status is ATTACH_FAIL";
+            }
+            enum attach-partial-fail {
++             value 3;
+              description
+                "ingress-status is ATTACH_PARTIAL_FAIL";
+            }
+          }
+          description

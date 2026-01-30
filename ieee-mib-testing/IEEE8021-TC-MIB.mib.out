@@ -1,0 +1,2 @@
+IEEE8021-TC-MIB.mib:386: warning: named number `path-tesid' must not include a hyphen in SMIv2
+IEEE8021-TC-MIB.mib:387: warning: named number `group-isid' must not include a hyphen in SMIv2

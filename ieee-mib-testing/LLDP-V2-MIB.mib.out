@@ -1,0 +1,3 @@
+LLDP-V2-MIB.mib:358: warning: node `lldpV2PortConfigAdminStatus' must be contained in at least one conformance group
+LLDP-V2-MIB.mib:395: warning: node `lldpV2PortConfigNotificationEnable' must be contained in at least one conformance group
+LLDP-V2-MIB.mib:407: warning: node `lldpV2PortConfigTLVsTxEnable' must be contained in at least one conformance group

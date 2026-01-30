@@ -1,0 +1,96 @@
+module: ieee802-dot1dd-rap
+
+  augment /dot1q:bridges/dot1q:bridge/dot1q:component:
+    +--rw rap-map-bridge-table
+    |  +--ro frer-capable?           boolean
+    |  +--ro max-processing-delay?   uint32
+    |  +--ro min-processing-delay?   uint32
+    +--rw ra-class-bridge-table* [ra-class-id]
+    |  +--rw ra-class-id               uint8
+    |  +--rw ra-class-priority?        int8
+    |  +--rw rt-id?                    int32
+    |  +--rw templated-defined-data?   binary
+    +--rw ra-class-port-pair* [index]
+    |  +--rw index                uint16
+    |  +--rw reception-port?      dot1qtypes:port-number-type
+    |  +--rw transmission-port?   dot1qtypes:port-number-type
+    |  +--rw ra-class-id?         int8
+    |  +--rw max-hop-latency?     uint32
+    +--rw rap-redundancy-context* [redundancy-context-id]
+       +--rw redundancy-context-id    uint16
+       +--rw vlan-context-list* [vlan-context]
+          +--rw vlan-context    uint16
+  augment /if:interfaces/if:interface/dot1q:bridge-port:
+    +--rw rap-mad-table
+    |  +--rw rap-port-enabled?   boolean
+    +--rw rap-map-port-table
+    |  +--rw stream-da-pruning-enabled?    boolean
+    |  +--ro max-interfering-frame-size?   uint32
+    |  +--ro max-propagation-delay?        uint32
+    |  +--ro min-propagation-delay?        uint32
+    +--rw ra-class-port-table* [ra-class-id]
+    |  +--rw ra-class-id               uint8
+    |  +--ro domain-boundary-status?   boolean
+    |  +--rw max-bandwidth?            uint32
+    |  +--ro allocated-bandwidth?      uint32
+    +--rw rap-priority-regeneration-override* [received-priority]
+    |  +--rw received-priority       dot1qtypes:priority-type
+    |  +--rw regenerated-priority?   dot1qtypes:priority-type
+    +--ro rap-talker-announce-registration* [stream-id vid]
+    |  +--ro stream-id                          tsn:stream-id-type
+    |  +--ro stream-rank?                       uint8
+    |  +--ro accumulated-max-latency?           uint32
+    |  +--ro accumulated-min-latency?           uint32
+    |  +--ro destination-mac-address?           ieeetypes:mac-address
+    |  +--ro priority?                          dot1qtypes:priority-type
+    |  +--ro vid                                uint16
+    |  +--ro talker-token-bucket-tspec?         boolean
+    |  +--ro talker-token_bucket_tspec_value?   binary
+    |  +--ro talker-msrp-tspec?                 boolean
+    |  +--ro talker-msrp-tspec-value?           binary
+    |  +--ro network-tspec?                     boolean
+    |  +--ro network-tspec-value?               binary
+    |  +--ro redundancy-control?                boolean
+    |  +--ro redundancy-control-value?          binary
+    |  +--ro failure-info?                      boolean
+    |  +--ro failure-info-value?                binary
+    |  +--ro org-defined-info?                  boolean
+    |  +--ro org-defined-info-value?            binary
+    |  +--ro invalid?                           boolean
+    |  +--ro ingress-blocked?                   boolean
+    +--ro rap-talker-announce-declaration* [stream-id vid]
+    |  +--ro stream-id                          tsn:stream-id-type
+    |  +--ro stream-rank?                       uint8
+    |  +--ro accumulated-max-latency?           uint32
+    |  +--ro accumulated-min-latency?           uint32
+    |  +--ro destination-mac-address?           ieeetypes:mac-address
+    |  +--ro priority?                          dot1qtypes:priority-type
+    |  +--ro vid                                uint16
+    |  +--ro talker-token-bucket-tspec?         boolean
+    |  +--ro talker-token_bucket_tspec_value?   binary
+    |  +--ro talker-msrp-tspec?                 boolean
+    |  +--ro talker-msrp-tspec-value?           binary
+    |  +--ro network-tspec?                     boolean
+    |  +--ro network-tspec-value?               binary
+    |  +--ro redundancy-control?                boolean
+    |  +--ro redundancy-control-value?          binary
+    |  +--ro failure-info?                      boolean
+    |  +--ro failure-info-value?                binary
+    |  +--ro org-defined-info?                  boolean
+    |  +--ro org-defined-info-value?            binary
+    |  +--ro invalid?                           boolean
+    |  +--ro ingress-blocked?                   boolean
+    +--ro rap-listener-attach-registration* [stream-id vid]
+    |  +--ro stream-id                    tsn:stream-id-type
+    |  +--ro vid                          uint16
+    |  +--ro listener-attach-status?      enumeration
+    |  +--ro vlan-context-status?         boolean
+    |  +--ro vlan-context-status-value?   binary
+    |  +--ro reservation-age?             uint32
+    |  +--ro ingress-status?              enumeration
+    +--ro rap-listener-attach-declaration* [stream-id vid]
+       +--ro stream-id                    tsn:stream-id-type
+       +--ro vid                          uint16
+       +--ro listener-attach-status?      enumeration
+       +--ro vlan-context-status?         boolean
+       +--ro vlan-context-status-value?   binary

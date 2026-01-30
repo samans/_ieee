@@ -1,0 +1,51 @@
+module: ieee802-dot1as-ftt
+
+  augment /ptp-tt:ptp/ptp-tt:common-services:
+    +--rw ftt-service {ftt}?
+       +--rw ftt-system* [ftt-system-index]
+          +--rw ftt-system-index             uint8
+          +--rw ftt-system-ds
+          |  +--ro ftt-max-inputs?              uint8
+          |  +--rw ftt-num-inputs?              uint8
+          |  +--ro ftt-max-dtsfs?               uint8
+          |  +--rw ftt-num-dtsfs?               uint8
+          |  +--ro ftt-dtsf-max-inputs?         uint8
+          |  +--rw ftt-inputs-to-tsf* [tsf-instance-number]
+          |  |  +--rw tsf-instance-number    uint8
+          |  |  +--rw assigned-inputs?       uint16
+          |  +--rw ftt-ptp-instance-to-input* [ftt-input-index]
+          |  |  +--rw ftt-input-index       uint8
+          |  |  +--rw ptp-instance-index?   uint32
+          |  +--rw ftt-hyst* [ftt-input-index]
+          |  |  +--rw ftt-input-index    uint8
+          |  |  +--rw hyst-list* [ftt-input-index]
+          |  |     +--rw ftt-input-index    uint8
+          |  |     +--rw hyst-value?        ptp-tt:time-interval
+          |  +--rw ftt-max-as* [ftt-input-index]
+          |  |  +--rw ftt-input-index    uint8
+          |  |  +--rw max-as-list* [ftt-input-index]
+          |  |     +--rw ftt-input-index    uint8
+          |  |     +--rw max-as-value?      ptp-tt:time-interval
+          |  +--rw ftt-sel-change-thresh* [tsf-instance-number]
+          |  |  +--rw tsf-instance-number    uint8
+          |  |  +--rw change-threshold?      ptp-tt:time-interval
+          |  +--rw ftt-rr-thresh?               uint32
+          |  +--rw ftt-rr-thresh-std-dev?       uint32
+          |  +--rw ftt-use-nq* [tsf-instance-number]
+          |  |  +--rw tsf-instance-number    uint8
+          |  |  +--rw use-nq?                boolean
+          |  +--rw ftt-use-ftt-clk?             boolean
+          |  +--ro ftt-tsf-sel-input* [tsf-instance-number]
+          |  |  +--ro tsf-instance-number         uint8
+          |  |  +--ro selected-ftt-input-index?   uint8
+          |  +--ro ftt-sel-instance?            uint32
+          |  +--ro ftt-tsf-sel-change-cnt* [tsf-instance-number]
+          |  |  +--ro tsf-instance-number    uint8
+          |  |  +--ro sel-change-cnt?        uint16
+          |  +--ro ftt-input-trust-state* [ftt-input-index]
+          |  |  +--ro ftt-input-index          uint8
+          |  |  +--ro ftt-input-trust-state?   ftt-input-trust-state-type
+          |  +--ro ftt-trust-state?             ftt-output-trust-state-type
+          |  +--ro ftt-state-change-cnt?        uint16
+          +--rw ftt-system-description-ds
+             +--rw user-description?   string

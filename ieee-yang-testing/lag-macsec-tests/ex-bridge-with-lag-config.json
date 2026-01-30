@@ -1,0 +1,71 @@
+{
+  "ieee802-dot1q-bridge:bridges": {
+    "bridge": [
+      {
+        "name": "my-bridge",
+		"address": "AA-AA-AA-AA-AA-AA",
+        "bridge-type":"customer-vlan-bridge",
+        "component": [
+          {
+          "name": "comp1",
+          "type": "c-vlan-component"
+          }
+        ]
+      }
+    ]
+  },
+  "ieee802-dot1ax-linkagg:linkagg": {
+    "agg-system": [
+      {
+        "name": "my-agg-system"
+      }
+    ],
+    "key-group": [
+      {
+        "name": "Key-2and3",
+	      "actor-admin-key": 23,
+	      "agg-system-name": "my-agg-system"
+      }
+    ]
+  },
+  "ietf-interfaces:interfaces": {
+    "interface": [
+      {
+        "name": "mac1",
+        "type": "iana-if-type:ethernetCsmacd",
+        "ieee802-dot1q-bridge:bridge-port": {
+		  "bridge-name": "my-bridge",
+          "component-name": "comp1"
+        }
+      },
+      {
+        "name": "mac2",
+        "type": "iana-if-type:ethernetCsmacd",
+        "ieee802-dot1ax-linkagg:aggport": {
+          "key-group-name": "Key-2and3"
+        },
+        "ieee802-dot1q-bridge:no-bridge-port": {}
+      },
+      {
+        "name": "mac3",
+        "type": "iana-if-type:ethernetCsmacd",
+        "ieee802-dot1ax-linkagg:aggport": {
+          "key-group-name": "Key-2and3"
+        },
+        "ieee802-dot1q-bridge:no-bridge-port": {}
+      },
+      {
+        "name": "lag-2and3",
+        "type": "iana-if-type:ieee8023adLag",
+        "ieee802-dot1ax-linkagg:lag": {
+          "key-group-name": "Key-2and3"
+        },
+        "ieee802-dot1q-bridge:bridge-port": {
+		  "bridge-name": "my-bridge",
+          "component-name": "comp1"
+        }
+      }
+    ]
+
+  }
+}

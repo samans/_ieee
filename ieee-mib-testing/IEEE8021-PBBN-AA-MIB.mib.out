@@ -1,0 +1,12 @@
+IEEE8021-PBBN-AA-MIB.mib:97: warning: node `ieee8021AaSystemResetTime' must be contained in at least one conformance group
+IEEE8021-PBBN-AA-MIB.mib:252: warning: node `ieee8021AaPortRowStatus' must be contained in at least one conformance group
+IEEE8021-PBBN-AA-MIB.mib:301: warning: node `ieee8021AaDiscRemSystemType' must be contained in at least one conformance group
+IEEE8021-PBBN-AA-MIB.mib:324: warning: node `ieee8021AaDiscRemPortTagging' must be contained in at least one conformance group
+IEEE8021-PBBN-AA-MIB.mib:340: warning: node `ieee8021AaDiscRemPortAssocState' must be contained in at least one conformance group
+IEEE8021-PBBN-AA-MIB.mib:359: warning: node `ieee8021AaDiscLocPortAssocState' must be contained in at least one conformance group
+IEEE8021-PBBN-AA-MIB.mib:465: warning: node `ieee8021AaStatsAssocFailed' must be contained in at least one conformance group
+IEEE8021-PBBN-AA-MIB.mib:475: warning: node `ieee8021AaStatsAsgnsWithdrawn' must be contained in at least one conformance group
+IEEE8021-PBBN-AA-MIB.mib:486: warning: node `ieee8021AaStatsAssocReset' must be contained in at least one conformance group
+IEEE8021-PBBN-AA-MIB.mib:497: warning: node `ieee8021AaStatsAssocStandby' must be contained in at least one conformance group
+IEEE8021-PBBN-AA-MIB.mib:537: warning: notification `ieee8021AaDiscoveredSystem' must be contained in at least one conformance group
+IEEE8021-PBBN-AA-MIB.mib:182: warning: illegal `RowStatus' access value

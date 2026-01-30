@@ -1,0 +1,1 @@
+pyang --verbose --strict --ieee -p ~/gits/yang/standard/ietf/RFC -p ~/gits/yang/standard/ieee/published/802 -p ~/gits/yang/standard/ieee/published/802.1 -p ~/gits/yang/standard/iana ~/gits/yang/standard/ieee/published/802.1/ieee802-dot1x.yang

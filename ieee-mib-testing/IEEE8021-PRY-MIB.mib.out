@@ -1,0 +1,3 @@
+IEEE8021-PRY-MIB.mib:332: illegal character `â' (0xe2) in quoted string
+IEEE8021-PRY-MIB.mib:332: illegal character `€' (0x80) in quoted string
+IEEE8021-PRY-MIB.mib:332: illegal character `™' (0x99) in quoted string

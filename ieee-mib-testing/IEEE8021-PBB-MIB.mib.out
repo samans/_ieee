@@ -1,0 +1,2 @@
+IEEE8021-PBB-MIB.mib:1061: warning: current group `ieee8021PbbVipGroup' includes deprecated object `ieee8021PbbVipType'
+IEEE8021-PBB-MIB.mib:1142: warning: current group `ieee8021PbbCBPServiceMappingGroup' includes deprecated object `ieee8021PbbCBPServiceMappingType'

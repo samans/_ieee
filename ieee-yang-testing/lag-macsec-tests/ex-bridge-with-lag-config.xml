@@ -1,0 +1,58 @@
+<linkagg xmlns="urn:ieee:std:802.1AX:yang:ieee802-dot1ax-linkagg">
+  <agg-system>
+    <name>my-agg-system</name>
+  </agg-system>
+  <key-group>
+    <name>Key-2and3</name>
+    <actor-admin-key>23</actor-admin-key>
+    <agg-system-name>my-agg-system</agg-system-name>
+  </key-group>
+</linkagg>
+<bridges xmlns="urn:ieee:std:802.1Q:yang:ieee802-dot1q-bridge">
+  <bridge>
+    <name>my-bridge</name>
+    <address>AA-AA-AA-AA-AA-AA</address>
+    <bridge-type xmlns:dot1q="urn:ieee:std:802.1Q:yang:ieee802-dot1q-bridge">dot1q:customer-vlan-bridge</bridge-type>
+    <component>
+      <name>comp1</name>
+      <type xmlns:dot1q="urn:ieee:std:802.1Q:yang:ieee802-dot1q-bridge">dot1q:c-vlan-component</type>
+    </component>
+  </bridge>
+</bridges>
+<interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+  <interface>
+    <name>mac1</name>
+    <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+    <bridge-port xmlns="urn:ieee:std:802.1Q:yang:ieee802-dot1q-bridge">
+      <bridge-name>my-bridge</bridge-name>
+      <component-name>comp1</component-name>
+    </bridge-port>
+  </interface>
+  <interface>
+    <name>mac2</name>
+    <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+    <aggport xmlns="urn:ieee:std:802.1AX:yang:ieee802-dot1ax-linkagg">
+      <key-group-name>Key-2and3</key-group-name>
+    </aggport>
+    <no-bridge-port xmlns="urn:ieee:std:802.1Q:yang:ieee802-dot1q-bridge"/>
+  </interface>
+  <interface>
+    <name>mac3</name>
+    <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+    <aggport xmlns="urn:ieee:std:802.1AX:yang:ieee802-dot1ax-linkagg">
+      <key-group-name>Key-2and3</key-group-name>
+    </aggport>
+    <no-bridge-port xmlns="urn:ieee:std:802.1Q:yang:ieee802-dot1q-bridge"/>
+  </interface>
+  <interface>
+    <name>lag-2and3</name>
+    <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ieee8023adLag</type>
+    <lag xmlns="urn:ieee:std:802.1AX:yang:ieee802-dot1ax-linkagg">
+      <key-group-name>Key-2and3</key-group-name>
+    </lag>
+    <bridge-port xmlns="urn:ieee:std:802.1Q:yang:ieee802-dot1q-bridge">
+      <bridge-name>my-bridge</bridge-name>
+      <component-name>comp1</component-name>
+    </bridge-port>
+  </interface>
+</interfaces>

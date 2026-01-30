@@ -1,0 +1,215 @@
+<linkagg xmlns="urn:ieee:params:xml:ns:yang:ieee802-dot1ax-linkagg">
+  <agg-system>
+    <name>802-linkagg-01</name>
+    <actor-system>01-03-05-07-09-11</actor-system>
+    <actor-system-priority>65535</actor-system-priority>
+  </agg-system>
+  <key-group>
+    <name>Omaha</name>
+    <actor-admin-key>1</actor-admin-key>
+    <agg-system-name>802-linkagg-01</agg-system-name>
+    <actor-protocol-da>01-80-c2-00-00-00</actor-protocol-da>
+    <collector-max-delay>8876</collector-max-delay>
+    <partner-admin-system>00-00-00-00-00-01</partner-admin-system>
+    <lags>eth0</lags>
+    <aggports>eth0</aggports>
+    <cscd>
+      <port-algorithm xmlns:dot1ax-types="urn:ieee:params:xml:ns:yang:ieee802-dot1ax-types">dot1ax-types:c-vids-nomap</port-algorithm>
+      <admin-conv-service-map>
+        <cid-list>
+          <cid>4095</cid>
+          <service-ids>10</service-ids>
+          <service-ids>11</service-ids>
+        </cid-list>
+      </admin-conv-service-map>
+      <admin-conv-service-digest>qqqqqqqqqqqqqqqqqqqqqg==</admin-conv-service-digest>
+      <admin-conv-link-map>
+        <cid-list>
+          <cid>1</cid>
+          <link-numbers>0</link-numbers>
+          <link-numbers>1</link-numbers>
+          <link-numbers>2</link-numbers>
+          <link-numbers>3</link-numbers>
+        </cid-list>
+      </admin-conv-link-map>
+      <admin-conv-link-digest>VVVVVVVVVVVVVVVVVVVVVQ==</admin-conv-link-digest>
+      <admin-discard-wrong-conv>auto</admin-discard-wrong-conv>
+    </cscd>
+  </key-group>
+</linkagg>
+<interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+  <interface>
+    <name>eth0</name>
+    <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ieee8023adLag</type>
+    <admin-status>up</admin-status>
+    <oper-status>up</oper-status>
+    <if-index>1</if-index>
+    <statistics>
+      <discontinuity-time>2024-02-21T18:59:00-05:00</discontinuity-time>
+      <drni-stats xmlns="urn:ieee:params:xml:ns:yang:ieee802-dot1ax-drni">
+        <drcpdus-rx>55</drcpdus-rx>
+        <illegal-rx>0</illegal-rx>
+        <drcpdus-tx>1</drcpdus-tx>
+      </drni-stats>
+      <lag-stats xmlns="urn:ieee:params:xml:ns:yang:ieee802-dot1ax-linkagg">
+        <unknown-protocol-frames>10</unknown-protocol-frames>
+      </lag-stats>
+      <aggport-stats xmlns="urn:ieee:params:xml:ns:yang:ieee802-dot1ax-linkagg">
+        <lacp-pdu-rx>10</lacp-pdu-rx>
+        <marker-pdu-rx>10</marker-pdu-rx>
+        <marker-response-pdu-rx>10</marker-response-pdu-rx>
+        <unknown-rx>10</unknown-rx>
+        <illegal-rx>0</illegal-rx>
+        <lacp-pdu-tx>0</lacp-pdu-tx>
+        <marker-pdu-tx>0</marker-pdu-tx>
+        <marker-response-pdu-tx>0</marker-response-pdu-tx>
+      </aggport-stats>
+    </statistics>
+    <lag xmlns="urn:ieee:params:xml:ns:yang:ieee802-dot1ax-linkagg">
+      <key-group-name>Omaha</key-group-name>
+      <mac-address>01-80-c2-00-00-00</mac-address>
+      <lacp>
+        <actor-oper-key>65535</actor-oper-key>
+        <partner-system>01-80-c2-00-00-17</partner-system>
+        <partner-system-priority>65530</partner-system-priority>
+        <partner-oper-key>65531</partner-oper-key>
+        <aggregate-or-individual>true</aggregate-or-individual>
+      </lacp>
+      <cscd>
+        <partner-port-algorithm xmlns:dot1ax-types="urn:ieee:params:xml:ns:yang:ieee802-dot1ax-types">dot1ax-types:c-vids-nomap</partner-port-algorithm>
+        <partner-conv-service-digest>qqqqqqqqqqqqqqqqqqqqqg==</partner-conv-service-digest>
+        <partner-conv-link-digest>VVVVVVVVVVVVVVVVVVVVVQ==</partner-conv-link-digest>
+        <discard-wrong-conversation>false</discard-wrong-conversation>
+        <active-lag-links>0</active-lag-links>
+        <active-lag-links>1</active-lag-links>
+        <active-lag-links>2</active-lag-links>
+        <active-lag-links>3</active-lag-links>
+      </cscd>
+      <drni xmlns="urn:ieee:params:xml:ns:yang:ieee802-dot1ax-drni">
+        <irp-name>eth0</irp-name>
+        <drni-aggregator-key>15</drni-aggregator-key>
+        <drni-aggregator-system>01-80-C2-00-00-01</drni-aggregator-system>
+        <drni-aggregator-system-priority>1</drni-aggregator-system-priority>
+        <drcp-protocol-da>01-80-C2-00-00-0E</drcp-protocol-da>
+        <home-admin-irp-state>short-timeout</home-admin-irp-state>
+        <home-oper-irp-state>synchronization drni</home-oper-irp-state>
+        <home-cscd-gateway-control>false</home-cscd-gateway-control>
+        <home-dr-client-gateway-control>false</home-dr-client-gateway-control>
+        <home-gateway-algorithm xmlns:dot1ax-types="urn:ieee:params:xml:ns:yang:ieee802-dot1ax-types">dot1ax-types:c-vids-nomap</home-gateway-algorithm>
+        <home-admin-conv-service-map>
+          <cid>55</cid>
+          <service-ids>0</service-ids>
+          <service-ids>65535</service-ids>
+        </home-admin-conv-service-map>
+        <home-admin-conv-service-digest>qqqqqqqqqqqqqqqqqqqqqg==</home-admin-conv-service-digest>
+        <gateway-enable-mask>
+          <mask>qqqqqqqqqqqqqqqqqqqqqg==</mask>
+        </gateway-enable-mask>
+        <gateway-preference-mask>
+          <mask>qqqqqqqqqqqqqqqqqqqqqg==</mask>
+        </gateway-preference-mask>
+        <gateway-available-mask>qqqqqqqqqqqqqqqqqqqqqg==</gateway-available-mask>
+        <neighbor>
+          <oper-irp-state>short-timeout</oper-irp-state>
+          <system>01-80-C2-00-00-06</system>
+          <system-priority>7</system-priority>
+          <drni-key>16650</drni-key>
+          <aggregator-algorithm xmlns:dot1ax-types="urn:ieee:params:xml:ns:yang:ieee802-dot1ax-types">dot1ax-types:c-vids-nomap</aggregator-algorithm>
+          <aggregator-conv-service-digest>qqqqqqqqqqqqqqqqqqqqqg==</aggregator-conv-service-digest>
+          <aggregator-conv-link-digest>VVVVVVVVVVVVVVVVVVVVVQ==</aggregator-conv-link-digest>
+          <partner-system-priority>7</partner-system-priority>
+          <partner-system>01-80-C2-00-44-06</partner-system>
+          <partner-aggregator-key>65000</partner-aggregator-key>
+          <cscd-state>cscd_gateway_control</cscd-state>
+          <active-links>0</active-links>
+          <active-links>1</active-links>
+          <active-links>3</active-links>
+          <gateway-algorithm xmlns:dot1ax-types="urn:ieee:params:xml:ns:yang:ieee802-dot1ax-types">dot1ax-types:c-vids-nomap</gateway-algorithm>
+          <gateway-conv-service-digest>qqqqqqqqqqqqqqqqqqqqqg==</gateway-conv-service-digest>
+          <gateway-available-mask>VVVVVVVVVVVVVVVVVVVVVQ==</gateway-available-mask>
+          <gateway-preference-mask>VVVVVVVVVVVVVVVVVVVVVQ==</gateway-preference-mask>
+        </neighbor>
+        <gateway-relay>
+          <home-aggregator-mask>VVVVVVVVVVVVVVVVVVVVVQ==</home-aggregator-mask>
+          <home-gateway-mask>qqqqqqqqqqqqqqqqqqqqqg==</home-gateway-mask>
+          <neighbor-aggregator-mask>qqqqqqqqqqqqqqqqqqqqqg==</neighbor-aggregator-mask>
+          <neighbor-gateway-mask>qqqqqqqqqqqqqqqqqqqqqg==</neighbor-gateway-mask>
+        </gateway-relay>
+      </drni>
+    </lag>
+    <aggport xmlns="urn:ieee:params:xml:ns:yang:ieee802-dot1ax-linkagg">
+      <key-group-name>Omaha</key-group-name>
+      <actor-port-number>7</actor-port-number>
+      <actor-admin-state>lacp-activity aggregation</actor-admin-state>
+      <partner-admin-key>77</partner-admin-key>
+      <partner-admin-port>11111</partner-admin-port>
+      <partner-admin-port-priority>2</partner-admin-port-priority>
+      <partner-admin-state>lacp-activity synchronization</partner-admin-state>
+      <wtr-time>32</wtr-time>
+      <wtr-revertive>false</wtr-revertive>
+      <lacp>
+        <actor-lacp-version>2</actor-lacp-version>
+        <actor-oper-key>3210</actor-oper-key>
+        <actor-oper-state>lacp-activity aggregation</actor-oper-state>
+        <partner-lacp-version>2</partner-lacp-version>
+        <partner-oper-system-priority>3333</partner-oper-system-priority>
+        <partner-oper-system>01-80-C2-00-44-06</partner-oper-system>
+        <partner-oper-key>17</partner-oper-key>
+        <partner-oper-port>4</partner-oper-port>
+        <partner-oper-port-priority>66</partner-oper-port-priority>
+        <partner-oper-state>lacp-activity aggregation</partner-oper-state>
+        <aggregate-or-individual>true</aggregate-or-individual>
+        <wtr-waiting>true</wtr-waiting>
+      </lacp>
+      <cscd>
+        <admin-link-number>77</admin-link-number>
+        <partner-link-number>88</partner-link-number>
+        <link-number>0</link-number>
+        <oper-conversation-passes>qqqqqqqqqqqqqqqqqqqqqg==</oper-conversation-passes>
+        <oper-conversation-collected>qqqqqqqqqqqqqqqqqqqqqg==</oper-conversation-collected>
+      </cscd>
+    </aggport>
+  </interface>
+</interfaces>
+<interfaces-state xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+  <interface>
+    <name>eth1</name>
+    <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ieee8023adLag</type>
+    <admin-status>up</admin-status>
+    <oper-status>up</oper-status>
+    <if-index>1</if-index>
+    <statistics>
+      <discontinuity-time>2024-02-21T18:59:00-05:00</discontinuity-time>
+    </statistics>
+  </interface>
+  <interface>
+    <name>eth2</name>
+    <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ieee8023adLag</type>
+    <admin-status>up</admin-status>
+    <oper-status>up</oper-status>
+    <if-index>2</if-index>
+    <statistics>
+      <discontinuity-time>2024-02-21T18:59:00-05:00</discontinuity-time>
+    </statistics>
+  </interface>
+  <interface>
+    <name>eth3</name>
+    <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ieee8023adLag</type>
+    <admin-status>up</admin-status>
+    <oper-status>up</oper-status>
+    <if-index>3</if-index>
+    <statistics>
+      <discontinuity-time>2024-02-21T18:59:00-05:00</discontinuity-time>
+    </statistics>
+  </interface>
+  <interface>
+    <name>eth4</name>
+    <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ieee8023adLag</type>
+    <admin-status>up</admin-status>
+    <oper-status>up</oper-status>
+    <if-index>4</if-index>
+    <statistics>
+      <discontinuity-time>2024-02-21T18:59:00-05:00</discontinuity-time>
+    </statistics>
+  </interface>
+</interfaces-state>

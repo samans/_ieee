@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <linkagg xmlns="urn:ieee:params:xml:ns:yang:ieee802-dot1ax-linkagg">
+    <agg-system>
+      <name/>
+      <actor-system/>
+    </agg-system>
+    <key-group>
+      <name/>
+      <actor-admin-key/>
+      <agg-system-name/>
+      <collector-max-delay/>
+      <lags>
+        <!-- # entries: 0.. -->
+      </lags>
+      <aggports>
+        <!-- # entries: 0.. -->
+      </aggports>
+      <cscd>
+        <admin-conv-service-map>
+          <pattern/>
+          <cid-list>
+            <cid/>
+            <service-ids>
+              <!-- # entries: 0.. -->
+            </service-ids>
+          </cid-list>
+        </admin-conv-service-map>
+        <admin-conv-service-digest/>
+        <admin-conv-link-map>
+          <pattern/>
+          <cid-list>
+            <cid/>
+            <link-numbers>
+              <!-- # entries: 0.. -->
+            </link-numbers>
+          </cid-list>
+        </admin-conv-link-map>
+        <admin-conv-link-digest/>
+      </cscd>
+    </key-group>
+  </linkagg>
+</data>

@@ -1,0 +1,275 @@
+{
+  "ieee1588-ptp-tt:ptp": {
+    "common-services": {
+      "ieee802-dot1as-ftt:ftt-service": {
+        "ftt-system": [
+          {
+            "ftt-system-index": 0,
+            "ftt-system-ds": {
+              "ftt-num-inputs": 6,
+              "ftt-num-dtsfs": 3,
+              "ftt-inputs-to-tsf": [
+                {
+                  "tsf-instance-number": 1,
+                  "assigned-inputs": 9
+                },
+                {
+                  "tsf-instance-number": 2,
+                  "assigned-inputs": 18
+                },
+                {
+                  "tsf-instance-number": 3,
+                  "assigned-inputs": 36
+                }
+              ],
+              "ftt-ptp-instance-to-input": [
+                {
+                  "ftt-input-index": 1,
+                  "ptp-instance-index": 1
+                },
+                {
+                  "ftt-input-index": 2,
+                  "ptp-instance-index": 2
+                },
+                {
+                  "ftt-input-index": 3,
+                  "ptp-instance-index": 3
+                },
+                {
+                  "ftt-input-index": 4,
+                  "ptp-instance-index": 4
+                },
+                {
+                  "ftt-input-index": 5,
+                  "ptp-instance-index": 5
+                },
+                {
+                  "ftt-input-index": 6,
+                  "ptp-instance-index": 6
+                }
+              ],
+              "ftt-hyst": [
+                {
+                  "ftt-input-index": 1,
+                  "hyst-list": [
+                    {
+                      "ftt-input-index": 2,
+                      "hyst-value": "20"
+                    },
+                    {
+                      "ftt-input-index": 3,
+                      "hyst-value": "20"
+                    },
+                    {
+                      "ftt-input-index": 4,
+                      "hyst-value": "20"
+                    },
+                    {
+                      "ftt-input-index": 5,
+                      "hyst-value": "20"
+                    },
+                    {
+                      "ftt-input-index": 6,
+                      "hyst-value": "20"
+                    }
+                  ]
+                },
+                {
+                  "ftt-input-index": 2,
+                  "hyst-list": [
+                    {
+                      "ftt-input-index": 3,
+                      "hyst-value": "20"
+                    },
+                    {
+                      "ftt-input-index": 4,
+                      "hyst-value": "20"
+                    },
+                    {
+                      "ftt-input-index": 5,
+                      "hyst-value": "20"
+                    },
+                    {
+                      "ftt-input-index": 6,
+                      "hyst-value": "20"
+                    }
+                  ]
+                },
+                {
+                  "ftt-input-index": 3,
+                  "hyst-list": [
+                    {
+                      "ftt-input-index": 4,
+                      "hyst-value": "20"
+                    },
+                    {
+                      "ftt-input-index": 5,
+                      "hyst-value": "20"
+                    },
+                    {
+                      "ftt-input-index": 6,
+                      "hyst-value": "20"
+                    }
+                  ]
+                },
+                {
+                  "ftt-input-index": 4,
+                  "hyst-list": [
+                    {
+                      "ftt-input-index": 5,
+                      "hyst-value": "20"
+                    },
+                    {
+                      "ftt-input-index": 6,
+                      "hyst-value": "20"
+                    }
+                  ]
+                },
+                {
+                  "ftt-input-index": 5,
+                  "hyst-list": [
+                    {
+                      "ftt-input-index": 6,
+                      "hyst-value": "20"
+                    }
+                  ]
+                }
+              ],
+              "ftt-max-as": [
+                {
+                  "ftt-input-index": 1,
+                  "max-as-list": [
+                    {
+                      "ftt-input-index": 2,
+                      "max-as-value": "200"
+                    },
+                    {
+                      "ftt-input-index": 3,
+                      "max-as-value": "200"
+                    },
+                    {
+                      "ftt-input-index": 4,
+                      "max-as-value": "200"
+                    },
+                    {
+                      "ftt-input-index": 5,
+                      "max-as-value": "200"
+                    },
+                    {
+                      "ftt-input-index": 6,
+                      "max-as-value": "200"
+                    }
+                  ]
+                },
+                {
+                  "ftt-input-index": 2,
+                  "max-as-list": [
+                    {
+                      "ftt-input-index": 3,
+                      "max-as-value": "200"
+                    },
+                    {
+                      "ftt-input-index": 4,
+                      "max-as-value": "200"
+                    },
+                    {
+                      "ftt-input-index": 5,
+                      "max-as-value": "200"
+                    },
+                    {
+                      "ftt-input-index": 6,
+                      "max-as-value": "200"
+                    }
+                  ]
+                },
+                {
+                  "ftt-input-index": 3,
+                  "max-as-list": [
+                    {
+                      "ftt-input-index": 4,
+                      "max-as-value": "200"
+                    },
+                    {
+                      "ftt-input-index": 5,
+                      "max-as-value": "200"
+                    },
+                    {
+                      "ftt-input-index": 6,
+                      "max-as-value": "200"
+                    }
+                  ]
+                },
+                {
+                  "ftt-input-index": 4,
+                  "max-as-list": [
+                    {
+                      "ftt-input-index": 5,
+                      "max-as-value": "200"
+                    },
+                    {
+                      "ftt-input-index": 6,
+                      "max-as-value": "200"
+                    }
+                  ]
+                },
+                {
+                  "ftt-input-index": 5,
+                  "max-as-list": [
+                    {
+                      "ftt-input-index": 6,
+                      "max-as-value": "200"
+                    }
+                  ]
+                }
+              ],
+              "ftt-sel-change-thresh": [
+                {
+                  "tsf-instance-number": 0,
+                  "change-threshold": "300"
+                },
+                {
+                  "tsf-instance-number": 1,
+                  "change-threshold": "300"
+                },
+                {
+                  "tsf-instance-number": 2,
+                  "change-threshold": "300"
+                },
+                {
+                  "tsf-instance-number": 3,
+                  "change-threshold": "300"
+                }
+              ],
+              "ftt-rr-thresh": 0,
+              "ftt-rr-thresh-std-dev": 0,
+              "ftt-use-nq": [
+                {
+                  "tsf-instance-number": 0,
+                  "use-nq": true
+                },
+                {
+                  "tsf-instance-number": 1,
+                  "use-nq": true
+                },
+                {
+                  "tsf-instance-number": 2,
+                  "use-nq": false
+                },
+                {
+                  "tsf-instance-number": 3,
+                  "use-nq": true
+                }
+              ],
+              "ftt-use-ftt-clk": false,
+              "ftt-trust-state": "NOT-TRUSTED",
+              "ftt-state-change-cnt": 0
+            },
+            "ftt-system-description-ds": {
+              "user-description": "GE Aerospace FTT Instance"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
