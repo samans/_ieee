@@ -1,0 +1,11 @@
+{
+   "different-tables:some-table": {
+      "num-of-ports": 5,
+      "desired-num-of-ports": 10
+    },
+
+   "different-tables:some-other-table": {
+      "num-of-ports": 7,
+      "desired-num-of-ports": 14
+    }
+}

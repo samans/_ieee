@@ -1,0 +1,43 @@
+<!-- yanglint validation:
+C:\Users\200010706\TSN\chronos\yang>..\test_utils\yanglint.exe ieee1588-ptp-tt.yang iana-if-type@2020-01-10.yang -t config ..\test_data\issue-104-ptp-config\simplest-scenario\ES1_config_ptp_only.xml
+
+C:\Users\200010706\TSN\chronos\yang>..\test_utils\yanglint.exe ieee802-dot1as-gptp.yang iana-if-type@2020-01-10.yang -t config ..\test_data\issue-104-ptp-config\simplest-scenario\ES1_config_ptp_only.xml
+-->
+<interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+  <interface>
+    <name>eth0</name>
+    <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
+    <enabled>true</enabled>
+  </interface>
+</interfaces>
+<ptp xmlns="urn:ieee:std:1588:yang:ieee1588-ptp-tt">
+  <instances>
+    <instance>
+      <instance-index>1</instance-index>
+      <default-ds>
+        <domain-number>1</domain-number> <!-- This cannot be 0, which requires BMCA -->
+        <time-receiver-only>false</time-receiver-only>
+        <sdo-id>256</sdo-id> <!-- This shall be 0x1 and 0x00, see 802.1AS 8.1. 0x100 = 256 -->
+        <instance-enable>true</instance-enable>
+        <external-port-config-enable>true</external-port-config-enable>
+        <instance-type>oc</instance-type> <!-- This is never referenced in 802.1AS. Is it deprecated? It is implied by the length of the <ports> list (|ports|>1->bc, else oc) -->
+      </default-ds>
+      <description-ds>
+        <!-- Can this be anything we want? -->
+        <user-description>my-only-ptp-instance</user-description>
+      </description-ds>
+      <ports>
+        <port>
+          <port-index>1</port-index>
+          <underlying-interface>eth0</underlying-interface>
+          <port-ds>
+            <port-enable>true</port-enable>
+          </port-ds>
+          <external-port-config-port-ds>
+            <desired-state>time-transmitter</desired-state>
+          </external-port-config-port-ds>
+        </port>
+      </ports>
+    </instance>
+  </instances>
+</ptp>

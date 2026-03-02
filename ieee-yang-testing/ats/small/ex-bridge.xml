@@ -1,0 +1,16 @@
+<bridges xmlns="urn:example:bridges">
+  <bridge>
+    <name>my-bridge</name>
+    <name-description>this is an instance of a bridge</name-description>
+  </bridge>
+</bridges>
+<interfaces xmlns="urn:example:interfaces">
+  <interface>
+    <name>my-interface</name>
+    <name-description>this is the name of my interface</name-description>
+    <type>bridge</type>
+    <bridge-port xmlns="urn:example:bridges">
+      <port-name>my-port1</port-name>
+    </bridge-port>
+  </interface>
+</interfaces>

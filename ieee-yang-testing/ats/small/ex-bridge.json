@@ -1,0 +1,24 @@
+{
+   "bridges:bridges": {
+      "bridge": [
+        {
+           "name": "my-bridge",
+           "name-description": "this is an instance of a bridge"
+        }
+      ]
+    },
+
+    "interfaces:interfaces": {
+      "interface": [
+         {
+           "name": "my-interface",
+           "name-description": "this is the name of my interface",
+           "type": "bridge",
+           "bridges:bridge-port": 
+              {
+                "bridges:port-name": "my-port1"
+              }
+         }
+      ]
+   }
+}

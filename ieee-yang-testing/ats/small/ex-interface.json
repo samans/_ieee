@@ -1,0 +1,11 @@
+{
+    "interfaces:interfaces": {
+      "interface": [
+         {
+           "name": "my-interface",
+           "name-description": "this is the name of my interface",
+           "type": "bridge"
+         }
+      ]
+   }
+}

@@ -1,0 +1,8 @@
+<some-table xmlns="urn:example:different-tables">
+  <num-of-ports>5</num-of-ports>
+  <desired-num-of-ports>10</desired-num-of-ports>
+</some-table>
+<some-other-table xmlns="urn:example:different-tables">
+  <num-of-ports>7</num-of-ports>
+  <desired-num-of-ports>14</desired-num-of-ports>
+</some-other-table>

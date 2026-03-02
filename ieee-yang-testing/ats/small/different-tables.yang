@@ -1,0 +1,35 @@
+module different-tables {
+  yang-version 1.1;
+  namespace "urn:example:different-tables";
+  prefix dt;
+
+  import bridges {
+    prefix br;
+  }
+
+  organization
+    "Example";
+  contact
+    "<mailto:scott.mansfield@ericsson.com>";
+  description
+    "Simple bridge module";
+
+  revision 2026-02-19 {
+    description
+      "Initial revision.";
+  }
+
+  container some-table {
+    description
+      "example that shows a container the uses the same grouping as another container";
+
+    uses br:common-structure;
+  }
+
+  container some-other-table {
+    description
+      "example that shows some other container the uses the same grouping as another container";
+
+    uses br:common-structure;
+  }
+}

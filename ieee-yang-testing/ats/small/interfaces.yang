@@ -1,0 +1,51 @@
+module interfaces {
+  namespace "urn:example:interfaces";
+  prefix if;
+
+  organization
+    "Example";
+  contact
+    "<mailto:scott.mansfield@ericsson.com>";
+  description
+    "Simple interface module";
+
+  revision 2026-02-19 {
+    description
+      "Initial revision.";
+  }
+
+  container interfaces {
+    description
+      "Interface container";
+    list interface {
+      key "name";
+      description
+        "Interface list";
+      leaf name {
+        type string;
+        description
+          "The name of the interface";
+      }
+      leaf name-description {
+        type string;
+        description
+          "A textual description of the interface name";
+      }
+      leaf type {
+        type enumeration {
+          enum bridge {
+            description
+              "bridge";
+          }
+          enum other {
+            description
+              "other";
+          }
+        }
+        default "other";
+        description
+          "A type indicator for the interface";
+      }
+    }
+  }
+}

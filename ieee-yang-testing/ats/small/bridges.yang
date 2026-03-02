@@ -1,0 +1,71 @@
+module bridges {
+  yang-version 1.1;
+  namespace "urn:example:bridges";
+  prefix br;
+
+  import interfaces {
+    prefix if;
+  }
+
+  organization
+    "Example";
+  contact
+    "<mailto:scott.mansfield@ericsson.com>";
+  description
+    "Simple bridge module";
+
+  revision 2026-02-19 {
+    description
+      "Initial revision.";
+  }
+
+  grouping common-structure {
+    description "A common structure that can be used in many places'";
+    leaf num-of-ports {
+       type uint8;
+       description "the number of ports";
+    }
+    leaf desired-num-of-ports {
+       type uint8;
+       description "desired number of ports";
+    }
+  }
+
+  container bridges {
+    description
+      "Bridge container";
+    list bridge {
+      key "name";
+      description
+        "Bridge list";
+      leaf name {
+        type string;
+        description
+          "The name of the bridge";
+      }
+      leaf name-description {
+        type string;
+        description
+          "A textual description of the bridge name";
+      }
+    }
+  }
+
+  augment "/if:interfaces/if:interface" {
+    when "if:type = 'bridge'" {
+      description
+        "Applies when a bridge interface.";
+    }
+    description
+      "Augment the interface model with a bridge port";
+    container bridge-port {
+      description
+        "Bridge Port is an extension of the interfaces module";
+      leaf port-name {
+        type string;
+        description
+          "The name of the port";
+      }
+    }
+  }
+}
