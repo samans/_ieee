@@ -1,0 +1,5 @@
+D2.2-v2/IEEE8021-LLDP-V2-MIB-202603270000Z.mib:473: warning: table identifier `lldpV2PortConfigTableV2' should match `*Table'
+D2.2-v2/IEEE8021-LLDP-V2-MIB-202603270000Z.mib:482: warning: row identifier `lldpV2PortConfigEntryV2' should match `*Entry'
+D2.2-v2/IEEE8021-LLDP-V2-MIB-202603270000Z.mib:364: warning: node `lldpV2PortConfigAdminStatus' must be contained in at least one conformance group
+D2.2-v2/IEEE8021-LLDP-V2-MIB-202603270000Z.mib:401: warning: node `lldpV2PortConfigNotificationEnable' must be contained in at least one conformance group
+D2.2-v2/IEEE8021-LLDP-V2-MIB-202603270000Z.mib:413: warning: node `lldpV2PortConfigTLVsTxEnable' must be contained in at least one conformance group

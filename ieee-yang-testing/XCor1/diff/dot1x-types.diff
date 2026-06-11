@@ -1,0 +1,15 @@
+2c2
+< 
+---
+>   yang-version "1.1";
+34a35,41
+>   revision 2025-11-20 {
+>     description
+>       "Added statement to indicate YANG version 1.1";
+>     reference
+>       "IEEE Std 802.1X-2020, Port-Based Network Access Control.";
+>   }
+>   
+37a45,46
+>     reference
+>       "IEEE Std 802.1X-2020, Port-Based Network Access Control.";

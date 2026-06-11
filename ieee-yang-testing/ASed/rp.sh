@@ -1,2 +1,2 @@
 
-pyang --verbose --ieee -p ~/gits/yang/standard/ietf/RFC -p ~/gits/yang/standard/ieee/published/802 -p ~/gits/yang/standard/ieee/published/802.1 -p ~/gits/yang/standard/ieee/published/1588 -p ~/gits/yang/standard/iana ./proof-zip/*.yang 
+pyang --verbose --ieee -p ~/yang/standard/ietf/RFC -p ~/yang/standard/ieee/published/802 -p ~/yang/standard/ieee/published/802.1 -p ~/yang/standard/ieee/published/1588 -p ~/yang/standard/iana ./pub/*.yang 

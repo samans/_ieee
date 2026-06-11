@@ -1,0 +1,74 @@
+{
+  "ietf-interfaces:interfaces": {
+    "interface": [
+      {
+        "name": "eth0",
+        "type": "iana-if-type:ethernetCsmacd",
+        "enabled": true
+      },
+      {
+        "name": "eth1",
+        "type": "iana-if-type:ethernetCsmacd",
+        "enabled": false
+      }
+    ]
+  },
+  "ieee802-dot1ab-lldp:lldp": {
+    "message-fast-tx": 1,
+    "message-tx-hold-multiplier": 2,
+    "message-tx-interval": 3600,
+    "reinit-delay": 10,
+    "tx-credit-max": 10,
+    "tx-fast-init": 8,
+    "notification-interval": 1,
+    "port": [
+      {
+        "name": "eth0",
+        "dest-mac-address": "01-80-C2-00-00-0E",
+        "admin-status": "tx-and-rx",
+        "notification-enable": true,
+        "tlvs-tx-enable": "port-desc sys-name sys-desc sys-cap",
+        "message-fast-tx": 3600,
+        "message-tx-hold-multiplier": 10,
+        "message-tx-interval": 1,
+        "reinit-delay": 1,
+        "tx-credit-max": 1,
+        "tx-fast-init": 1,
+        "notification-interval": 3600,
+        "management-address-tx-port": [
+          {
+            "address-subtype": "ietf-routing:ipv4",
+            "man-address": "C0A80101",
+            "tx-enable": true
+          },
+          {
+            "address-subtype": "ietf-routing:ipv6",
+            "man-address": "20010DB8000000000000000000000001",
+            "tx-enable": false
+          }
+        ]
+      },
+      {
+        "name": "eth1",
+        "dest-mac-address": "01-80-C2-00-00-03",
+        "admin-status": "disabled",
+        "notification-enable": false,
+        "tlvs-tx-enable": "",
+        "message-fast-tx": 1,
+        "message-tx-hold-multiplier": 2,
+        "message-tx-interval": 30,
+        "reinit-delay": 2,
+        "tx-credit-max": 5,
+        "tx-fast-init": 4,
+        "notification-interval": 30,
+        "management-address-tx-port": [
+          {
+            "address-subtype": "ietf-routing:ipv4",
+            "man-address": "0A000001",
+            "tx-enable": true
+          }
+        ]
+      }
+    ]
+  }
+}

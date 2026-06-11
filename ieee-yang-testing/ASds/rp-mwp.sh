@@ -1,2 +1,2 @@
 
-pyang --verbose --ieee -p ~/yang/standard/ietf/RFC -p ~/yang/standard/ieee/published/802 -p ~/yang/standard/ieee/published/802.1 -p ~/yang/standard/ieee/published/1588 -p ~/yang/standard/iana ./D2.1/*.yang 
+pyang --verbose --ieee -p ~/yang/standard/ietf/RFC -p ~/yang/standard/ieee/published/802 -p ~/yang/standard/ieee/published/802.1 -p ~/yang/standard/ieee/published/1588 -p ~/yang/standard/iana ./D2.2/*.yang 

@@ -1,0 +1,9 @@
+D2.2-v2/IEEE8021-LLDP-V2-TC-MIB-202603270000Z.mib:78: warning: current type `LldpV2ChassisIdSubtype' is not referenced in this module
+D2.2-v2/IEEE8021-LLDP-V2-TC-MIB-202603270000Z.mib:128: warning: current type `LldpV2ChassisId' is not referenced in this module
+D2.2-v2/IEEE8021-LLDP-V2-TC-MIB-202603270000Z.mib:182: warning: current type `LldpV2PortIdSubtype' is not referenced in this module
+D2.2-v2/IEEE8021-LLDP-V2-TC-MIB-202603270000Z.mib:229: warning: current type `LldpV2PortId' is not referenced in this module
+D2.2-v2/IEEE8021-LLDP-V2-TC-MIB-202603270000Z.mib:277: warning: current type `LldpV2ManAddrIfSubtype' is not referenced in this module
+D2.2-v2/IEEE8021-LLDP-V2-TC-MIB-202603270000Z.mib:304: warning: current type `LldpV2ManAddress' is not referenced in this module
+D2.2-v2/IEEE8021-LLDP-V2-TC-MIB-202603270000Z.mib:320: warning: current type `LldpV2SystemCapabilitiesMap' is not referenced in this module
+D2.2-v2/IEEE8021-LLDP-V2-TC-MIB-202603270000Z.mib:373: warning: current type `LldpV2DestAddressTableIndex' is not referenced in this module
+D2.2-v2/IEEE8021-LLDP-V2-TC-MIB-202603270000Z.mib:385: warning: current type `LldpV2PowerPortClass' is not referenced in this module

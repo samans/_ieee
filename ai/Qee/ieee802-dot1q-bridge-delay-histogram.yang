@@ -1,0 +1,169 @@
+module ieee802-dot1q-bridge-delay-histogram {
+  yang-version 1.1;
+  namespace
+    "urn:ieee:std:802.1Q:yang:ieee802-dot1q-bridge-delay-histogram";
+  prefix qee;
+
+  import ieee802-dot1q-bridge {
+    prefix dot1q;
+  }
+  import ieee802-dot1q-types {
+    prefix dot1q-types;
+  }
+
+  organization
+    "IEEE 802.1 Working Group";
+  contact
+    "WG-URL: http://ieee802.org/1/
+     WG-EMail: stds-802-1-l@ieee.org
+
+     Contact: IEEE 802.1 Working Group Chair
+              Postal: C/O IEEE 802.1 Working Group
+              IEEE Standards Association
+              445 Hoes Lane
+              Piscataway, NJ 08854
+              USA
+
+     E-mail: stds-802-1-chairs@ieee.org";
+  description
+    "This module provides a YANG data model for bridge delay
+     histograms as an extension to the Bridge Delay managed objects
+     defined in IEEE Std 802.1Q. It augments the bridge component
+     to include delay histograms that characterize the port-to-port
+     delay distribution, enabling traffic engineering for bridged
+     networks that include wireless technologies whose delay variance
+     is beyond that of point-to-point wireline MAC technologies.
+
+     Copyright (C) IEEE (2026).
+
+     This version of this YANG module is part of IEEE Std 802.1Qee;
+     see the standard itself for full legal notices.";
+
+  revision 2026-06-11 {
+    description
+      "Initial revision. Published as part of IEEE Std 802.1Qee.
+
+       The following reference statement identifies each referenced
+       IEEE Standard as updated by applicable amendments.";
+    reference
+      "IEEE Std 802.1Qee:
+       IEEE Std 802.1Q Bridges and Bridged Networks:
+       IEEE Std 802.1Q-2022, IEEE Std 802.1Qcz-2023,
+       IEEE Std 802.1Qcw-2023.";
+  }
+
+  grouping delay-histogram {
+    description
+      "A histogram representing the distribution of delay values.";
+    leaf start {
+      type uint64;
+      units "nanoseconds";
+      default "0";
+      description
+        "The start value of the first bin in nanoseconds.";
+    }
+    leaf bin-count {
+      type uint32;
+      config false;
+      description
+        "The number of bins in this histogram.";
+    }
+    list bin {
+      key "index";
+      config false;
+      description
+        "A bin within the histogram.";
+      leaf index {
+        type uint32;
+        description
+          "The index of this bin.";
+      }
+      leaf width {
+        type uint64;
+        units "nanoseconds";
+        mandatory true;
+        description
+          "The width of this bin in nanoseconds.";
+      }
+      leaf count {
+        type uint32;
+        mandatory true;
+        description
+          "The count of delay values falling within this bin.";
+      }
+    }
+  }
+
+  augment "/dot1q:bridges/dot1q:bridge/dot1q:component" {
+    description
+      "Augments the bridge component with bridge delay histograms
+       that extend the min-max delay model defined in 12.32.1 of
+       IEEE Std 802.1Q-2022 to provide a full delay distribution.";
+    container bridge-delay-histogram {
+      config false;
+      description
+        "Bridge delay histogram data providing delay distribution
+         information for frames passing through this bridge
+         component. This extends the Bridge Delay attributes
+         defined in 12.32.1 of IEEE Std 802.1Q.";
+      reference
+        "12.32.1 of IEEE Std 802.1Q";
+      list independent-delay-histogram {
+        key "in-port out-port traffic-class";
+        config false;
+        description
+          "Histogram of the frame-length-independent delay portion
+           for frames passing from in-port to out-port for the
+           specified traffic class.";
+        reference
+          "12.32.1.1 of IEEE Std 802.1Q";
+        leaf in-port {
+          type uint16;
+          description
+            "The port number of the ingress port.";
+        }
+        leaf out-port {
+          type uint16;
+          description
+            "The port number of the egress port.";
+        }
+        leaf traffic-class {
+          type dot1q-types:traffic-class-type;
+          description
+            "The traffic class.";
+          reference
+            "8.6.6 of IEEE Std 802.1Q";
+        }
+        uses delay-histogram;
+      }
+      list dependent-delay-histogram {
+        key "in-port out-port traffic-class";
+        config false;
+        description
+          "Histogram of the frame-length-dependent delay portion
+           for frames passing from in-port to out-port for the
+           specified traffic class.";
+        reference
+          "12.32.1.2 of IEEE Std 802.1Q";
+        leaf in-port {
+          type uint16;
+          description
+            "The port number of the ingress port.";
+        }
+        leaf out-port {
+          type uint16;
+          description
+            "The port number of the egress port.";
+        }
+        leaf traffic-class {
+          type dot1q-types:traffic-class-type;
+          description
+            "The traffic class.";
+          reference
+            "8.6.6 of IEEE Std 802.1Q";
+        }
+        uses delay-histogram;
+      }
+    }
+  }
+}
