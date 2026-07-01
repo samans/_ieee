@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude"
+     version="3"
+     ipr="trust200902"
+     category="std"
+     submissionType="IETF"
+     consensus="true"
+     docName="draft-fedyk-netmod-yang-normal-form-00"
+     xml:lang="en">
+<front>
+<title abbrev="YANG String Normalalized Form"> Extending Normalized Forms to String-Derived Types </title>
+<seriesInfo name="Internet-Draft" value="draft-fedyk-netmod-yang-normal-form-00"/>
+<author fullname="Don Fedyk" initials="D." surname="Fedyk">
+<organization>LabN Consulting, L.L.C.</organization>
+<address>
+<email>dfedyk@labn.net</email>
+</address>
+</author>
+<date year="2026" month="06" day="11"/>
+<area>Operations and Management</area>
+<workgroup>Network Modeling</workgroup>
+<keyword>YANG</keyword>
+<keyword>NETMOD</keyword>
+<keyword>normalized form</keyword>
+<keyword>MAC address</keyword>
+<abstract>
+<t>
+                YANG models frequently define identifiers using string
+                or string-derived types whose lexical space permits
+                multiple representations of the same underlying value.
+                This can lead to incorrect behavior when semantically
+                equivalent values are compared lexically.
+        </t>
+        <t>
+                This document add an optional extension to the existing YANG concept of
+                normalized form to string-derived types whose lexical
+                space permits multiple representations of the same
+                underlying value.
+        </t>
+</abstract>
+</front>
+<middle>
+<section numbered="true" toc="default">
+<name>Introduction</name>
+<t>
+YANG
+<xref target="RFC7950"/>
+treats values of type
+<tt>string</tt>
+        as lexically distinct; equality and uniqueness are therefore
+        determined by exact string comparison.
+</t>
+<t>
+        YANG defines normalized representations for many built-in data
+        types. Canonical or normalized forms provide a unique representation of a
+        value independent of how it may have been entered or encoded.
+</t>
+<t>
+        For string-derived types, YANG currently provides no mechanism
+	to define a normalized form distinct from the lexical
+        representation. As a result, semantically equivalent values
+        that have multiple valid lexical representations may not
+        compare equal and may not be detected as duplicates.
+</t>
+      <t>
+        This issue has been observed in both IETF and IEEE YANG modules,
+        leading to interoperability problems and incorrect duplicate
+        detection. Existing YANG typedefs such as <tt>mac-address</tt>
+        (<xref target="RFC6991"/>, <xref target="RFC9911"/>) define
+        syntax but do not define normalized comparison semantics.
+      </t>
+<t>
+        A prominent example is the representation of MAC addresses in
+        YANG. IETF and IEEE modules define different lexical forms for
+        MAC addresses, and equivalent values may not compare equal
+        when represented using different valid formats. This problem
+        is described in
+<xref target="I-D.sam-mac-address-as-string"/>
+.
+</t>
+<t>
+        While MAC addresses provide a clear motivating example, the
+        underlying issue is more general. YANG lacks a mechanism for
+        schema authors to define normalized forms for string-derived
+        types whose lexical space permits multiple representations of
+        the same underlying value.
+</t>
+<t>
+        The resulting normalized form is used for equality and
+        uniqueness operations. The original lexical representation is
+        preserved for encoding and retrieval.
+</t>
+<t>
+        This mechanism is intentionally non-invasive. Existing YANG
+        modules remain valid and unchanged. The extension is applied
+        only where normalized forms are needed and has no effect on
+        implementations that do not support it.
+</t>
+</section>
+<section numbered="true" toc="default">
+<name>Problem Statement</name>
+        <t>
+                When string-derived types permit multiple lexical
+                representations of the same value, the following
+                issues can arise:
+        </t>
+<ul>
+        <li>Semantically equivalent values may not compare equal.</li>
+        <li> Duplicate entries may not be detected in keyed lists.  </li>
+        <li> Leaf-list uniqueness constraints may be violated.  </li>
+        <li> XPath equality comparisons may yield incorrect results.  </li>
+</ul>
+<t>
+        Pattern restrictions alone do not solve this problem, because
+        they validate syntax but do not affect comparison semantics.
+</t>
+</section>
+<section numbered="true" toc="default">
+<name>Design Goals</name>
+        <t> The solution defined in this document: </t>
+<ul>
+        <li>MUST preserve the lexical representation of values.</li>
+        <li> MUST provide deterministic comparison semantics.  </li>
+        <li> MUST apply to equality and uniqueness operations.  </li>
+        <li>MUST be minimally invasive to existing YANG modules.</li>
+<li>MUST be opt-in and backward compatible.</li>
+<li> MUST be general across string-derived types.  </li>
+        <li>SHOULD be simple to implement.</li>
+        <li> SHOULD avoid complex transformation languages.  </li>
+</ul>
+</section>
+<section numbered="true" toc="default">
+<name>Proposed Solution</name>
+<section numbered="true" toc="default">
+<name>Overview</name>
+        <t>
+                This document defines a YANG extension that allows a
+                string-derived type to specify a normalization
+                algorithm.
+        </t>
+        <t>
+                The resulting normalized form is used for equality
+                comparisons, list key uniqueness, and leaf-list
+                uniqueness. The original lexical representation is
+                preserved for encoding and retrieval.
+        </t>
+        <t>
+        This extension does not modify the YANG language and does not
+        require changes to existing typedef definitions. The extension
+        may be attached to existing types, derived types, or schema
+        nodes where normalized form behavior is desired.
+                Implementations
+                that do not understand the extension continue to
+                process the lexical type normally. Implementations
+                that advertise support for the extension apply the
+                specified normalization algorithm for equality and
+                uniqueness operations.
+        </t>
+        <t>
+                Use of this extension does not, by itself, change the
+                behavior of implementations that do not support it.
+        </t>
+</section>
+<section numbered="true" toc="default">
+<name>YANG Extension Definition</name>
+<sourcecode type="yang">
+<![CDATA[
+module example-yang-normalized-form {
+  yang-version 1.1;
+  namespace
+    "urn:example:yang:normalized-form";
+  prefix ycf;
+  organization
+    "IETF NETMOD Working Group";
+
+  contact
+    "WG Web: <https://datatracker.ietf.org/wg/netmod/>
+     WG List: <mailto:netmod@ietf.org>";
+             
+  description 
+    "Defines an extension for declaring a normalized
+     form for string-derived types.";
+  revision 2026-06-09 {
+    description "Initial revision.";
+    reference "TBD: This document.";
+  }
+  identity normalized-form {
+    description
+      "Base identity for normalized forms.";
+  }
+  identity mac-48 {
+    base normalized-form;
+    description
+      "Normalized form for 48-bit MAC addresses.";
+  }
+  extension normalized-form {
+    argument form;
+    description
+      "Specifies a deterministic normalization form
+       used to derive the normalized form of a value.";
+  }
+}
+]]>
+</sourcecode>
+</section>
+<section numbered="true" toc="default">
+<name>Semantics</name>
+<t>
+If a type includes the
+<tt>normalized-form</tt>
+extension:
+</t>
+<ol>
+        <li> A normalized form MUST be derived using the specified identity.  </li>
+<li>
+Equality comparisons, including
+<tt>=</tt>
+and
+<tt>!=</tt>
+, MUST use the normalized form.
+</li>
+<li>
+        List key uniqueness MUST be enforced using the normalized form.
+</li>
+<li>
+        Leaf-list uniqueness MUST be enforced using the normalized
+        form.
+</li>
+<li>
+        The lexical representation MUST NOT be modified solely to
+        satisfy this extension.
+</li>
+</ol>
+</section>
+<section numbered="true" toc="default">
+<name>Normalized identity</name>
+<t> Normalized forms are identified by identity and are associated with a deterministic algorithm. </t>
+<section numbered="true" toc="default">
+<name>mac-48</name>
+<t>
+The
+<tt>mac-48</tt>
+        identity applies to 48-bit MAC addresses represented as six
+        hexadecimal octets. The lexical representation is defined by
+        the type that uses the extension.
+</t>
+<t> The normalization procedure is: </t>
+<ol>
+        <li>Validate the input against the lexical pattern.</li>
+        <li>Remove all separators.</li>
+        <li> Convert hexadecimal digits to uppercase.  </li>
+        <li> Use the resulting 12 hexadecimal
+             digits as the normalized form of the
+             MAC address.  </li>
+</ol>
+<t> Equivalent inputs include: </t>
+<sourcecode type="example">
+<![CDATA[
+aa:bb:cc:dd:ee:ff
+AA:BB:CC:DD:EE:FF
+aa-bb-cc-dd-ee-ff
+AA-BB-CC-DD-EE-FF
+]]>
+</sourcecode>
+<t> These values yield the same normalized form: </t>
+<sourcecode type="example">
+<![CDATA[
+0xAABBCCDDEEFF
+]]>
+</sourcecode>
+</section>
+</section>
+</section>
+<section numbered="true" toc="default">
+<name>Example Usage</name>
+<t>
+        The definition should be in a top level YANG module.  
+        While new types with the normalized form could be created 
+        it is also valid ti just modify in place IEEE mac-address
+        to support the normalized form. 
+</t>
+</section>
+<section numbered="true" toc="default">
+<name>IETF MAC Address example</name>
+<t>
+        The following example show that the normalized form
+        can be added to any definition. Below is an IETF example.
+</t>
+<sourcecode type="yang">
+<![CDATA[
+      leaf address {
+        type ieee:mac-address;
+        yang:normalized-form "yang:mac-48";
+        mandatory true;
+        description
+          "A sample IEEE MAC address format.";
+      }
+]]>
+</sourcecode>
+</section>
+<section numbered="true" toc="default">
+<name>IEEE MAC Address example</name>
+<t>
+        The following example show that the normalized form
+        can be added to any definition. Below is an IEEE example.
+</t>
+<sourcecode type="yang">
+<![CDATA[
+      leaf address {
+        type ietf:mac-address;
+        yang:normalized-form "yang:mac-48";
+        mandatory true;
+        description
+          "A sample IETF MAC address format.";
+      }
+]]>
+</sourcecode>
+</section>
+<section numbered="true" toc="default">
+<name>Comparison Example</name>
+        <t>
+                The following values use different lexical
+                representations but identify the same underlying
+                48-bit MAC address:
+        </t>
+<sourcecode type="example">
+<![CDATA[
+aa:bb:cc:dd:ee:ff
+AA-BB-CC-DD-EE-FF
+]]>
+</sourcecode>
+<t>
+        Because both types declare the same
+        <tt>mac-48</tt>
+        normalized form, both values yield the same normalized form:
+</t>
+<sourcecode type="example">
+<![CDATA[
+   0xAABBCCDDEEFF
+]]>
+</sourcecode>
+<t>
+        Implementations that support this extension compare the values
+        using the normalized form for equality and uniqueness
+        operations, while preserving each type's lexical requirements.
+</t>
+</section>
+<section numbered="true" toc="default">
+<name>List Key Example</name>
+<sourcecode type="yang">
+<![CDATA[
+list fdb-entry {
+    key "mac vlan";
+    leaf mac {
+      type mac-address;
+      yang:normalized-form "yang:mac-48";
+    }
+    leaf vlan {
+        type uint16;
+    }
+    leaf port {
+        type string;
+    }
+}
+]]>
+</sourcecode>
+<t>
+        A list key using the IETF typedef continues to accept only the
+        IETF colon-separated lexical form. A corresponding IEEE model
+        can use the IEEE typedef and preserve the IEEE dash-separated
+        lexical form. In both cases, the shared
+        <tt>mac-48</tt>
+        normalized form enables consistent equality and
+        duplicate detection across representations.
+</t>
+</section>
+<section numbered="true" toc="default">
+<name>Backward Compatibility</name>
+        <t>
+                Existing YANG models are unaffected unless the
+                extension is used. Lexical representation is
+                preserved. Behavior changes only affect comparison and
+                uniqueness.
+        </t>
+</section>
+<section numbered="true" toc="default">
+<name>Applicability</name>
+        <t>
+                While motivated by MAC addresses, this mechanism can
+                apply to any string-derived type with multiple
+                equivalent representations, including case-insensitive
+                identifiers, formatted identifiers, and normalized
+                encodings.
+        </t>
+</section>
+<section numbered="true" toc="default">
+<name>Security Considerations</name>
+        <t>
+                Normalization reduces ambiguity and helps prevent
+                duplicate or conflicting configuration entries.
+        </t>
+        <t>
+                Implementations MUST ensure that normalization
+                algorithms are deterministic and unambiguous.
+        </t>
+</section>
+<section numbered="true" toc="default">
+<name>IANA Considerations</name>
+        <t> This document has no IANA actions. </t>
+</section>
+</middle>
+<back>
+<references>
+<name>Normative References</name>
+      <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6991.xml"/>
+      <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7950.xml"/>
+      <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9911.xml"/>
+</references>
+<references>
+<name>Informative References</name>
+      <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.sam-mac-address-as-string.xml"/>
+</references>
+</back>
+</rfc>
