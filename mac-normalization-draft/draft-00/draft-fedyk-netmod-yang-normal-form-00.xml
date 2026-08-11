@@ -103,6 +103,14 @@ treats values of type
         implementations that do not support it.
 </t>
 </section>
+      <section numbered="true" toc="default">
+        <name>Terminology</name>
+        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+          "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+	  "OPTIONAL" in this document are to be interpreted as described in BCP 14
+          <xref target="RFC2119" format="default"/> <xref target="RFC8174" format="default"/>
+          when, and only when, they appear in all capitals, as shown here.</t>
+      </section>
 <section numbered="true" toc="default">
 <name>Problem Statement</name>
         <t>
@@ -240,7 +248,8 @@ and
 </section>
 <section numbered="true" toc="default">
 <name>Normalized identity</name>
-<t> Normalized forms are identified by identity and are associated with a deterministic algorithm. </t>
+<t> Normalized forms are identified by identity and are associated with
+    a deterministic algorithm. </t>
 <section numbered="true" toc="default">
 <name>mac-48</name>
 <t>
@@ -418,8 +427,10 @@ list fdb-entry {
 <back>
 <references>
 <name>Normative References</name>
+      <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.6991.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.7950.xml"/>
+      <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
       <xi:include href="https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9911.xml"/>
 </references>
 <references>

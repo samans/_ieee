@@ -1,0 +1,504 @@
+
+
+
+
+Network Modeling                                                D. Fedyk
+Internet-Draft                                   LabN Consulting, L.L.C.
+Intended status: Standards Track                            S. Mansfield
+Expires: 2 January 2027                                         Ericsson
+                                                             1 July 2026
+
+
+           Extending Normalized Forms to String-Derived Types
+                 draft-fedyk-netmod-yang-normal-form-00
+
+Abstract
+
+   YANG models frequently define identifiers using string or string-
+   derived types whose lexical space permits multiple representations of
+   the same underlying value.  This can lead to incorrect behavior when
+   semantically equivalent values are compared lexically.
+
+   This document add an optional extension to the existing YANG concept
+   of normalized form to string-derived types whose lexical space
+   permits multiple representations of the same underlying value.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 2 January 2027.
+
+Copyright Notice
+
+   Copyright (c) 2026 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+
+
+
+Fedyk & Mansfield        Expires 2 January 2027                 [Page 1]
+
+Internet-Draft        YANG String Normalalized Form            July 2026
+
+
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+   2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   3
+   3.  Problem Statement . . . . . . . . . . . . . . . . . . . . . .   3
+   4.  Design Goals  . . . . . . . . . . . . . . . . . . . . . . . .   4
+   5.  Proposed Solution . . . . . . . . . . . . . . . . . . . . . .   4
+     5.1.  Overview  . . . . . . . . . . . . . . . . . . . . . . . .   4
+     5.2.  YANG Extension Definition . . . . . . . . . . . . . . . .   4
+     5.3.  Semantics . . . . . . . . . . . . . . . . . . . . . . . .   5
+     5.4.  Normalized identity . . . . . . . . . . . . . . . . . . .   6
+       5.4.1.  mac-48  . . . . . . . . . . . . . . . . . . . . . . .   6
+   6.  Example Usage . . . . . . . . . . . . . . . . . . . . . . . .   6
+   7.  IEEE MAC Address example  . . . . . . . . . . . . . . . . . .   6
+   8.  IETF MAC Address example  . . . . . . . . . . . . . . . . . .   7
+   9.  Comparison Example  . . . . . . . . . . . . . . . . . . . . .   7
+   10. List Key Example  . . . . . . . . . . . . . . . . . . . . . .   7
+   11. Backward Compatibility  . . . . . . . . . . . . . . . . . . .   8
+   12. Applicability . . . . . . . . . . . . . . . . . . . . . . . .   8
+   13. Security Considerations . . . . . . . . . . . . . . . . . . .   8
+   14. IANA Considerations . . . . . . . . . . . . . . . . . . . . .   8
+   15. Normative References  . . . . . . . . . . . . . . . . . . . .   8
+   16. Informative References  . . . . . . . . . . . . . . . . . . .   9
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   9
+
+1.  Introduction
+
+   YANG [RFC7950] treats values of type string as lexically distinct;
+   equality and uniqueness are therefore determined by exact string
+   comparison.
+
+   YANG defines normalized representations for many built-in data types.
+   Canonical or normalized forms provide a unique representation of a
+   value independent of how it may have been entered or encoded.
+
+   For string-derived types, YANG currently provides no mechanism to
+   define a normalized form distinct from the lexical representation.
+   As a result, semantically equivalent values that have multiple valid
+   lexical representations may not compare equal and may not be detected
+   as duplicates.
+
+
+
+
+
+
+
+Fedyk & Mansfield        Expires 2 January 2027                 [Page 2]
+
+Internet-Draft        YANG String Normalalized Form            July 2026
+
+
+   This issue has been observed in both IETF and IEEE YANG modules,
+   leading to interoperability problems and incorrect duplicate
+   detection.  Existing YANG typedefs such as mac-address ([RFC6991],
+   [RFC9911]) define syntax but do not define normalized comparison
+   semantics.
+
+   A prominent example is the representation of MAC addresses in YANG.
+   IETF and IEEE modules define different lexical forms for MAC
+   addresses, and equivalent values may not compare equal when
+   represented using different valid formats.  This problem is described
+   in [I-D.sam-mac-address-as-string] .
+
+   While MAC addresses provide a clear motivating example, the
+   underlying issue is more general.  YANG lacks a mechanism for schema
+   authors to define normalized forms for string-derived types whose
+   lexical space permits multiple representations of the same underlying
+   value.
+
+   The resulting normalized form is used for equality and uniqueness
+   operations.  The original lexical representation is preserved for
+   encoding and retrieval.
+
+   This mechanism is intentionally non-invasive.  Existing YANG modules
+   remain valid and unchanged.  The extension is applied only where
+   normalized forms are needed and has no effect on implementations that
+   do not support it.
+
+2.  Terminology
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in BCP
+   14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+3.  Problem Statement
+
+   When string-derived types permit multiple lexical representations of
+   the same value, the following issues can arise:
+
+   *  Semantically equivalent values may not compare equal.
+
+   *  Duplicate entries may not be detected in keyed lists.
+
+   *  Leaf-list uniqueness constraints may be violated.
+
+   *  XPath equality comparisons may yield incorrect results.
+
+
+
+
+Fedyk & Mansfield        Expires 2 January 2027                 [Page 3]
+
+Internet-Draft        YANG String Normalalized Form            July 2026
+
+
+   Pattern restrictions alone do not solve this problem, because they
+   validate syntax but do not affect comparison semantics.
+
+4.  Design Goals
+
+   The solution defined in this document:
+
+   *  MUST preserve the lexical representation of values.
+
+   *  MUST provide deterministic comparison semantics.
+
+   *  MUST apply to equality and uniqueness operations.
+
+   *  MUST be minimally invasive to existing YANG modules.
+
+   *  MUST be opt-in and backward compatible.
+
+   *  MUST be general across string-derived types.
+
+   *  SHOULD be simple to implement.
+
+   *  SHOULD avoid complex transformation languages.
+
+5.  Proposed Solution
+
+5.1.  Overview
+
+   This document defines a YANG extension that allows a string-derived
+   type to specify a normalization algorithm.
+
+   The resulting normalized form is used for equality comparisons, list
+   key uniqueness, and leaf-list uniqueness.  The original lexical
+   representation is preserved for encoding and retrieval.
+
+   This extension does not modify the YANG language and does not require
+   changes to existing typedef definitions.  The extension may be
+   attached to existing types, derived types, or schema nodes where
+   normalized form behavior is desired.  Implementations that do not
+   understand the extension continue to process the lexical type
+   normally.  Implementations that advertise support for the extension
+   apply the specified normalization algorithm for equality and
+   uniqueness operations.
+
+   Use of this extension does not, by itself, change the behavior of
+   implementations that do not support it.
+
+5.2.  YANG Extension Definition
+
+
+
+
+Fedyk & Mansfield        Expires 2 January 2027                 [Page 4]
+
+Internet-Draft        YANG String Normalalized Form            July 2026
+
+
+   module ietf-yang-normalized-form {
+     yang-version 1.1;
+     namespace
+       "urn:ietf:params:xml:ns:yang:ietf-yang:normalized-form";
+     prefix iynf;
+     organization
+       "IETF NETMOD Working Group";
+
+     contact
+       "WG Web: <https://datatracker.ietf.org/wg/netmod/>
+        WG List: <mailto:netmod@ietf.org>";
+
+     description
+       "Defines an extension for declaring a normalized
+        form for string-derived types.";
+     revision 2026-07-01 {
+       description "Initial revision.";
+       reference "TBD: This document.";
+     }
+     identity normalized-form {
+       description
+         "Base identity for normalized forms.";
+     }
+     identity mac-48 {
+       base normalized-form;
+       description
+         "Normalized form for 48-bit MAC addresses.";
+     }
+     extension normalized-form {
+       argument form;
+       description
+         "Specifies a deterministic normalization form
+          used to derive the normalized form of a value.";
+     }
+   }
+
+5.3.  Semantics
+
+   If a type includes the normalized-form extension:
+
+   1.  A normalized form MUST be derived using the specified identity.
+
+   2.  Equality comparisons, including = and != , MUST use the
+       normalized form.
+
+   3.  List key uniqueness MUST be enforced using the normalized form.
+
+   4.  Leaf-list uniqueness MUST be enforced using the normalized form.
+
+
+
+Fedyk & Mansfield        Expires 2 January 2027                 [Page 5]
+
+Internet-Draft        YANG String Normalalized Form            July 2026
+
+
+   5.  The lexical representation MUST NOT be modified solely to satisfy
+       this extension.
+
+5.4.  Normalized identity
+
+   Normalized forms are identified by identity and are associated with a
+   deterministic algorithm.
+
+5.4.1.  mac-48
+
+   The mac-48 identity applies to 48-bit MAC addresses represented as
+   six hexadecimal octets.  The lexical representation is defined by the
+   type that uses the extension.
+
+   The normalization procedure is:
+
+   1.  Validate the input against the lexical pattern.
+
+   2.  Remove all separators.
+
+   3.  Convert hexadecimal digits to uppercase.
+
+   4.  Use the resulting 12 hexadecimal digits as the normalized form of
+       the MAC address.
+
+   Equivalent inputs include:
+
+   aa:bb:cc:dd:ee:ff
+   AA:BB:CC:DD:EE:FF
+   aa-bb-cc-dd-ee-ff
+   AA-BB-CC-DD-EE-FF
+
+   These values yield the same normalized form:
+
+   0xAABBCCDDEEFF
+
+6.  Example Usage
+
+   The definition should be in a top level YANG module.  While new types
+   with the normalized form could be created it is also valid to just
+   modify in place IEEE mac-address to support the normalized form.
+
+7.  IEEE MAC Address example
+
+   The following example show that the normalized form can be added to
+   any definition.  Below is an IEEE example.
+
+
+
+
+
+Fedyk & Mansfield        Expires 2 January 2027                 [Page 6]
+
+Internet-Draft        YANG String Normalalized Form            July 2026
+
+
+         leaf address {
+           type ieee:mac-address;
+           yang:normalized-form "yang:mac-48";
+           mandatory true;
+           description
+             "A sample IEEE MAC address format.";
+         }
+
+8.  IETF MAC Address example
+
+   The following example show that the normalized form can be added to
+   any definition.  Below is an IETF example.
+
+         leaf address {
+           type ietf:mac-address;
+           yang:normalized-form "yang:mac-48";
+           mandatory true;
+           description
+             "A sample IETF MAC address format.";
+         }
+
+9.  Comparison Example
+
+   The following values use different lexical representations but
+   identify the same underlying 48-bit MAC address:
+
+   aa:bb:cc:dd:ee:ff
+   AA-BB-CC-DD-EE-FF
+
+   Because both types declare the same mac-48 normalized form, both
+   values yield the same normalized form:
+
+      0xAABBCCDDEEFF
+
+   Implementations that support this extension compare the values using
+   the normalized form for equality and uniqueness operations, while
+   preserving each type's lexical requirements.
+
+10.  List Key Example
+
+
+
+
+
+
+
+
+
+
+
+
+Fedyk & Mansfield        Expires 2 January 2027                 [Page 7]
+
+Internet-Draft        YANG String Normalalized Form            July 2026
+
+
+   list fdb-entry {
+       key "mac vlan";
+       leaf mac {
+         type mac-address;
+         yang:normalized-form "yang:mac-48";
+       }
+       leaf vlan {
+           type uint16;
+       }
+       leaf port {
+           type string;
+       }
+   }
+
+   A list key using the IETF typedef continues to accept only the IETF
+   colon-separated lexical form.  A corresponding IEEE model can use the
+   IEEE typedef and preserve the IEEE dash-separated lexical form.  In
+   both cases, the shared mac-48 normalized form enables consistent
+   equality and duplicate detection across representations.
+
+11.  Backward Compatibility
+
+   Existing YANG models are unaffected unless the extension is used.
+   Lexical representation is preserved.  Behavior changes only affect
+   comparison and uniqueness.
+
+12.  Applicability
+
+   While motivated by MAC addresses, this mechanism can apply to any
+   string-derived type with multiple equivalent representations,
+   including case-insensitive identifiers, formatted identifiers, and
+   normalized encodings.
+
+13.  Security Considerations
+
+   Normalization reduces ambiguity and helps prevent duplicate or
+   conflicting configuration entries.
+
+   Implementations MUST ensure that normalization algorithms are
+   deterministic and unambiguous.
+
+14.  IANA Considerations
+
+   This document has no IANA actions.
+
+15.  Normative References
+
+
+
+
+
+Fedyk & Mansfield        Expires 2 January 2027                 [Page 8]
+
+Internet-Draft        YANG String Normalalized Form            July 2026
+
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC6991]  Schoenwaelder, J., Ed., "Common YANG Data Types",
+              RFC 6991, DOI 10.17487/RFC6991, July 2013,
+              <https://www.rfc-editor.org/info/rfc6991>.
+
+   [RFC7950]  Bjorklund, M., Ed., "The YANG 1.1 Data Modeling Language",
+              RFC 7950, DOI 10.17487/RFC7950, August 2016,
+              <https://www.rfc-editor.org/info/rfc7950>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
+
+   [RFC9911]  Schönwälder, J., Ed., "Common YANG Data Types", RFC 9911,
+              DOI 10.17487/RFC9911, December 2025,
+              <https://www.rfc-editor.org/info/rfc9911>.
+
+16.  Informative References
+
+   [I-D.sam-mac-address-as-string]
+              Mansfield, S., "MAC Address as String", Work in Progress,
+              Internet-Draft, draft-sam-mac-address-as-string-00, 2
+              March 2026, <https://datatracker.ietf.org/doc/html/draft-
+              sam-mac-address-as-string-00>.
+
+Authors' Addresses
+
+   Don Fedyk
+   LabN Consulting, L.L.C.
+   Email: dfedyk@labn.net
+
+
+   Scott Mansfield
+   Ericsson
+   Email: scott.mansfield@ericsson.com
+
+
+
+
+
+
+
+
+
+
+
+
+Fedyk & Mansfield        Expires 2 January 2027                 [Page 9]

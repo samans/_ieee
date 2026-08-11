@@ -1,0 +1,35 @@
+module ietf-yang-normalized-form {
+  yang-version 1.1;
+  namespace
+    "urn:ietf:params:xml:ns:yang:ietf-yang:normalized-form";
+  prefix iynf;
+  organization
+    "IETF NETMOD Working Group";
+
+  contact
+    "WG Web: <https://datatracker.ietf.org/wg/netmod/>
+     WG List: <mailto:netmod@ietf.org>";
+
+  description
+    "Defines an extension for declaring a normalized
+     form for string-derived types.";
+  revision 2026-07-01 {
+    description "Initial revision.";
+    reference "TBD: This document.";
+  }
+  identity normalized-form {
+    description
+      "Base identity for normalized forms.";
+  }
+  identity mac-48 {
+    base normalized-form;
+    description
+      "Normalized form for 48-bit MAC addresses.";
+  }
+  extension normalized-form {
+    argument form;
+    description
+      "Specifies a deterministic normalization form
+       used to derive the normalized form of a value.";
+  }
+}
