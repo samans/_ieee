@@ -86,4 +86,35 @@ module ieee802-dot1q-ats-bridge {
       }
     }
   }
+  augment "/dot1q:bridges/dot1q:bridge/dot1q:component" {
+    description
+      "Augments the Bridge component with ATS parameters.";
+        uses ats:ats-parameters;
+    container scheduler {
+      description
+        "This container encapsulates ATS scheduler nodes.";
+      leaf scheduler-ref {
+        type leafref {
+          path
+            '..'+
+            '/..'+
+            '/schedulers'+
+            '/scheduler-instance-table'+
+            '/scheduler-instance-id';
+        }
+        description
+          "A reference to the ATS scheduler associated with this
+          stream filter.";
+      }
+      leaf scheduler-enable {
+        type boolean;
+        default "false";
+        description
+          "If TRUE, this stream filter has an associated ATS
+          scheduler referenced by scheduler-ref. If FALSE, no ATS
+          scheduler is associated with this stream filter
+          (scheduler-ref is ignored).";
+      }
+    }
+  }
 }

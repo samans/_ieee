@@ -1,0 +1,834 @@
+module: ieee802-dot1ab-lldp
+  +--rw lldp
+     +--rw message-fast-tx?              uint32
+     +--rw message-tx-hold-multiplier?   uint32
+     +--rw message-tx-interval?          uint32
+     +--rw reinit-delay?                 uint32
+     +--rw tx-credit-max?                uint32
+     +--rw tx-fast-init?                 uint32
+     +--rw notification-interval?        uint32
+     +--ro remote-statistics
+     |  +--ro last-change-time?   yang:timestamp
+     |  +--ro remote-inserts?     yang:zero-based-counter32
+     |  +--ro remote-deletes?     yang:zero-based-counter32
+     |  +--ro remote-drops?       yang:zero-based-counter32
+     |  +--ro remote-ageouts?     yang:zero-based-counter32
+     +--ro local-system-data
+     |  +--ro chassis-id-subtype?              ieee:chassis-id-subtype-type
+     |  +--ro chassis-id?                      ieee:chassis-id-type
+     |  +--ro system-name?                     string
+     |  +--ro system-description?              string
+     |  +--ro system-capabilities-supported?   lldp-types:system-capabilities-map
+     |  +--ro system-capabilities-enabled?     lldp-types:system-capabilities-map
+     +--rw port* [name dest-mac-address]
+        +--rw name                                              if:interface-ref
+        +--rw dest-mac-address                                  ieee:mac-address
+        +--rw admin-status?                                     enumeration
+        +--rw notification-enable?                              boolean
+        +--rw tlvs-tx-enable?                                   bits
+        +--rw message-fast-tx?                                  uint32
+        +--rw message-tx-hold-multiplier?                       uint32
+        +--rw message-tx-interval?                              uint32
+        +--rw reinit-delay?                                     uint32
+        +--rw tx-credit-max?                                    uint32
+        +--rw tx-fast-init?                                     uint32
+        +--rw notification-interval?                            uint32
+        +--rw management-address-tx-port* [address-subtype man-address]
+        |  +--rw address-subtype    identityref
+        |  +--rw man-address        lldp-types:man-addr-type
+        |  +--rw tx-enable?         boolean
+        |  +--ro addr-len?          uint32
+        |  +--ro if-subtype?        lldp-types:man-addr-if-subtype
+        |  +--ro if-id?             uint32
+        +--ro port-id-subtype?                                  ieee:port-id-subtype-type
+        +--ro port-id?                                          ieee:port-id-type
+        +--ro port-desc?                                        string
+        +--ro tx-statistics
+        |  +--ro total-frames?          yang:counter32
+        |  +--ro total-length-errors?   yang:counter32
+        +--ro rx-statistics
+        |  +--ro total-ageouts?             yang:zero-based-counter32
+        |  +--ro total-discarded-frames?    yang:counter32
+        |  +--ro error-frames?              yang:counter32
+        |  +--ro total-frames?              yang:counter32
+        |  +--ro total-discarded-tlvs?      yang:counter32
+        |  +--ro total-unrecognized-tlvs?   yang:counter32
+        +--ro remote-systems-data* [time-mark remote-index]
+        |  +--ro time-mark                                         yang:timeticks
+        |  +--ro remote-index                                      uint32
+        |  +--ro remote-too-many-neighbors?                        boolean
+        |  +--ro remote-changes?                                   boolean
+        |  +--ro chassis-id-subtype?                               ieee:chassis-id-subtype-type
+        |  +--ro chassis-id?                                       ieee:chassis-id-type
+        |  +--ro port-id-subtype?                                  ieee:port-id-subtype-type
+        |  +--ro port-id?                                          ieee:port-id-type
+        |  +--ro port-desc?                                        string
+        |  +--ro system-name?                                      string
+        |  +--ro system-description?                               string
+        |  +--ro system-capabilities-supported?                    lldp-types:system-capabilities-map
+        |  +--ro system-capabilities-enabled?                      lldp-types:system-capabilities-map
+        |  +--ro management-address* [address-subtype address]
+        |  |  +--ro address-subtype    identityref
+        |  |  +--ro address            lldp-types:man-addr-type
+        |  |  +--ro if-subtype?        lldp-types:man-addr-if-subtype
+        |  |  +--ro if-id?             uint32
+        |  +--ro remote-unknown-tlv* [tlv-type]
+        |  |  +--ro tlv-type    uint32
+        |  |  +--ro tlv-info?   binary
+        |  +--ro remote-org-defined-info* [info-identifier info-subtype info-index]
+        |  |  +--ro info-identifier    uint32
+        |  |  +--ro info-subtype       uint32
+        |  |  +--ro info-index         uint32
+        |  |  +--ro remote-info?       binary
+        |  +--ro lldp-ci-tlv:congestion-isolation-tlv-extension
+        |     +--ro lldp-ci-tlv:queue-map* [priority]
+        |     |  +--ro lldp-ci-tlv:priority        dot1q-types:priority-type
+        |     |  +--ro lldp-ci-tlv:queue-config?   dot1q-ci:abs-traffic-class-plus-one-type
+        |     +--ro lldp-ci-tlv:cim-encap-length?   uint16
+        |     +--ro lldp-ci-tlv:mac-address?        ieee:mac-address
+        |     +--ro lldp-ci-tlv:udp-port-number?    inet:port-number
+        |     +--ro lldp-ci-tlv:ip-address?         inet:ip-address
+        +--rw lldp-ci-tlv:tlvs-tx-org-ci-enable?                bits
+        +--rw lldp-ci-tlv:congestion-isolation-tlv-extension
+           +--rw lldp-ci-tlv:queue-map* [priority]
+           |  +--rw lldp-ci-tlv:priority        dot1q-types:priority-type
+           |  +--rw lldp-ci-tlv:queue-config?   dot1q-ci:abs-traffic-class-plus-one-type
+           +--rw lldp-ci-tlv:cim-encap-length?   uint16
+           +--ro lldp-ci-tlv:mac-address?        ieee:mac-address
+           +--ro lldp-ci-tlv:udp-port-number?    inet:port-number
+           +--ro lldp-ci-tlv:ip-address?         inet:ip-address
+
+  notifications:
+    +---n remote-table-change
+       +--ro remote-insert?    -> /lldp/remote-statistics/remote-inserts
+       +--ro remote-delete?    -> /lldp/remote-statistics/remote-deletes
+       +--ro remote-drops?     -> /lldp/remote-statistics/remote-drops
+       +--ro remote-ageouts?   -> /lldp/remote-statistics/remote-ageouts
+
+module: ieee802-dot1dc-ats-if
+
+  augment /if:interfaces/if:interface:
+    +--ro discarded-frames-count?   yang:counter64
+  augment /sys:system:
+    +--rw stream-gates
+    |  +--rw stream-gate-instance-table* [stream-gate-instance-id]
+    |  |  +--rw stream-gate-instance-id    uint32
+    |  |  +--rw gate-enable?               boolean
+    |  |  +--rw admin-gate-states?         gate-state-value-type
+    |  |  +--rw admin-ipv?                 ipv-spec-type
+    |  +--ro max-stream-gate-instances?    uint32
+    +--rw stream-filters
+       +--rw stream-filter-instance-table* [stream-filter-instance-id]
+       |  +--rw stream-filter-instance-id                       uint32
+       |  +--rw (stream-handle-spec)?
+       |  |  +--:(wildcard)
+       |  |  |  +--rw wildcard?                                 empty
+       |  |  +--:(stream-handle)
+       |  |     +--rw stream-handle                             uint32
+       |  +--rw priority-spec                                   priority-spec-type
+       |  +--rw max-sdu-size                                    uint32
+       |  +--rw stream-blocked-due-to-oversize-frame-enabled?   boolean
+       |  +--rw stream-blocked-due-to-oversize-frame?           boolean
+       |  +--rw stream-gate-ref                                 -> ../../../stream-gates/stream-gate-instance-table/stream-gate-instance-id
+       |  +--rw schedulers
+       |  |  +--rw scheduler-instance-table* [scheduler-instance-id]
+       |  |  |  +--rw scheduler-instance-id         uint32
+       |  |  |  +--rw committed-information-rate    uint64
+       |  |  |  +--rw committed-burst-size          uint32
+       |  |  |  +--rw scheduler-group-ref           -> ../../../scheduler-groups/scheduler-group-instance-table/scheduler-group-instance-id
+       |  |  +--ro max-scheduler-instances?    uint32
+       |  +--rw scheduler-groups
+       |  |  +--rw scheduler-group-instance-table* [scheduler-group-instance-id]
+       |  |  |  +--rw scheduler-group-instance-id    uint32
+       |  |  |  +--rw max-residence-time             uint32
+       |  |  +--ro max-scheduler-group-instances?      uint32
+       |  |  +--rw scheduler-timing-characteristics
+       |  |     +--ro scheduler-timing-characteristics-table* [reception-port transmission-port]
+       |  |        +--ro reception-port                   dot1qtypes:port-number-type
+       |  |        +--ro transmission-port                dot1qtypes:port-number-type
+       |  |        +--ro clock-offset-variation-max       uint32
+       |  |        +--ro clock-rate-deviation-max         uint32
+       |  |        +--ro arrival-recognition-delay-max    uint32
+       |  |        +--ro processing-delay-min             uint32
+       |  |        +--ro processing-delay-max             uint32
+       |  +--rw scheduler
+       |     +--rw scheduler-ref?      -> ../../schedulers/scheduler-instance-table/scheduler-instance-id
+       |     +--rw scheduler-enable?   boolean
+       +--ro max-stream-filter-instances?    uint32
+
+module: ieee802-dot1dc-psfp-sys
+
+  augment /sys:system:
+    +--rw flow-meters
+    |  +--rw flow-meter-instance-table* [flow-meter-instance-id]
+    |  |  +--rw flow-meter-instance-id        uint32
+    |  |  +--rw committed-information-rate    uint64
+    |  |  +--rw committed-burst-size          uint32
+    |  |  +--rw excess-information-rate       uint64
+    |  |  +--rw excess-burst-size             uint32
+    |  |  +--rw coupling-flag                 enumeration
+    |  |  +--rw color-mode                    enumeration
+    |  |  +--rw drop-on-yellow                boolean
+    |  |  +--rw mark-all-frames-red-enable?   boolean
+    |  |  +--rw mark-all-frames-red?          boolean
+    |  +--rw max-flow-meter-instances?    uint32
+    +--rw stream-gates
+    |  +--rw stream-gate-instance-table* [stream-gate-instance-id]
+    |  |  +--rw stream-gate-instance-id                   uint32
+    |  |  +--rw gate-enable?                              boolean
+    |  |  +--rw admin-gate-states?                        gate-state-value-type
+    |  |  +--rw admin-ipv?                                ipv-spec-type
+    |  |  +--ro oper-gate-state?                          sfsg:gate-state-value-type
+    |  |  +--rw oper-ipv?                                 sfsg:ipv-spec-type
+    |  |  +--rw admin-control-list
+    |  |  |  +--rw gate-control-entry* [index]
+    |  |  |     +--rw index                  uint32
+    |  |  |     +--rw operation-name         identityref
+    |  |  |     +--rw time-interval-value?   uint32
+    |  |  |     +--rw gate-state-value       sfsg:gate-state-value-type
+    |  |  |     +--rw ipv-spec               sfsg:ipv-spec-type
+    |  |  |     +--rw interval-octet-max?    uint32
+    |  |  +--ro oper-control-list
+    |  |  |  +--ro gate-control-entry* [index]
+    |  |  |     +--ro index                  uint32
+    |  |  |     +--ro operation-name         identityref
+    |  |  |     +--ro time-interval-value?   uint32
+    |  |  |     +--ro gate-state-value       sfsg:gate-state-value-type
+    |  |  |     +--ro ipv-spec               sfsg:ipv-spec-type
+    |  |  |     +--ro interval-octet-max?    uint32
+    |  |  +--rw admin-cycle-time
+    |  |  |  +--rw numerator?     uint32
+    |  |  |  +--rw denominator?   uint32
+    |  |  +--ro oper-cycle-time
+    |  |  |  +--ro numerator?     uint32
+    |  |  |  +--ro denominator?   uint32
+    |  |  +--rw admin-cycle-time-extension?               uint32
+    |  |  +--ro oper-cycle-time-extension?                uint32
+    |  |  +--rw admin-base-time
+    |  |  |  +--rw seconds?       uint64
+    |  |  |  +--rw nanoseconds?   uint32
+    |  |  +--ro oper-base-time
+    |  |  |  +--ro seconds?       uint64
+    |  |  |  +--ro nanoseconds?   uint32
+    |  |  +--rw config-change?                            boolean
+    |  |  +--ro config-change-time
+    |  |  |  +--ro seconds?       uint64
+    |  |  |  +--ro nanoseconds?   uint32
+    |  |  +--ro tick-granularity?                         uint32
+    |  |  +--ro current-time
+    |  |  |  +--ro seconds?       uint64
+    |  |  |  +--ro nanoseconds?   uint32
+    |  |  +--ro config-pending?                           boolean
+    |  |  +--ro config-change-error?                      yang:counter64
+    |  |  +--rw gate-closed-due-to-invalid-rx-enable?     boolean
+    |  |  +--rw gate-closed-due-to-invalid-rx?            boolean
+    |  |  +--rw gate-closed-due-octets-exceeded-enable?   boolean
+    |  |  +--rw gate-closed-due-octets-exceeded?          boolean
+    |  +--ro max-stream-gate-instances?    uint32
+    |  +--rw supported-list-max?           uint32
+    |  +--rw supported-cycle-max
+    |  |  +--rw numerator?     uint32
+    |  |  +--rw denominator?   uint32
+    |  +--rw supported-interval-max?       uint32
+    +--rw stream-filters
+       +--rw stream-filter-instance-table* [stream-filter-instance-id]
+       |  +--rw stream-filter-instance-id                       uint32
+       |  +--rw (stream-handle-spec)?
+       |  |  +--:(wildcard)
+       |  |  |  +--rw wildcard?                                 empty
+       |  |  +--:(stream-handle)
+       |  |     +--rw stream-handle                             uint32
+       |  +--rw priority-spec                                   priority-spec-type
+       |  +--rw max-sdu-size                                    uint32
+       |  +--rw stream-blocked-due-to-oversize-frame-enabled?   boolean
+       |  +--rw stream-blocked-due-to-oversize-frame?           boolean
+       |  +--rw stream-gate-ref                                 -> ../../../stream-gates/stream-gate-instance-table/stream-gate-instance-id
+       |  +--ro matching-frames-count?                          yang:counter64
+       |  +--ro passing-frames-count?                           yang:counter64
+       |  +--ro not-passing-frames-count?                       yang:counter64
+       |  +--ro red-frames-count?                               yang:counter64
+       |  +--ro passing-sdu-count?                              yang:counter64
+       |  +--ro not-passing-sdu-count?                          yang:counter64
+       |  +--rw flow-meter-ref?                                 -> ../../../flow-meters/flow-meter-instance-table/flow-meter-instance-id
+       |  +--rw flow-meter-enable?                              boolean
+       +--ro max-stream-filter-instances?    uint32
+
+module: ieee802-dot1q-ats
+  +--rw stream-gates
+  |  +--rw stream-gate-instance-table* [stream-gate-instance-id]
+  |  |  +--rw stream-gate-instance-id    uint32
+  |  |  +--rw gate-enable?               boolean
+  |  |  +--rw admin-gate-states?         gate-state-value-type
+  |  |  +--rw admin-ipv?                 ipv-spec-type
+  |  +--ro max-stream-gate-instances?    uint32
+  +--rw stream-filters
+     +--rw stream-filter-instance-table* [stream-filter-instance-id]
+     |  +--rw stream-filter-instance-id                       uint32
+     |  +--rw (stream-handle-spec)?
+     |  |  +--:(wildcard)
+     |  |  |  +--rw wildcard?                                 empty
+     |  |  +--:(stream-handle)
+     |  |     +--rw stream-handle                             uint32
+     |  +--rw priority-spec                                   priority-spec-type
+     |  +--rw max-sdu-size                                    uint32
+     |  +--rw stream-blocked-due-to-oversize-frame-enabled?   boolean
+     |  +--rw stream-blocked-due-to-oversize-frame?           boolean
+     |  +--rw stream-gate-ref                                 -> ../../../stream-gates/stream-gate-instance-table/stream-gate-instance-id
+     |  +--rw schedulers
+     |  |  +--rw scheduler-instance-table* [scheduler-instance-id]
+     |  |  |  +--rw scheduler-instance-id         uint32
+     |  |  |  +--rw committed-information-rate    uint64
+     |  |  |  +--rw committed-burst-size          uint32
+     |  |  |  +--rw scheduler-group-ref           -> ../../../scheduler-groups/scheduler-group-instance-table/scheduler-group-instance-id
+     |  |  +--ro max-scheduler-instances?    uint32
+     |  +--rw scheduler-groups
+     |  |  +--rw scheduler-group-instance-table* [scheduler-group-instance-id]
+     |  |  |  +--rw scheduler-group-instance-id    uint32
+     |  |  |  +--rw max-residence-time             uint32
+     |  |  +--ro max-scheduler-group-instances?      uint32
+     |  |  +--rw scheduler-timing-characteristics
+     |  |     +--ro scheduler-timing-characteristics-table* [reception-port transmission-port]
+     |  |        +--ro reception-port                   dot1qtypes:port-number-type
+     |  |        +--ro transmission-port                dot1qtypes:port-number-type
+     |  |        +--ro clock-offset-variation-max       uint32
+     |  |        +--ro clock-rate-deviation-max         uint32
+     |  |        +--ro arrival-recognition-delay-max    uint32
+     |  |        +--ro processing-delay-min             uint32
+     |  |        +--ro processing-delay-max             uint32
+     |  +--rw scheduler
+     |     +--rw scheduler-ref?      -> ../../schedulers/scheduler-instance-table/scheduler-instance-id
+     |     +--rw scheduler-enable?   boolean
+     +--ro max-stream-filter-instances?    uint32
+
+module: ieee802-dot1q-bridge
+  +--rw bridges
+     +--rw bridge* [name]
+        +--rw name           dot1qtypes:name-type
+        +--rw address        ieee:mac-address
+        +--rw bridge-type    identityref
+        +--ro ports?         uint16
+        +--ro up-time?       yang:zero-based-counter32
+        +--ro components?    uint32
+        +--rw component* [name]
+           +--rw name                               string
+           +--rw id?                                uint32
+           +--rw type                               identityref
+           +--rw address?                           ieee:mac-address
+           +--rw traffic-class-enabled?             boolean
+           +--ro ports?                             uint16
+           +--ro bridge-port*                       if:interface-ref
+           +--ro capabilities
+           |  +--ro extended-filtering?             boolean
+           |  +--ro traffic-classes?                boolean
+           |  +--ro static-entry-individual-port?   boolean
+           |  +--ro ivl-capable?                    boolean
+           |  +--ro svl-capable?                    boolean
+           |  +--ro hybrid-capable?                 boolean
+           |  +--ro configurable-pvid-tagging?      boolean
+           |  +--ro local-vlan-capable?             boolean
+           +--rw filtering-database
+           |  +--rw aging-time?                          uint32
+           |  +--ro size?                                yang:gauge32
+           |  +--ro static-entries?                      yang:gauge32
+           |  +--ro dynamic-entries?                     yang:gauge32
+           |  +--ro static-vlan-registration-entries?    yang:gauge32
+           |  +--ro dynamic-vlan-registration-entries?   yang:gauge32
+           |  +--ro mac-address-registration-entries?    yang:gauge32 {extended-filtering-services}?
+           |  +--rw filtering-entry* [database-id vids address]
+           |  |  +--rw database-id    uint32
+           |  |  +--rw address        ieee:mac-address
+           |  |  +--rw vids           dot1qtypes:vid-range-type
+           |  |  +--rw entry-type?    enumeration
+           |  |  +--rw port-map* [port-ref]
+           |  |  |  +--rw port-ref                                   port-number-type
+           |  |  |  +--rw (map-type)?
+           |  |  |     +--:(static-filtering-entries)
+           |  |  |     |  +--rw static-filtering-entries
+           |  |  |     |     +--rw control-element?         enumeration
+           |  |  |     |     +--rw connection-identifier?   port-number-type
+           |  |  |     +--:(static-vlan-registration-entries)
+           |  |  |     |  +--rw static-vlan-registration-entries
+           |  |  |     |     +--rw registrar-admin-control?   enumeration
+           |  |  |     |     +--rw vlan-transmitted?          enumeration
+           |  |  |     +--:(mac-address-registration-entries)
+           |  |  |     |  +--rw mac-address-registration-entries
+           |  |  |     |     +--rw control-element?   enumeration
+           |  |  |     +--:(dynamic-vlan-registration-entries)
+           |  |  |     |  +--rw dynamic-vlan-registration-entries
+           |  |  |     |     +--rw control-element?   enumeration
+           |  |  |     +--:(dynamic-reservation-entries)
+           |  |  |     |  +--rw dynamic-reservation-entries
+           |  |  |     |     +--rw control-element?   enumeration
+           |  |  |     +--:(dynamic-filtering-entries)
+           |  |  |        +--rw dynamic-filtering-entries
+           |  |  |           +--rw control-element?   enumeration
+           |  |  +--ro status?        enumeration
+           |  +--rw vlan-registration-entry* [database-id vids]
+           |     +--rw database-id    uint32
+           |     +--rw vids           dot1qtypes:vid-range-type
+           |     +--rw entry-type?    enumeration
+           |     +--rw port-map* [port-ref]
+           |        +--rw port-ref                                   port-number-type
+           |        +--rw (map-type)?
+           |           +--:(static-filtering-entries)
+           |           |  +--rw static-filtering-entries
+           |           |     +--rw control-element?         enumeration
+           |           |     +--rw connection-identifier?   port-number-type
+           |           +--:(static-vlan-registration-entries)
+           |           |  +--rw static-vlan-registration-entries
+           |           |     +--rw registrar-admin-control?   enumeration
+           |           |     +--rw vlan-transmitted?          enumeration
+           |           +--:(mac-address-registration-entries)
+           |           |  +--rw mac-address-registration-entries
+           |           |     +--rw control-element?   enumeration
+           |           +--:(dynamic-vlan-registration-entries)
+           |           |  +--rw dynamic-vlan-registration-entries
+           |           |     +--rw control-element?   enumeration
+           |           +--:(dynamic-reservation-entries)
+           |           |  +--rw dynamic-reservation-entries
+           |           |     +--rw control-element?   enumeration
+           |           +--:(dynamic-filtering-entries)
+           |              +--rw dynamic-filtering-entries
+           |                 +--rw control-element?   enumeration
+           +--rw permanent-database
+           |  +--ro size?                               yang:gauge32
+           |  +--ro static-entries?                     yang:gauge32
+           |  +--ro static-vlan-registration-entries?   yang:gauge32
+           |  +--rw filtering-entry* [database-id vids address]
+           |     +--rw database-id    uint32
+           |     +--rw address        ieee:mac-address
+           |     +--rw vids           dot1qtypes:vid-range-type
+           |     +--ro status?        enumeration
+           |     +--rw port-map* [port-ref]
+           |        +--rw port-ref                                   port-number-type
+           |        +--rw (map-type)?
+           |           +--:(static-filtering-entries)
+           |           |  +--rw static-filtering-entries
+           |           |     +--rw control-element?         enumeration
+           |           |     +--rw connection-identifier?   port-number-type
+           |           +--:(static-vlan-registration-entries)
+           |           |  +--rw static-vlan-registration-entries
+           |           |     +--rw registrar-admin-control?   enumeration
+           |           |     +--rw vlan-transmitted?          enumeration
+           |           +--:(mac-address-registration-entries)
+           |           |  +--rw mac-address-registration-entries
+           |           |     +--rw control-element?   enumeration
+           |           +--:(dynamic-vlan-registration-entries)
+           |           |  +--rw dynamic-vlan-registration-entries
+           |           |     +--rw control-element?   enumeration
+           |           +--:(dynamic-reservation-entries)
+           |           |  +--rw dynamic-reservation-entries
+           |           |     +--rw control-element?   enumeration
+           |           +--:(dynamic-filtering-entries)
+           |              +--rw dynamic-filtering-entries
+           |                 +--rw control-element?   enumeration
+           +--rw bridge-vlan
+           |  +--ro version?                   uint16
+           |  +--ro max-vids?                  uint16
+           |  +--ro override-default-pvid?     boolean
+           |  +--ro protocol-template?         dot1qtypes:protocol-frame-format-type {port-and-protocol-based-vlan}?
+           |  +--ro max-msti?                  uint16
+           |  +--rw vlan* [vid]
+           |  |  +--rw vid               dot1qtypes:vlan-index-type
+           |  |  +--rw name?             dot1qtypes:name-type
+           |  |  +--ro untagged-ports*   if:interface-ref
+           |  |  +--ro egress-ports*     if:interface-ref
+           |  +--rw protocol-group-database* [db-index] {port-and-protocol-based-vlan}?
+           |  |  +--rw db-index                 uint16
+           |  |  +--rw frame-format-type?       dot1qtypes:protocol-frame-format-type
+           |  |  +--rw (frame-format)?
+           |  |  |  +--:(ethernet-rfc1042-snap8021H)
+           |  |  |  |  +--rw ethertype?         dot1qtypes:ethertype-type
+           |  |  |  +--:(snap-other)
+           |  |  |  |  +--rw protocol-id?       string
+           |  |  |  +--:(llc-other)
+           |  |  |     +--rw dsap-ssap-pairs
+           |  |  |        +--rw llc-address?   string
+           |  |  +--rw group-id?                uint32
+           |  +--rw vid-to-fid-allocation* [vids]
+           |  |  +--rw vids               dot1qtypes:vid-range-type
+           |  |  +--ro fid?               uint32
+           |  |  +--ro allocation-type?   enumeration
+           |  +--rw fid-to-vid-allocation* [fid]
+           |  |  +--rw fid                uint32
+           |  |  +--ro allocation-type?   enumeration
+           |  |  +--ro vid*               dot1qtypes:vlan-index-type
+           |  +--rw vid-to-fid* [vid]
+           |     +--rw vid    dot1qtypes:vlan-index-type
+           |     +--rw fid?   uint32
+           +--rw bridge-mst
+           |  +--rw mstid*                     dot1qtypes:mstid-type
+           |  +--rw fid-to-mstid* [fid]
+           |  |  +--rw fid      uint32
+           |  |  +--rw mstid?   dot1qtypes:mstid-type
+           |  +--rw fid-to-mstid-allocation* [fids]
+           |     +--rw fids     dot1qtypes:vid-range-type
+           |     +--rw mstid?   dot1qtypes:mstid-type
+           +--rw ats-bridge:stream-gates
+           |  +--rw ats-bridge:stream-gate-instance-table* [stream-gate-instance-id]
+           |  |  +--rw ats-bridge:stream-gate-instance-id    uint32
+           |  |  +--rw ats-bridge:gate-enable?               boolean
+           |  |  +--rw ats-bridge:admin-gate-states?         gate-state-value-type
+           |  |  +--rw ats-bridge:admin-ipv?                 ipv-spec-type
+           |  +--ro ats-bridge:max-stream-gate-instances?    uint32
+           +--rw ats-bridge:stream-filters
+           |  +--rw ats-bridge:stream-filter-instance-table* [stream-filter-instance-id]
+           |  |  +--rw ats-bridge:stream-filter-instance-id                       uint32
+           |  |  +--rw (ats-bridge:stream-handle-spec)?
+           |  |  |  +--:(ats-bridge:wildcard)
+           |  |  |  |  +--rw ats-bridge:wildcard?                                 empty
+           |  |  |  +--:(ats-bridge:stream-handle)
+           |  |  |     +--rw ats-bridge:stream-handle                             uint32
+           |  |  +--rw ats-bridge:priority-spec                                   priority-spec-type
+           |  |  +--rw ats-bridge:max-sdu-size                                    uint32
+           |  |  +--rw ats-bridge:stream-blocked-due-to-oversize-frame-enabled?   boolean
+           |  |  +--rw ats-bridge:stream-blocked-due-to-oversize-frame?           boolean
+           |  |  +--rw ats-bridge:stream-gate-ref                                 -> ../../../stream-gates/stream-gate-instance-table/stream-gate-instance-id
+           |  |  +--rw ats-bridge:schedulers
+           |  |  |  +--rw ats-bridge:scheduler-instance-table* [scheduler-instance-id]
+           |  |  |  |  +--rw ats-bridge:scheduler-instance-id         uint32
+           |  |  |  |  +--rw ats-bridge:committed-information-rate    uint64
+           |  |  |  |  +--rw ats-bridge:committed-burst-size          uint32
+           |  |  |  |  +--rw ats-bridge:scheduler-group-ref           -> ../../../scheduler-groups/scheduler-group-instance-table/scheduler-group-instance-id
+           |  |  |  +--ro ats-bridge:max-scheduler-instances?    uint32
+           |  |  +--rw ats-bridge:scheduler-groups
+           |  |  |  +--rw ats-bridge:scheduler-group-instance-table* [scheduler-group-instance-id]
+           |  |  |  |  +--rw ats-bridge:scheduler-group-instance-id    uint32
+           |  |  |  |  +--rw ats-bridge:max-residence-time             uint32
+           |  |  |  +--ro ats-bridge:max-scheduler-group-instances?      uint32
+           |  |  |  +--rw ats-bridge:scheduler-timing-characteristics
+           |  |  |     +--ro ats-bridge:scheduler-timing-characteristics-table* [reception-port transmission-port]
+           |  |  |        +--ro ats-bridge:reception-port                   dot1qtypes:port-number-type
+           |  |  |        +--ro ats-bridge:transmission-port                dot1qtypes:port-number-type
+           |  |  |        +--ro ats-bridge:clock-offset-variation-max       uint32
+           |  |  |        +--ro ats-bridge:clock-rate-deviation-max         uint32
+           |  |  |        +--ro ats-bridge:arrival-recognition-delay-max    uint32
+           |  |  |        +--ro ats-bridge:processing-delay-min             uint32
+           |  |  |        +--ro ats-bridge:processing-delay-max             uint32
+           |  |  +--rw ats-bridge:scheduler
+           |  |     +--rw ats-bridge:scheduler-ref?      -> ../../schedulers/scheduler-instance-table/scheduler-instance-id
+           |  |     +--rw ats-bridge:scheduler-enable?   boolean
+           |  +--ro ats-bridge:max-stream-filter-instances?    uint32
+           +--rw ats-bridge:schedulers
+           |  +--rw ats-bridge:scheduler-instance-table* [scheduler-instance-id]
+           |  |  +--rw ats-bridge:scheduler-instance-id         uint32
+           |  |  +--rw ats-bridge:committed-information-rate    uint64
+           |  |  +--rw ats-bridge:committed-burst-size          uint32
+           |  |  +--rw ats-bridge:scheduler-group-ref           -> ../../../scheduler-groups/scheduler-group-instance-table/scheduler-group-instance-id
+           |  +--ro ats-bridge:max-scheduler-instances?    uint32
+           +--rw ats-bridge:scheduler-groups
+           |  +--rw ats-bridge:scheduler-group-instance-table* [scheduler-group-instance-id]
+           |  |  +--rw ats-bridge:scheduler-group-instance-id    uint32
+           |  |  +--rw ats-bridge:max-residence-time             uint32
+           |  +--ro ats-bridge:max-scheduler-group-instances?      uint32
+           |  +--rw ats-bridge:scheduler-timing-characteristics
+           |     +--ro ats-bridge:scheduler-timing-characteristics-table* [reception-port transmission-port]
+           |        +--ro ats-bridge:reception-port                   dot1qtypes:port-number-type
+           |        +--ro ats-bridge:transmission-port                dot1qtypes:port-number-type
+           |        +--ro ats-bridge:clock-offset-variation-max       uint32
+           |        +--ro ats-bridge:clock-rate-deviation-max         uint32
+           |        +--ro ats-bridge:arrival-recognition-delay-max    uint32
+           |        +--ro ats-bridge:processing-delay-min             uint32
+           |        +--ro ats-bridge:processing-delay-max             uint32
+           +--rw ats-bridge:scheduler
+           |  +--rw ats-bridge:scheduler-ref?      -> ../../schedulers/scheduler-instance-table/scheduler-instance-id
+           |  +--rw ats-bridge:scheduler-enable?   boolean
+           +--rw ci-bridge:ci-master-enable?        boolean {congestion-isolation-bridge}?
+           +--ro ci-bridge:ci-cim-tx-priority?      dot1q-types:priority-type {congestion-isolation-bridge}?
+           +--ro ci-bridge:ci-max-flow-life?        uint32 {congestion-isolation-bridge}?
+           +--rw ci-bridge:ci-peers {congestion-isolation-bridge}?
+           |  +--rw ci-bridge:ci-peer-table* [reception-port]
+           |  |  +--rw ci-bridge:reception-port        dot1q-types:port-number-type
+           |  |  +--rw ci-bridge:cim-type?             enumeration
+           |  |  +--rw ci-bridge:peer-mac-address?     ieee:mac-address
+           |  |  +--rw ci-bridge:peer-ipv4-address?    inet:ipv4-address
+           |  |  +--rw ci-bridge:peer-ipv6-address?    inet:ipv6-address
+           |  |  +--rw ci-bridge:peer-udp-port?        inet:port-number
+           |  |  +--rw ci-bridge:peer-cim-encap-len?   uint16
+           |  +--ro ci-bridge:max-ci-peer-entries?   uint32
+           +--rw ci-bridge:ci-streams {congestion-isolation-bridge}?
+           |  +--ro ci-bridge:ci-stream-table* [stream-handle-id]
+           |  |  +--ro ci-bridge:stream-handle-id    uint32
+           |  |  +--ro ci-bridge:cim-count?          uint16
+           |  |  +--ro ci-bridge:create-time?        yang:timeticks
+           |  |  +--ro ci-bridge:create-mask?        bits
+           |  +--ro ci-bridge:queue-key?            uint16
+           |  +--ro ci-bridge:dest-mac-address?     ieee:mac-address
+           |  +--ro ci-bridge:source-mac-address?   ieee:mac-address
+           |  +--ro ci-bridge:vid?                  dot1q-types:vlan-index-type
+           |  +--ro ci-bridge:msdu?                 yang:hex-string
+           +--ro ci-bridge:max-ci-stream-entries?   uint32 {congestion-isolation-bridge}?
+           +--rw ci-bridge:stream-gates {congestion-isolation-bridge}?
+           |  +--rw ci-bridge:stream-gate-instance-table* [stream-gate-instance-id]
+           |  |  +--rw ci-bridge:stream-gate-instance-id    uint32
+           |  |  +--rw ci-bridge:gate-enable?               boolean
+           |  |  +--rw ci-bridge:admin-gate-states?         gate-state-value-type
+           |  |  +--rw ci-bridge:admin-ipv?                 ipv-spec-type
+           |  +--ro ci-bridge:max-stream-gate-instances?    uint32
+           +--rw ci-bridge:stream-filters {congestion-isolation-bridge}?
+           |  +--rw ci-bridge:stream-filter-instance-table* [stream-filter-instance-id]
+           |  |  +--rw ci-bridge:stream-filter-instance-id                       uint32
+           |  |  +--rw (ci-bridge:stream-handle-spec)?
+           |  |  |  +--:(ci-bridge:wildcard)
+           |  |  |  |  +--rw ci-bridge:wildcard?                                 empty
+           |  |  |  +--:(ci-bridge:stream-handle)
+           |  |  |  |  +--rw ci-bridge:stream-handle                             uint32
+           |  |  |  +--:(ci-bridge:null-handle) {congestion-isolation-bridge}?
+           |  |  |     +--rw ci-bridge:null-handle?                              empty
+           |  |  +--rw ci-bridge:priority-spec                                   priority-spec-type
+           |  |  +--rw ci-bridge:max-sdu-size                                    uint32
+           |  |  +--rw ci-bridge:stream-blocked-due-to-oversize-frame-enabled?   boolean
+           |  |  +--rw ci-bridge:stream-blocked-due-to-oversize-frame?           boolean
+           |  |  +--rw ci-bridge:stream-gate-ref                                 -> ../../../stream-gates/stream-gate-instance-table/stream-gate-instance-id
+           |  +--ro ci-bridge:max-stream-filter-instances?    uint32
+           +--rw psfp-bridge:flow-meters
+           |  +--rw psfp-bridge:flow-meter-instance-table* [flow-meter-instance-id]
+           |  |  +--rw psfp-bridge:flow-meter-instance-id        uint32
+           |  |  +--rw psfp-bridge:committed-information-rate    uint64
+           |  |  +--rw psfp-bridge:committed-burst-size          uint32
+           |  |  +--rw psfp-bridge:excess-information-rate       uint64
+           |  |  +--rw psfp-bridge:excess-burst-size             uint32
+           |  |  +--rw psfp-bridge:coupling-flag                 enumeration
+           |  |  +--rw psfp-bridge:color-mode                    enumeration
+           |  |  +--rw psfp-bridge:drop-on-yellow                boolean
+           |  |  +--rw psfp-bridge:mark-all-frames-red-enable?   boolean
+           |  |  +--rw psfp-bridge:mark-all-frames-red?          boolean
+           |  +--rw psfp-bridge:max-flow-meter-instances?    uint32
+           +--rw psfp-bridge:stream-gates
+           |  +--rw psfp-bridge:stream-gate-instance-table* [stream-gate-instance-id]
+           |  |  +--rw psfp-bridge:stream-gate-instance-id                   uint32
+           |  |  +--rw psfp-bridge:gate-enable?                              boolean
+           |  |  +--rw psfp-bridge:admin-gate-states?                        gate-state-value-type
+           |  |  +--rw psfp-bridge:admin-ipv?                                ipv-spec-type
+           |  |  +--ro psfp-bridge:oper-gate-state?                          sfsg:gate-state-value-type
+           |  |  +--rw psfp-bridge:oper-ipv?                                 sfsg:ipv-spec-type
+           |  |  +--rw psfp-bridge:admin-control-list
+           |  |  |  +--rw psfp-bridge:gate-control-entry* [index]
+           |  |  |     +--rw psfp-bridge:index                  uint32
+           |  |  |     +--rw psfp-bridge:operation-name         identityref
+           |  |  |     +--rw psfp-bridge:time-interval-value?   uint32
+           |  |  |     +--rw psfp-bridge:gate-state-value       sfsg:gate-state-value-type
+           |  |  |     +--rw psfp-bridge:ipv-spec               sfsg:ipv-spec-type
+           |  |  |     +--rw psfp-bridge:interval-octet-max?    uint32
+           |  |  +--ro psfp-bridge:oper-control-list
+           |  |  |  +--ro psfp-bridge:gate-control-entry* [index]
+           |  |  |     +--ro psfp-bridge:index                  uint32
+           |  |  |     +--ro psfp-bridge:operation-name         identityref
+           |  |  |     +--ro psfp-bridge:time-interval-value?   uint32
+           |  |  |     +--ro psfp-bridge:gate-state-value       sfsg:gate-state-value-type
+           |  |  |     +--ro psfp-bridge:ipv-spec               sfsg:ipv-spec-type
+           |  |  |     +--ro psfp-bridge:interval-octet-max?    uint32
+           |  |  +--rw psfp-bridge:admin-cycle-time
+           |  |  |  +--rw psfp-bridge:numerator?     uint32
+           |  |  |  +--rw psfp-bridge:denominator?   uint32
+           |  |  +--ro psfp-bridge:oper-cycle-time
+           |  |  |  +--ro psfp-bridge:numerator?     uint32
+           |  |  |  +--ro psfp-bridge:denominator?   uint32
+           |  |  +--rw psfp-bridge:admin-cycle-time-extension?               uint32
+           |  |  +--ro psfp-bridge:oper-cycle-time-extension?                uint32
+           |  |  +--rw psfp-bridge:admin-base-time
+           |  |  |  +--rw psfp-bridge:seconds?       uint64
+           |  |  |  +--rw psfp-bridge:nanoseconds?   uint32
+           |  |  +--ro psfp-bridge:oper-base-time
+           |  |  |  +--ro psfp-bridge:seconds?       uint64
+           |  |  |  +--ro psfp-bridge:nanoseconds?   uint32
+           |  |  +--rw psfp-bridge:config-change?                            boolean
+           |  |  +--ro psfp-bridge:config-change-time
+           |  |  |  +--ro psfp-bridge:seconds?       uint64
+           |  |  |  +--ro psfp-bridge:nanoseconds?   uint32
+           |  |  +--ro psfp-bridge:tick-granularity?                         uint32
+           |  |  +--ro psfp-bridge:current-time
+           |  |  |  +--ro psfp-bridge:seconds?       uint64
+           |  |  |  +--ro psfp-bridge:nanoseconds?   uint32
+           |  |  +--ro psfp-bridge:config-pending?                           boolean
+           |  |  +--ro psfp-bridge:config-change-error?                      yang:counter64
+           |  |  +--rw psfp-bridge:gate-closed-due-to-invalid-rx-enable?     boolean
+           |  |  +--rw psfp-bridge:gate-closed-due-to-invalid-rx?            boolean
+           |  |  +--rw psfp-bridge:gate-closed-due-octets-exceeded-enable?   boolean
+           |  |  +--rw psfp-bridge:gate-closed-due-octets-exceeded?          boolean
+           |  +--ro psfp-bridge:max-stream-gate-instances?    uint32
+           |  +--rw psfp-bridge:supported-list-max?           uint32
+           |  +--rw psfp-bridge:supported-cycle-max
+           |  |  +--rw psfp-bridge:numerator?     uint32
+           |  |  +--rw psfp-bridge:denominator?   uint32
+           |  +--rw psfp-bridge:supported-interval-max?       uint32
+           +--rw psfp-bridge:stream-filters
+           |  +--rw psfp-bridge:stream-filter-instance-table* [stream-filter-instance-id]
+           |  |  +--rw psfp-bridge:stream-filter-instance-id                       uint32
+           |  |  +--rw (psfp-bridge:stream-handle-spec)?
+           |  |  |  +--:(psfp-bridge:wildcard)
+           |  |  |  |  +--rw psfp-bridge:wildcard?                                 empty
+           |  |  |  +--:(psfp-bridge:stream-handle)
+           |  |  |     +--rw psfp-bridge:stream-handle                             uint32
+           |  |  +--rw psfp-bridge:priority-spec                                   priority-spec-type
+           |  |  +--rw psfp-bridge:max-sdu-size                                    uint32
+           |  |  +--rw psfp-bridge:stream-blocked-due-to-oversize-frame-enabled?   boolean
+           |  |  +--rw psfp-bridge:stream-blocked-due-to-oversize-frame?           boolean
+           |  |  +--rw psfp-bridge:stream-gate-ref                                 -> ../../../stream-gates/stream-gate-instance-table/stream-gate-instance-id
+           |  |  +--ro psfp-bridge:matching-frames-count?                          yang:counter64
+           |  |  +--ro psfp-bridge:passing-frames-count?                           yang:counter64
+           |  |  +--ro psfp-bridge:not-passing-frames-count?                       yang:counter64
+           |  |  +--ro psfp-bridge:red-frames-count?                               yang:counter64
+           |  |  +--ro psfp-bridge:passing-sdu-count?                              yang:counter64
+           |  |  +--ro psfp-bridge:not-passing-sdu-count?                          yang:counter64
+           |  |  +--rw psfp-bridge:flow-meter-ref?                                 -> ../../../flow-meters/flow-meter-instance-table/flow-meter-instance-id
+           |  |  +--rw psfp-bridge:flow-meter-enable?                              boolean
+           |  +--ro psfp-bridge:max-stream-filter-instances?    uint32
+           +--rw sfsg-bridge:stream-gates
+           |  +--rw sfsg-bridge:stream-gate-instance-table* [stream-gate-instance-id]
+           |  |  +--rw sfsg-bridge:stream-gate-instance-id    uint32
+           |  |  +--rw sfsg-bridge:gate-enable?               boolean
+           |  |  +--rw sfsg-bridge:admin-gate-states?         gate-state-value-type
+           |  |  +--rw sfsg-bridge:admin-ipv?                 ipv-spec-type
+           |  +--ro sfsg-bridge:max-stream-gate-instances?    uint32
+           +--rw sfsg-bridge:stream-filters
+              +--rw sfsg-bridge:stream-filter-instance-table* [stream-filter-instance-id]
+              |  +--rw sfsg-bridge:stream-filter-instance-id                       uint32
+              |  +--rw (sfsg-bridge:stream-handle-spec)?
+              |  |  +--:(sfsg-bridge:wildcard)
+              |  |  |  +--rw sfsg-bridge:wildcard?                                 empty
+              |  |  +--:(sfsg-bridge:stream-handle)
+              |  |     +--rw sfsg-bridge:stream-handle                             uint32
+              |  +--rw sfsg-bridge:priority-spec                                   priority-spec-type
+              |  +--rw sfsg-bridge:max-sdu-size                                    uint32
+              |  +--rw sfsg-bridge:stream-blocked-due-to-oversize-frame-enabled?   boolean
+              |  +--rw sfsg-bridge:stream-blocked-due-to-oversize-frame?           boolean
+              |  +--rw sfsg-bridge:stream-gate-ref                                 -> ../../../stream-gates/stream-gate-instance-table/stream-gate-instance-id
+              +--ro sfsg-bridge:max-stream-filter-instances?    uint32
+
+  augment /if:interfaces/if:interface:
+    +--rw bridge-port
+       +--rw bridge-name?                              -> /bridges/bridge/name
+       +--rw component-name?                           -> /bridges/bridge[dot1q:name=current()/../bridge-name]/component/name
+       +--rw port-type?                                identityref
+       +--rw pvid?                                     dot1qtypes:vlan-index-type
+       +--rw default-priority?                         dot1qtypes:priority-type
+       +--rw priority-regeneration
+       |  +--rw priority0?   priority-type
+       |  +--rw priority1?   priority-type
+       |  +--rw priority2?   priority-type
+       |  +--rw priority3?   priority-type
+       |  +--rw priority4?   priority-type
+       |  +--rw priority5?   priority-type
+       |  +--rw priority6?   priority-type
+       |  +--rw priority7?   priority-type
+       +--rw pcp-selection?                            dot1qtypes:pcp-selection-type
+       +--rw pcp-decoding-table
+       |  +--rw pcp-decoding-map* [pcp]
+       |     +--rw pcp             pcp-selection-type
+       |     +--rw priority-map* [priority-code-point]
+       |        +--rw priority-code-point    priority-type
+       |        +--rw priority?              priority-type
+       |        +--rw drop-eligible?         boolean
+       +--rw pcp-encoding-table
+       |  +--rw pcp-encoding-map* [pcp]
+       |     +--rw pcp             pcp-selection-type
+       |     +--rw priority-map* [priority dei]
+       |        +--rw priority               priority-type
+       |        +--rw dei                    boolean
+       |        +--rw priority-code-point?   priority-type
+       +--rw use-dei?                                  boolean
+       +--rw drop-encoding?                            boolean
+       +--rw service-access-priority-selection?        boolean
+       +--rw service-access-priority
+       |  +--rw priority0?   priority-type
+       |  +--rw priority1?   priority-type
+       |  +--rw priority2?   priority-type
+       |  +--rw priority3?   priority-type
+       |  +--rw priority4?   priority-type
+       |  +--rw priority5?   priority-type
+       |  +--rw priority6?   priority-type
+       |  +--rw priority7?   priority-type
+       +--rw traffic-class
+       |  x--rw traffic-class-map* [priority]
+       |  |  +--rw priority                   priority-type
+       |  |  +--rw available-traffic-class* [num-traffic-class]
+       |  |     +--rw num-traffic-class    uint8
+       |  |     +--rw traffic-class?       traffic-class-type
+       |  +--rw traffic-class-table
+       |     +--rw number-of-traffic-classes?   uint8
+       |     +--rw priority0?                   traffic-class-type
+       |     +--rw priority1?                   traffic-class-type
+       |     +--rw priority2?                   traffic-class-type
+       |     +--rw priority3?                   traffic-class-type
+       |     +--rw priority4?                   traffic-class-type
+       |     +--rw priority5?                   traffic-class-type
+       |     +--rw priority6?                   traffic-class-type
+       |     +--rw priority7?                   traffic-class-type
+       +--rw transmission-selection-algorithm-table
+       |  +--rw transmission-selection-algorithm-map* [traffic-class]
+       |     +--rw traffic-class                       traffic-class-type
+       |     +--rw transmission-selection-algorithm?   identityref
+       +--rw acceptable-frame?                         enumeration
+       +--rw enable-ingress-filtering?                 boolean
+       +--rw enable-restricted-vlan-registration?      boolean
+       +--rw enable-vid-translation-table?             boolean
+       +--rw enable-egress-vid-translation-table?      boolean
+       +--rw protocol-group-vid-set* [group-id] {port-and-protocol-based-vlan}?
+       |  +--rw group-id    uint32
+       |  +--rw vid*        dot1qtypes:vlanid
+       +--rw admin-point-to-point?                     enumeration
+       +--ro protocol-based-vlan-classification?       boolean {port-and-protocol-based-vlan}?
+       +--ro max-vid-set-entries?                      uint16 {port-and-protocol-based-vlan}?
+       +--ro port-number?                              dot1qtypes:port-number-type
+       +--ro address?                                  ieee:mac-address
+       +--ro capabilities?                             bits
+       +--ro type-capabilties?                         bits
+       +--ro external?                                 boolean
+       +--ro oper-point-to-point?                      boolean
+       +--ro media-dependent-overhead?                 uint8
+       +--ro statistics
+       |  +--ro delay-exceeded-discards?          yang:counter64
+       |  +--ro mtu-exceeded-discards?            yang:counter64
+       |  +--ro frame-rx?                         yang:counter64
+       |  +--ro octets-rx?                        yang:counter64
+       |  +--ro frame-tx?                         yang:counter64
+       |  +--ro octets-tx?                        yang:counter64
+       |  +--ro discard-inbound?                  yang:counter64
+       |  +--ro forward-outbound?                 yang:counter64
+       |  +--ro discard-lack-of-buffers?          yang:counter64
+       |  +--ro discard-transit-delay-exceeded?   yang:counter64
+       |  +--ro discard-on-error?                 yang:counter64
+       |  +--ro discard-on-ingress-filtering?     yang:counter64 {ingress-filtering}?
+       +--rw vid-translations* [local-vid]
+       |  +--rw local-vid    dot1qtypes:vlanid
+       |  +--rw relay-vid?   dot1qtypes:vlanid
+       +--rw egress-vid-translations* [relay-vid]
+       |  +--rw relay-vid    dot1qtypes:vlanid
+       |  +--rw local-vid?   dot1qtypes:vlanid
+       +--ro ats-bridge:discarded-frames-count?        yang:counter64
+       +--ro ci-bridge:cip-mac-address?                ieee:mac-address {congestion-isolation-bridge}?
+       +--ro ci-bridge:cip-ipv4-address?               inet:ipv4-address {congestion-isolation-bridge}?
+       +--ro ci-bridge:cip-ipv6-address?               inet:ipv6-address {congestion-isolation-bridge}?
+       +--ro ci-bridge:cip-cim-port?                   inet:port-number {congestion-isolation-bridge}?
+       +--rw ci-bridge:queue-map* [priority] {congestion-isolation-bridge}?
+       |  +--rw ci-bridge:priority                      dot1q-types:priority-type
+       |  +--rw ci-bridge:abs-traffic-class-plus-one?   abs-traffic-class-plus-one-type
+       +--rw ci-bridge:min-header-octets?              uint16 {congestion-isolation-bridge}?
+       +--rw ci-bridge:max-cim-tx?                     uint16 {congestion-isolation-bridge}?
+
+module: ieee802-dot1q-congestion-isolation
+  +--rw stream-gates
+  |  +--rw stream-gate-instance-table* [stream-gate-instance-id]
+  |  |  +--rw stream-gate-instance-id    uint32
+  |  |  +--rw gate-enable?               boolean
+  |  |  +--rw admin-gate-states?         gate-state-value-type
+  |  |  +--rw admin-ipv?                 ipv-spec-type
+  |  +--ro max-stream-gate-instances?    uint32
+  +--rw stream-filters
+     +--rw stream-filter-instance-table* [stream-filter-instance-id]
+     |  +--rw stream-filter-instance-id                       uint32
+     |  +--rw (stream-handle-spec)?
+     |  |  +--:(wildcard)
+     |  |  |  +--rw wildcard?                                 empty
+     |  |  +--:(stream-handle)
+     |  |  |  +--rw stream-handle                             uint32
+     |  |  +--:(null-handle) {congestion-isolation}?
+     |  |     +--rw null-handle?                              empty
+     |  +--rw priority-spec                                   priority-spec-type
+     |  +--rw max-sdu-size                                    uint32
+     |  +--rw stream-blocked-due-to-oversize-frame-enabled?   boolean
+     |  +--rw stream-blocked-due-to-oversize-frame?           boolean
+     |  +--rw stream-gate-ref                                 -> ../../../stream-gates/stream-gate-instance-table/stream-gate-instance-id
+     +--ro max-stream-filter-instances?    uint32
+
