@@ -1,0 +1,44 @@
+5a6,8
+>   import ieee802-dot1q-types {
+>     prefix dot1qtypes;
+>   }
+9,11d11
+<   import ieee802-dot1cb-frer-types {
+<     prefix dot1cb-frer-types;
+<   }
+15,17d14
+<   import ieee802-dot1cb-stream-identification-types {
+<     prefix dot1cb-sid-types;
+<   }
+59a57,58
+>     description
+>       "Add a description here";
+92c91
+<           uses sequence-encode-decode;
+---
+>           uses dot1cb-frer:sequence-encode-decode;
+175c174
+<           uses sequence-recovery-algorithm;
+---
+>           uses dot1cb-frer:sequence-recovery-algorithm;
+178c177
+<           type sequence-history-length;
+---
+>           type dot1cb-frer:sequence-history-length;
+279c278
+<           uses sequence-encode-decode;
+---
+>           uses dot1cb-frer:sequence-encode-decode;
+282c281
+<           type lan-path-id;
+---
+>           type dot1cb-frer:lan-path-id;
+315c314
+<       type lan-path-id;
+---
+>       type dot1cb-frer:lan-path-id;
+328c327
+<   
+\ No newline at end of file
+---
+>   

@@ -1,0 +1,17 @@
+# Python build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local credentials / secrets (YANG Catalog login)
+.env
+*.env
+
+# OS cruft
+.DS_Store
+Thumbs.db

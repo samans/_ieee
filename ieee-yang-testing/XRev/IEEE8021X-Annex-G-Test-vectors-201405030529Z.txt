@@ -1,0 +1,132 @@
+
+=== H.1 KDF ===
+===============
+
+Key    = 1ab9024f a04a03fe b9024fa0 4a03fe11
+Label  = 48492054 48455245
+Context= 01020104
+Length = 0080
+
+KDF out= b57a0b05 f43e9600 c3c4d15c 1e3c26e8
+
+Key    = 3946ec36 f59017f1 267e914a bed2dbf6
+         633f52ae 7e20309d 3eefdda4 073adfad
+Label  = 48492054 48455245
+Context= 01020104
+Length = 0100
+
+KDF out= 0efd01e5 b03a0951 a6df9bbf fe419016
+         ee40fdbf c3335ebf 92ea0380 2214a307
+
+=== H.2 CAK Key Derivation ===
+==============================
+
+Key    = e68a1ab9 0313024f da7a04a0 3fea010f
+Label  = 49454545 38303231 20454150 2043414b
+Context= 001b6393 fcbc00d0 b71a7717
+Length = 0080
+
+CAK    = 135bd758 b0ee5c11 c55ff6ab 19fdb199
+
+Key    = 3946ec36 f59017f1 267e914a bed2dbf6
+         633f52ae 7e20309d 3eefdda4 073adfad
+Label  = 49454545 38303231 20454150 2043414b
+Context= 001b6393 fcbc00d0 b71a7717
+Length = 0100
+
+CAK    = a29efdb6 3d6fba73 c65daab2 295340a8
+         37a8886e 94a905b5 c9c7ef1d 9dbb297e
+
+=== H.3 CKN Derivation ===
+==========================
+
+Key    = e68a1ab9 0313024f da7a04a0 3fea010f
+Label  = 49454545 38303231 20454150 20434b4e
+Sess-ID= 0d
+         d075693f 54b2b2eb 01da61f0 af5d429b
+         65b1ebca f536fba3 50777598 571728f6
+         30c5c8da 5475489a d47b6e34 89a97372
+         e5a8fd55 0617972c 020d42a3 b13a4eae
+MAC1   = 001b6393 fcbc
+MAC2   = 00d0b71a 7717
+Length = 0080
+
+CKN    = 96437a93 ccf10d9d fe347846 cce52c7d
+
+Key    = 3946ec36 f59017f1 267e914a bed2dbf6
+         633f52ae 7e20309d 3eefdda4 073adfad
+Label  = 49454545 38303231 20454150 20434b4e
+Sess-ID= 0d
+         d075693f 54b2b2eb 01da61f0 af5d429b
+         65b1ebca f536fba3 50777598 571728f6
+         30c5c8da 5475489a d47b6e34 89a97372
+         e5a8fd55 0617972c 020d42a3 b13a4eae
+MAC1   = 001b6393 fcbc
+MAC2   = 00d0b71a 7717
+Length = 0080
+
+CKN    = 7888f5d4 8ba8b24e 96bb95bd 8c7304ec
+
+=== H.4 KEK Derivation ===
+==========================
+
+Key    = 135bd758 b0ee5c11 c55ff6ab 19fdb199
+Label  = 49454545 38303231 204b454b
+Context= 96437a93 ccf10d9d fe347846 cce52c7d
+Length = 0080
+
+KEK    = 8f5a384c 15d6ae93 02b462e3 63d03ca6
+
+Key    = a29efdb6 3d6fba73 c65daab2 295340a8
+         37a8886e 94a905b5 c9c7ef1d 9dbb297e
+Label  = 49454545 38303231 204b454b
+Context= 7888f5d4 8ba8b24e 96bb95bd 8c7304ec
+Length = 0100
+
+KEK    = 71340e45 4c84a123 2aa7977d 5ed86f78
+         f250f3f9 d53584b9 337ff0c6 dfdc9f96
+
+=== H.5 ICK Derivation ===
+==========================
+
+Key    = 135bd758 b0ee5c11 c55ff6ab 19fdb199
+Label  = 49454545 38303231 2049434b
+Context= 96437a93 ccf10d9d fe347846 cce52c7d
+Length = 0080
+
+ICK    = 8f1c5cb1 c8ed2e5f 047906e0 473aad4d
+
+Key    = a29efdb6 3d6fba73 c65daab2 295340a8
+         37a8886e 94a905b5 c9c7ef1d 9dbb297e
+Label  = 49454545 38303231 2049434b
+Context= 7888f5d4 8ba8b24e 96bb95bd 8c7304ec
+Length = 0100
+
+ICK    = 98b8544d 7390a41e 50ef72e2 5b4a0365
+         23c919e8 12918871 949b4812 3eab526e
+
+=== H.6 SAK Derivation ===
+==========================
+
+Key    = 135bd758 b0ee5c11 c55ff6ab 19fdb199
+Label  = 49454545 38303231 2053414b
+KS-nonc= 01020304 05060708 090a0b0c 0d0e0f10
+MI-vlst= cd421cf8 6ba45793 8657675b 01020304
+         05060708 0d1f36cf
+KN     = 00000001
+Length = 0080
+
+SAK    = 04520592 5831ae59 c14550ed 59cc003d
+
+Key    = a29efdb6 3d6fba73 c65daab2 295340a8
+         37a8886e 94a905b5 c9c7ef1d 9dbb297e
+Label  = 49454545 38303231 2053414b
+KS-nonc= 01020304 05060708 090a0b0c 0d0e0f10
+         11121314 15161718 191a1b1c 1d1e1f00
+MI-vlst= cd421cf8 6ba45793 8657675b 01020304
+         05060708 0d1f36cf
+KN     = 00000001
+Length = 0100
+
+SAK    = bb692568 b287484a 5f3f4793 b0973227
+         0d13dd81 8373c15b 3f2793fd c1948a37
