@@ -1,4 +1,0 @@
-module: ieee802-dot1x-eapol
-
-  augment /if:interfaces/if:interface/dot1x:pae:
-    +--rw eapol-group-address?   ieee:mac-address
