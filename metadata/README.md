@@ -163,7 +163,7 @@ is listed and nothing is pushed.
 - `revision` must be in `YYYY-MM-DD` format
 - No duplicate `name@revision` entries
 
-`--batch-size`, `--poll` and `--job-timeout` apply in this mode too.
+`--batch-size`, `--max-passes`, `--poll` and `--job-timeout` apply in this mode too.
 
 ## Checking credentials
 
@@ -204,6 +204,7 @@ real update job runs. To test it, push a single module:
 | `--apply` | off | Send updates to YANG Catalog |
 | `--force` | off | With `--apply` in scan mode, push every module |
 | `--batch-size N` | `20` | Modules per PUT request |
+| `--max-passes N` | `3` | With `--apply`, re-push modules still stale after ingest, up to this many passes (a new module lands as `maturity-level: not-applicable` on first ingest) |
 | `--poll SECONDS` | `15` | Job status poll interval |
 | `--job-timeout SECONDS` | `1800` | Give up waiting on a job after this time |
 | `--offline` | off | Skip catalog lookups; just build the payload |
@@ -260,6 +261,8 @@ Modules needing metadata update: 2
 | Every module shows `STALE` with only a `schema:` difference | Fixed. Older versions compared the catalog `schema` download URL against the repo `source-file.path`, which can never match. The check now only confirms the URL references the module's `name@revision` |
 | `DUP` lines | Same `name@revision` in more than one directory; only the first file is used |
 | `NO-REV` | Module has no `revision` statement and is skipped |
+| A newly pushed (`MISSING`) module comes back `STALE` with `maturity-level: catalog='not-applicable' expected='ratified'` | Expected on first ingest: the catalog stores a brand-new module as `not-applicable` and only accepts the real `maturity-level` on a second push. `--apply` now re-pushes still-stale modules automatically (up to `--max-passes`, default 3), so a single `--apply` converges. Older versions required you to run scan → apply → scan → apply by hand |
+| `--apply` hangs forever printing `... In progress` until you kill it | Fixed. The `/api/job/{id}` endpoint returns `result: "In progress"` with an empty `reason` even for a finished-and-dropped (or unknown) job id, so the poller never saw a terminal state. `wait_job()` now treats a bounded run of empty-`reason` "In progress" polls as a completed job instead of looping until `--job-timeout` |
 
 ## Notes
 
@@ -275,6 +278,18 @@ Modules needing metadata update: 2
   against the GitHub `source-file.path`.
 - All HTTP requests send an explicit `User-Agent` (`new_session()`). The live
   catalog returns `403 Forbidden` to the default `python-requests` User-Agent.
+- A brand-new module is stored by the catalog with `maturity-level:
+  not-applicable` on first ingest, so it reports `STALE` on the next check and
+  only becomes `ratified` after a second push. Under `--apply` the push loop
+  (`push_modules()`) re-checks each pushed module and re-pushes the ones still
+  stale, up to `--max-passes` passes, so a single `--apply` converges instead of
+  needing a manual scan/apply/scan/apply cycle.
+- Job polling (`wait_job()`) must tolerate the catalog dropping finished jobs:
+  `GET /api/job/{id}` returns `result: "In progress"` with an empty `reason` for
+  both a genuinely running job and an unknown/expired one. The poller resets its
+  patience whenever it sees a non-empty `reason` (real progress) and, after a
+  bounded run of empty-`reason` polls, concludes the job finished rather than
+  looping until `--job-timeout`.
 - The comparison logic and the live search endpoint have been exercised against
   the live catalog; full `--apply` pushes to the IEEE paths still depend on an
   approved account, so start with a single-module payload.

@@ -306,7 +306,19 @@ def put_metadata(session, modules, user, password):
 
 
 def wait_job(session, job_id, poll, timeout):
+    # The YANG Catalog returns {"info": {"job-id", "result", "reason"}} where
+    # "result" is "In progress" | "Finished" | "Failed". Note that the endpoint
+    # reports "In progress" with an empty "reason" for an UNKNOWN or already
+    # dropped job-id too -- the catalog does not keep finished jobs around for
+    # long -- so a job that has really finished can start reporting "In progress"
+    # again. To avoid looping until the wall-clock timeout, treat a run of
+    # consecutive "In progress" polls that only ever carry an empty reason as a
+    # job that has completed (and been forgotten) once we have polled enough
+    # times to be confident it is not still being set up.
     deadline = time.time() + timeout
+    grace_polls = max(3, min(8, timeout // max(poll, 1)))
+    in_progress_streak = 0
+    saw_real_progress = False
     while time.time() < deadline:
         r = session.get(f"{API}/job/{job_id}", headers={"Accept": "application/json"}, timeout=60)
         r.raise_for_status()
@@ -314,22 +326,29 @@ def wait_job(session, job_id, poll, timeout):
         info = body.get("info", body) if isinstance(body, dict) else {}
         # YANG Catalog returns {"job-id": ..., "result": "In progress"|"Finished"|"Failed", "reason": ...}
         status = (info.get("result") or info.get("job-status") or info.get("status") or "").strip()
+        reason = info.get("reason")
         if not status:
             return f"Unknown response: {body}", None
         if status.lower() != "in progress":
-            return status, info.get("reason")
+            return status, reason
+        # Still "In progress". A non-empty reason means the catalog is genuinely
+        # working the job; reset the grace counter. An empty reason means the job
+        # is either queued, finished-and-dropped, or unknown.
+        if reason:
+            saw_real_progress = True
+            in_progress_streak = 0
+        else:
+            in_progress_streak += 1
+            if in_progress_streak >= grace_polls:
+                note = "" if saw_real_progress else " (job id not tracked by catalog)"
+                return "Finished", f"no job record after {in_progress_streak} polls{note}"
         print(f"  ... {status}, checking again in {poll}s")
         time.sleep(poll)
     return "Timeout", None
 
 
-def push_modules(session, to_push, args):
-    if not to_push:
-        print("Nothing to push.")
-        return 0
-    user, pwd = os.environ.get("YC_USER"), os.environ.get("YC_PASSWORD")
-    if not (user and pwd):
-        sys.exit("Set YC_USER and YC_PASSWORD environment variables for --apply")
+def _push_batches(session, to_push, user, pwd, args):
+    """PUT all modules in batches, waiting for each job. Returns failure count."""
     failures = 0
     for i in range(0, len(to_push), args.batch_size):
         batch = to_push[i:i + args.batch_size]
@@ -344,8 +363,77 @@ def push_modules(session, to_push, args):
         except Exception as e:
             print(f"  FAILED: {e}")
             failures += 1
+    return failures
+
+
+def _still_stale(session, modules, args):
+    """Re-check pushed modules against the catalog; return those not yet matching.
+
+    A brand-new module is stored by the catalog with maturity-level
+    "not-applicable" on first ingest, so it comes back stale on the next check
+    and needs to be pushed again. This lets a single --apply converge instead of
+    forcing a manual scan/apply/scan/apply cycle.
+    """
+    stale = []
+    for m in modules:
+        try:
+            cat = get_catalog_entry(session, m["name"], m["revision"], m["organization"])
+        except requests.RequestException as e:
+            print(f"  re-check {m['name']}@{m['revision']}: lookup error: {e}")
+            stale.append(m)  # unknown state -> try again
+            continue
+        if cat is None:
+            stale.append(m)
+            continue
+        # Compare only the fields we actually send and that the catalog stores.
+        diffs = []
+        for field in ("organization", "maturity-level", "module-classification", "author-email"):
+            want = m.get(field)
+            if want is None:
+                continue
+            have = cat.get(field)
+            if str(have or "").strip().lower() != str(want).strip().lower():
+                diffs.append(f"{field}: catalog={have!r} expected={want!r}")
+        if diffs:
+            print(f"  still stale: {m['name']}@{m['revision']}")
+            for d in diffs:
+                print(f"              - {d}")
+            stale.append(m)
+    return stale
+
+
+def push_modules(session, to_push, args):
+    if not to_push:
+        print("Nothing to push.")
+        return 0
+    user, pwd = os.environ.get("YC_USER"), os.environ.get("YC_PASSWORD")
+    if not (user and pwd):
+        sys.exit("Set YC_USER and YC_PASSWORD environment variables for --apply")
+
+    max_passes = max(1, args.max_passes)
+    pending = to_push
+    failures = 0
+    for attempt in range(1, max_passes + 1):
+        if attempt > 1:
+            print(f"\n=== Re-push pass {attempt}: {len(pending)} module(s) still stale "
+                  f"(new modules land as maturity-level 'not-applicable' on first ingest) ===")
+        failures = _push_batches(session, pending, user, pwd, args)
+        if args.offline:
+            break  # can't re-check without catalog lookups
+        print("\nVerifying pushed modules against the catalog ...")
+        pending = _still_stale(session, pending, args)
+        if not pending:
+            print("All pushed modules now match the catalog.")
+            break
+        if attempt < max_passes:
+            time.sleep(args.poll)
+    else:
+        print(f"\n{len(pending)} module(s) are still stale after {max_passes} passes; "
+              f"run the check again later to confirm catalog processing has caught up.")
+        failures += len(pending)
+
     print("\nDone. Re-run the check (without --apply) to verify the catalog now matches.")
-    return 1 if failures else 0
+    return 1 if (failures or pending) else 0
 
 
 # --------------------------------------------------------------------------
@@ -370,6 +458,10 @@ def main():
     ap.add_argument("--apply", action="store_true", help="PUT updated metadata to YANG Catalog")
     ap.add_argument("--force", action="store_true", help="with --apply, push all modules, not just stale")
     ap.add_argument("--batch-size", type=int, default=20)
+    ap.add_argument("--max-passes", type=int, default=3,
+                    help="with --apply, re-push modules that are still stale after ingest, "
+                         "up to this many passes (new modules land as 'not-applicable' "
+                         "on first ingest) [%(default)s]")
     ap.add_argument("--poll", type=int, default=15, help="job poll interval (s)")
     ap.add_argument("--job-timeout", type=int, default=1800)
     ap.add_argument("--offline", action="store_true", help="skip catalog lookups (just build payload)")

@@ -1,0 +1,34 @@
+{
+  "modules": {
+    "module": [
+      {
+        "name": "ieee802-dot1as-gptp",
+        "revision": "2026-06-04",
+        "organization": "ieee",
+        "maturity-level": "ratified",
+        "module-classification": "network-element",
+        "source-file": {
+          "owner": "YangModels",
+          "repository": "yang",
+          "path": "standard/ieee/published/802.1/ieee802-dot1as-gptp.yang",
+          "branch": "main"
+        },
+        "author-email": "stds-802-1-l@ieee.org"
+      },
+      {
+        "name": "ieee802-dot1cb-frer",
+        "revision": "2025-11-12",
+        "organization": "ieee",
+        "maturity-level": "ratified",
+        "module-classification": "network-element",
+        "source-file": {
+          "owner": "YangModels",
+          "repository": "yang",
+          "path": "standard/ieee/published/802.1/ieee802-dot1cb-frer.yang",
+          "branch": "main"
+        },
+        "author-email": "stds-802-1-l@ieee.org"
+      }
+    ]
+  }
+}
