@@ -1,0 +1,95 @@
+{
+  "ieee802-dot1q-bridge:bridges": {
+    "bridge": [
+      {
+        "name": "my-bridge",
+        "bridge-type":"customer-vlan-bridge",
+        "component": [
+          {
+          "name": "comp1",
+          "type": "c-vlan-component"
+          }
+        ]
+      }
+    ]
+  },
+  "ieee802-dot1ax-linkagg:linkagg": {
+    "agg-system": [
+      {
+        "name": "my-agg-system"
+      }
+    ],
+    "key-group": [
+      {
+        "name": "Key-2and3",
+	      "actor-admin-key": 23,
+	      "agg-system-name": "my-agg-system"
+      },
+      {
+        "name": "Key-solitary",
+	      "actor-admin-key": 1,
+	      "agg-system-name": "my-agg-system",
+        "actor-admin-state": " "
+      }
+    ]
+  },
+  "ietf-interfaces:interfaces": {
+    "interface": [
+      {
+        "name": "mac1",
+        "type": "iana-if-type:ethernetCsmacd",
+        "ieee802-dot1ax-linkagg:aggport": {
+          "key-group-name": "Key-solitary"
+        },
+        "ieee802-dot1q-bridge:inhibit-bridge-port": {}
+      },
+      {
+        "name": "mac2",
+        "type": "iana-if-type:ethernetCsmacd",
+        "ieee802-dot1ax-linkagg:aggport": {
+          "key-group-name": "Key-2and3"
+        },
+        "ieee802-dot1q-bridge:inhibit-bridge-port": {}
+      },
+      {
+        "name": "mac3",
+        "type": "iana-if-type:ethernetCsmacd",
+        "ieee802-dot1ax-linkagg:aggport": {
+          "key-group-name": "Key-2and3"
+        },
+        "ieee802-dot1q-bridge:inhibit-bridge-port": {}
+      },
+      {
+        "name": "lag-1",
+        "type": "iana-if-type:ieee8023adLag",
+        "ieee802-dot1ax-linkagg:lag": {
+          "key-group-name": "Key-solitary"
+        },
+        "ieee802-dot1q-bridge:bridge-port": {
+          "component-name": "comp1"
+        }
+      },
+      {
+        "name": "lag-2",
+        "type": "iana-if-type:ieee8023adLag",
+        "ieee802-dot1ax-linkagg:lag": {
+          "key-group-name": "Key-2and3"
+        },
+        "ieee802-dot1q-bridge:bridge-port": {
+          "component-name": "comp1"
+        }
+      },
+      {
+        "name": "lag-3",
+        "type": "iana-if-type:ieee8023adLag",
+        "ieee802-dot1ax-linkagg:lag": {
+          "key-group-name": "Key-2and3"
+        },
+        "ieee802-dot1q-bridge:bridge-port": {
+          "component-name": "comp1"
+        }
+      }
+    ]
+
+  }
+}

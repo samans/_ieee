@@ -1,0 +1,34 @@
+{
+  "ieee802-dot1q-bridge:bridges": {
+    "bridge": [
+      {
+        "name": "my-bridge",
+        "bridge-type":"customer-vlan-bridge",
+        "component": [
+          {
+          "name": "comp1",
+          "type": "c-vlan-component"
+          }
+        ]
+      }
+    ]
+  },
+  "ietf-interfaces:interfaces": {
+    "interface": [
+      {
+        "name": "mac1",
+        "type": "iana-if-type:ethernetCsmacd",
+        "ieee802-dot1q-bridge:bridge-port": {
+          "component-name": "comp1"
+        }
+      },
+      {
+        "name": "mac2",
+        "type": "iana-if-type:ethernetCsmacd",
+        "ieee802-dot1q-bridge:bridge-port": {
+          "component-name": "comp1"
+        }
+      }
+    ]
+  }
+}
