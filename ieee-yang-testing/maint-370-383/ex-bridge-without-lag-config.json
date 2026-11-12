@@ -19,6 +19,7 @@
         "name": "mac1",
         "type": "iana-if-type:ethernetCsmacd",
         "ieee802-dot1q-bridge:bridge-port": {
+	  "bridge-name": "my-bridge",
           "component-name": "comp1"
         }
       },
@@ -26,6 +27,7 @@
         "name": "mac2",
         "type": "iana-if-type:ethernetCsmacd",
         "ieee802-dot1q-bridge:bridge-port": {
+	  "bridge-name": "my-bridge",
           "component-name": "comp1"
         }
       }

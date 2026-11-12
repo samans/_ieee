@@ -1,0 +1,71 @@
+# Diff: ieee802-dot1q-bridge.yang
+#
+# OLD (---): published = /home/samans/gits/yang/standard/ieee/published/802.1/ieee802-dot1q-bridge.yang (revision 2023-10-26)
+# NEW (+++): local     = ieee802-dot1q-bridge.yang (revision 2026-11-12)
+#
+# Generated: 2026-11-12 08:38:57 UTC
+# Command:  diff -u <published> <local>
+#==============================================================================
+
+--- /home/samans/gits/yang/standard/ieee/published/802.1/ieee802-dot1q-bridge.yang	2026-04-17 05:55:25.944991103 -0400
++++ ieee802-dot1q-bridge.yang	2026-11-12 03:21:51.921195500 -0500
+@@ -42,6 +42,18 @@
+     
+     This version of this YANG module is part of IEEE Std 802.1Q; see the
+     standard itself for full legal notices.";
++
++  revision 2026-11-12 {
++    description
++      "Experimental version introducing inhibit-bridge-port to inhibit
++      augmenting an interface with the bridge-port container
++      (maintenance item 0370),
++      and to make the configuration of a bridge MAC address not
++      mandatory (maintenance item 0383).";
++    reference
++      "IEEE Std 802.1Q-202X, Bridges and Bridged Networks.
++      IEEE 802.1 Maintenance Items 0370 and 0383.";
++  }
+   revision 2023-10-26 {
+     description
+       "Published as part of IEEE Std 802.1Qcw-2023.
+@@ -252,7 +264,6 @@
+       "Contains the Bridge(s) configuration information.";
+     list bridge {
+       key "name";
+-      unique "address";
+       description
+         "Provides configuration data in support of the Bridge Configuration
+         resources. There is a single bridge data node per Bridge.";
+@@ -266,7 +277,6 @@
+       }
+       leaf address {
+         type ieee:mac-address;
+-        mandatory true;
+         description
+           "The MAC address for the Bridge from which the Bridge Identifiers
+           used by the STP, RSTP, and MSTP are derived.";
+@@ -1138,11 +1148,22 @@
+     }
+   }
+   augment "/if:interfaces/if:interface" {
++    description
++      "Inhibits automatically augmenting this interface with a
++       bridge-port container.";
++    container inhibit-bridge-port {
++      presence "Inhibits bridge-port augmentation.";
++      description "Presence of this container inhibits augmenting
++      the interface with the bridge-port container";
++    }
++  }
++  augment "/if:interfaces/if:interface" {
+     when
+-      "derived-from-or-self(if:type,'ianaif:bridge') or "+
++      "(derived-from-or-self(if:type,'ianaif:bridge') or "+
+       "derived-from-or-self(if:type,'ianaif:ethernetCsmacd') or "+
+       "derived-from-or-self(if:type,'ianaif:ieee8023adLag') or "+
+-      "derived-from-or-self(if:type,'ianaif:ilan')" {
++      "derived-from-or-self(if:type,'ianaif:ilan') ) and "+
++      "not(dot1q:inhibit-bridge-port)" {
+       description
+         "Applies when a Bridge interface.";
+     }

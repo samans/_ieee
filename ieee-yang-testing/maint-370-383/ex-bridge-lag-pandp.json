@@ -60,6 +60,7 @@
           "key-group-name": "Key-plug-and-play"
         },
         "ieee802-dot1q-bridge:bridge-port": {
+	  "bridge-name": "my-bridge",
           "component-name": "comp1"
         }
       },
@@ -70,6 +71,7 @@
           "key-group-name": "Key-plug-and-play"
         },
         "ieee802-dot1q-bridge:bridge-port": {
+	  "bridge-name": "my-bridge",
           "component-name": "comp1"
         }
       },
@@ -80,6 +82,7 @@
           "key-group-name": "Key-plug-and-play"
         },
         "ieee802-dot1q-bridge:bridge-port": {
+	  "bridge-name": "my-bridge",
           "component-name": "comp1"
         }
       }

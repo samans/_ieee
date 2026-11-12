@@ -33,6 +33,7 @@
         "name": "mac1",
         "type": "iana-if-type:ethernetCsmacd",
         "ieee802-dot1q-bridge:bridge-port": {
+	  "bridge-name": "my-bridge",
           "component-name": "comp1"
         }
       },
@@ -59,6 +60,7 @@
           "key-group-name": "Key-2and3"
         },
         "ieee802-dot1q-bridge:bridge-port": {
+	  "bridge-name": "my-bridge",
           "component-name": "comp1"
         }
       }
